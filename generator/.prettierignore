@@ -1,0 +1,5 @@
+# Ignore artifacts:
+dist
+
+# Ignore files for NPM
+package-lock.json
