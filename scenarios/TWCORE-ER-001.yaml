@@ -1,0 +1,12 @@
+id: TWCORE-ER-001
+name: 急診
+level: 1
+type: emergency
+focus: core-patient-journey
+description: Emergency encounters with the current core related resources.
+resources:
+  include:
+    - Patient
+    - Organization
+    - Practitioner
+    - AllergyIntolerance

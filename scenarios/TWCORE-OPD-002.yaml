@@ -1,0 +1,18 @@
+id: TWCORE-OPD-002
+name: 小兒門診
+level: 1
+type: outpatient
+department: pediatrics
+focus: core-patient-journey
+description: Pediatric outpatient encounters for patients younger than 12.
+patient:
+  age:
+    max: 11
+encounter:
+  status: finished
+resources:
+  include:
+    - Patient
+    - Organization
+    - Practitioner
+    - PractitionerRole

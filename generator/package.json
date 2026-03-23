@@ -14,7 +14,8 @@
 	"dependencies": {
 		"@types/pg": "^8.20.0",
 		"express": "^5.2.1",
-		"pg": "^8.20.0"
+		"pg": "^8.20.0",
+		"yaml": "^2.8.3"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.3",

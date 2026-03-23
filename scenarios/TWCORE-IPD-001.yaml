@@ -1,0 +1,12 @@
+id: TWCORE-IPD-001
+name: 住院
+level: 1
+type: inpatient
+focus: core-patient-journey
+description: Inpatient encounters with the current core related resources.
+resources:
+  include:
+    - Patient
+    - Organization
+    - Practitioner
+    - AllergyIntolerance

@@ -1,0 +1,17 @@
+id: TWCORE-OPD-003
+name: 同病人多次門診
+level: 1
+type: outpatient
+focus: repeat-visit
+description: Outpatient encounters intended to surface repeated visits for the same patient.
+anchor:
+  resourceType: Encounter
+  limit: 20
+  sort:
+    field: patient_id
+    direction: asc
+resources:
+  include:
+    - Patient
+    - Organization
+    - Practitioner

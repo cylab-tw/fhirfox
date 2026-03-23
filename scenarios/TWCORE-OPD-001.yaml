@@ -1,0 +1,24 @@
+id: TWCORE-OPD-001
+name: 一般門診（成人）
+level: 1
+type: outpatient
+focus: core-patient-journey
+description: Adult outpatient encounters with core related resources.
+patient:
+  age:
+    min: 18
+  gender:
+    in:
+      - male
+      - female
+      - other
+      - unknown
+encounter:
+  status: finished
+resources:
+  include:
+    - Patient
+    - Organization
+    - Practitioner
+    - PractitionerRole
+    - AllergyIntolerance
