@@ -12,7 +12,9 @@
 		"lint": "prettier --check . && eslint ."
 	},
 	"dependencies": {
-		"express": "^5.2.1"
+		"@types/pg": "^8.20.0",
+		"express": "^5.2.1",
+		"pg": "^8.20.0"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.3",
