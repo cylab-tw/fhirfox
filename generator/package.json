@@ -6,6 +6,8 @@
 	"workspaces": [],
 	"scripts": {
 		"build": "npm run build --workspaces --if-present",
+		"dataset:check": "npm run check --workspace dataset",
+		"dataset:doctor": "npm run doctor --workspace dataset",
 		"typecheck": "npm run typecheck --workspaces --if-present",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier . --write"
