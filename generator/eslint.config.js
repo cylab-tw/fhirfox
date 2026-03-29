@@ -9,9 +9,6 @@ const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
 export default [
 	includeIgnoreFile(gitignorePath),
-	{
-		ignores: ['dist/**', 'node_modules/**'],
-	},
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	prettierConfig,
@@ -21,8 +18,11 @@ export default [
 		},
 	},
 	{
+		files: ['**/*.js', '**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
 		languageOptions: {
-			globals: { ...globals.node },
+			globals: {
+				...globals.node,
+			},
 		},
 	},
 ];
