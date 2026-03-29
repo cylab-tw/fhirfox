@@ -1,0 +1,21 @@
+{
+	"name": "@fhirfox/converter",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./browser": {
+			"types": "./dist/browser.d.ts",
+			"default": "./dist/browser.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc -b tsconfig.json",
+		"typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+		"test": "tsx --test tests/**/*.test.ts"
+	}
+}
