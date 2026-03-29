@@ -1,0 +1,100 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+Al-N0001,716186003,No known allergy,http://snomed.info/sct,無已知過敏,true
+Al-N0002,409137002,No known history of drug allergy,http://snomed.info/sct,無已知藥物過敏史,true
+Al-N0003,428197003,No known insect allergy,http://snomed.info/sct,無已知昆蟲過敏,true
+Al-N0004,428607008,No known environmental allergy,http://snomed.info/sct,無已知環境過敏,true
+Al-N0005,429625007,No known food allergy,http://snomed.info/sct,無已知食物過敏,true
+Al-N0006,716184000,No known latex allergy,http://snomed.info/sct,無已知乳膠過敏,true
+Al-N0007,716220001,No known animal allergy,http://snomed.info/sct,無已知動物過敏,true
+Al-F0001,91930004,Allergy to eggs,http://snomed.info/sct,雞蛋過敏,true
+Al-F0002,213020009,Egg protein allergy,http://snomed.info/sct,雞蛋蛋白過敏,true
+Al-F0003,91932007,Allergy to fruit,http://snomed.info/sct,水果過敏,true
+Al-F0004,91934008,Nut allergy,http://snomed.info/sct,堅果過敏,true
+Al-F0005,91935009,Allergy to peanuts,http://snomed.info/sct,花生過敏,true
+Al-F0006,91940001,Allergy to walnut,http://snomed.info/sct,核桃過敏,true
+Al-F0007,91937001,Seafood allergy,http://snomed.info/sct,海鮮過敏,true
+Al-F0008,91938006,Allergy to strawberries,http://snomed.info/sct,草莓過敏,true
+Al-F0009,15911003,Cow's milk protein sensitivity,http://snomed.info/sct,牛奶蛋白敏感,true
+Al-F0010,700094005,Milk intolerance,http://snomed.info/sct,牛奶不耐症,true
+Al-F0011,25868003,Soy protein sensitivity,http://snomed.info/sct,大豆蛋白敏感,true
+Al-F0012,61712006,Transient gluten sensitivity,http://snomed.info/sct,暫時性麩質敏感,true
+Al-F0013,235719002,Food intolerance,http://snomed.info/sct,食物不耐症,true
+Al-F0014,267425008,Lactose intolerance,http://snomed.info/sct,乳糖不耐症,true
+Al-E0001,232346004,Allergy to cat dander,http://snomed.info/sct,貓皮屑過敏,true
+Al-E0002,232347008,Allergy to animal dander,http://snomed.info/sct,動物皮屑過敏,true
+Al-E0003,188336009,Laboratory animal dander allergy,http://snomed.info/sct,實驗動物皮屑過敏,true
+Al-E0004,232348003,Feather allergy,http://snomed.info/sct,羽毛過敏,true
+Al-E0005,232349006,House dust allergy,http://snomed.info/sct,灰塵過敏,true
+Al-E0006,232350006,House dust mite allergy,http://snomed.info/sct,塵蟎過敏,true
+Al-E0007,35097006,Flea antigen,http://snomed.info/sct,跳蚤抗原（過敏）,true
+Al-E0008,200848004,"Allergic contact dermatitis due to plants, except food",http://snomed.info/sct,植物引起的接觸性過敏性皮膚炎（食物除外）,true
+Al-E0009,4940008,Tattoo dye,http://snomed.info/sct,刺青染料,true
+Al-M0001,59037007,Drug intolerance,http://snomed.info/sct,藥物不耐症,true
+Al-M0002,91929009,Anti-infectives allergy,http://snomed.info/sct,抗感染藥物過敏,true
+Al-M0003,294461000,Antibacterial drug allergy,http://snomed.info/sct,抗菌藥物過敏,true
+Al-M0004,91936005,Penicillin allergy,http://snomed.info/sct,盤尼西林（青黴素）過敏,true
+Al-M0005,294505008,Amoxicillin allergy,http://snomed.info/sct,阿莫西林過敏,true
+Al-M0006,294532003,Cephalosporin allergy,http://snomed.info/sct,頭孢菌素過敏,true
+Al-M0007,91931000,Erythromycin allergy,http://snomed.info/sct,紅黴素過敏,true
+Al-M0008,91933002,Macrolide allergy,http://snomed.info/sct,巨環類抗生素過敏,true
+Al-M0009,91939003,Sulfonamide allergy,http://snomed.info/sct,磺胺類藥物過敏,true
+Al-M0010,294462007,Aminoglycosides allergy,http://snomed.info/sct,氨基醣苷類抗生素過敏,true
+Al-M0011,294469003,Gentamicin allergy,http://snomed.info/sct,慶大黴素過敏,true
+Al-M0012,293582004,Analgesic allergy,http://snomed.info/sct,鎮痛藥過敏,true
+Al-M0013,293584003,Acetaminophen allergy,http://snomed.info/sct,普拿疼（乙醯胺酚）過敏,true
+Al-M0014,293586001,Aspirin allergy,http://snomed.info/sct,阿斯匹靈過敏,true
+Al-M0015,293610009,Non-steroidal anti-inflammatory drug allergy,http://snomed.info/sct,非類固醇消炎止痛藥 (NSAID) 過敏,true
+Al-M0016,293619005,Ibuprofen allergy,http://snomed.info/sct,布洛芬過敏,true
+Al-M0017,293613006,Diclofenac allergy,http://snomed.info/sct,雙氯芬酸過敏,true
+Al-M0018,293625009,Naproxen allergy,http://snomed.info/sct,萘普生過敏,true
+Al-M0019,293620004,Indometacin allergy,http://snomed.info/sct,吲哚美辛過敏,true
+Al-M0020,293601001,Morphine allergy,http://snomed.info/sct,嗎啡過敏,true
+Al-M0021,293597001,Codeine allergy,http://snomed.info/sct,可待因過敏,true
+Al-M0022,293605005,Fentanyl allergy,http://snomed.info/sct,吩坦尼過敏,true
+Al-M0023,293606006,Pethidine allergy,http://snomed.info/sct,哌替啶過敏,true
+Al-M0024,293704003,General anesthetic drug allergy,http://snomed.info/sct,全身麻醉藥物過敏,true
+Al-M0025,293718005,Local anesthetic drug allergy,http://snomed.info/sct,局部麻醉藥物過敏,true
+Al-M0026,293722000,Lidocaine allergy,http://snomed.info/sct,利多卡因過敏,true
+Al-M0027,293727006,Procaine allergy,http://snomed.info/sct,普魯卡因過敏,true
+Al-M0028,293723005,Cocaine allergy,http://snomed.info/sct,古柯鹼過敏,true
+Al-M0029,293637006,Contrast media allergy,http://snomed.info/sct,顯影劑過敏,true
+Al-M0030,293638001,X-ray contrast media allergy,http://snomed.info/sct,X光顯影劑過敏,true
+Al-M0031,293816000,Antidepressant drug allergy,http://snomed.info/sct,抗憂鬱藥物過敏,true
+Al-M0032,293821002,Tricyclic antidepressant drug allergy,http://snomed.info/sct,三環抗憂鬱藥物過敏,true
+Al-M0033,293829000,Amitriptyline allergy,http://snomed.info/sct,阿米替林過敏,true
+Al-M0034,293844004,Selective serotonin re-uptake inhibitor allergy,http://snomed.info/sct,選擇性血清素回收抑制劑 (SSRI) 過敏,true
+Al-M0035,293850009,Fluoxetine allergy,http://snomed.info/sct,氟西汀過敏,true
+Al-M0036,293845003,Sertraline allergy,http://snomed.info/sct,舍曲林過敏,true
+Al-M0037,293857007,Antiepileptic allergy,http://snomed.info/sct,抗癲癇藥物過敏,true
+Al-M0038,293867002,Carbamazepine allergy,http://snomed.info/sct,卡馬西平過敏,true
+Al-M0039,293869004,Phenytoin allergy,http://snomed.info/sct,苯妥英過敏,true
+Al-M0040,293862008,Sodium valproate allergy,http://snomed.info/sct,丙戊酸鈉過敏,true
+Al-M0041,293873001,Sedative allergy,http://snomed.info/sct,鎮靜劑過敏,true
+Al-M0042,293885009,Benzodiazepine sedative allergy,http://snomed.info/sct,苯二氮平類鎮靜劑過敏,true
+Al-M0043,293902006,Diazepam allergy,http://snomed.info/sct,地西泮（安定）過敏,true
+Al-M0044,293903001,Lorazepam allergy,http://snomed.info/sct,勞拉西泮過敏,true
+Al-M0045,293904007,Temazepam allergy,http://snomed.info/sct,替馬西泮過敏,true
+Al-M0046,293913009,Neuroleptic allergy,http://snomed.info/sct,神經阻斷劑（抗精神病藥）過敏,true
+Al-M0047,293924006,Haloperidol allergy,http://snomed.info/sct,氟哌啶醇過敏,true
+Al-M0048,293962009,Beta-adrenoceptor blocking drug allergy,http://snomed.info/sct,乙型交感神經阻斷劑過敏,true
+Al-M0049,293982008,Propranolol allergy,http://snomed.info/sct,普萘洛爾過敏,true
+Al-M0050,293965006,Atenolol allergy,http://snomed.info/sct,阿替洛爾過敏,true
+Al-M0051,293970004,Metoprolol allergy,http://snomed.info/sct,美托洛爾過敏,true
+Al-M0052,293994004,Calcium-channel blocker allergy,http://snomed.info/sct,鈣離子通道阻斷劑過敏,true
+Al-M0053,293996002,Nifedipine allergy,http://snomed.info/sct,硝苯地平過敏,true
+Al-M0054,294002003,Amlodipine allergy,http://snomed.info/sct,氨氯地平過敏,true
+Al-M0055,294003008,Diltiazem allergy,http://snomed.info/sct,地爾硫䓬過敏,true
+Al-M0056,294005001,Verapamil allergy,http://snomed.info/sct,維拉帕米過敏,true
+Al-M0057,294065003,Anticholinergic allergy,http://snomed.info/sct,抗膽鹼藥物過敏,true
+Al-M0058,294076004,Atropine allergy,http://snomed.info/sct,阿托品過敏,true
+Al-M0059,294162002,Allergy to inhaled corticosteroids,http://snomed.info/sct,吸入型皮質類固醇過敏,true
+Al-M0060,294216002,Uricosuric agent allergy,http://snomed.info/sct,促進尿酸排泄藥物過敏,true
+Al-M0061,294220003,Allopurinol allergy,http://snomed.info/sct,別嘌醇過敏,true
+Al-M0062,294221004,Skeletal muscle relaxant allergy,http://snomed.info/sct,骨骼肌鬆弛劑過敏,true
+Al-M0063,293798009,Ciclosporin allergy,http://snomed.info/sct,環孢素過敏,true
+Al-M0064,294340008,Antifungal drug allergy,http://snomed.info/sct,抗黴菌藥物過敏,true
+Al-M0065,294349009,Amphotericin allergy,http://snomed.info/sct,兩性黴素過敏,true
+Al-M0066,294362008,Ketoconazole allergy,http://snomed.info/sct,酮康唑過敏,true
+Al-M0067,294365005,Fluconazole allergy,http://snomed.info/sct,氟康唑過敏,true
+Al-M0068,294367002,Antiviral drug allergy,http://snomed.info/sct,抗病毒藥物過敏,true
+Al-M0069,294384008,Aciclovir allergy,http://snomed.info/sct,阿昔洛韋過敏,true

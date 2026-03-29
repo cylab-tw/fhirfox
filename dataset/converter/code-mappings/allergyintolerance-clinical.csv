@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+active,active,Active,http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical,活躍,true
+inactive,inactive,Inactive,http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical,不活躍,true
+resolved,resolved,Resolved,http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical,已緩解,true

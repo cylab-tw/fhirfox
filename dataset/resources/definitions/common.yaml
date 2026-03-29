@@ -1,0 +1,45 @@
+id:
+  description: 這筆來源資料的邏輯 ID。
+  cardinality: 0..1
+active:
+  description: 紀錄狀態。
+  cardinality: 0..1
+resourceType:
+  description: 來源資料類型。
+  cardinality: 1..1
+type:
+  description: 類型代碼。
+  cardinality: 0..1
+name:
+  description: 名稱。
+  cardinality: 0..1
+gender:
+  description: 性別。
+  cardinality: 0..1
+birthday:
+  description: 出生日期。
+  cardinality: 0..1
+status:
+  description: 狀態。
+  cardinality: 0..1
+patientId:
+  description: 病人 ID。
+  cardinality: 0..1
+encounterId:
+  description: 就醫事件 ID。
+  cardinality: 0..1
+practitionerId:
+  description: 醫事人員 ID。
+  cardinality: 0..1
+periodStart:
+  description: 開始時間。
+  cardinality: 0..1
+periodEnd:
+  description: 結束時間。
+  cardinality: 0..1
+recordedDate:
+  description: 紀錄日期。
+  cardinality: 0..1
+note:
+  description: 備註。
+  cardinality: 0..1

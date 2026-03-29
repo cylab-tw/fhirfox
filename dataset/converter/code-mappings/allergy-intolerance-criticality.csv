@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+low,low,Low Risk,http://hl7.org/fhir/allergy-intolerance-criticality,低風險,true
+high,high,High Risk,http://hl7.org/fhir/allergy-intolerance-criticality,高風險,true
+unable-to-assess,unable-to-assess,Unable to Assess Risk,http://hl7.org/fhir/allergy-intolerance-criticality,無法評估,true

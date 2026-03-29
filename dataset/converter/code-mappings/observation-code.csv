@@ -1,0 +1,18 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+VS-0001,85353-1,"Vital signs, weight, height, head circumference, oxygen saturation and BMI panel",http://loinc.org,生命體徵綜合檢驗 (總包),true
+VS-0002,2338315,Body height,http://loinc.org,身高,true
+VS-0003,29463-7,Body weight,http://loinc.org,體重,true
+VS-0004,39156-5,Body mass index (BMI) [Ratio],http://loinc.org,身體質量指數 (BMI),true
+VS-0005,2341326,Body temperature,http://loinc.org,體溫,true
+VS-0006,2544737,Heart rate,http://loinc.org,心跳/心率,true
+VS-0007,2695127,Respiratory rate,http://loinc.org,呼吸速率,true
+VS-0008,85354-9,Blood pressure panel with all children optional,http://loinc.org,血壓 (包含收縮壓與舒張壓),true
+VS-0009,2403450,Systolic blood pressure,http://loinc.org,收縮壓 (高壓),true
+VS-0010,2396814,Diastolic blood pressure,http://loinc.org,舒張壓 (低壓),true
+VS-0011,8478-0,Mean blood pressure,http://loinc.org,平均血壓,true
+VS-0012,295269,Oxygen saturation in Arterial blood,http://loinc.org,動脈血氧飽和度,true
+VS-0013,2708-6,Oxygen saturation in Arterial blood,http://loinc.org,脈搏血氧飽和度 (血氧機),true
+VS-0014,2901213,Head Occipital-frontal circumference,http://loinc.org,頭圍,true
+VS-0015,2333537,Head Occipital-frontal circumference Percentile,http://loinc.org,頭圍百分位數,true
+VS-0016,59576-9,Body mass index (BMI) [Percentile] Per age and sex,http://loinc.org,BMI百分位數 (依年齡性別),true
+VS-0017,77606-2,Weight-for-length Per age and sex,http://loinc.org,身高體重比 (依年齡性別),true

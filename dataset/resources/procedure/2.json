@@ -1,0 +1,15 @@
+{
+	"id": "2",
+	"status": "completed",
+	"category": "103693007",
+	"procedureCode": "Proc-0012",
+	"procedureText": "住院胸部 X 光檢查",
+	"patientId": "3",
+	"encounterId": "7",
+	"performedDate": "2026-03-24T12:10:00+08:00",
+	"performerId": "4",
+	"performerType": "practitioner",
+	"performerFunction": "Perf-0001",
+	"reasonCode": "Cond-018",
+	"outcome": "385669000"
+}

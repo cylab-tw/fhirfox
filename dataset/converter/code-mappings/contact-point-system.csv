@@ -1,0 +1,8 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+phone,phone,Phone,http://hl7.org/fhir/contact-point-system,電話,true
+fax,fax,Fax,http://hl7.org/fhir/contact-point-system,傳真,true
+email,email,Email,http://hl7.org/fhir/contact-point-system,電子郵件,true
+pager,pager,Pager,http://hl7.org/fhir/contact-point-system,呼叫器,true
+url,url,URL,http://hl7.org/fhir/contact-point-system,網址,true
+sms,sms,SMS,http://hl7.org/fhir/contact-point-system,簡訊,true
+other,other,Other,http://hl7.org/fhir/contact-point-system,其他,true

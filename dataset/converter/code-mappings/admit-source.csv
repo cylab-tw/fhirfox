@@ -1,0 +1,2 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+emd,emd,From accident/emergency department,http://terminology.hl7.org/CodeSystem/admit-source,來自急診,true

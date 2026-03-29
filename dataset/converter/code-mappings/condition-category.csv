@@ -1,0 +1,3 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+problem-list-item,problem-list-item,Problem List Item,http://terminology.hl7.org/CodeSystem/condition-category,問題清單項目,true
+encounter-diagnosis,encounter-diagnosis,Encounter Diagnosis,http://terminology.hl7.org/CodeSystem/condition-category,就醫診斷,true

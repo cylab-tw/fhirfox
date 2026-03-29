@@ -1,0 +1,57 @@
+practitioner:
+  description: 此情境納入的 Practitioner 原始資料。
+  cardinality: 0..*
+  id:
+    description: 醫事人員 ID。
+    fhirMapping: Practitioner.id
+    cardinality: 0..1
+    required: true
+  active:
+    description: 紀錄狀態。
+    fhirMapping: Practitioner.active
+    cardinality: 0..1
+  idType:
+    description: 證件類型。
+    fhirMapping: Practitioner.identifier.type.coding.code
+    cardinality: 0..1
+  idNumber:
+    description: 證件號碼。
+    fhirMapping: Practitioner.identifier.value
+    cardinality: 0..1
+  name:
+    description: 姓名。
+    fhirMapping: Practitioner.name.text
+    cardinality: 0..1
+  telecomSystem:
+    description: 聯絡方式類型。
+    fhirMapping: Practitioner.telecom.system
+    cardinality: 0..1
+  telecomValue:
+    description: 聯絡號碼或信箱。
+    fhirMapping: Practitioner.telecom.value
+    cardinality: 0..1
+  telecomUse:
+    description: 聯絡方式用途。
+    fhirMapping: Practitioner.telecom.use
+    cardinality: 0..1
+  address:
+    description: 通訊地址。
+    fhirMapping: Practitioner.address.text
+    cardinality: 0..1
+  gender:
+    description: 人員性別。
+    fhirMapping: Practitioner.gender
+    cardinality: 0..1
+  birthday:
+    description: 出生日期。
+    fhirMapping: Practitioner.birthDate
+    cardinality: 0..1
+  qualificationCode:
+    description: 醫事人員類別。
+    fhirMapping: Practitioner.qualification.code.coding.code
+    cardinality: 0..1
+  qualificationIssuer:
+    description: 證書發行機構。
+    fhirMapping: Practitioner.qualification.issuer.reference
+    cardinality: 0..1
+    reference: organization

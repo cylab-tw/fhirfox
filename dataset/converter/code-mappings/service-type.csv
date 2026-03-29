@@ -1,0 +1,5 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+emergency,117,Emergency Medical,http://terminology.hl7.org/CodeSystem/service-type,急診醫療,true
+01,124,General Practice,http://terminology.hl7.org/CodeSystem/service-type,一般門診,true
+10,200,Paediatric Medicine,http://terminology.hl7.org/CodeSystem/service-type,小兒科,true
+inpatient,159,Pathology - General,http://terminology.hl7.org/CodeSystem/service-type,住院服務,true

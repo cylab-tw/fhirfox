@@ -1,0 +1,7 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+unconfirmed,unconfirmed,Unconfirmed,http://terminology.hl7.org/CodeSystem/condition-ver-status,未確認,true
+provisional,provisional,Provisional,http://terminology.hl7.org/CodeSystem/condition-ver-status,暫定診斷,true
+differential,differential,Differential,http://terminology.hl7.org/CodeSystem/condition-ver-status,鑑別診斷,true
+confirmed,confirmed,Confirmed,http://terminology.hl7.org/CodeSystem/condition-ver-status,已確認,true
+refuted,refuted,Refuted,http://terminology.hl7.org/CodeSystem/condition-ver-status,已排除,true
+entered-in-error,entered-in-error,Entered in Error,http://terminology.hl7.org/CodeSystem/condition-ver-status,輸入錯誤,true

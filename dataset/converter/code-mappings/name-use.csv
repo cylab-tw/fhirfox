@@ -1,0 +1,8 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+usual,usual,Usual,http://hl7.org/fhir/name-use,常用/真實姓名,true
+official,official,Official,http://hl7.org/fhir/name-use,護照/官方姓名,true
+temp,temp,Temp,http://hl7.org/fhir/name-use,暫時姓名,true
+nickname,nickname,Nickname,http://hl7.org/fhir/name-use,暱稱,true
+anonymous,anonymous,Anonymous,http://hl7.org/fhir/name-use,匿名,true
+old,old,Old,http://hl7.org/fhir/name-use,舊名,true
+maiden,maiden,Name changed for Marriage,http://hl7.org/fhir/name-use,娘家姓氏,true

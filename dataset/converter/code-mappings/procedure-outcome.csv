@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+385669000,385669000,Successful,http://snomed.info/sct,成功,true
+385671000,385671000,Unsuccessful,http://snomed.info/sct,失敗,true
+385670004,385670004,Partially successful,http://snomed.info/sct,部分成功,true

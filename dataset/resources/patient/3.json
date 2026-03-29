@@ -1,0 +1,13 @@
+{
+	"id": "3",
+	"idType": "NNxxx",
+	"idNumber": "C323456789",
+	"name": "張阿福",
+	"gender": "male",
+	"birthday": "1948-02-21",
+	"telecomSystem": "phone",
+	"telecomUse": "home",
+	"telecomValue": "07-312-8899",
+	"address": "高雄市三民區十全一路100號",
+	"organization": "1"
+}

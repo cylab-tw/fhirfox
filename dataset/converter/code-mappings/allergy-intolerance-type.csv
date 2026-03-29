@@ -1,0 +1,3 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+allergy,allergy,Allergy,http://hl7.org/fhir/allergy-intolerance-type,過敏,true
+intolerance,intolerance,Intolerance,http://hl7.org/fhir/allergy-intolerance-type,不耐症,true

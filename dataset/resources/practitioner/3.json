@@ -1,0 +1,15 @@
+{
+	"id": "3",
+	"active": true,
+	"idType": "MD",
+	"idNumber": "DOC0003",
+	"name": "黃急診醫師",
+	"gender": "male",
+	"birthday": "1975-11-02",
+	"telecomSystem": "phone",
+	"telecomUse": "work",
+	"telecomValue": "02-2312-3456#3301",
+	"address": "台北市中正區常德街1號",
+	"qualificationCode": "Qual-0001",
+	"qualificationIssuer": "1"
+}

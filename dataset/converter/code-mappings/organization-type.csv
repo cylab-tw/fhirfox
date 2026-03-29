@@ -1,0 +1,13 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+prov,prov,Healthcare Provider,http://terminology.hl7.org/CodeSystem/organization-type,醫療服務提供者/醫療機構,true
+dept,dept,Hospital Department,http://terminology.hl7.org/CodeSystem/organization-type,醫院科部,true
+team,team,Organizational team,http://terminology.hl7.org/CodeSystem/organization-type,組織團隊,true
+govt,govt,Government,http://terminology.hl7.org/CodeSystem/organization-type,政府機構,true
+ins,ins,Insurance Company,http://terminology.hl7.org/CodeSystem/organization-type,保險機構,true
+pay,pay,Payer,http://terminology.hl7.org/CodeSystem/organization-type,付款方 (例如健保署),true
+edu,edu,Educational Institute,http://terminology.hl7.org/CodeSystem/organization-type,教育機構,true
+reli,reli,Religious Institution,http://terminology.hl7.org/CodeSystem/organization-type,宗教機構,true
+crs,crs,Clinical Research Sponsor,http://terminology.hl7.org/CodeSystem/organization-type,臨床研究贊助者,true
+cg,cg,Community Group,http://terminology.hl7.org/CodeSystem/organization-type,社區團體,true
+bus,bus,Non-Healthcare Business or Corporation,http://terminology.hl7.org/CodeSystem/organization-type,非醫療企業或公司,true
+ntwk,ntwk,Network,http://terminology.hl7.org/CodeSystem/organization-type,醫療網絡,true

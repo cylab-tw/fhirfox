@@ -1,0 +1,10 @@
+ig_name,ig_version,resource_type,profile_url,is_active
+tw.gov.mohw.twcore,1.0.0,patient,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore,true
+tw.gov.mohw.twcore,1.0.0,allergyintolerance,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/AllergyIntolerance-twcore,true
+tw.gov.mohw.twcore,1.0.0,practitioner,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Practitioner-twcore,true
+tw.gov.mohw.twcore,1.0.0,organization,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Organization-twcore,true
+tw.gov.mohw.twcore,1.0.0,practitionerrole,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/PractitionerRole-twcore,true
+tw.gov.mohw.twcore,1.0.0,encounter,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore,true
+tw.gov.mohw.twcore,1.0.0,condition,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore,true
+tw.gov.mohw.twcore,1.0.0,observation,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore,true
+tw.gov.mohw.twcore,1.0.0,procedure,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Procedure-twcore,true

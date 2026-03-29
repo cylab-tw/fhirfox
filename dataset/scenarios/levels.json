@@ -1,0 +1,37 @@
+[
+	{
+		"level": 1,
+		"label": "Level 1",
+		"title": "基礎就醫紀錄",
+		"englishTitle": "Core Patient Journey",
+		"description": "最小可用 (Minimum Viable) 且符合臨床情境的就醫紀錄資料，涵蓋基本就醫流程與核心 FHIR Resources。"
+	},
+	{
+		"level": 2,
+		"label": "Level 2",
+		"title": "臨床處置與紀錄",
+		"englishTitle": "Clinical Basic",
+		"description": "病人就醫後進行的處置以及問診、觀察、與量測"
+	},
+	{
+		"level": 3,
+		"label": "Level 3",
+		"title": "用藥與檢查",
+		"englishTitle": "Medication & Examination",
+		"description": "醫師開立的藥物處方以及檢查（影像、LAB）等措施"
+	},
+	{
+		"level": 4,
+		"label": "Level 4",
+		"title": "診斷與檢驗整合",
+		"englishTitle": "Diagnostic Layer",
+		"description": "進一步的影像檢查、檢驗報告（套餐）、基因檢測等。"
+	},
+	{
+		"level": 5,
+		"label": "Level 5",
+		"title": "全人照護紀錄",
+		"englishTitle": "Complex Care",
+		"description": "病患為核心的歷次健康紀錄串聯。"
+	}
+]

@@ -1,0 +1,12 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+AMB,AMB,ambulatory,http://terminology.hl7.org/CodeSystem/v3-ActCode,門診,true
+EMER,EMER,emergency,http://terminology.hl7.org/CodeSystem/v3-ActCode,急診,true
+FLD,FLD,field,http://terminology.hl7.org/CodeSystem/v3-ActCode,現場,true
+HH,HH,home health,http://terminology.hl7.org/CodeSystem/v3-ActCode,居家照護,true
+IMP,IMP,inpatient encounter,http://terminology.hl7.org/CodeSystem/v3-ActCode,住院,true
+ACUTE,ACUTE,inpatient acute,http://terminology.hl7.org/CodeSystem/v3-ActCode,急性住院,true
+NONAC,NONAC,inpatient non-acute,http://terminology.hl7.org/CodeSystem/v3-ActCode,非急性住院,true
+OBSENC,OBSENC,observation encounter,http://terminology.hl7.org/CodeSystem/v3-ActCode,留院觀察,true
+PRENC,PRENC,pre-admission,http://terminology.hl7.org/CodeSystem/v3-ActCode,入院前,true
+SS,SS,short stay,http://terminology.hl7.org/CodeSystem/v3-ActCode,短期停留,true
+VR,VR,virtual,http://terminology.hl7.org/CodeSystem/v3-ActCode,遠距看診,true

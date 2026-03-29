@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+24484000,24484000,Severe,http://snomed.info/sct,重度,true
+6736007,6736007,Moderate,http://snomed.info/sct,中度,true
+255604002,255604002,Mild,http://snomed.info/sct,輕度,true

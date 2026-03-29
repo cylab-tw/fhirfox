@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+mild,mild,Mild,http://hl7.org/fhir/reaction-event-severity,輕度,true
+moderate,moderate,Moderate,http://hl7.org/fhir/reaction-event-severity,中度,true
+severe,severe,Severe,http://hl7.org/fhir/reaction-event-severity,重度,true

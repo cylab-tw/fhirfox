@@ -1,0 +1,17 @@
+{
+	"id": "2",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"type": "allergy",
+	"category": "food",
+	"criticality": "low",
+	"allergyCode": "Al-F0007",
+	"patientId": "2",
+	"encounterId": "4",
+	"recordedDate": "2026-03-30T10:10:00+08:00",
+	"recorderId": "2",
+	"recorderType": "practitioner",
+	"note": "對蝦子過敏，曾出現皮膚紅疹。",
+	"manifestation": "271807003",
+	"severity": "moderate"
+}

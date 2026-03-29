@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+official,official,Official,http://hl7.org/fhir/identifier-use,官方,true
+usual,usual,Usual,http://hl7.org/fhir/identifier-use,常用,true
+temp,temp,Temp,http://hl7.org/fhir/identifier-use,暫時,true
+secondary,secondary,Secondary,http://hl7.org/fhir/identifier-use,次要,true
+old,old,Old,http://hl7.org/fhir/identifier-use,舊的/作廢,true

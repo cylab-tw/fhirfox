@@ -1,0 +1,8 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+24642003,24642003,Psychiatry procedure or service,http://snomed.info/sct,精神科處置或服務,true
+409063005,409063005,Counselling,http://snomed.info/sct,諮商,true
+409073007,409073007,Education,http://snomed.info/sct,衛教,true
+387713003,387713003,Surgical procedure,http://snomed.info/sct,外科手術,true
+103693007,103693007,Diagnostic procedure,http://snomed.info/sct,診斷性處置,true
+46947000,46947000,Chiropractic manipulation,http://snomed.info/sct,脊骨神經處置,true
+410606002,410606002,Social service procedure,http://snomed.info/sct,社會服務處置,true

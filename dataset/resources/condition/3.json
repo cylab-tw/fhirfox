@@ -1,0 +1,15 @@
+{
+	"id": "3",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "encounter-diagnosis",
+	"severity": "6736007",
+	"conditionCode": "Cond-065",
+	"conditionText": "胸悶/胸部不適",
+	"patientId": "1",
+	"encounterId": "2",
+	"recordedDate": "2026-04-12T15:12:00+08:00",
+	"recorderId": "1",
+	"recorderType": "practitioner",
+	"note": "主訴胸悶 2 天。"
+}

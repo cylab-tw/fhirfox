@@ -1,0 +1,12 @@
+{
+	"id": "3",
+	"active": true,
+	"practitionerId": "3",
+	"organizationId": "1",
+	"roleCode": "PR-0008",
+	"specialtyCode": "Spec-0004",
+	"periodStart": "2024-01-01T08:00:00+08:00",
+	"telecomSystem": "phone",
+	"telecomUse": "work",
+	"telecomValue": "02-2312-3456#3301"
+}

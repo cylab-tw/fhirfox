@@ -1,0 +1,101 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+Cond-001,160245001,No current problems or disability,http://snomed.info/sct,目前無健康問題或失能 (常用),true
+Cond-002,409002,Food allergy diet,http://snomed.info/sct,需食物過敏飲食,true
+Cond-003,788006,Disease-related diet,http://snomed.info/sct,疾病相關飲食需求,true
+Cond-004,874002,Therapeutic diuresis,http://snomed.info/sct,治療性利尿狀態,true
+Cond-005,1003002,Religious discrimination,http://snomed.info/sct,遭受宗教歧視 (社會決定因素),true
+Cond-006,109006,Anxiety disorder of childhood OR adolescence,http://snomed.info/sct,兒童或青少年焦慮症,true
+Cond-007,219006,Alcohol user,http://snomed.info/sct,酒精使用者,true
+Cond-008,281004,Alcoholic dementia,http://snomed.info/sct,酒精性失智症,true
+Cond-009,568005,Habit disorder,http://snomed.info/sct,習慣性行為障礙,true
+Cond-010,596004,Premenstrual dysphoric disorder,http://snomed.info/sct,經前焦慮症,true
+Cond-011,600009,Pyromania,http://snomed.info/sct,縱火狂,true
+Cond-012,832007,Moderate major depression,http://snomed.info/sct,中度重鬱症,true
+Cond-013,932006,Flat affect,http://snomed.info/sct,情感平淡,true
+Cond-014,140004,Chronic pharyngitis,http://snomed.info/sct,慢性咽炎,true
+Cond-015,222008,Acute epiglottitis with obstruction,http://snomed.info/sct,急性會厭炎伴氣道阻塞,true
+Cond-016,490008,Upper respiratory tract hypersensitivity reaction,http://snomed.info/sct,上呼吸道過敏反應,true
+Cond-017,599006,Persistent pneumothorax,http://snomed.info/sct,持續性氣胸,true
+Cond-018,607007,Decreased vital capacity,http://snomed.info/sct,肺活量下降,true
+Cond-019,718004,Acute bronchiolitis with obstruction,http://snomed.info/sct,急性阻塞性細支氣管炎,true
+Cond-020,805002,Pneumoconiosis due to silica,http://snomed.info/sct,矽肺症,true
+Cond-021,1023001,Apneic,http://snomed.info/sct,呼吸暫停,true
+Cond-022,193003,Benign hypertensive renal disease,http://snomed.info/sct,良性高血壓性腎病,true
+Cond-023,279001,Senile myocarditis,http://snomed.info/sct,老年性心肌炎,true
+Cond-024,364006,Acute left-sided heart failure,http://snomed.info/sct,急性左心衰竭,true
+Cond-025,368009,Heart valve disorder,http://snomed.info/sct,心臟瓣膜疾病,true
+Cond-026,486006,Acute vascular insufficiency,http://snomed.info/sct,急性血管機能不全,true
+Cond-027,756003,Chronic rheumatic myopericarditis,http://snomed.info/sct,慢性風濕性心肌心包炎,true
+Cond-028,991002,Wide QRS complex,http://snomed.info/sct,寬QRS波群 (心電圖異常),true
+Cond-029,1201005,Benign essential hypertension,http://snomed.info/sct,良性原發性高血壓,true
+Cond-030,183005,Autoimmune pancytopenia,http://snomed.info/sct,自體免疫性全血細胞減少症,true
+Cond-031,341009,ABO incompatibility reaction,http://snomed.info/sct,ABO血型不合反應,true
+Cond-032,359007,Kernicterus due to isoimmunization,http://snomed.info/sct,同種免疫性核黃疸,true
+Cond-033,934007,Thalassemia intermedia,http://snomed.info/sct,中度海洋性貧血,true
+Cond-034,242004,Noninfectious jejunitis,http://snomed.info/sct,非感染性空腸炎,true
+Cond-035,335002,Pylorospasm,http://snomed.info/sct,幽門痙攣,true
+Cond-036,450005,Ulcerative stomatitis,http://snomed.info/sct,潰瘍性口腔炎,true
+Cond-037,517007,Foreign body in hypopharynx,http://snomed.info/sct,下咽部異物,true
+Cond-038,643001,Hypertrophy of lip,http://snomed.info/sct,嘴唇肥大,true
+Cond-039,675003,Torsion of intestine,http://snomed.info/sct,腸扭轉,true
+Cond-040,865004,Hyperalimentation formula for ileus,http://snomed.info/sct,腸阻塞之高營養配方,true
+Cond-041,981008,Hemorrhagic proctitis,http://snomed.info/sct,出血性直腸炎,true
+Cond-042,1027000,Biliary esophagitis,http://snomed.info/sct,膽汁性食道炎,true
+Cond-043,1045000,Colonospasm,http://snomed.info/sct,結腸痙攣,true
+Cond-044,1116000,Chronic aggressive type B viral hepatitis,http://snomed.info/sct,慢性侵襲性B型肝炎,true
+Cond-045,151004,Meningitis due to gonococcus,http://snomed.info/sct,淋球菌性腦膜炎,true
+Cond-046,175004,Supraorbital neuralgia,http://snomed.info/sct,眶上神經痛,true
+Cond-047,264008,Blind hypertensive eye,http://snomed.info/sct,高血壓性盲眼,true
+Cond-048,297009,Acute myringitis,http://snomed.info/sct,急性鼓膜炎,true
+Cond-049,563001,Nystagmus,http://snomed.info/sct,眼球震顫,true
+Cond-050,792004,CJD - Creutzfeldt-Jakob disease,http://snomed.info/sct,庫賈氏病 (CJD),true
+Cond-051,815008,Episcleritis,http://snomed.info/sct,表層鞏膜炎,true
+Cond-052,965003,Toxic amblyopia,http://snomed.info/sct,中毒性弱視,true
+Cond-053,1070000,Facial myokymia,http://snomed.info/sct,面肌纖維顫搐,true
+Cond-054,1112003,Degenerative disorder of eyelid,http://snomed.info/sct,眼瞼退化性疾病,true
+Cond-055,1135000,Solar retinitis,http://snomed.info/sct,日光性視網膜炎,true
+Cond-056,1141007,Circumoral paresthesia,http://snomed.info/sct,口周感覺異常,true
+Cond-057,1145003,DSD - Developmental speech disorder,http://snomed.info/sct,發展性言語障礙,true
+Cond-058,1151008,Constricted visual field,http://snomed.info/sct,視野縮小,true
+Cond-059,1184008,"Glasgow coma scale, 10",http://snomed.info/sct,格拉斯哥昏迷指數 10分,true
+Cond-060,701003,Adult osteochondritis of spine,http://snomed.info/sct,成人脊柱骨軟骨炎,true
+Cond-061,736004,Abscess of hip,http://snomed.info/sct,髖部膿腫,true
+Cond-062,811004,Flail motion,http://snomed.info/sct,連枷運動 (胸部異常運動),true
+Cond-063,813001,Ankle instability,http://snomed.info/sct,腳踝不穩定,true
+Cond-064,928000,Musculoskeletal disorder,http://snomed.info/sct,肌肉骨骼疾病,true
+Cond-065,1033009,Thoracic arthritis,http://snomed.info/sct,胸椎關節炎,true
+Cond-066,1126007,Knee locking,http://snomed.info/sct,膝關節卡鎖,true
+Cond-067,257006,"Acne rosacea, erythematous telangiectatic type",http://snomed.info/sct,紅斑毛細血管擴張型酒糟鼻,true
+Cond-068,504009,Androgen-dependent hirsutism,http://snomed.info/sct,雄激素依賴性多毛症,true
+Cond-069,586008,Contact dermatitis due to primrose,http://snomed.info/sct,櫻草花接觸性皮膚炎,true
+Cond-070,961007,"Erythema nodosum, acute form",http://snomed.info/sct,急性結節性紅斑,true
+Cond-071,978003,Chronic infantile eczema,http://snomed.info/sct,慢性嬰兒濕疹,true
+Cond-072,987007,Cellulitis of temple region,http://snomed.info/sct,顳部蜂窩性組織炎,true
+Cond-073,1108009,Female pattern alopecia,http://snomed.info/sct,女性雄性禿,true
+Cond-074,1111005,Normal sebaceous gland activity,http://snomed.info/sct,正常皮脂腺活動,true
+Cond-075,1212005,Juvenile dermatomyositis,http://snomed.info/sct,幼年型皮肌炎,true
+Cond-076,664002,Delayed ovulation,http://snomed.info/sct,延遲排卵,true
+Cond-077,682004,Thrombosis complicating pregnancy AND/OR puerperium,http://snomed.info/sct,妊娠及產褥期併發血栓,true
+Cond-078,758002,Cyst of uterus,http://snomed.info/sct,子宮囊腫,true
+Cond-079,1085006,Vulval candidiasis,http://snomed.info/sct,外陰念珠菌感染,true
+Cond-080,317006,Reactive hypoglycemia,http://snomed.info/sct,反應性低血糖,true
+Cond-081,652005,Gangrenous tonsillitis,http://snomed.info/sct,壞疽性扁桃腺炎,true
+Cond-082,1059007,Opisthorchiasis,http://snomed.info/sct,睪吸蟲病,true
+Cond-083,1089000,Congenital sepsis,http://snomed.info/sct,先天性敗血症,true
+Cond-084,165002,Accident-prone,http://snomed.info/sct,易發生意外體質,true
+Cond-085,360002,Acute radiation disease,http://snomed.info/sct,急性輻射病,true
+Cond-086,426008,Superficial injury of ankle without infection,http://snomed.info/sct,腳踝表淺損傷無感染,true
+Cond-087,82271004,Injury of head,http://snomed.info/sct,頭部外傷,true
+Cond-088,908004,Superficial injury of interscapular region without infection,http://snomed.info/sct,肩胛間區表淺損傷無感染,true
+Cond-089,1031006,Open wound of trachea without complication,http://snomed.info/sct,氣管開放性傷口無併發症,true
+Cond-090,378007,Morquio syndrome,http://snomed.info/sct,莫基奧症候群 (黏多醣症),true
+Cond-091,440009,Persistent hyperphenylalaninemia,http://snomed.info/sct,持續性高苯丙氨酸血症,true
+Cond-092,442001,Secondary hypopituitarism,http://snomed.info/sct,繼發性垂體功能低下,true
+Cond-093,613003,FRAXA - Fragile X syndrome,http://snomed.info/sct,脆性X染色體症候群,true
+Cond-094,703000,Congenital adhesion of tongue,http://snomed.info/sct,先天性舌沾黏,true
+Cond-095,841002,Congenital absence of skull bone,http://snomed.info/sct,先天性顱骨缺失,true
+Cond-096,1131009,Congenital valvular insufficiency,http://snomed.info/sct,先天性瓣膜閉鎖不全,true
+Cond-097,1150009,Congenital microcheilia,http://snomed.info/sct,先天性小唇,true
+Cond-098,330007,Occipital headache,http://snomed.info/sct,枕部頭痛,true
+Cond-099,408005,Tooth chattering,http://snomed.info/sct,牙齒打顫 (畏寒症狀),true
+Cond-100,2301009,Psychosomatic factor in physical condition,http://snomed.info/sct,身體狀況之心理因素,true

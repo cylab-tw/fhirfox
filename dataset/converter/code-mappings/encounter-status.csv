@@ -1,0 +1,10 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+planned,planned,Planned,http://hl7.org/fhir/encounter-status,計畫中/預約,true
+arrived,arrived,Arrived,http://hl7.org/fhir/encounter-status,已報到,true
+triaged,triaged,Triaged,http://hl7.org/fhir/encounter-status,已檢傷分類,true
+in-progress,in-progress,In Progress,http://hl7.org/fhir/encounter-status,看診中,true
+onleave,onleave,On Leave,http://hl7.org/fhir/encounter-status,請假外出,true
+finished,finished,Finished,http://hl7.org/fhir/encounter-status,已完診,true
+cancelled,cancelled,Cancelled,http://hl7.org/fhir/encounter-status,取消就醫,true
+entered-in-error,entered-in-error,Entered in Error,http://hl7.org/fhir/encounter-status,輸入錯誤,true
+unknown,unknown,Unknown,http://hl7.org/fhir/encounter-status,未知,true

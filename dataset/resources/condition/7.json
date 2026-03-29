@@ -1,0 +1,14 @@
+{
+	"id": "7",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "encounter-diagnosis",
+	"severity": "24484000",
+	"conditionCode": "Cond-018",
+	"conditionText": "肺炎伴呼吸喘",
+	"patientId": "3",
+	"encounterId": "7",
+	"recordedDate": "2026-03-24T11:00:00+08:00",
+	"recorderId": "4",
+	"note": "住院診斷肺炎，伴隨發燒與呼吸喘。"
+}

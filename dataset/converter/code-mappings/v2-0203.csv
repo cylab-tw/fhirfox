@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+NNxxx,NNxxx,National Person Identifier where the xxx is the ISO table 3166 3-character (alphabetic) country code,http://terminology.hl7.org/CodeSystem/v2-0203,身分證字號,true
+PRC,PRC,Permanent Resident Card Number,http://terminology.hl7.org/CodeSystem/v2-0203,居留證號,true
+PPN,PPN,Passport number,http://terminology.hl7.org/CodeSystem/v2-0203,護照號碼,true
+MR,MR,Medical record number,http://terminology.hl7.org/CodeSystem/v2-0203,病歷號,true
+MD,MD,Medical License number,http://terminology.hl7.org/CodeSystem/v2-0203,醫事人員證書號,true

@@ -1,0 +1,23 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+Qual-0001,158965000,Medical practitioner,http://snomed.info/sct,醫師,true
+Qual-0002,B,中醫師,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,中醫師,true
+Qual-0003,106289002,Dentist,http://snomed.info/sct,牙醫師,true
+Qual-0004,46255001,Pharmacist,http://snomed.info/sct,藥師,true
+Qual-0005,158994007,Nurse,http://snomed.info/sct,護理師,true
+Qual-0006,106294002,Midwifery personnel,http://snomed.info/sct,助產師,true
+Qual-0007,307988006,Medical technician,http://snomed.info/sct,醫事檢驗師,true
+Qual-0008,159016003,Medical radiographer,http://snomed.info/sct,醫事放射師,true
+Qual-0009,T,醫事放射士,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,醫事放射士,true
+Qual-0010,K,醫事檢驗生,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,醫事檢驗生,true
+Qual-0011,36682004,Physiotherapist,http://snomed.info/sct,物理治療師,true
+Qual-0012,80546007,Occupational therapist,http://snomed.info/sct,職能治療師,true
+Qual-0013,159026005,Speech and language therapist,http://snomed.info/sct,語言治療師,true
+Qual-0014,442867008,Respiratory therapist (occupation),http://snomed.info/sct,呼吸治療師,true
+Qual-0015,40127002,Dietitian (general),http://snomed.info/sct,營養師,true
+Qual-0016,310191001,Clinical psychologist,http://snomed.info/sct,臨床心理師,true
+Qual-0017,X,諮商心理師,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,諮商心理師,true
+Qual-0018,309418004,Audiologist,http://snomed.info/sct,聽力師,true
+Qual-0019,160008000,Dental technician,http://snomed.info/sct,牙體技術師,true
+Qual-0020,4,牙體技術生,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,牙體技術生,true
+Qual-0021,28229004,Optometrist,http://snomed.info/sct,驗光師,true
+Qual-0022,6,驗光生,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,驗光生,true

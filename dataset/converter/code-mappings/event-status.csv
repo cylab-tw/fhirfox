@@ -1,0 +1,9 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+preparation,preparation,Preparation,http://hl7.org/fhir/event-status,準備中,true
+in-progress,in-progress,In Progress,http://hl7.org/fhir/event-status,進行中,true
+not-done,not-done,Not Done,http://hl7.org/fhir/event-status,未執行,true
+on-hold,on-hold,On Hold,http://hl7.org/fhir/event-status,暫停/擱置,true
+stopped,stopped,Stopped,http://hl7.org/fhir/event-status,中止,true
+completed,completed,Completed,http://hl7.org/fhir/event-status,已完成,true
+entered-in-error,entered-in-error,Entered in Error,http://hl7.org/fhir/event-status,輸入錯誤,true
+unknown,unknown,Unknown,http://hl7.org/fhir/event-status,未知,true

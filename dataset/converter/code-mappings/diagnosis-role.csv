@@ -1,0 +1,2 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+AD,AD,Admission diagnosis,http://terminology.hl7.org/CodeSystem/diagnosis-role,入院診斷,true

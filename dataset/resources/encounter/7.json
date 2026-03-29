@@ -1,0 +1,17 @@
+{
+	"id": "7",
+	"identifier": "IPD202603240015",
+	"status": "finished",
+	"class": "IMP",
+	"serviceType": "inpatient",
+	"patientId": "3",
+	"periodStart": "2026-03-24T10:30:00+08:00",
+	"periodEnd": "2026-03-28T14:00:00+08:00",
+	"serviceProviderId": "1",
+	"participantType": "ATND",
+	"practitionerId": "4",
+	"conditionId": "7",
+	"diagnosisUse": "AD",
+	"admitSource": "emd",
+	"dischargeDisposition": "home"
+}

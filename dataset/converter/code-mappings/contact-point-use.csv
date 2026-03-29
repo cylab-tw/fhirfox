@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+mobile,mobile,Mobile,http://hl7.org/fhir/contact-point-use,行動電話,true
+home,home,Home,http://hl7.org/fhir/contact-point-use,住家,true
+work,work,Work,http://hl7.org/fhir/contact-point-use,工作,true
+temp,temp,Temp,http://hl7.org/fhir/contact-point-use,暫時,true
+old,old,Old,http://hl7.org/fhir/contact-point-use,舊的,true

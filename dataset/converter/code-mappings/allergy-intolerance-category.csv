@@ -1,0 +1,5 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+food,food,Food,http://hl7.org/fhir/allergy-intolerance-category,食物,true
+medication,medication,Medication,http://hl7.org/fhir/allergy-intolerance-category,藥物,true
+environment,environment,Environment,http://hl7.org/fhir/allergy-intolerance-category,環境,true
+biologic,biologic,Biologic,http://hl7.org/fhir/allergy-intolerance-category,生物製劑,true

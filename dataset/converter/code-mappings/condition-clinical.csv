@@ -1,0 +1,7 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+active,active,Active,http://terminology.hl7.org/CodeSystem/condition-clinical,活躍/治療中,true
+recurrence,recurrence,Recurrence,http://terminology.hl7.org/CodeSystem/condition-clinical,復發,true
+relapse,relapse,Relapse,http://terminology.hl7.org/CodeSystem/condition-clinical,惡化,true
+inactive,inactive,Inactive,http://terminology.hl7.org/CodeSystem/condition-clinical,不活躍,true
+remission,remission,Remission,http://terminology.hl7.org/CodeSystem/condition-clinical,緩解,true
+resolved,resolved,Resolved,http://terminology.hl7.org/CodeSystem/condition-clinical,已解決/痊癒,true

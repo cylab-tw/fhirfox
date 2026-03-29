@@ -1,0 +1,5 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+male,male,Male,http://hl7.org/fhir/administrative-gender,男性,true
+female,female,Female,http://hl7.org/fhir/administrative-gender,女性,true
+other,other,Other,http://hl7.org/fhir/administrative-gender,其他,true
+unknown,unknown,Unknown,http://hl7.org/fhir/administrative-gender,未知,true
