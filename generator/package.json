@@ -3,7 +3,11 @@
 	"private": true,
 	"version": "0.1.0",
 	"type": "module",
-	"workspaces": [],
+	"workspaces": [
+		"dataset",
+		"converter",
+		"frontend"
+	],
 	"scripts": {
 		"build": "npm run build --workspaces --if-present",
 		"dataset:check": "npm run check --workspace dataset",

@@ -1,0 +1,19 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"jsx": "react-jsx",
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"types": ["vite/client", "node"],
+		"paths": {
+			"@fhirfox/dataset": ["../dataset/src/index.ts"],
+			"@fhirfox/dataset/source": ["../dataset/src/source.ts"],
+			"@fhirfox/converter/browser": ["../converter/src/browser.ts"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vite.data-plugin.ts"]
+}
