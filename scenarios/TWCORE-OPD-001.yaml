@@ -1,24 +1,34 @@
+# yaml-language-server: $schema=./schema.yaml
+
 id: TWCORE-OPD-001
 name: 一般門診（成人）
 level: 1
 type: outpatient
-focus: core-patient-journey
-description: Adult outpatient encounters with core related resources.
+summary: 成人一般門診情境，涵蓋常見主訴與基本病人資料組合，適合作為門診資料轉換的起始案例。
+details: |
+  此情境代表最基本的成人門診案例，用於驗證第三方系統能否產出完整且一致的核心 FHIR 資料。
+
+  - 病人年齡為 18 歲以上
+  - 涵蓋不同年齡層、性別與地區等基本病人資料組合
+  - `Encounter` 類型為門診
+  - `Condition` 以感冒、胸悶、腰痛等常見主訴為主
+
+selection:
+  strategy: best-match
+  maxSeeds: 1
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
 patient:
   age:
-    min: 18
-  gender:
-    in:
-      - male
-      - female
-      - other
-      - unknown
+    gte: 18
+
 encounter:
+  class: ambulatory
   status: finished
-resources:
-  include:
-    - Patient
-    - Organization
-    - Practitioner
-    - PractitionerRole
-    - AllergyIntolerance
+
+condition:
+  - conditionCode: Cond-016
+  - conditionCode: Cond-065
+  - conditionCode: Cond-064

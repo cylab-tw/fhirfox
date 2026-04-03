@@ -1,12 +1,35 @@
+# yaml-language-server: $schema=./schema.yaml
+
 id: TWCORE-ER-001
 name: 急診
 level: 1
 type: emergency
-focus: core-patient-journey
-description: Emergency encounters with the current core related resources.
-resources:
-  include:
-    - Patient
-    - Organization
-    - Practitioner
-    - AllergyIntolerance
+summary: 急診情境，涵蓋胸痛或外傷等突發症狀，用於驗證急診 Encounter 與相關臨床資料的表達。
+details: |
+  此情境代表急性就醫案例，重點在於驗證急診流程中的核心資料是否能正確轉換。
+
+  - `Encounter` 類型為急診
+  - 主訴以胸痛、外傷等突發症狀為主
+  - 可連動 `Condition`、`Observation` 與 `Procedure`
+  - 適合驗證急性處置情境下的基本資料關聯
+
+selection:
+  strategy: best-match
+  maxSeeds: 2
+  maxPatients: 1
+  maxLinkedEncounters: 2
+  expandLinks: true
+
+encounter:
+  class: emergency
+  status: finished
+
+condition:
+  - conditionCode: Cond-017
+  - conditionCode: Cond-087
+
+observation:
+  categoryCode: vital-signs
+
+procedure:
+  - procedureCode: Proc-0006

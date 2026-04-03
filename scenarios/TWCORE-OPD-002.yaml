@@ -1,18 +1,34 @@
+# yaml-language-server: $schema=./schema.yaml
+
 id: TWCORE-OPD-002
 name: 小兒門診
 level: 1
 type: outpatient
-department: pediatrics
-focus: core-patient-journey
-description: Pediatric outpatient encounters for patients younger than 12.
+summary: 12 歲以下病人的小兒門診情境，涵蓋常見兒科症狀，並可延伸驗證過敏相關資料。
+details: |
+  此情境用於驗證小兒門診資料的基本轉換能力，並反映兒科個案在病人屬性與臨床內容上的差異。
+
+  - 病人年齡小於 12 歲
+  - 主訴以發燒、咳嗽等常見兒科症狀為主
+  - 可觀察兒童病人在欄位內容上的差異
+  - 納入 `AllergyIntolerance` 以支援過敏資料的基本驗證
+
+selection:
+  strategy: best-match
+  maxSeeds: 1
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
 patient:
-  age:
-    max: 11
+  ageGroup: child
+
 encounter:
+  class: ambulatory
   status: finished
-resources:
-  include:
-    - Patient
-    - Organization
-    - Practitioner
-    - PractitionerRole
+
+condition:
+  - conditionCode: Cond-019
+
+allergyIntolerance:
+  category: food

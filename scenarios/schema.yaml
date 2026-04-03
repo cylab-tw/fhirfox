@@ -1,0 +1,111 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: FHIRFox Scenario
+description: >
+  Authoring schema for scenario YAML files in /scenarios. This schema documents
+  the supported top-level metadata fields, selection controls, and resource
+  filter sections used by the dataset scenario loader.
+type: object
+additionalProperties: false
+required:
+  - id
+  - name
+  - type
+properties:
+  id:
+    type: string
+    minLength: 1
+    description: Stable scenario identifier used in the UI and generated assets.
+  name:
+    type: string
+    minLength: 1
+    description: Canonical human-readable scenario name.
+  type:
+    type: string
+    minLength: 1
+    description: Workflow or business classification such as outpatient, emergency, or inpatient.
+  summary:
+    type: string
+    description: Short one-paragraph summary of the scenario intent.
+  details:
+    type: string
+    description: Longer narrative notes, assumptions, or authoring context.
+  level:
+    type: integer
+    description: Implementation ladder level used for grouping and presentation.
+  selection:
+    $ref: "#/$defs/selection"
+  patient:
+    $ref: "#/$defs/resourceSelection"
+  encounter:
+    $ref: "#/$defs/resourceSelection"
+  condition:
+    $ref: "#/$defs/resourceSelection"
+  allergyIntolerance:
+    $ref: "#/$defs/resourceSelection"
+  observation:
+    $ref: "#/$defs/resourceSelection"
+  procedure:
+    $ref: "#/$defs/resourceSelection"
+$defs:
+  positiveInteger:
+    type: integer
+    minimum: 1
+  scalar:
+    description: Simple literal match value resolved by the dataset filter layer.
+    oneOf:
+      - type: string
+      - type: number
+      - type: integer
+      - type: boolean
+  range:
+    type: object
+    description: Numeric range constraint.
+    additionalProperties: false
+    minProperties: 1
+    properties:
+      gt:
+        type: number
+        description: Strictly greater than.
+      gte:
+        type: number
+        description: Greater than or equal to.
+      lt:
+        type: number
+        description: Strictly less than.
+      lte:
+        type: number
+        description: Less than or equal to.
+  selection:
+    type: object
+    additionalProperties: false
+    description: Controls how direct matches are chosen and how far linked resources expand.
+    properties:
+      strategy:
+        type: string
+        enum:
+          - best-match
+          - grouped-by-patient
+        description: Match-picking strategy for seed resources.
+      maxSeeds:
+        $ref: "#/$defs/positiveInteger"
+        description: Maximum number of direct seed matches to keep.
+      maxPatients:
+        $ref: "#/$defs/positiveInteger"
+        description: Maximum number of patients included after grouping.
+      maxLinkedEncounters:
+        $ref: "#/$defs/positiveInteger"
+        description: Maximum linked encounters to expand per selected seed scope.
+      expandLinks:
+        type: boolean
+        description: Whether linked resources should be pulled in after seed selection.
+  filterObject:
+    type: object
+    description: >
+      單一 resource filter object。詳細欄位與可用 key 由 dataset validator 檢查。
+  resourceSelection:
+    description: 單一 filter object，或由多個 filter object 組成的陣列。
+    oneOf:
+      - $ref: "#/$defs/filterObject"
+      - type: array
+        items:
+          $ref: "#/$defs/filterObject"

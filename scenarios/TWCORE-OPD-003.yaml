@@ -1,17 +1,33 @@
+# yaml-language-server: $schema=./schema.yaml
+
 id: TWCORE-OPD-003
 name: 同病人多次門診
 level: 1
 type: outpatient
-focus: repeat-visit
-description: Outpatient encounters intended to surface repeated visits for the same patient.
-anchor:
-  resourceType: Encounter
-  limit: 20
-  sort:
-    field: patient_id
-    direction: asc
-resources:
-  include:
-    - Patient
-    - Organization
-    - Practitioner
+summary: 同一病人的多次門診紀錄集合，用於驗證跨次就醫資料的關聯與追蹤能力。
+details: |
+  此情境聚焦於同一病人的歷次門診資料，適合用來驗證系統如何表達個人縱向就醫紀錄。
+
+  - 反映同一病人的多次門診紀錄集合
+  - 適合檢視重複就醫與持續追蹤資料的關聯性
+
+selection:
+  strategy: grouped-by-patient
+  maxSeeds: 1
+  maxPatients: 1
+  maxLinkedEncounters: 3
+  expandLinks: true
+
+patient:
+  samePerson: true
+
+encounter:
+  class: ambulatory
+  status: finished
+  count:
+    gte: 2
+
+condition:
+  - conditionCode: Cond-016
+  - conditionCode: Cond-065
+  - conditionCode: Cond-064

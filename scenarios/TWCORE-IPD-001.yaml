@@ -1,12 +1,36 @@
+# yaml-language-server: $schema=./schema.yaml
+
 id: TWCORE-IPD-001
 name: 住院
 level: 1
 type: inpatient
-focus: core-patient-journey
-description: Inpatient encounters with the current core related resources.
-resources:
-  include:
-    - Patient
-    - Organization
-    - Practitioner
-    - AllergyIntolerance
+summary: 短期住院情境，涵蓋 3 至 5 天住院期間的核心資料，包含入院與出院資訊。
+details: |
+  此情境用於驗證住院流程中的基本資料結構，適合作為住院資料轉換的基礎案例。
+
+  - 住院天數限制在 3 至 5 天
+  - `Encounter.period` 反映住院期間
+  - 包含 `admission` 與 `discharge` 相關資訊
+  - 可一起觀察住院期間的 `Condition` 與 `Procedure`
+
+selection:
+  strategy: best-match
+  maxSeeds: 1
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+encounter:
+  class: inpatient
+  status: finished
+  stayDays:
+    gte: 3
+    lte: 5
+  admitSource: emd
+  dischargeDisposition: home
+
+condition:
+  - conditionCode: Cond-018
+
+procedure:
+  - procedureCode: Proc-0012
