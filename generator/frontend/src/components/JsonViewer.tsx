@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import JsonView from '@uiw/react-json-view';
 
 import { getFieldPath, getSourceFieldDoc, getSourceFieldPathPrefix } from '../lib/source-json-docs.js';
@@ -62,9 +62,95 @@ export function JsonViewer({
 	const renderedContentRef = useRef<HTMLDivElement | null>(null);
 	const renderedValueRef = useRef<HTMLDivElement | null>(null);
 	const content = useMemo(() => JSON.stringify(value, null, 2), [value]);
+	const sourceLineIndex = useMemo(() => buildSourceLineIndex(content), [content]);
 	const sourceFieldPathPrefix = useMemo(
 		() => (docsEnabled ? getSourceFieldPathPrefix(value) : undefined),
 		[docsEnabled, value],
+	);
+
+	const colonRender = useCallback(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(props: any, result: any) => {
+			const { parentValue, keyName } = result;
+			if (Array.isArray(parentValue) && typeof keyName === 'number') {
+				return <span style={{ display: 'none' }} />;
+			}
+			return <span {...props} />;
+		},
+		[],
+	);
+
+	const keyNameRender = useCallback(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(props: any, result: any) => {
+			const { keyName, keys, parentValue } = result;
+			return (
+				<DocumentedKeyName
+					props={props}
+					keyName={keyName}
+					keys={keys}
+					parentValue={parentValue}
+					pathPrefix={sourceFieldPathPrefix}
+					docsEnabled={docsEnabled}
+					sourceFieldDocs={sourceFieldDocs}
+					onShowTooltip={showTooltip}
+					onHideTooltip={hideTooltip}
+				/>
+			);
+		},
+		[sourceFieldPathPrefix, docsEnabled, sourceFieldDocs],
+	);
+
+	const rowRender = useCallback(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(rowProps: any, result: any) => {
+			const { children, ...props } = rowProps;
+			const { keyName, keys, parentValue, value: rowValue } = result;
+			const displayValue = showCodeDisplayValues
+				? getCodeDisplayValue(keyName, keys, rowValue, parentValue, sourceFieldPathPrefix, sourceCodeDisplayMap)
+				: undefined;
+			const sourceResourceKey = getSourceResourceLinkTarget(keyName, keys, rowValue, parentValue, sourceFieldPathPrefix, sourceFieldDocs);
+			const shouldShowComma = hasTrailingComma(keyName, parentValue);
+
+			return (
+				<div {...(props as React.HTMLAttributes<HTMLDivElement>)}>
+					{children}
+					{shouldShowComma ? <span className="text-slate-400">,</span> : null}
+					{displayValue ? (
+						<span
+							data-json-annotation="true"
+							className="ml-2 inline select-none text-[12px] italic font-normal leading-5 text-slate-500/90"
+							title={displayValue}
+						>
+							{displayValue}
+						</span>
+					) : null}
+					{onSourceResourceSelect && sourceResourceKey ? (
+						<button
+							type="button"
+							onClick={(event) => {
+								event.stopPropagation();
+								onSourceResourceSelect(sourceResourceKey);
+							}}
+							data-json-annotation="true"
+							className="ml-2 inline select-none italic cursor-pointer text-[12px] font-normal leading-5 text-slate-600/95 underline decoration-slate-500/35 underline-offset-2 transition hover:text-slate-800 hover:decoration-slate-700/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+							title={`查看 ${sourceResourceKey}`}
+						>
+							{formatSourceResourceKeyAnnotation(sourceResourceKey)}
+						</button>
+					) : sourceResourceKey ? (
+						<span
+							data-json-annotation="true"
+							className="ml-2 inline select-none text-[12px] italic font-normal leading-5 text-slate-500/90"
+							title={sourceResourceKey}
+						>
+							{formatSourceResourceKeyAnnotation(sourceResourceKey)}
+						</span>
+					) : null}
+				</div>
+			);
+		},
+		[showCodeDisplayValues, sourceCodeDisplayMap, sourceFieldPathPrefix, sourceFieldDocs, onSourceResourceSelect],
 	);
 
 	async function handleCopy() {
@@ -161,31 +247,61 @@ export function JsonViewer({
 			return;
 		}
 
+		let mounted = true;
+		let pendingMicrotask = false;
+		let pendingCommaRaf: number | null = null;
+
 		const updateLineNumbers = () => {
+			if (!mounted) return;
 			const jsonRoot = contentRoot.querySelector('.w-rjv');
-			if (jsonRoot) {
-				syncInteractiveCursors(jsonRoot);
-				syncRenderedJsonCommas(jsonRoot);
+			let next = jsonRoot
+				? collectSourceLineNumbers(jsonRoot, sourceLineIndex)
+				: Array.from({ length: sourceLineIndex.lineCount }, (_, i) => i + 1);
+			if (next.length === 0) {
+				next = [1];
 			}
-			const totalLines = jsonRoot
-				? Math.max(1, collectRenderedJsonLines(jsonRoot).length)
-				: Math.max(1, content.split('\n').length);
-			setLineNumbers((current) =>
-				current.length === totalLines ? current : Array.from({ length: totalLines }, (_, index) => index + 1),
-			);
+			setLineNumbers((prev) => (arraysEqual(prev, next) ? prev : next));
+		};
+
+		const scheduleCommaSync = () => {
+			if (pendingCommaRaf !== null) return;
+			pendingCommaRaf = window.requestAnimationFrame(() => {
+				pendingCommaRaf = null;
+				if (!mounted) return;
+				const jsonRoot = contentRoot.querySelector('.w-rjv');
+				if (!jsonRoot) return;
+				mutationObserver.disconnect();
+				syncRenderedJsonCommas(jsonRoot);
+				mutationObserver.observe(contentRoot, { attributes: true, childList: true, subtree: true });
+			});
+		};
+
+		const scheduleLineNumbers = () => {
+			if (pendingMicrotask) return;
+			pendingMicrotask = true;
+			queueMicrotask(() => {
+				pendingMicrotask = false;
+				updateLineNumbers();
+			});
+		};
+
+		const handleMutation = () => {
+			scheduleLineNumbers();
+			scheduleCommaSync();
+		};
+
+		const handleResize = () => {
+			scheduleLineNumbers();
 		};
 
 		updateLineNumbers();
+		scheduleCommaSync();
 
-		const resizeObserver = new ResizeObserver(() => {
-			updateLineNumbers();
-		});
+		const resizeObserver = new ResizeObserver(handleResize);
 		resizeObserver.observe(wrapper);
 		resizeObserver.observe(contentRoot);
 
-		const mutationObserver = new MutationObserver(() => {
-			window.requestAnimationFrame(updateLineNumbers);
-		});
+		const mutationObserver = new MutationObserver(handleMutation);
 		mutationObserver.observe(contentRoot, {
 			attributes: true,
 			childList: true,
@@ -193,6 +309,8 @@ export function JsonViewer({
 		});
 
 		return () => {
+			mounted = false;
+			if (pendingCommaRaf !== null) window.cancelAnimationFrame(pendingCommaRaf);
 			resizeObserver.disconnect();
 			mutationObserver.disconnect();
 		};
@@ -235,104 +353,14 @@ export function JsonViewer({
 						<div ref={renderedContentRef} className="min-w-max px-4 pb-5">
 							<div ref={renderedValueRef} onCopyCapture={handleSelectionCopy}>
 								{isJsonObject(value) ? (
-									<JsonView
+									<JsonViewPane
 										key={viewerSeed}
 										value={value}
-										collapsed={false}
-										displayDataTypes={false}
-										displayObjectSize={false}
-										enableClipboard={false}
-										highlightUpdates={false}
-										shortenTextAfterLength={0}
 										style={sourceViewerTheme}
-									>
-										<JsonView.Colon
-											render={(props, { parentValue, keyName }) => {
-												if (Array.isArray(parentValue) && typeof keyName === 'number') {
-													return <span style={{ display: 'none' }} />;
-												}
-												return <span {...props} />;
-											}}
-										/>
-										<JsonView.KeyName
-											render={({ ...props }, { keyName, keys, parentValue }) => {
-												return (
-													<DocumentedKeyName
-														props={props}
-														keyName={keyName}
-														keys={keys}
-														parentValue={parentValue}
-														pathPrefix={sourceFieldPathPrefix}
-														docsEnabled={docsEnabled}
-														sourceFieldDocs={sourceFieldDocs}
-														onShowTooltip={showTooltip}
-														onHideTooltip={hideTooltip}
-													/>
-												);
-											}}
-										/>
-										<JsonView.Row
-											render={({ children, ...props }, { keyName, keys, parentValue, value: rowValue }) => {
-												const displayValue = showCodeDisplayValues
-													? getCodeDisplayValue(
-															keyName,
-															keys,
-															rowValue,
-															parentValue,
-															sourceFieldPathPrefix,
-															sourceCodeDisplayMap,
-														)
-													: undefined;
-												const sourceResourceKey = getSourceResourceLinkTarget(
-													keyName,
-													keys,
-													rowValue,
-													parentValue,
-													sourceFieldPathPrefix,
-													sourceFieldDocs,
-												);
-												const shouldShowComma = hasTrailingComma(keyName, parentValue);
-
-												return (
-													<div {...props}>
-														{children}
-														{shouldShowComma ? <span className="text-slate-400">,</span> : null}
-														{displayValue ? (
-															<span
-																data-json-annotation="true"
-																className="ml-2 inline select-none text-[12px] italic font-normal leading-5 text-slate-500/90"
-																title={displayValue}
-															>
-																{displayValue}
-															</span>
-														) : null}
-														{onSourceResourceSelect && sourceResourceKey ? (
-															<button
-																type="button"
-																onClick={(event) => {
-																	event.stopPropagation();
-																	onSourceResourceSelect(sourceResourceKey);
-																}}
-																data-json-annotation="true"
-																className="ml-2 inline select-none italic cursor-pointer text-[12px] font-normal leading-5 text-slate-600/95 underline decoration-slate-500/35 underline-offset-2 transition hover:text-slate-800 hover:decoration-slate-700/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-																title={`查看 ${sourceResourceKey}`}
-															>
-																{formatSourceResourceKeyAnnotation(sourceResourceKey)}
-															</button>
-														) : sourceResourceKey ? (
-															<span
-																data-json-annotation="true"
-																className="ml-2 inline select-none text-[12px] italic font-normal leading-5 text-slate-500/90"
-																title={sourceResourceKey}
-															>
-																{formatSourceResourceKeyAnnotation(sourceResourceKey)}
-															</span>
-														) : null}
-													</div>
-												);
-											}}
-										/>
-									</JsonView>
+										colonRender={colonRender}
+										keyNameRender={keyNameRender}
+										rowRender={rowRender}
+									/>
 								) : (
 									<pre
 										className="whitespace-pre font-mono text-slate-700"
@@ -485,31 +513,6 @@ interface RenderedJsonLine {
 	text: string;
 }
 
-function syncInteractiveCursors(root: Element) {
-	for (const element of root.querySelectorAll('[data-json-generated-cursor="true"]')) {
-		element.classList.remove('cursor-pointer');
-		element.removeAttribute('data-json-generated-cursor');
-	}
-
-	for (const arrow of root.querySelectorAll('.w-rjv-arrow')) {
-		arrow.classList.add('cursor-pointer');
-		arrow.setAttribute('data-json-generated-cursor', 'true');
-	}
-
-	for (const element of root.querySelectorAll('.w-rjv-inner > span')) {
-		if (!(element instanceof HTMLElement)) {
-			continue;
-		}
-
-		if (!element.querySelector('.w-rjv-arrow')) {
-			continue;
-		}
-
-		element.classList.add('cursor-pointer');
-		element.setAttribute('data-json-generated-cursor', 'true');
-	}
-}
-
 function syncRenderedJsonCommas(root: Element) {
 	for (const comma of root.querySelectorAll('[data-json-generated-comma="true"]')) {
 		comma.remove();
@@ -552,15 +555,11 @@ function findTrailingCommaTarget(element: HTMLElement): HTMLElement | null {
 	const openElement = children[0];
 	const closeElement = children[2];
 
-	if (closeElement instanceof HTMLElement && isRenderedElementVisible(closeElement)) {
+	if (closeElement instanceof HTMLElement) {
 		return closeElement;
 	}
 
 	return openElement instanceof HTMLElement ? openElement : null;
-}
-
-function isRenderedElementVisible(element: HTMLElement): boolean {
-	return element.getClientRects().length > 0 && window.getComputedStyle(element).display !== 'none';
 }
 
 function collectRenderedJsonLines(root: Element): RenderedJsonLine[] {
@@ -645,6 +644,142 @@ function JsonViewerToolbar({ copied, onCopy }: { copied: boolean; onCopy: () => 
 		</div>
 	);
 }
+
+interface SourceLineIndex {
+	lineCount: number;
+	matchingCloseLine: number[];
+}
+
+function buildSourceLineIndex(content: string): SourceLineIndex {
+	const lines = content.split('\n');
+	const lineCount = lines.length;
+	const matchingCloseLine = new Array<number>(lineCount).fill(-1);
+	const stack: number[] = [];
+	let inString = false;
+
+	for (let lineIndex = 0; lineIndex < lineCount; lineIndex++) {
+		const line = lines[lineIndex]!;
+
+		for (let charIndex = 0; charIndex < line.length; charIndex++) {
+			const ch = line[charIndex];
+
+			if (inString) {
+				if (ch === '"') {
+					let backslashCount = 0;
+					let scanIndex = charIndex - 1;
+					while (scanIndex >= 0 && line[scanIndex] === '\\') {
+						backslashCount++;
+						scanIndex--;
+					}
+					if (backslashCount % 2 === 0) {
+						inString = false;
+					}
+				}
+				continue;
+			}
+
+			if (ch === '"') {
+				inString = true;
+			} else if (ch === '{' || ch === '[') {
+				stack.push(lineIndex);
+			} else if (ch === '}' || ch === ']') {
+				const openLine = stack.pop();
+				if (openLine !== undefined) {
+					matchingCloseLine[openLine] = lineIndex;
+				}
+			}
+		}
+	}
+
+	return { lineCount, matchingCloseLine };
+}
+
+function collectSourceLineNumbers(root: Element, index: SourceLineIndex): number[] {
+	const result: number[] = [];
+	let cursor = 0;
+
+	function visit(element: Element) {
+		if (element.classList.contains('w-rjv-line')) {
+			result.push(cursor + 1);
+			cursor++;
+			return;
+		}
+
+		if (element.classList.contains('w-rjv-inner')) {
+			const children = Array.from(element.children);
+			const [openElement, wrapElement, closeElement] = children;
+
+			const isCollapsedOrEmpty =
+				!wrapElement || !wrapElement.classList.contains('w-rjv-wrap') || wrapElement.children.length === 0;
+
+			if (isCollapsedOrEmpty) {
+				result.push(cursor + 1);
+				const closeLine = index.matchingCloseLine[cursor];
+				cursor = closeLine !== undefined && closeLine >= 0 ? closeLine + 1 : cursor + 1;
+			} else {
+				result.push(cursor + 1);
+				cursor++;
+
+				for (const child of Array.from(wrapElement.children)) {
+					visit(child);
+				}
+
+				if (closeElement) {
+					result.push(cursor + 1);
+					cursor++;
+				}
+			}
+			return;
+		}
+
+		for (const child of Array.from(element.children)) {
+			visit(child);
+		}
+	}
+
+	visit(root);
+	return result;
+}
+
+function arraysEqual(a: number[], b: number[]): boolean {
+	if (a.length !== b.length) return false;
+	for (let i = 0; i < a.length; i++) {
+		if (a[i] !== b[i]) return false;
+	}
+	return true;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const JsonViewPane = memo(function JsonViewPane({
+	value,
+	style,
+	colonRender,
+	keyNameRender,
+	rowRender,
+}: {
+	value: Record<string, unknown>;
+	style: CSSProperties;
+	colonRender: any;
+	keyNameRender: any;
+	rowRender: any;
+}) {
+	return (
+		<JsonView
+			value={value}
+			collapsed={false}
+			displayDataTypes={false}
+			displayObjectSize={false}
+			enableClipboard={false}
+			highlightUpdates={false}
+			shortenTextAfterLength={0}
+			style={style}
+		>
+			<JsonView.Colon render={colonRender} />
+			<JsonView.KeyName render={keyNameRender} />
+			<JsonView.Row render={rowRender} />
+		</JsonView>
+	);
+});
 
 function DocumentedKeyName({
 	props,
