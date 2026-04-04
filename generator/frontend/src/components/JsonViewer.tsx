@@ -246,6 +246,14 @@ export function JsonViewer({
 										shortenTextAfterLength={0}
 										style={sourceViewerTheme}
 									>
+										<JsonView.Colon
+											render={(props, { parentValue, keyName }) => {
+												if (Array.isArray(parentValue) && typeof keyName === 'number') {
+													return <span style={{ display: 'none' }} />;
+												}
+												return <span {...props} />;
+											}}
+										/>
 										<JsonView.KeyName
 											render={({ ...props }, { keyName, keys, parentValue }) => {
 												return (
@@ -661,7 +669,11 @@ function DocumentedKeyName({
 }) {
 	const spanProps = props as HTMLAttributes<HTMLSpanElement>;
 
-	if (typeof keyName !== 'string' || Array.isArray(parentValue)) {
+	if (Array.isArray(parentValue) && typeof keyName === 'number') {
+		return <span {...spanProps} style={{ display: 'none' }} />;
+	}
+
+	if (typeof keyName !== 'string') {
 		return <span {...spanProps}>{String(keyName ?? '')}</span>;
 	}
 
