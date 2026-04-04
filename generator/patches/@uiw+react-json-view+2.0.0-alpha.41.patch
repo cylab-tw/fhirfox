@@ -1,0 +1,71 @@
+diff --git a/node_modules/@uiw/react-json-view/cjs/utils/useRender.js b/node_modules/@uiw/react-json-view/cjs/utils/useRender.js
+index 70ecb29..e276632 100644
+--- a/node_modules/@uiw/react-json-view/cjs/utils/useRender.js
++++ b/node_modules/@uiw/react-json-view/cjs/utils/useRender.js
+@@ -21,7 +21,7 @@ function useSymbolsRender(currentProps, props, key) {
+     style: (0, _objectSpread2["default"])((0, _objectSpread2["default"])({}, currentProps.style), props.style),
+     children: props.children || currentProps.children
+   });
+-  (0, _react.useEffect)(function () {
++  (0, _react.useLayoutEffect)(function () {
+     return dispatch((0, _defineProperty2["default"])({}, key, reset));
+   }, [props]);
+ }
+@@ -33,7 +33,7 @@ function useTypesRender(currentProps, props, key) {
+     style: (0, _objectSpread2["default"])((0, _objectSpread2["default"])({}, currentProps.style), props.style),
+     children: props.children || currentProps.children
+   });
+-  (0, _react.useEffect)(function () {
++  (0, _react.useLayoutEffect)(function () {
+     return dispatch((0, _defineProperty2["default"])({}, key, reset));
+   }, [props]);
+ }
+@@ -45,7 +45,7 @@ function useSectionRender(currentProps, props, key) {
+     style: (0, _objectSpread2["default"])((0, _objectSpread2["default"])({}, currentProps.style), props.style),
+     children: props.children || currentProps.children
+   });
+-  (0, _react.useEffect)(function () {
++  (0, _react.useLayoutEffect)(function () {
+     return dispatch((0, _defineProperty2["default"])({}, key, reset));
+   }, [props]);
+ }
+\ No newline at end of file
+diff --git a/node_modules/@uiw/react-json-view/esm/utils/useRender.js b/node_modules/@uiw/react-json-view/esm/utils/useRender.js
+index c1d0c04..f1f2da2 100644
+--- a/node_modules/@uiw/react-json-view/esm/utils/useRender.js
++++ b/node_modules/@uiw/react-json-view/esm/utils/useRender.js
+@@ -1,5 +1,5 @@
+ import _extends from "@babel/runtime/helpers/extends";
+-import { useEffect } from 'react';
++import { useLayoutEffect } from 'react';
+ import { useSymbolsDispatch } from "../store/Symbols.js";
+ import { useTypesDispatch } from "../store/Types.js";
+ import { useSectionDispatch } from "../store/Section.js";
+@@ -11,7 +11,7 @@ export function useSymbolsRender(currentProps, props, key) {
+     style: _extends({}, currentProps.style, props.style),
+     children: props.children || currentProps.children
+   });
+-  useEffect(() => dispatch({
++  useLayoutEffect(() => dispatch({
+     [key]: reset
+   }), [props]);
+ }
+@@ -23,7 +23,7 @@ export function useTypesRender(currentProps, props, key) {
+     style: _extends({}, currentProps.style, props.style),
+     children: props.children || currentProps.children
+   });
+-  useEffect(() => dispatch({
++  useLayoutEffect(() => dispatch({
+     [key]: reset
+   }), [props]);
+ }
+@@ -35,7 +35,7 @@ export function useSectionRender(currentProps, props, key) {
+     style: _extends({}, currentProps.style, props.style),
+     children: props.children || currentProps.children
+   });
+-  useEffect(() => dispatch({
++  useLayoutEffect(() => dispatch({
+     [key]: reset
+   }), [props]);
+ }
+\ No newline at end of file

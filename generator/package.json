@@ -9,6 +9,7 @@
 		"frontend"
 	],
 	"scripts": {
+		"postinstall": "patch-package",
 		"build": "npm run build --workspace dataset && npm run build --workspace converter && npm run build --workspace frontend",
 		"dataset:check": "npm run check --workspace dataset",
 		"dataset:doctor": "npm run doctor --workspace dataset",
@@ -23,6 +24,7 @@
 		"eslint": "^10.1.0",
 		"eslint-config-prettier": "^10.1.8",
 		"globals": "^17.4.0",
+		"patch-package": "^8.0.1",
 		"prettier": "^3.8.1",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
