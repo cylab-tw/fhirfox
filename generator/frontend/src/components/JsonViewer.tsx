@@ -162,18 +162,14 @@ export function JsonViewer({
 		}
 
 		const updateLineNumbers = () => {
-			const measuredElement = contentRoot.querySelector('.w-rjv') ?? contentRoot.querySelector('pre') ?? contentRoot;
-			const computedStyle = window.getComputedStyle(measuredElement);
-			const lineHeight = Number.parseFloat(computedStyle.lineHeight);
-			const paddingTop = Number.parseFloat(computedStyle.paddingTop) || 0;
-			const paddingBottom = Number.parseFloat(computedStyle.paddingBottom) || 0;
-			const contentHeight = Math.max(
-				measuredElement.getBoundingClientRect().height - paddingTop - paddingBottom,
-				lineHeight || 0,
-			);
-			const lineRatio = lineHeight > 0 ? contentHeight / lineHeight : content.split('\n').length;
-			const totalLines =
-				lineHeight > 0 ? Math.max(1, Math.ceil(lineRatio - 0.08)) : Math.max(1, content.split('\n').length);
+			const jsonRoot = contentRoot.querySelector('.w-rjv');
+			if (jsonRoot) {
+				syncInteractiveCursors(jsonRoot);
+				syncRenderedJsonCommas(jsonRoot);
+			}
+			const totalLines = jsonRoot
+				? Math.max(1, collectRenderedJsonLines(jsonRoot).length)
+				: Math.max(1, content.split('\n').length);
 			setLineNumbers((current) =>
 				current.length === totalLines ? current : Array.from({ length: totalLines }, (_, index) => index + 1),
 			);
@@ -310,10 +306,10 @@ export function JsonViewer({
 																	onSourceResourceSelect(sourceResourceKey);
 																}}
 																data-json-annotation="true"
-																className="ml-2 inline select-none cursor-pointer text-[12px] font-normal leading-5 text-slate-600/95 underline decoration-slate-500/35 underline-offset-2 transition hover:text-slate-800 hover:decoration-slate-700/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+																className="ml-2 inline select-none italic cursor-pointer text-[12px] font-normal leading-5 text-slate-600/95 underline decoration-slate-500/35 underline-offset-2 transition hover:text-slate-800 hover:decoration-slate-700/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
 																title={`查看 ${sourceResourceKey}`}
 															>
-																查看資源
+																{formatSourceResourceKeyAnnotation(sourceResourceKey)}
 															</button>
 														) : sourceResourceKey ? (
 															<span
@@ -479,6 +475,84 @@ interface TooltipState {
 interface RenderedJsonLine {
 	element: HTMLElement;
 	text: string;
+}
+
+function syncInteractiveCursors(root: Element) {
+	for (const element of root.querySelectorAll('[data-json-generated-cursor="true"]')) {
+		element.classList.remove('cursor-pointer');
+		element.removeAttribute('data-json-generated-cursor');
+	}
+
+	for (const arrow of root.querySelectorAll('.w-rjv-arrow')) {
+		arrow.classList.add('cursor-pointer');
+		arrow.setAttribute('data-json-generated-cursor', 'true');
+	}
+
+	for (const element of root.querySelectorAll('.w-rjv-inner > span')) {
+		if (!(element instanceof HTMLElement)) {
+			continue;
+		}
+
+		if (!element.querySelector('.w-rjv-arrow')) {
+			continue;
+		}
+
+		element.classList.add('cursor-pointer');
+		element.setAttribute('data-json-generated-cursor', 'true');
+	}
+}
+
+function syncRenderedJsonCommas(root: Element) {
+	for (const comma of root.querySelectorAll('[data-json-generated-comma="true"]')) {
+		comma.remove();
+	}
+
+	for (const element of root.querySelectorAll('.w-rjv-inner')) {
+		if (!(element instanceof HTMLElement) || !hasTrailingRenderedSibling(element)) {
+			continue;
+		}
+
+		const commaTarget = findTrailingCommaTarget(element);
+		if (!commaTarget) {
+			continue;
+		}
+
+		const comma = document.createElement('span');
+		comma.dataset.jsonGeneratedComma = 'true';
+		comma.className = 'text-slate-400';
+		comma.textContent = ',';
+		commaTarget.appendChild(comma);
+	}
+}
+
+function hasTrailingRenderedSibling(element: HTMLElement): boolean {
+	const wrap = element.parentElement;
+
+	if (!wrap?.classList.contains('w-rjv-wrap')) {
+		return false;
+	}
+
+	const renderedSiblings = Array.from(wrap.children).filter(
+		(child) => child.classList.contains('w-rjv-line') || child.classList.contains('w-rjv-inner'),
+	);
+
+	return renderedSiblings[renderedSiblings.length - 1] !== element;
+}
+
+function findTrailingCommaTarget(element: HTMLElement): HTMLElement | null {
+	const children = Array.from(element.children);
+	const openElement = children[0];
+	const closeElement = children[2];
+
+	if (closeElement instanceof HTMLElement && isRenderedElementVisible(closeElement)) {
+		return closeElement;
+	}
+
+	return openElement instanceof HTMLElement ? openElement : null;
+}
+
+function isRenderedElementVisible(element: HTMLElement): boolean {
+	return element.getClientRects().length > 0 && window.getComputedStyle(element).display !== 'none';
 }
 
 function collectRenderedJsonLines(root: Element): RenderedJsonLine[] {

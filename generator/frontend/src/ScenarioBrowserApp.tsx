@@ -111,7 +111,7 @@ export default function ScenarioBrowserApp() {
 		onScenarioChange: handleScenarioChange,
 		onResourceTypeSelect: handleSourceResourceJump,
 		resourceSelectionEnabled: canJumpToResource,
-		activeResourceType,
+		activeResourceType: isResourceMode ? activeResourceType : null,
 	};
 	const previewPanelProps = {
 		scenarioId: selectedScenario?.id,
