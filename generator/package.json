@@ -9,7 +9,7 @@
 		"frontend"
 	],
 	"scripts": {
-		"build": "npm run build --workspaces --if-present",
+		"build": "npm run build --workspace dataset && npm run build --workspace converter && npm run build --workspace frontend",
 		"dataset:check": "npm run check --workspace dataset",
 		"dataset:doctor": "npm run doctor --workspace dataset",
 		"typecheck": "npm run typecheck --workspaces --if-present",

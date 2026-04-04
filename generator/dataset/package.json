@@ -14,7 +14,7 @@
 		}
 	},
 	"scripts": {
-		"build": "tsc -b tsconfig.json",
+		"build": "tsc -p tsconfig.json",
 		"check": "node --import tsx src/authoring/cli.ts check",
 		"doctor": "node --import tsx src/authoring/cli.ts doctor",
 		"typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",

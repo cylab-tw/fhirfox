@@ -8,6 +8,7 @@ import type {
 	SourceCodeDisplayMap,
 	SourceFieldDocRecord,
 } from '../src/contracts.js';
+import type { IndexedResource as FrontendIndexedResource } from '../src/source-resource-bridge.js';
 import type { ResourceLink as DatasetResourceLink, Resource } from '../../dataset/src/index.ts';
 import type { SourceResource } from '@fhirfox/converter/browser';
 
@@ -23,10 +24,7 @@ export type {
 	SourceFieldDocRecord,
 };
 
-export interface IndexedResource extends Resource {
-	__sourceRecord: SourceResource;
-	__resourceType: string;
-}
+export type IndexedResource = FrontendIndexedResource & Resource & { __sourceRecord: SourceResource };
 
 export interface GeneratedAssetSet {
 	manifest: AppManifest;
