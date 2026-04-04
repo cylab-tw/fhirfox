@@ -10,6 +10,6 @@
 	"encounterId": "3",
 	"recordedDate": "2026-05-20T19:20:00+08:00",
 	"recorderId": "1",
-	"recorderType": "practitioner",
+	"recorderType": "practitionerrole",
 	"note": "主訴腰痛一週，久坐後加劇。"
 }

@@ -7,7 +7,7 @@
 	"encounterId": "1",
 	"effectiveDate": "2026-03-30T09:06:00+08:00",
 	"performerId": "1",
-	"performerType": "practitioner",
+	"performerType": "practitionerrole",
 	"valueQuantity": 37.8,
 	"valueUnit": "Cel",
 	"rangeLow": 36.0,

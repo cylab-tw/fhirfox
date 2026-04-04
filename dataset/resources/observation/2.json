@@ -7,7 +7,7 @@
 	"encounterId": "4",
 	"effectiveDate": "2026-03-30T10:06:00+08:00",
 	"performerId": "2",
-	"performerType": "practitioner",
+	"performerType": "practitionerrole",
 	"valueQuantity": 22.4,
 	"valueUnit": "kg"
 }

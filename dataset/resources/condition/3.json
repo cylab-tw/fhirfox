@@ -10,6 +10,6 @@
 	"encounterId": "2",
 	"recordedDate": "2026-04-12T15:12:00+08:00",
 	"recorderId": "1",
-	"recorderType": "practitioner",
+	"recorderType": "practitionerrole",
 	"note": "主訴胸悶 2 天。"
 }

@@ -11,7 +11,7 @@
 	"onsetDate": "2024-11-03T08:00:00+08:00",
 	"recordedDate": "2026-03-30T09:10:00+08:00",
 	"recorderId": "1",
-	"recorderType": "practitioner",
+	"recorderType": "practitionerrole",
 	"note": "Patient reports rash after penicillin.",
 	"reactionSubstance": "70618",
 	"manifestation": "247472004",

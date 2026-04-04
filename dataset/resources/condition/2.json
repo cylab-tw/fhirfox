@@ -10,6 +10,6 @@
 	"encounterId": "4",
 	"recordedDate": "2026-03-30T10:05:00+08:00",
 	"recorderId": "2",
-	"recorderType": "practitioner",
+	"recorderType": "practitionerrole",
 	"note": "主訴發燒、咳嗽。"
 }

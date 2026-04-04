@@ -8,7 +8,7 @@
 	"encounterId": "7",
 	"performedDate": "2026-03-24T12:10:00+08:00",
 	"performerId": "4",
-	"performerType": "practitioner",
+	"performerType": "practitionerrole",
 	"performerFunction": "Perf-0001",
 	"reasonCode": "Cond-018",
 	"outcome": "385669000"
