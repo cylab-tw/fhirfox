@@ -64,4 +64,9 @@
 	*::-webkit-scrollbar-thumb:hover {
 		background-color: rgba(100, 116, 139, 0.82);
 	}
+
+	.w-rjv .w-rjv-arrow,
+	.w-rjv .w-rjv-inner > span:has(.w-rjv-arrow) {
+		cursor: pointer;
+	}
 }
