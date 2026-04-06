@@ -165,7 +165,7 @@ function ScenarioSelectControl({
 					value={selectedScenarioId}
 					onChange={(event) => onScenarioChange(event.target.value)}
 					title={`${selectedScenarioId} - ${selectedScenarioLabel}`}
-					className="w-full appearance-none truncate rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 pr-11 text-[15px] font-medium text-slate-800 outline-none transition focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
+					className="w-full appearance-none truncate rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 pr-11 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
 				>
 					{scenarios.length === 0 ? <option value="">No scenarios available</option> : null}
 					{scenariosByLevel.map(({ definition, scenarios: groupedScenarios }) => (
@@ -246,8 +246,8 @@ function ScenarioSummary({
 	return (
 		<div className="grid gap-3.5">
 			<div className="min-w-0">
-				<h3 className="text-[22px] font-semibold leading-tight text-slate-950">{selectedScenario.displayName}</h3>
-				<p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{selectedScenario.id}</p>
+				<h3 className="text-[22px] leading-tight font-semibold text-slate-950">{selectedScenario.displayName}</h3>
+				<p className="mt-1 text-xs font-semibold tracking-[0.16em] text-slate-500 uppercase">{selectedScenario.id}</p>
 			</div>
 			<div className="flex flex-wrap gap-2">
 				{levelLabel ? <LevelInfoTrigger levelLabel={levelLabel} onClick={onLevelInfoOpen} /> : null}
@@ -269,7 +269,7 @@ function LevelInfoTrigger({ levelLabel, onClick }: { levelLabel: string; onClick
 			onClick={onClick}
 			aria-label="查看測試情境分級說明"
 			title="查看測試情境分級說明"
-			className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100"
+			className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-900 focus-visible:ring-4 focus-visible:ring-sky-100 focus-visible:outline-none"
 		>
 			<span>{levelLabel}</span>
 			<span className="inline-flex h-4.5 w-4.5 items-center justify-center rounded-full text-slate-500">
@@ -322,7 +322,7 @@ function ScenarioWarnings({ selectedScenarioResult }: Pick<ScenarioPanelProps, '
 
 function ScenarioDetails({ selectedScenario }: { selectedScenario: ScenarioRecord }) {
 	return (
-		<div className="prose prose-slate max-w-none text-[15px] leading-7 text-slate-600 prose-headings:mb-2 prose-headings:mt-6 prose-p:my-0 prose-ul:my-2.5 prose-ol:my-2.5 prose-li:my-1.5 prose-strong:text-slate-800 prose-a:text-sky-700">
+		<div className="prose max-w-none text-[15px] leading-7 text-slate-600 prose-slate prose-headings:mt-6 prose-headings:mb-2 prose-p:my-0 prose-a:text-sky-700 prose-strong:text-slate-800 prose-ol:my-2.5 prose-ul:my-2.5 prose-li:my-1.5">
 			<ReactMarkdown>{selectedScenario.details ?? ''}</ReactMarkdown>
 		</div>
 	);
@@ -431,7 +431,7 @@ function LevelDefinitionsModal({
 					<button
 						type="button"
 						onClick={onClose}
-						className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100"
+						className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-800 focus-visible:ring-4 focus-visible:ring-sky-100 focus-visible:outline-none"
 						aria-label="Close level definitions"
 					>
 						<Icon icon={closeIcon} className="h-4 w-4" />
@@ -474,7 +474,7 @@ function LevelDefinitionRow({ definition, isActive }: { definition: ScenarioLeve
 					<div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
 						<h3
 							className={[
-								'text-[19px] font-semibold leading-tight',
+								'text-[19px] leading-tight font-semibold',
 								isActive ? 'text-slate-950' : 'text-slate-900',
 							].join(' ')}
 						>
@@ -557,7 +557,7 @@ function ResourceCoverageTreeNode({
 		<div className="grid gap-2">
 			<div className={`relative flex items-center ${isChild ? 'pl-6' : ''}`}>
 				{isChild ? (
-					<span className="absolute left-0 top-[1px] h-4 w-4 rounded-bl-[10px] border-b-[1.5px] border-l-[1.5px] border-slate-300" />
+					<span className="absolute top-[1px] left-0 h-4 w-4 rounded-bl-[10px] border-b-[1.5px] border-l-[1.5px] border-slate-300" />
 				) : null}
 				<ResourceTreeNodeChip
 					resourceType={node.resourceType}
@@ -629,7 +629,7 @@ function ResourceTreeNodeChip({
 			type="button"
 			onClick={onClick}
 			data-resource-jump-trigger="true"
-			className={`${className} hover:-translate-y-0.5 hover:border-sky-200 hover:text-sky-900 hover:shadow-[0_8px_18px_rgba(186,230,253,0.22)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100`}
+			className={`${className} hover:-translate-y-0.5 hover:border-sky-200 hover:text-sky-900 hover:shadow-[0_8px_18px_rgba(186,230,253,0.22)] focus-visible:ring-4 focus-visible:ring-sky-100 focus-visible:outline-none`}
 		>
 			{content}
 		</button>

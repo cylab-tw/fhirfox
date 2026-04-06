@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import chevronLeft from '@iconify-icons/mdi/chevron-left';
 
-import { JsonViewer } from './JsonViewer.js';
+import { JsonViewer } from './json-viewer/JsonViewer.js';
+import { createScenarioBrowserJsonViewerExtensionsForValue } from '../helpers/scenario-browser/json-viewer-adapter.js';
 import { formatSourceResourceType } from '../lib/source-resource-display.js';
 
 import type {
@@ -177,11 +178,14 @@ export function ResourcePreview({
 										<div className="min-h-0">
 											<JsonViewer
 												value={resource.resource}
-												sourceFieldDocs={sourceFieldDocs}
-												sourceCodeDisplayMap={sourceCodeDisplayMap}
-												docsEnabled={docsEnabled}
-												showCodeDisplayValues={showCodeDisplayValues}
-												onSourceResourceSelect={onSourceResourceSelect}
+												extensions={createScenarioBrowserJsonViewerExtensionsForValue({
+													value: resource.resource,
+													sourceFieldDocs,
+													sourceCodeDisplayMap,
+													docsEnabled,
+													showCodeDisplayValues,
+													onSourceResourceSelect,
+												})}
 												className="rounded-none border-0 shadow-none"
 											/>
 										</div>

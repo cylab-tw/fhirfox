@@ -8,8 +8,8 @@ import type {
 	SourceCodeDisplayMap,
 	SourceFieldDocRecord,
 } from '../src/contracts.js';
-import type { IndexedResource as FrontendIndexedResource } from '../src/source-resource-bridge.js';
 import type { ResourceLink as DatasetResourceLink, Resource } from '../../dataset/src/index.ts';
+import type { IndexedResource as FrontendIndexedResource } from '../src/source-resource-bridge.js';
 import type { SourceResource } from '@fhirfox/converter/browser';
 
 export type {

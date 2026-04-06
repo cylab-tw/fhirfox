@@ -1,6 +1,9 @@
-import { JsonViewer } from './JsonViewer.js';
+import { useMemo } from 'react';
+
+import { JsonViewer } from './json-viewer/JsonViewer.js';
 import { ResourcePreview } from './ResourcePreview.js';
 import { StatusCard } from './StatusCard.js';
+import { createScenarioBrowserJsonViewerExtensionsForValue } from '../helpers/scenario-browser/json-viewer-adapter.js';
 
 import type {
 	PreviewResourceItem,
@@ -52,6 +55,17 @@ export function ScenarioPreviewContent({
 	emptyPreviewMessage,
 }: ScenarioPreviewContentProps) {
 	const activePreviewError = scenariosError ?? (isSourceTab ? scenarioError : bundleError) ?? null;
+	const previewOutputExtensions = useMemo(
+		() =>
+			createScenarioBrowserJsonViewerExtensionsForValue({
+				value: previewOutput,
+				sourceFieldDocs,
+				sourceCodeDisplayMap,
+				docsEnabled: previewDocsEnabled,
+				showCodeDisplayValues: isSourceTab,
+			}),
+		[isSourceTab, previewDocsEnabled, previewOutput, sourceCodeDisplayMap, sourceFieldDocs],
+	);
 
 	if (scenariosLoading) {
 		return renderStatusCard('Loading', 'Loading available scenarios.');
@@ -94,17 +108,18 @@ export function ScenarioPreviewContent({
 	return previewOutput ? (
 		<div className="h-full px-6 py-5">
 			<JsonViewer
-				value={previewOutput as Record<string, unknown>}
-				sourceFieldDocs={sourceFieldDocs}
-				sourceCodeDisplayMap={sourceCodeDisplayMap}
-				docsEnabled={previewDocsEnabled}
-				showCodeDisplayValues={isSourceTab}
+				value={isJsonObject(previewOutput) ? previewOutput : undefined}
+				extensions={previewOutputExtensions}
 				className="h-full"
 			/>
 		</div>
 	) : (
 		renderStatusCard('No output', emptyPreviewMessage)
 	);
+}
+
+function isJsonObject(value: unknown): value is Record<string, unknown> {
+	return typeof value === 'object' && value !== null;
 }
 
 function renderStatusCard(title: string, message: string, tone?: 'default' | 'error') {
