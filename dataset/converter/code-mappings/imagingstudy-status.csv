@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+registered,registered,Registered,http://hl7.org/fhir/imagingstudy-status,已登錄,true
+available,available,Available,http://hl7.org/fhir/imagingstudy-status,可用,true
+cancelled,cancelled,Cancelled,http://hl7.org/fhir/imagingstudy-status,已取消,true
+entered-in-error,entered-in-error,Entered in Error,http://hl7.org/fhir/imagingstudy-status,輸入錯誤,true
+unknown,unknown,Unknown,http://hl7.org/fhir/imagingstudy-status,未知,true

@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+LAB,LAB,Laboratory,http://terminology.hl7.org/CodeSystem/v2-0074,實驗室,true
+RAD,RAD,Radiology,http://terminology.hl7.org/CodeSystem/v2-0074,放射影像,true
+PAT,PAT,Pathology,http://terminology.hl7.org/CodeSystem/v2-0074,病理,true

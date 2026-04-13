@@ -46,6 +46,14 @@ properties:
     $ref: "#/$defs/resourceSelection"
   procedure:
     $ref: "#/$defs/resourceSelection"
+  medication:
+    $ref: "#/$defs/resourceSelection"
+  medicationRequest:
+    $ref: "#/$defs/resourceSelection"
+  diagnosticReport:
+    $ref: "#/$defs/resourceSelection"
+  imagingStudy:
+    $ref: "#/$defs/resourceSelection"
 $defs:
   positiveInteger:
     type: integer

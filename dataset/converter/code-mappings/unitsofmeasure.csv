@@ -11,3 +11,11 @@ mm[Hg],mm[Hg],millimeter of mercury,http://unitsofmeasure.org,毫米汞柱 (血�
 /min,/min,per minute,http://unitsofmeasure.org,每分鐘 (心跳/呼吸),true
 kg/m2,kg/m2,kilogram / (meter ^ 2),http://unitsofmeasure.org,BMI單位,true
 m2,m2,square meter,http://unitsofmeasure.org,,true
+mg,mg,milligram,http://unitsofmeasure.org,毫克,true
+g,g,gram,http://unitsofmeasure.org,公克,true
+mL,mL,milliliter,http://unitsofmeasure.org,毫升,true
+d,d,day,http://unitsofmeasure.org,天,true
+mg/dL,mg/dL,milligram per deciliter,http://unitsofmeasure.org,毫克/分升,true
+ng/mL,ng/mL,nanogram per milliliter,http://unitsofmeasure.org,奈克/毫升,true
+10*3/uL,10*3/uL,thousand per microliter,http://unitsofmeasure.org,千/微升,true
+{score},{score},score,http://unitsofmeasure.org,分數,true

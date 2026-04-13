@@ -16,3 +16,9 @@ VS-0014,2901213,Head Occipital-frontal circumference,http://loinc.org,頭圍,tru
 VS-0015,2333537,Head Occipital-frontal circumference Percentile,http://loinc.org,頭圍百分位數,true
 VS-0016,59576-9,Body mass index (BMI) [Percentile] Per age and sex,http://loinc.org,BMI百分位數 (依年齡性別),true
 VS-0017,77606-2,Weight-for-length Per age and sex,http://loinc.org,身高體重比 (依年齡性別),true
+LAB-0001,6690-2,Leukocytes [#/volume] in Blood by Automated count,http://loinc.org,白血球計數 (CBC),true
+LAB-0002,2339-0,Glucose [Mass/volume] in Blood,http://loinc.org,血糖,true
+LAB-0003,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液檢查,true
+LAB-0004,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素 HbA1c,true
+LAB-0005,89579-7,Troponin I.cardiac [Mass/volume] in Serum or Plasma by High sensitivity method,http://loinc.org,高敏感度 Troponin I,true
+LAB-0006,33728-7,Pathology report final diagnosis Narrative,http://loinc.org,病理最終診斷,true

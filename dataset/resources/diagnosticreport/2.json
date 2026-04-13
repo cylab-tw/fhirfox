@@ -1,0 +1,14 @@
+{
+	"id": "2",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "DR-0002",
+	"patientId": "2",
+	"encounterId": "4",
+	"effectiveDate": "2026-03-30T10:28:00+08:00",
+	"issued": "2026-03-30T11:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "9",
+	"conclusion": "Urinalysis does not show clear urinary tract infection pattern."
+}

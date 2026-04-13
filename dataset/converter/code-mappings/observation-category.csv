@@ -1,2 +1,3 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 vital-signs,vital-signs,Vital Signs,http://terminology.hl7.org/CodeSystem/observation-category,生命體徵,true
+laboratory,laboratory,Laboratory,http://terminology.hl7.org/CodeSystem/observation-category,實驗室檢驗,true

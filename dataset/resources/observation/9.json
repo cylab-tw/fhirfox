@@ -1,0 +1,15 @@
+{
+	"id": "9",
+	"status": "final",
+	"categoryCode": "laboratory",
+	"observationCode": "LAB-0003",
+	"patientId": "2",
+	"encounterId": "4",
+	"effectiveDate": "2026-03-30T10:28:00+08:00",
+	"performerId": "2",
+	"performerType": "practitionerrole",
+	"valueQuantity": 1,
+	"valueUnit": "{score}",
+	"rangeLow": 0,
+	"rangeHigh": 1
+}

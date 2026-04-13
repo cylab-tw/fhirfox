@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-OPD-008
+name: 小兒門診（退燒藥與尿液檢查）
+level: 3
+type: outpatient
+summary: 小兒發燒門診，整合體溫、CBC、尿液檢查與小兒退燒藥處方。
+details: |
+  此情境用於驗證小兒用藥與檢驗報告整合能力，特別是兒科劑量需以體重與 mg/kg 邏輯呈現。
+
+  - 小兒發燒門診
+  - 包含 CBC 與尿液檢查
+  - 開立退燒藥，劑量文字標示 mg/kg
+  - 適合檢查小兒用藥劑量差異
+
+selection:
+  strategy: best-match
+  maxSeeds: 2
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+medicationRequest:
+  id: "2"
+
+diagnosticReport:
+  id: "2"

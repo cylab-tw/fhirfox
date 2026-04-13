@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-OPD-005
+name: 小兒門診（發燒與基本檢驗）
+level: 2
+type: outpatient
+summary: 小兒門診發燒情境，加入體溫、體重、CBC 與尿液檢查，驗證兒科檢驗資料的結構化表達。
+details: |
+  此情境延續小兒門診基本案例，聚焦於發燒兒童常見的生命徵象與基本實驗室檢查。
+
+  - 12 歲以下小兒門診
+  - 包含體溫（Temp）、體重與 CBC
+  - 加入尿液檢查結果以支援基本感染評估
+  - 可搭配過敏資料檢查兒科資料完整性
+
+selection:
+  strategy: best-match
+  maxSeeds: 2
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+observation:
+  - observationCode: VS-0005
+    encounterId: "4"
+  - observationCode: LAB-0001
+    encounterId: "4"

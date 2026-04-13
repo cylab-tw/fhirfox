@@ -1,0 +1,15 @@
+{
+	"id": "4",
+	"status": "completed",
+	"category": "387713003",
+	"procedureCode": "Proc-0119",
+	"procedureText": "頭部傷口換藥",
+	"patientId": "3",
+	"encounterId": "6",
+	"performedDate": "2026-04-18T19:20:00+08:00",
+	"performerId": "3",
+	"performerType": "practitionerrole",
+	"performerFunction": "Perf-0007",
+	"reasonCode": "Cond-087",
+	"outcome": "385669000"
+}

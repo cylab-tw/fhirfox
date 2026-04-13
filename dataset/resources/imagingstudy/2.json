@@ -1,0 +1,11 @@
+{
+	"id": "2",
+	"status": "available",
+	"modalityCode": "DX",
+	"patientId": "3",
+	"encounterId": "7",
+	"started": "2026-03-24T12:10:00+08:00",
+	"numberOfSeries": 1,
+	"numberOfInstances": 1,
+	"studyDescription": "住院胸部 X 光追蹤"
+}

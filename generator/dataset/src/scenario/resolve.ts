@@ -44,7 +44,7 @@ export async function resolveScenario(provider: DatasetProvider, scenario: Scena
 	const expandedResources =
 		scenario.selection?.expandLinks === false
 			? selectedSeeds
-			: await buildClinicalScope(provider, selectedSeeds, links, warningSet, scenario.selection);
+			: await buildClinicalScope(provider, selectedSeeds, links, warningSet, scenario);
 	const groupedResources = groupResources(expandedResources);
 	const warnings = [...warningSet];
 
@@ -79,12 +79,13 @@ async function buildClinicalScope(
 	seeds: Resource[],
 	links: ResourceLinks,
 	warnings: Set<string>,
-	selection?: ScenarioSelection,
+	scenario: Scenario,
 ): Promise<Resource[]> {
 	const matchLinkTargetTypes = createLinkTargetMatcher(provider);
 	const scoped = new Map<string, Resource>();
 	addResources(scoped, seeds);
 
+	const selection = scenario.selection;
 	const allowedPatientIds = [...new Set(selectPatientIds(seeds, selection?.maxPatients ?? 1, selection?.strategy))];
 
 	const encounterIds = await resolveEncounterScope(
@@ -116,12 +117,17 @@ async function buildClinicalScope(
 		limitedEncounterIds,
 		warnings,
 		matchLinkTargetTypes,
+		getClinicalResourceTypes(scenario),
 	);
 	addResources(scoped, clinicalResources);
 
+	const medicationIds = collectIds(clinicalResources, ['medicationId']);
+	const medicationResources = await loadByIds(provider, 'medication', medicationIds);
+	addResources(scoped, medicationResources);
+
 	const practitionerIds = new Set<string>([
 		...collectIds(encounterResources, ['practitionerId']),
-		...collectIds(clinicalResources, ['recorderId', 'performerId']),
+		...collectIds(clinicalResources, ['recorderId', 'performerId', 'requesterId']),
 	]);
 	const practitionerResources = await loadByIds(provider, 'practitioner', [...practitionerIds]);
 	addResources(scoped, practitionerResources);
@@ -188,14 +194,20 @@ function getSeedPriority(resourceType: Resource['type']): number {
 			return 1;
 		case 'observation':
 			return 2;
-		case 'allergyintolerance':
+		case 'diagnosticreport':
 			return 3;
-		case 'encounter':
+		case 'medicationrequest':
 			return 4;
-		case 'patient':
+		case 'imagingstudy':
 			return 5;
-		default:
+		case 'allergyintolerance':
 			return 6;
+		case 'encounter':
+			return 7;
+		case 'patient':
+			return 8;
+		default:
+			return 9;
 	}
 }
 
@@ -317,6 +329,44 @@ function applyEncounterLimit(encounterIds: string[], maxLinkedEncounters: number
 	return [...encounterIds].sort((left, right) => left.localeCompare(right)).slice(0, maxLinkedEncounters);
 }
 
+function getClinicalResourceTypes(scenario: Scenario): ResourceType[] {
+	if (scenario.level === undefined) {
+		return [
+			'condition',
+			'allergyintolerance',
+			'observation',
+			'procedure',
+			'diagnosticreport',
+			'medicationrequest',
+			'imagingstudy',
+		];
+	}
+
+	const types = new Set<ResourceType>(['condition', 'allergyintolerance']);
+	const level = scenario.level;
+
+	if (level >= 2 || 'observation' in scenario.resources) {
+		types.add('observation');
+	}
+
+	if (level >= 2 || 'procedure' in scenario.resources) {
+		types.add('procedure');
+	}
+
+	if (
+		level >= 3 ||
+		'diagnosticreport' in scenario.resources ||
+		'medicationrequest' in scenario.resources ||
+		'imagingstudy' in scenario.resources
+	) {
+		types.add('diagnosticreport');
+		types.add('medicationrequest');
+		types.add('imagingstudy');
+	}
+
+	return [...types];
+}
+
 async function loadClinicalResources(
 	provider: DatasetProvider,
 	links: ResourceLinks,
@@ -324,8 +374,8 @@ async function loadClinicalResources(
 	allowedEncounterIds: string[],
 	warnings: Set<string>,
 	matchLinkTargetTypes: LinkTargetMatcher,
+	clinicalTypes: ResourceType[],
 ): Promise<Resource[]> {
-	const clinicalTypes: ResourceType[] = ['condition', 'allergyintolerance', 'observation', 'procedure'];
 	const results: Resource[] = [];
 
 	for (const resourceType of clinicalTypes) {

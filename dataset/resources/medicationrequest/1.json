@@ -1,0 +1,20 @@
+{
+	"id": "1",
+	"status": "active",
+	"intent": "order",
+	"medicationId": "1",
+	"patientId": "1",
+	"encounterId": "1",
+	"authoredOn": "2026-03-30T09:18:00+08:00",
+	"requesterId": "1",
+	"requesterType": "practitionerrole",
+	"reasonReferenceId": "1",
+	"dosageText": "Acetaminophen 500 mg by mouth every 6 hours as needed for fever.",
+	"doseValue": 500,
+	"doseUnit": "mg",
+	"frequency": 4,
+	"period": 1,
+	"periodUnit": "d",
+	"durationValue": 3,
+	"durationUnit": "d"
+}

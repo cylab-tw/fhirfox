@@ -1,0 +1,15 @@
+{
+	"id": "8",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "problem-list-item",
+	"severity": "6736007",
+	"conditionCode": "Cond-029",
+	"conditionText": "高血壓追蹤",
+	"patientId": "1",
+	"encounterId": "3",
+	"recordedDate": "2026-05-20T19:18:00+08:00",
+	"recorderId": "1",
+	"recorderType": "practitionerrole",
+	"note": "血壓偏高，持續門診追蹤。"
+}

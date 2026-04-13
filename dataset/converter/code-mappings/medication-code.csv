@@ -1,0 +1,9 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+MED-0001,N02BE01,Paracetamol,https://www.whocc.no/atc,Acetaminophen 500 mg,true
+MED-0002,N02BE01,Paracetamol,https://www.whocc.no/atc,小兒 Acetaminophen syrup,true
+MED-0003,C08CA01,Amlodipine,https://www.whocc.no/atc,Amlodipine 5 mg,true
+MED-0004,A10BA02,Metformin,https://www.whocc.no/atc,Metformin 500 mg,true
+MED-0005,B01AC06,Acetylsalicylic acid,https://www.whocc.no/atc,Aspirin 100 mg,true
+MED-0006,J01DD04,Ceftriaxone,https://www.whocc.no/atc,Ceftriaxone injection 1 g,true
+MED-0007,B05BB01,Electrolytes,https://www.whocc.no/atc,Normal saline 0.9%,true
+MED-0008,M01AE01,Ibuprofen,https://www.whocc.no/atc,Ibuprofen 400 mg,true

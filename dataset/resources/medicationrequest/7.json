@@ -1,0 +1,20 @@
+{
+	"id": "7",
+	"status": "active",
+	"intent": "order",
+	"medicationId": "7",
+	"patientId": "3",
+	"encounterId": "7",
+	"authoredOn": "2026-03-24T11:35:00+08:00",
+	"requesterId": "4",
+	"requesterType": "practitionerrole",
+	"reasonReferenceId": "7",
+	"dosageText": "Normal saline 0.9% IV infusion 500 mL once daily as clinically indicated.",
+	"doseValue": 500,
+	"doseUnit": "mL",
+	"frequency": 1,
+	"period": 1,
+	"periodUnit": "d",
+	"durationValue": 3,
+	"durationUnit": "d"
+}

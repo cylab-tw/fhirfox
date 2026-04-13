@@ -1,0 +1,9 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+proposal,proposal,Proposal,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,提議,true
+plan,plan,Plan,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,計畫,true
+order,order,Order,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,醫囑,true
+original-order,original-order,Original Order,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,原始醫囑,true
+reflex-order,reflex-order,Reflex Order,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,反射醫囑,true
+filler-order,filler-order,Filler Order,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,執行端醫囑,true
+instance-order,instance-order,Instance Order,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,實例醫囑,true
+option,option,Option,http://hl7.org/fhir/CodeSystem/medicationrequest-intent,選項,true

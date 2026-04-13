@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+DR-0001,58410-2,Complete blood count (hemogram) panel - Blood by Automated count,http://loinc.org,CBC 報告,true
+DR-0002,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液檢查報告,true
+DR-0003,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,HbA1c 報告,true
+DR-0004,30746-2,Chest X-ray panel,http://loinc.org,胸部 X 光報告,true
+DR-0005,60568-3,Pathology Synoptic report,http://loinc.org,病理報告,true

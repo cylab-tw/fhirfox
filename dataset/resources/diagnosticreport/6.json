@@ -1,0 +1,14 @@
+{
+	"id": "6",
+	"status": "final",
+	"categoryCode": "PAT",
+	"reportCode": "DR-0005",
+	"patientId": "3",
+	"encounterId": "7",
+	"effectiveDate": "2026-03-27T10:30:00+08:00",
+	"issued": "2026-03-28T09:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "20",
+	"conclusion": "Biopsy specimen shows inflammatory change without malignant cells."
+}

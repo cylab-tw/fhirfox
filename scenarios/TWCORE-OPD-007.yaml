@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-OPD-007
+name: 一般門診（感冒用藥與 CBC）
+level: 3
+type: outpatient
+summary: 成人感冒門診，整合生命徵象、CBC、DiagnosticReport 與感冒藥處方。
+details: |
+  此情境在 Level 2 成人門診基礎上加入用藥與檢驗報告，驗證處方與檢查結果能否在同一次門診事件中完整串接。
+
+  - 感冒/上呼吸道不適
+  - 包含生命徵象、CBC 與檢驗報告
+  - 開立單一感冒藥處方
+  - 驗證 `MedicationRequest.authoredOn`、劑量、頻率與用藥天數
+
+selection:
+  strategy: best-match
+  maxSeeds: 2
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+medicationRequest:
+  id: "1"
+
+diagnosticReport:
+  id: "1"

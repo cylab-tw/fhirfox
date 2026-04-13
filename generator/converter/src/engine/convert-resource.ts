@@ -151,10 +151,18 @@ function toFhirReferenceTarget(resourceType: string): string {
 			return 'Condition';
 		case 'device':
 			return 'Device';
+		case 'diagnosticreport':
+			return 'DiagnosticReport';
 		case 'encounter':
 			return 'Encounter';
+		case 'imagingstudy':
+			return 'ImagingStudy';
 		case 'location':
 			return 'Location';
+		case 'medication':
+			return 'Medication';
+		case 'medicationrequest':
+			return 'MedicationRequest';
 		case 'observation':
 			return 'Observation';
 		case 'organization':

@@ -3,7 +3,16 @@ import { readNormalizedSourceResourceType } from '../source-resource.js';
 import type { ConverterRuleSet, FhirResource, GeneratorRuleRow, SourceResource } from '../types.js';
 
 const encounterContextTypeOrder = ['organization', 'practitionerrole', 'practitioner'] as const;
-const clinicalTypeOrder = ['condition', 'allergyintolerance', 'observation', 'procedure'] as const;
+const clinicalTypeOrder = [
+	'condition',
+	'allergyintolerance',
+	'observation',
+	'procedure',
+	'diagnosticreport',
+	'imagingstudy',
+	'medication',
+	'medicationrequest',
+] as const;
 const fallbackTypeOrder = ['patient', 'encounter', ...encounterContextTypeOrder, ...clinicalTypeOrder] as const;
 const fhirTopLevelPrefix = ['resourceType', 'id', 'meta', 'implicitRules', 'language', 'text', 'contained'];
 

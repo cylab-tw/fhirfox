@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+DX,DX,Digital Radiography,http://dicom.nema.org/resources/ontology/DCM,數位 X 光,true
+CT,CT,Computed Tomography,http://dicom.nema.org/resources/ontology/DCM,電腦斷層,true
+MR,MR,Magnetic Resonance,http://dicom.nema.org/resources/ontology/DCM,磁振造影,true

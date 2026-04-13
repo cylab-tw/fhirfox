@@ -1,0 +1,20 @@
+{
+	"id": "3",
+	"status": "active",
+	"intent": "order",
+	"medicationId": "3",
+	"patientId": "1",
+	"encounterId": "3",
+	"authoredOn": "2026-05-20T19:32:00+08:00",
+	"requesterId": "1",
+	"requesterType": "practitionerrole",
+	"reasonReferenceId": "8",
+	"dosageText": "Amlodipine 5 mg by mouth once daily for hypertension follow-up.",
+	"doseValue": 5,
+	"doseUnit": "mg",
+	"frequency": 1,
+	"period": 1,
+	"periodUnit": "d",
+	"durationValue": 28,
+	"durationUnit": "d"
+}

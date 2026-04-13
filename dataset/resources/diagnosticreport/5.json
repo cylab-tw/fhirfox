@@ -1,0 +1,14 @@
+{
+	"id": "5",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "DR-0001",
+	"patientId": "3",
+	"encounterId": "7",
+	"effectiveDate": "2026-03-25T08:30:00+08:00",
+	"issued": "2026-03-25T09:15:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "18",
+	"conclusion": "CBC shows leukocytosis compatible with active infection."
+}

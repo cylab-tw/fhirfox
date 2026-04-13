@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-ER-003
+name: 急診（胸痛用藥與影像報告）
+level: 3
+type: emergency
+summary: 急診胸痛案例，整合 ECG、Troponin、CXR 報告、ImagingStudy 與即時用藥。
+details: |
+  此情境用於驗證急診即時檢驗、影像報告與緊急用藥是否能在同一次急診 Encounter 中完整關聯。
+
+  - 急診胸痛
+  - 包含 Troponin 與 ECG
+  - 加入胸部 X 光 `ImagingStudy` 與 `DiagnosticReport`
+  - 開立急診即時用藥
+
+selection:
+  strategy: best-match
+  maxSeeds: 3
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+medicationRequest:
+  id: "5"
+
+diagnosticReport:
+  id: "4"
+
+imagingStudy:
+  id: "1"

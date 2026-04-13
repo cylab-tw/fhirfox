@@ -1,0 +1,14 @@
+{
+	"id": "10",
+	"status": "final",
+	"categoryCode": "vital-signs",
+	"observationCode": "VS-0008",
+	"patientId": "1",
+	"encounterId": "2",
+	"effectiveDate": "2026-04-12T15:07:00+08:00",
+	"performerId": "1",
+	"performerType": "practitionerrole",
+	"valueUnit": "mm[Hg]",
+	"systolicValue": 142,
+	"diastolicValue": 88
+}

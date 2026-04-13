@@ -1,0 +1,42 @@
+imagingstudy:
+  description: 此情境納入的 ImagingStudy 原始資料。
+  cardinality: 0..*
+  id:
+    description: 影像檢查邏輯 ID。
+    fhirMapping: ImagingStudy.id
+    cardinality: 0..1
+    required: true
+  status:
+    description: 影像檢查狀態。
+    fhirMapping: ImagingStudy.status
+    cardinality: 0..1
+  modalityCode:
+    description: 影像 modality 代碼。
+    fhirMapping: ImagingStudy.modality
+    cardinality: 0..1
+  patientId:
+    description: 病人 ID。
+    fhirMapping: ImagingStudy.subject.reference
+    cardinality: 0..1
+    reference: patient
+  encounterId:
+    description: 就醫事件 ID。
+    fhirMapping: ImagingStudy.encounter.reference
+    cardinality: 0..1
+    reference: encounter
+  started:
+    description: 影像檢查開始時間。
+    fhirMapping: ImagingStudy.started
+    cardinality: 0..1
+  numberOfSeries:
+    description: 影像序列數。
+    fhirMapping: ImagingStudy.numberOfSeries
+    cardinality: 0..1
+  numberOfInstances:
+    description: 影像實例數。
+    fhirMapping: ImagingStudy.numberOfInstances
+    cardinality: 0..1
+  studyDescription:
+    description: 影像檢查描述。
+    fhirMapping: ImagingStudy.description
+    cardinality: 0..1

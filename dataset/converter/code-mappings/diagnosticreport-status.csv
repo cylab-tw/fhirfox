@@ -1,0 +1,9 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+registered,registered,Registered,http://hl7.org/fhir/diagnostic-report-status,已登錄,true
+partial,partial,Partial,http://hl7.org/fhir/diagnostic-report-status,部分完成,true
+preliminary,preliminary,Preliminary,http://hl7.org/fhir/diagnostic-report-status,初步,true
+final,final,Final,http://hl7.org/fhir/diagnostic-report-status,正式,true
+amended,amended,Amended,http://hl7.org/fhir/diagnostic-report-status,已修訂,true
+cancelled,cancelled,Cancelled,http://hl7.org/fhir/diagnostic-report-status,已取消,true
+entered-in-error,entered-in-error,Entered in Error,http://hl7.org/fhir/diagnostic-report-status,輸入錯誤,true
+unknown,unknown,Unknown,http://hl7.org/fhir/diagnostic-report-status,未知,true

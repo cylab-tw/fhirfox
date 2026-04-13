@@ -139,7 +139,11 @@ function compileScenarioResources(document: ScenarioDocument): Record<ResourceTy
 		document.condition !== undefined ||
 		document.procedure !== undefined ||
 		document.observation !== undefined ||
-		document.allergyIntolerance !== undefined;
+		document.allergyIntolerance !== undefined ||
+		document.medication !== undefined ||
+		document.medicationRequest !== undefined ||
+		document.diagnosticReport !== undefined ||
+		document.imagingStudy !== undefined;
 
 	const patientSelection = compilePatientSelection(document.patient, document.encounter);
 
@@ -177,6 +181,30 @@ function compileScenarioResources(document: ScenarioDocument): Record<ResourceTy
 
 	if (procedureSelection) {
 		resources.procedure = procedureSelection;
+	}
+
+	const medicationSelection = compileSelection(document.medication, compileGenericResourceFilter);
+
+	if (medicationSelection) {
+		resources.medication = medicationSelection;
+	}
+
+	const medicationRequestSelection = compileSelection(document.medicationRequest, compileGenericResourceFilter);
+
+	if (medicationRequestSelection) {
+		resources.medicationrequest = medicationRequestSelection;
+	}
+
+	const diagnosticReportSelection = compileSelection(document.diagnosticReport, compileGenericResourceFilter);
+
+	if (diagnosticReportSelection) {
+		resources.diagnosticreport = diagnosticReportSelection;
+	}
+
+	const imagingStudySelection = compileSelection(document.imagingStudy, compileGenericResourceFilter);
+
+	if (imagingStudySelection) {
+		resources.imagingstudy = imagingStudySelection;
 	}
 
 	return resources;
@@ -296,6 +324,10 @@ function compileObservationFilter(input: Dataset): Dataset | undefined {
 }
 
 function compileProcedureFilter(input: Dataset): Dataset | undefined {
+	return Object.keys(input).length > 0 ? { ...input } : undefined;
+}
+
+function compileGenericResourceFilter(input: Dataset): Dataset | undefined {
 	return Object.keys(input).length > 0 ? { ...input } : undefined;
 }
 

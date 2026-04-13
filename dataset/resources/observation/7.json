@@ -1,0 +1,15 @@
+{
+	"id": "7",
+	"status": "final",
+	"categoryCode": "vital-signs",
+	"observationCode": "VS-0005",
+	"patientId": "2",
+	"encounterId": "4",
+	"effectiveDate": "2026-03-30T10:04:00+08:00",
+	"performerId": "2",
+	"performerType": "practitionerrole",
+	"valueQuantity": 38.5,
+	"valueUnit": "Cel",
+	"rangeLow": 36.0,
+	"rangeHigh": 37.5
+}

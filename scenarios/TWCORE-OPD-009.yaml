@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-OPD-009
+name: 同病人多次門診（慢性病用藥）
+level: 3
+type: outpatient
+summary: 同一成人病人的高血壓與糖尿病追蹤，加入 HbA1c、長期處方與 repeat/duration 測試。
+details: |
+  此情境以同一病人的多次門診為範圍，整合慢性病觀察值與長期用藥，支援 repeat、duration 與多重用藥測試。
+
+  - 同一病人多次門診
+  - 包含血壓趨勢、血糖與 HbA1c
+  - 開立高血壓與糖尿病長期用藥
+  - 適合驗證慢性病診斷與用藥關聯
+
+selection:
+  strategy: grouped-by-patient
+  maxSeeds: 2
+  maxPatients: 1
+  maxLinkedEncounters: 3
+  expandLinks: true
+
+medicationRequest:
+  - id: "3"
+  - id: "4"
+
+diagnosticReport:
+  id: "3"

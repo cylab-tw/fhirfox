@@ -1,0 +1,6 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+active,active,Active,http://hl7.org/fhir/CodeSystem/medicationrequest-status,有效,true
+completed,completed,Completed,http://hl7.org/fhir/CodeSystem/medicationrequest-status,已完成,true
+stopped,stopped,Stopped,http://hl7.org/fhir/CodeSystem/medicationrequest-status,已停止,true
+cancelled,cancelled,Cancelled,http://hl7.org/fhir/CodeSystem/medicationrequest-status,已取消,true
+unknown,unknown,Unknown,http://hl7.org/fhir/CodeSystem/medicationrequest-status,未知,true

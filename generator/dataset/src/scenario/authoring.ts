@@ -8,6 +8,10 @@ export const SCENARIO_RESOURCE_KEYS = [
 	'allergyIntolerance',
 	'observation',
 	'procedure',
+	'medication',
+	'medicationRequest',
+	'diagnosticReport',
+	'imagingStudy',
 ] as const;
 
 export const SCENARIO_CANONICAL_METADATA_KEYS = [
@@ -128,6 +132,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	procedure: {
 		keys: [
+			'id',
 			'status',
 			'statusReason',
 			'category',
@@ -143,6 +148,61 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 			'bodySite',
 			'outcome',
 			'complication',
+		],
+	},
+	medication: {
+		keys: ['id', 'code', 'display'],
+	},
+	medicationRequest: {
+		keys: [
+			'id',
+			'status',
+			'intent',
+			'medicationId',
+			'patientId',
+			'encounterId',
+			'authoredOn',
+			'requesterId',
+			'requesterType',
+			'reasonReferenceId',
+			'dosageText',
+			'doseValue',
+			'doseUnit',
+			'frequency',
+			'period',
+			'periodUnit',
+			'durationValue',
+			'durationUnit',
+		],
+	},
+	diagnosticReport: {
+		keys: [
+			'id',
+			'status',
+			'categoryCode',
+			'reportCode',
+			'patientId',
+			'encounterId',
+			'effectiveDate',
+			'issued',
+			'performerId',
+			'performerType',
+			'resultId',
+			'imagingStudyId',
+			'conclusion',
+		],
+	},
+	imagingStudy: {
+		keys: [
+			'id',
+			'status',
+			'modalityCode',
+			'patientId',
+			'encounterId',
+			'started',
+			'numberOfSeries',
+			'numberOfInstances',
+			'studyDescription',
 		],
 	},
 };

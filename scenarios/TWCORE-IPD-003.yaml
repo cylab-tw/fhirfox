@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: TWCORE-IPD-003
+name: 住院（檢驗報告、病理與多重用藥）
+level: 3
+type: inpatient
+summary: 住院案例整合每日生命徵象、Lab panel、病理報告與多重用藥，驗證完整住院流程。
+details: |
+  此情境延續住院案例，加入檢查報告與多重用藥，作為 Level 3 住院端到端流程測試。
+
+  - 住院期間每日 vital signs
+  - 包含 Lab panel 與病理報告
+  - 加入 X-ray / biopsy 相關檢查與報告
+  - 開立 3 至 5 種住院用藥以支援 polypharmacy 測試
+
+selection:
+  strategy: best-match
+  maxSeeds: 4
+  maxPatients: 1
+  maxLinkedEncounters: 1
+  expandLinks: true
+
+medicationRequest:
+  - id: "6"
+  - id: "7"
+  - id: "8"
+
+diagnosticReport:
+  - id: "5"
+  - id: "6"
+
+imagingStudy:
+  id: "2"
