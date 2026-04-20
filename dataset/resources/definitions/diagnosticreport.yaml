@@ -2,42 +2,42 @@ diagnosticreport:
   description: 此情境納入的 DiagnosticReport 原始資料。
   cardinality: 0..*
   id:
-    description: 診斷報告邏輯 ID。
+    description: 邏輯 ID
     fhirMapping: DiagnosticReport.id
     cardinality: 0..1
     required: true
   status:
-    description: 報告狀態。
+    description: 報告狀態
     fhirMapping: DiagnosticReport.status
     cardinality: 0..1
   categoryCode:
-    description: 報告分類。
+    description: 服務類別
     fhirMapping: DiagnosticReport.category
     cardinality: 0..1
   reportCode:
-    description: 報告代碼。
+    description: 報告項目代碼
     fhirMapping: DiagnosticReport.code.coding.code
     cardinality: 0..1
   patientId:
-    description: 病人 ID。
+    description: 病人
     fhirMapping: DiagnosticReport.subject.reference
     cardinality: 0..1
     reference: patient
   encounterId:
-    description: 就醫事件 ID。
+    description: 就醫紀錄
     fhirMapping: DiagnosticReport.encounter.reference
     cardinality: 0..1
     reference: encounter
   effectiveDate:
-    description: 報告對應檢查時間。
+    description: 採檢/執行時間
     fhirMapping: DiagnosticReport.effectiveDateTime
     cardinality: 0..1
   issued:
-    description: 報告發出時間。
+    description: 報告產出時間
     fhirMapping: DiagnosticReport.issued
     cardinality: 0..1
   performerId:
-    description: 報告執行者。
+    description: 報告負責人員
     fhirMapping: DiagnosticReport.performer.reference
     cardinality: 0..1
     reference:
@@ -48,16 +48,16 @@ diagnosticreport:
     description: 執行者資源類型，用於在共用 ID 時判斷 DiagnosticReport.performer.reference 應指向哪種資源。
     cardinality: 0..1
   resultId:
-    description: 主要 Observation 結果 ID。
+    description: 檢驗數值參照
     fhirMapping: DiagnosticReport.result.reference
     cardinality: 0..1
     reference: observation
   imagingStudyId:
-    description: 影像檢查 ID。
+    description: 影像檢查參照
     fhirMapping: DiagnosticReport.imagingStudy.reference
     cardinality: 0..1
     reference: imagingstudy
   conclusion:
-    description: 報告結論。
+    description: 文字結論(解釋)
     fhirMapping: DiagnosticReport.conclusion
     cardinality: 0..1

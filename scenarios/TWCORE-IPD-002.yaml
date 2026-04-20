@@ -1,21 +1,21 @@
 # yaml-language-server: $schema=./schema.yaml
 
 id: TWCORE-IPD-002
-name: 住院（連續檢驗與實驗室檢查）
+name: 住院（生命徵象與實驗室檢查）
 level: 2
 type: inpatient
-summary: 住院肺炎案例，加入每日生命徵象、CBC 與血糖，驗證住院期間連續性 Observation。
+summary: 住院肺炎案例，加入住院期間生命徵象、CBC 與血糖，驗證 Observation 與住院 Encounter 的關聯。
 details: |
-  此情境延續住院案例，加入住院期間連續量測與實驗室檢查，支援檢查住院資料的時間軸與臨床合理性。
+  此情境延續住院案例，加入住院期間量測與實驗室檢查，支援檢查住院資料的時間軸與臨床合理性。
 
   - 3 至 5 天住院期間
-  - 包含每日體溫、呼吸速率與血氧
+  - 包含體溫、呼吸速率與血氧
   - 加入 CBC 與血糖等實驗室檢驗
-  - 適合檢查連續檢驗與 `Encounter.period` 的一致性
+  - 適合檢查檢驗與 `Encounter.period` 的一致性
 
 selection:
   strategy: best-match
-  maxSeeds: 3
+  maxSeeds: 5
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
@@ -23,7 +23,11 @@ selection:
 observation:
   - observationCode: VS-0005
     encounterId: "7"
-  - observationCode: LAB-0001
+  - observationCode: VS-0007
     encounterId: "7"
-  - observationCode: LAB-0002
+  - observationCode: VS-0013
+    encounterId: "7"
+  - observationCode: Lab-0001
+    encounterId: "7"
+  - observationCode: Lab-0007
     encounterId: "7"

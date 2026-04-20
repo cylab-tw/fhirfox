@@ -2,7 +2,7 @@
 	"id": "4",
 	"status": "completed",
 	"category": "387713003",
-	"procedureCode": "Proc-0119",
+	"procedureCode": "Proc-0030",
 	"procedureText": "頭部傷口換藥",
 	"patientId": "3",
 	"encounterId": "6",
@@ -10,6 +10,5 @@
 	"performerId": "3",
 	"performerType": "practitionerrole",
 	"performerFunction": "Perf-0007",
-	"reasonCode": "Cond-087",
 	"outcome": "385669000"
 }

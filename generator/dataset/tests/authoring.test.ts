@@ -6,6 +6,7 @@ import test from 'node:test';
 
 import {
 	SCENARIO_CANONICAL_METADATA_KEYS,
+	SCENARIO_COMMON_FILTER_KEYS,
 	SCENARIO_RANGE_KEYS,
 	SCENARIO_RESOURCE_KEYS,
 	SCENARIO_SELECTION_KEYS,
@@ -200,6 +201,36 @@ test('scenario validation rejects legacy filter alias keys', () => {
 	);
 });
 
+test('scenario validation accepts positive filter limits and rejects invalid limits', () => {
+	assert.deepEqual(
+		validateScenarioDocument({
+			id: 'TWCORE-TEST-004',
+			name: 'Test',
+			type: 'outpatient',
+			observation: {
+				observationCode: 'VS-0008',
+				limit: 1,
+			},
+		}),
+		[],
+	);
+
+	const issues = validateScenarioDocument({
+		id: 'TWCORE-TEST-005',
+		name: 'Test',
+		type: 'outpatient',
+		observation: {
+			observationCode: 'VS-0008',
+			limit: 0,
+		},
+	});
+
+	assert.equal(
+		issues.some((issue) => issue.code === 'scenario.filter.invalidLimit'),
+		true,
+	);
+});
+
 test('scenario schema documents the supported metadata and filter keys', () => {
 	const schemaPath = path.resolve(import.meta.dirname, '../../../scenarios/schema.yaml');
 	const schema = parse(readFileSync(schemaPath, 'utf8')) as {
@@ -214,6 +245,10 @@ test('scenario schema documents the supported metadata and filter keys', () => {
 
 	assert.deepEqual(Object.keys(schema.$defs.selection.properties ?? {}).sort(), [...SCENARIO_SELECTION_KEYS].sort());
 	assert.deepEqual(Object.keys(schema.$defs.range.properties ?? {}).sort(), [...SCENARIO_RANGE_KEYS].sort());
+	assert.deepEqual(
+		Object.keys(schema.$defs.filterObject.properties ?? {}).sort(),
+		[...SCENARIO_COMMON_FILTER_KEYS].sort(),
+	);
 	assert.equal(typeof schema.$defs.filterObject, 'object');
 	assert.equal(typeof schema.$defs.resourceSelection, 'object');
 

@@ -1,24 +1,63 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 VS-0001,85353-1,"Vital signs, weight, height, head circumference, oxygen saturation and BMI panel",http://loinc.org,生命體徵綜合檢驗 (總包),true
-VS-0002,2338315,Body height,http://loinc.org,身高,true
+VS-0002,8302-2,Body height,http://loinc.org,身高,true
 VS-0003,29463-7,Body weight,http://loinc.org,體重,true
 VS-0004,39156-5,Body mass index (BMI) [Ratio],http://loinc.org,身體質量指數 (BMI),true
-VS-0005,2341326,Body temperature,http://loinc.org,體溫,true
-VS-0006,2544737,Heart rate,http://loinc.org,心跳/心率,true
-VS-0007,2695127,Respiratory rate,http://loinc.org,呼吸速率,true
+VS-0005,8310-5,Body temperature,http://loinc.org,體溫,true
+VS-0006,8867-4,Heart rate,http://loinc.org,心跳/心率,true
+VS-0007,9279-1,Respiratory rate,http://loinc.org,呼吸速率,true
 VS-0008,85354-9,Blood pressure panel with all children optional,http://loinc.org,血壓 (包含收縮壓與舒張壓),true
-VS-0009,2403450,Systolic blood pressure,http://loinc.org,收縮壓 (高壓),true
-VS-0010,2396814,Diastolic blood pressure,http://loinc.org,舒張壓 (低壓),true
-VS-0011,8478-0,Mean blood pressure,http://loinc.org,平均血壓,true
-VS-0012,295269,Oxygen saturation in Arterial blood,http://loinc.org,動脈血氧飽和度,true
-VS-0013,2708-6,Oxygen saturation in Arterial blood,http://loinc.org,脈搏血氧飽和度 (血氧機),true
-VS-0014,2901213,Head Occipital-frontal circumference,http://loinc.org,頭圍,true
-VS-0015,2333537,Head Occipital-frontal circumference Percentile,http://loinc.org,頭圍百分位數,true
+VS-0009,8480-6,Systolic blood pressure,http://loinc.org,收縮壓 (高壓),true
+VS-0010,8462-4,Diastolic blood pressure,http://loinc.org,舒張壓 (低壓),true
+VS-0011,8478-0,Mean arterial pressure,http://loinc.org,平均動脈壓,true
+VS-0012,59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,動脈血氧飽和度 (脈搏血氧機),true
+VS-0013,59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,脈搏血氧飽和度 (血氧機),true
+VS-0014,8287-5,Head circumference Occipital-frontal,http://loinc.org,頭圍,true
+VS-0015,8289-1,Head circumference Percentile,http://loinc.org,頭圍百分位數,true
 VS-0016,59576-9,Body mass index (BMI) [Percentile] Per age and sex,http://loinc.org,BMI百分位數 (依年齡性別),true
-VS-0017,77606-2,Weight-for-length Per age and sex,http://loinc.org,身高體重比 (依年齡性別),true
-LAB-0001,6690-2,Leukocytes [#/volume] in Blood by Automated count,http://loinc.org,白血球計數 (CBC),true
-LAB-0002,2339-0,Glucose [Mass/volume] in Blood,http://loinc.org,血糖,true
-LAB-0003,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液檢查,true
-LAB-0004,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素 HbA1c,true
-LAB-0005,89579-7,Troponin I.cardiac [Mass/volume] in Serum or Plasma by High sensitivity method,http://loinc.org,高敏感度 Troponin I,true
-LAB-0006,33728-7,Pathology report final diagnosis Narrative,http://loinc.org,病理最終診斷,true
+VS-0017,77606-2,Weight-for-length percentile Per age and sex,http://loinc.org,身高體重比百分位數 (依年齡性別),true
+Lab-0001,6690-2,Leukocytes [#/volume] in Blood,http://loinc.org,白血球計數 (WBC),true
+Lab-0002,789-8,Erythrocytes [#/volume] in Blood,http://loinc.org,紅血球計數 (RBC),true
+Lab-0003,718-7,Hemoglobin [Mass/volume] in Blood,http://loinc.org,血紅素 (Hb),true
+Lab-0004,4544-3,Hematocrit [Volume Fraction] in Blood,http://loinc.org,血球比容 (Hct),true
+Lab-0005,42757-5,Troponin I.cardiac [Mass/volume] in Blood,http://loinc.org,心肌肌鈣蛋白 I,true
+Lab-0006,787-2,Mean corpuscular volume (MCV),http://loinc.org,平均紅血球容積 (MCV),true
+Lab-0007,14771-0,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖,true
+Lab-0008,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素 (HbA1c),true
+Lab-0009,2093-3,Cholesterol [Mass/volume] in Serum or Plasma,http://loinc.org,總膽固醇 (T-CHO),true
+Lab-0010,2571-8,Triglycerides [Mass/volume] in Serum or Plasma,http://loinc.org,三酸甘油酯 (TG),true
+Lab-0011,2085-9,Cholesterol in HDL [Mass/volume] in Serum or Plasma,http://loinc.org,高密度脂蛋白 (HDL-C),true
+Lab-0012,2089-1,Cholesterol in LDL [Mass/volume] in Serum or Plasma,http://loinc.org,低密度脂蛋白 (LDL-C),true
+Lab-0013,1920-8,Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma,http://loinc.org,天門冬胺酸轉胺酶 (AST/GOT),true
+Lab-0014,1742-6,Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma,http://loinc.org,丙胺酸轉胺酶 (ALT/GPT),true
+Lab-0015,2160-0,Creatinine [Mass/volume] in Serum or Plasma,http://loinc.org,肌酸酐 (Creatinine),true
+Lab-0016,3094-0,Urea nitrogen [Mass/volume] in Serum or Plasma,http://loinc.org,尿素氮 (BUN),true
+Lab-0017,50044-7,Glomerular filtration rate/1.73 sq m,http://loinc.org,腎絲球過濾率 (eGFR),true
+Lab-0018,2951-2,Sodium [Moles/volume] in Serum or Plasma,http://loinc.org,鈉離子 (Na),true
+Lab-0019,2823-3,Potassium [Moles/volume] in Serum or Plasma,http://loinc.org,鉀離子 (K),true
+Lab-0020,1988-5,C-reactive protein [Mass/volume] in Serum or Plasma,http://loinc.org,C-反應蛋白 (CRP),true
+Lab-0021,5811-5,Specific gravity of Urine by Test strip,http://loinc.org,尿液比重,true
+Lab-0022,5799-2,Protein [Mass/volume] in Urine by Test strip,http://loinc.org,尿蛋白,true
+Lab-0023,5803-2,Glucose [Mass/volume] in Urine by Test strip,http://loinc.org,尿糖,true
+Lab-0024,3016-3,Thyrotropin [Mass/volume] in Serum or Plasma,http://loinc.org,甲狀腺刺激素 (TSH),true
+Lab-0025,3024-7,Thyroxine.free [Mass/volume] in Serum or Plasma,http://loinc.org,游離甲狀腺素 (Free T4),true
+Lab-0026,5902-2,Prothrombin time (PT),http://loinc.org,凝血酶原時間 (PT),true
+Lab-0027,6301-6,INR in Blood,http://loinc.org,國際標準化比率 (INR),true
+Lab-0028,3084-1,Uric acid [Mass/volume] in Serum or Plasma,http://loinc.org,尿酸,true
+Lab-0029,1751-7,Albumin [Mass/volume] in Serum or Plasma,http://loinc.org,白蛋白 (Albumin),true
+Lab-0030,1975-2,Bilirubin.total [Mass/volume] in Serum or Plasma,http://loinc.org,總膽紅素,true
+Lab-0031,1971-1,Bilirubin.direct [Mass/volume] in Serum or Plasma,http://loinc.org,直接膽紅素,true
+Lab-0032,6768-6,Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma,http://loinc.org,鹼性磷酸酶 (ALP),true
+Lab-0033,2324-2,Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma,http://loinc.org,γ-谷氨醯轉移酶 (GGT),true
+Lab-0034,751-8,Neutrophils [#/volume] in Blood,http://loinc.org,中性球絕對值,true
+Lab-0035,731-0,Lymphocytes [#/volume] in Blood,http://loinc.org,淋巴球絕對值,true
+Lab-0036,785-6,Mean corpuscular hemoglobin (MCH),http://loinc.org,平均紅血球血紅素 (MCH),true
+Lab-0037,786-4,Mean corpuscular hemoglobin concentration (MCHC),http://loinc.org,平均紅血球血紅素濃度 (MCHC),true
+Lab-0038,788-0,Red cell distribution width (RDW),http://loinc.org,紅血球分布寬度 (RDW),true
+Lab-0039,2951-2,Sodium [Moles/volume] in Blood,http://loinc.org,鈉離子 (Na),true
+Lab-0040,2823-3,Potassium [Moles/volume] in Blood,http://loinc.org,鉀離子 (K),true
+Lab-0041,2075-0,Chloride [Moles/volume] in Serum or Plasma,http://loinc.org,氯離子 (Cl),true
+Lab-0042,1993-5,Calcium [Mass/volume] in Serum or Plasma,http://loinc.org,鈣離子 (Ca),true
+Lab-0043,6299-2,Magnesium [Mass/volume] in Serum or Plasma,http://loinc.org,鎂離子 (Mg),true
+Lab-0044,1988-5,C-reactive protein [Mass/volume] in Serum or Plasma,http://loinc.org,C-反應蛋白 (CRP),true
+Lab-0045,30522-7,C-reactive protein [Mass/volume] in Serum or Plasma (high sensitivity),http://loinc.org,高敏感 C-反應蛋白 (hs-CRP),true

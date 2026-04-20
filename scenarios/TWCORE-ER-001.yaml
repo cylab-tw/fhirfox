@@ -15,7 +15,7 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 2
+  maxSeeds: 8
   maxPatients: 1
   maxLinkedEncounters: 2
   expandLinks: true
@@ -29,7 +29,13 @@ condition:
   - conditionCode: Cond-087
 
 observation:
-  categoryCode: vital-signs
+  - observationCode: VS-0013
+    encounterId: "5"
+  - observationCode: VS-0006
+    encounterId: "5"
 
 procedure:
   - procedureCode: Proc-0006
+    encounterId: "6"
+  - procedureCode: Proc-0030
+    encounterId: "6"

@@ -4,13 +4,13 @@ id: TWCORE-OPD-006
 name: 同病人多次門診（血壓追蹤）
 level: 2
 type: outpatient
-summary: 同一成人病人的多次門診紀錄，加入跨次血壓與血糖檢驗，用於驗證趨勢型 Observation。
+summary: 同一成人病人的多次門診紀錄，加入跨次血壓與一次血糖檢驗，用於驗證病人中心的 Observation。
 details: |
-  此情境以同一病人的三次門診為範圍，驗證系統是否能表達縱向檢驗紀錄與慢性病追蹤脈絡。
+  此情境以同一病人的三次門診為範圍，驗證系統是否能表達縱向血壓紀錄與慢性病追蹤脈絡。
 
   - 同一病人多次門診
   - 每次門診皆可串接對應 `Encounter`
-  - 包含多筆血壓與血糖數值
+  - 包含多筆血壓與一筆血糖數值
   - 適合檢查趨勢資料與跨 Encounter 的病人中心資料集
 
 selection:
@@ -21,7 +21,7 @@ selection:
   expandLinks: true
 
 patient:
-  id: "1"
+  ageGroup: adult
   samePerson: true
 
 encounter:
@@ -29,3 +29,9 @@ encounter:
   status: finished
   count:
     gte: 2
+
+observation:
+  - observationCode: VS-0008
+    patientId: "1"
+  - observationCode: Lab-0007
+    patientId: "1"

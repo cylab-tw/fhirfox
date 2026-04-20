@@ -163,6 +163,22 @@ function toComparable(value: unknown): number | string | undefined {
 }
 
 function compareRange(actual: number | string, expected: Record<string, unknown>): boolean {
+	if ('gte' in expected && !compareGreaterThanOrEqual(actual, expected.gte)) {
+		return false;
+	}
+
+	if ('lte' in expected && !compareLessThanOrEqual(actual, expected.lte)) {
+		return false;
+	}
+
+	if ('gt' in expected && !compareGreaterThan(actual, expected.gt)) {
+		return false;
+	}
+
+	if ('lt' in expected && !compareLessThan(actual, expected.lt)) {
+		return false;
+	}
+
 	if ('$gte' in expected && !compareGreaterThanOrEqual(actual, expected.$gte)) {
 		return false;
 	}

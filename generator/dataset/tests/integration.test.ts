@@ -89,7 +89,7 @@ test('dataset package resolves reverse links from a patient seed', async () => {
 	const result = await service.resolveScenario('TWCORE-OPD-002');
 
 	assert.equal(result.meta?.directMatchCount, 1);
-	assert.equal(result.meta?.expandedMatchCount, 3);
+	assert.equal(result.meta?.expandedMatchCount, 2);
 	assert.deepEqual(
 		result.resources.patient?.map((resource) => resource.id),
 		['patient-1'],
@@ -98,10 +98,7 @@ test('dataset package resolves reverse links from a patient seed', async () => {
 		result.resources.encounter?.map((resource) => resource.id),
 		['encounter-1'],
 	);
-	assert.deepEqual(
-		result.resources.condition?.map((resource) => resource.id),
-		['condition-1'],
-	);
+	assert.equal(result.resources.condition, undefined);
 });
 
 test('dataset package reports missing linked resources as warnings', async () => {
@@ -227,6 +224,7 @@ test('dataset package resolves polymorphic links when the target id matches exac
 		name: 'Polymorphic performer',
 		type: 'outpatient',
 		patient: { name: 'Alice' },
+		observation: { patientId: 'patient-1' },
 	});
 
 	const service = createTestScenarioService([scenario], resources, links);
@@ -243,7 +241,7 @@ test('dataset package warns and skips ambiguous polymorphic links', async () => 
 	const resources: Resource[] = [
 		{ id: 'shared-1', type: 'patient', name: 'Alice' },
 		{ id: 'shared-1', type: 'practitioner', name: 'Dr. Alice' },
-		{ id: 'observation-1', type: 'observation', performerId: 'shared-1' },
+		{ id: 'observation-1', type: 'observation', performerId: 'shared-1', status: 'preliminary' },
 	];
 	const links: ResourceLinks = [
 		{ sourceType: 'observation', field: 'performerId', targetTypes: ['patient', 'practitioner'] },
@@ -254,6 +252,7 @@ test('dataset package warns and skips ambiguous polymorphic links', async () => 
 		name: 'Ambiguous polymorphic performer',
 		type: 'outpatient',
 		patient: { id: 'shared-1' },
+		observation: { status: 'final' },
 	});
 
 	const service = createTestScenarioService([scenario], resources, links);
@@ -287,6 +286,7 @@ test('dataset package uses explicit reference types to resolve ambiguous polymor
 		name: 'Typed polymorphic performer',
 		type: 'outpatient',
 		patient: { id: 'shared-1' },
+		observation: { performerId: 'shared-1' },
 	});
 
 	const service = createTestScenarioService([scenario], resources, links);
@@ -297,6 +297,85 @@ test('dataset package uses explicit reference types to resolve ambiguous polymor
 		['observation-1'],
 	);
 	assert.deepEqual(result.warnings, undefined);
+});
+
+test('dataset package reuses exact id filters across scenarios', async () => {
+	const firstScenario = normalizeScenario({
+		id: 'TWCORE-REUSE-001',
+		name: 'Reuse first',
+		type: 'outpatient',
+		condition: { id: 'condition-1' },
+	});
+	const secondScenario = normalizeScenario({
+		id: 'TWCORE-REUSE-002',
+		name: 'Reuse second',
+		type: 'outpatient',
+		condition: { id: 'condition-1' },
+	});
+
+	const service = createTestScenarioService([firstScenario, secondScenario]);
+	const first = await service.resolveScenario('TWCORE-REUSE-001');
+	const second = await service.resolveScenario('TWCORE-REUSE-002');
+
+	assert.deepEqual(
+		first.resources.condition?.map((resource) => resource.id),
+		['condition-1'],
+	);
+	assert.deepEqual(
+		second.resources.condition?.map((resource) => resource.id),
+		['condition-1'],
+	);
+});
+
+test('dataset package does not expand optional clinical resources without matching filters', async () => {
+	const resources: Resource[] = [
+		{ id: 'patient-1', type: 'patient', name: 'Alice' },
+		{ id: 'encounter-1', type: 'encounter', patientId: 'patient-1' },
+		{ id: 'observation-1', type: 'observation', patientId: 'patient-1', encounterId: 'encounter-1' },
+	];
+	const links: ResourceLinks = [
+		{ sourceType: 'encounter', field: 'patientId', targetTypes: ['patient'] },
+		{ sourceType: 'observation', field: 'patientId', targetTypes: ['patient'] },
+		{ sourceType: 'observation', field: 'encounterId', targetTypes: ['encounter'] },
+	];
+
+	const scenario = normalizeScenario({
+		id: 'TWCORE-NO-BROAD-001',
+		name: 'No broad expansion',
+		type: 'outpatient',
+		patient: { id: 'patient-1' },
+	});
+
+	const service = createTestScenarioService([scenario], resources, links);
+	const result = await service.resolveScenario('TWCORE-NO-BROAD-001');
+
+	assert.deepEqual(
+		result.resources.encounter?.map((resource) => resource.id),
+		['encounter-1'],
+	);
+	assert.equal(result.resources.observation, undefined);
+});
+
+test('dataset package applies filter-level limits deterministically', async () => {
+	const resources: Resource[] = [
+		{ id: 'condition-2', type: 'condition', conditionCode: 'I20' },
+		{ id: 'condition-1', type: 'condition', conditionCode: 'I20' },
+	];
+	const scenario = normalizeScenario({
+		id: 'TWCORE-LIMIT-001',
+		name: 'Limited filter',
+		type: 'outpatient',
+		condition: { conditionCode: 'I20', limit: 1 },
+	});
+
+	const service = createTestScenarioService([scenario], resources, []);
+	const result = await service.resolveScenario('TWCORE-LIMIT-001');
+
+	assert.deepEqual(
+		result.resources.condition?.map((resource) => resource.id),
+		['condition-1'],
+	);
+	assert.deepEqual(result.warnings, ['condition filter matched 2 resources; kept 1 because limit is 1.']);
 });
 
 function createTestScenarioService(

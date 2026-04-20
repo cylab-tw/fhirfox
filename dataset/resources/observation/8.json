@@ -2,7 +2,7 @@
 	"id": "8",
 	"status": "final",
 	"categoryCode": "laboratory",
-	"observationCode": "LAB-0001",
+	"observationCode": "Lab-0001",
 	"patientId": "2",
 	"encounterId": "4",
 	"effectiveDate": "2026-03-30T10:20:00+08:00",

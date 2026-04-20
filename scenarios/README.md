@@ -24,13 +24,8 @@ selection:
   maxLinkedEncounters: 1
   expandLinks: true
 
-patient:
-  age:
-    gte: 18
-
-encounter:
-  class: ambulatory
-  status: finished
+condition:
+  conditionCode: Cond-016
 ```
 
 ## 常用欄位
@@ -79,8 +74,27 @@ resource filter 直接寫在對應 resource type 的頂層欄位下，例如：
 ### Resource filters
 
 - 每個 resource section 都是「單一 filter object」或「filter object 陣列」。
+- Scenario filter 是資源選取的唯一 authoring contract；不要另外建立 pool/config 來描述重用。
+- 若情境要重用既有 resource，優先使用自然條件，例如 code、category、gender、ageGroup、class、status。
+- 可用 `encounterId`、`patientId`、`medicationId` 等 relationship id 將自然條件綁定到同一次就醫或同一位病人。
+- 只有在自然條件無法穩定表達情境時，才使用 resource 自身的 `id`。
+- filter 必須完整且只命中該情境需要的 resource；不要用過寬條件依賴偶然的 patient/encounter overlap。
+- `limit` 可加在任一 filter object 上，限制該 filter 最多保留幾筆 match。
 - `schema.yaml` 主要描述整體結構與共用欄位型別。
 - 各 resource filter 可用的詳細 key 由 `dataset:check` 驗證。
+
+範例：
+
+```yaml
+observation:
+  - observationCode: VS-0008
+    encounterId: "1"
+  - observationCode: Lab-0001
+    encounterId: "4"
+    limit: 1
+```
+
+Linked resource 展開會受情境 filter 約束：如果情境沒有定義 `observation` filter，就不會因為同一個 patient/encounter 自動帶出 observation。已選取臨床資料需要的 `patient`、`encounter`、`organization`、`medication`、`practitioner` 與 `practitionerRole` 仍會作為 dependency 帶出。
 
 ### 範圍條件欄位
 

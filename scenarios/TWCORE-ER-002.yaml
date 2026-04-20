@@ -15,7 +15,7 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 2
+  maxSeeds: 3
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
@@ -23,7 +23,9 @@ selection:
 observation:
   - observationCode: VS-0013
     encounterId: "5"
-  - observationCode: LAB-0005
+  - observationCode: VS-0006
+    encounterId: "5"
+  - observationCode: Lab-0005
     encounterId: "5"
 
 procedure:

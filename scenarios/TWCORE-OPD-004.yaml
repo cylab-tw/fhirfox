@@ -23,5 +23,7 @@ selection:
 observation:
   - observationCode: VS-0008
     encounterId: "1"
-  - observationCode: LAB-0002
+  - observationCode: VS-0006
+    encounterId: "1"
+  - observationCode: Lab-0007
     encounterId: "1"

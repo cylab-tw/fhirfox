@@ -2,7 +2,7 @@
 	"id": "5",
 	"status": "final",
 	"categoryCode": "LAB",
-	"reportCode": "DR-0001",
+	"reportCode": "Rep-0001",
 	"patientId": "3",
 	"encounterId": "7",
 	"effectiveDate": "2026-03-25T08:30:00+08:00",

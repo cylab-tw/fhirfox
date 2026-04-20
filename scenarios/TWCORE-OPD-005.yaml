@@ -15,13 +15,17 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 2
+  maxSeeds: 4
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
 
 observation:
+  - observationCode: VS-0003
+    encounterId: "4"
   - observationCode: VS-0005
     encounterId: "4"
-  - observationCode: LAB-0001
+  - observationCode: Lab-0001
+    encounterId: "4"
+  - observationCode: Lab-0021
     encounterId: "4"

@@ -1,8 +1,8 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 Spec-0001,419772000,Family practice,http://snomed.info/sct,家庭醫學科,true
-Spec-0002,394802001,General medicine,http://snomed.info/sct,一般醫學科,true
+Spec-0002,394802001,General medicine,http://snomed.info/sct,一般內科,true
 Spec-0003,408443003,General medical practice,http://snomed.info/sct,全科醫療,true
-Spec-0004,773568002,Emergency medicine,http://snomed.info/sct,急診醫學科,true
+Spec-0004,394576009,Accident & emergency,http://snomed.info/sct,急診醫學科,true
 Spec-0005,394811001,Geriatric medicine,http://snomed.info/sct,老年醫學科,true
 Spec-0006,394806003,Palliative care,http://snomed.info/sct,安寧療護科,true
 Spec-0007,409968004,Preventive medicine,http://snomed.info/sct,預防醫學科,true
@@ -13,7 +13,7 @@ Spec-0011,394584008,Gastroenterology,http://snomed.info/sct,胃腸肝膽科,true
 Spec-0012,394590007,Thoracic medicine,http://snomed.info/sct,胸腔內科,true
 Spec-0013,394589003,Nephrology,http://snomed.info/sct,腎臟科,true
 Spec-0014,394591006,Neurology,http://snomed.info/sct,神經內科,true
-Spec-0015,394583002,Endocrinology,http://snomed.info/sct,新陳代謝/內分泌科,true
+Spec-0015,394583002,Endocrinology,http://snomed.info/sct,內分泌新陳代謝科,true
 Spec-0016,394810000,Rheumatology,http://snomed.info/sct,風濕免疫科,true
 Spec-0017,394807007,Infectious diseases,http://snomed.info/sct,感染科,true
 Spec-0018,394593009,Medical oncology,http://snomed.info/sct,血液腫瘤科,true
@@ -29,16 +29,16 @@ Spec-0027,394585009,Obstetrics and gynecology,http://snomed.info/sct,婦產科,t
 Spec-0028,394594003,Ophthalmology,http://snomed.info/sct,眼科,true
 Spec-0029,418960008,Otolaryngology,http://snomed.info/sct,耳鼻喉科,true
 Spec-0030,394582007,Dermatology,http://snomed.info/sct,皮膚科,true
-Spec-0031,394587001,Psychiatry,http://snomed.info/sct,精神科/身心科,true
+Spec-0031,394587001,Psychiatry,http://snomed.info/sct,精神科,true
 Spec-0032,394602003,Rehabilitation,http://snomed.info/sct,復健科,true
-Spec-0033,394577000,Anesthetics,http://snomed.info/sct,麻醉科,true
+Spec-0033,394577000,Anesthesiology,http://snomed.info/sct,麻醉科,true
 Spec-0034,394914008,Radiology,http://snomed.info/sct,放射線科,true
 Spec-0035,394915009,General pathology,http://snomed.info/sct,病理科,true
 Spec-0036,408478003,Critical care medicine,http://snomed.info/sct,重症醫學科,true
 Spec-0037,394649004,Nuclear medicine,http://snomed.info/sct,核子醫學科,true
 Spec-0038,419815003,Radiation oncology,http://snomed.info/sct,放射腫瘤科,true
 Spec-0039,394882004,Pain management,http://snomed.info/sct,疼痛科,true
-Spec-0040,408450004,Sleep studies,http://snomed.info/sct,睡眠醫學中心,true
+Spec-0040,408450004,Sleep studies,http://snomed.info/sct,睡眠醫學科,true
 Spec-0041,408444009,Dental-general dental practice,http://snomed.info/sct,一般牙科,true
 Spec-0042,408465003,Oral and maxillofacial surgery,http://snomed.info/sct,口腔顎面外科,true
 Spec-0043,394608004,Orthodontics,http://snomed.info/sct,齒顎矯正科,true

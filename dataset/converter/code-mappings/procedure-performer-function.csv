@@ -6,31 +6,30 @@ Perf-0004,304292004,Surgeon,http://snomed.info/sct,外科醫師 (主刀),true
 Perf-0005,88189002,Anesthesiologist,http://snomed.info/sct,麻醉醫師,true
 Perf-0006,421841007,Admitting physician,http://snomed.info/sct,收治醫師,true
 Perf-0007,309294001,Accident and Emergency doctor,http://snomed.info/sct,急診醫師,true
-Perf-0008,398130009,Medical student,http://snomed.info/sct,醫學生,true
 Perf-0009,22731001,Orthopedic surgeon,http://snomed.info/sct,骨科醫師,true
 Perf-0010,45544007,Neurosurgeon,http://snomed.info/sct,神經外科醫師,true
 Perf-0011,8724009,Plastic surgeon,http://snomed.info/sct,整形外科醫師,true
 Perf-0012,11935004,Obstetrician,http://snomed.info/sct,產科醫師,true
 Perf-0013,83685006,Gynecologist,http://snomed.info/sct,婦科醫師,true
-Perf-0014,17561000,Cardiologist,http://snomed.info/sct,心臟內科醫師 (心導管等處置),true
-Perf-0015,71838004,Gastroenterologist,http://snomed.info/sct,腸胃科醫師 (內視鏡等處置),true
+Perf-0014,17561000,Cardiologist,http://snomed.info/sct,心臟內科醫師,true
+Perf-0015,71838004,Gastroenterologist,http://snomed.info/sct,腸胃科醫師,true
 Perf-0016,66862007,Radiologist,http://snomed.info/sct,放射科醫師,true
 Perf-0017,21365001,Specialized dentist,http://snomed.info/sct,牙科專科醫師,true
 Perf-0018,224535009,Registered nurse,http://snomed.info/sct,註冊護理師,true
 Perf-0019,415506007,Scrub nurse,http://snomed.info/sct,刷手護理師,true
-Perf-0020,413854007,Circulating nurse,http://snomed.info/sct,流動護理師,true
+Perf-0020,413854007,Circulating nurse,http://snomed.info/sct,巡迴護理師,true
 Perf-0021,372102007,RN First Assist,http://snomed.info/sct,護理師第一助手,true
 Perf-0022,405278004,Certified registered nurse anesthetist,http://snomed.info/sct,麻醉護理師,true
-Perf-0023,224561008,Theatre nurse,http://snomed.info/sct,手術室護理師 (泛稱),true
+Perf-0023,224561008,Theatre nurse,http://snomed.info/sct,手術室護理師,true
 Perf-0024,224559004,PACU nurse,http://snomed.info/sct,恢復室護理師,true
 Perf-0025,224537001,Accident and Emergency nurse,http://snomed.info/sct,急診護理師,true
-Perf-0026,75271001,MW - Midwife,http://snomed.info/sct,助產師,true
+Perf-0026,75271001,Midwife,http://snomed.info/sct,助產師,true
 Perf-0027,224571005,Nurse practitioner,http://snomed.info/sct,專科護理師 (NP),true
-Perf-0028,449161006,PA - physician assistant,http://snomed.info/sct,醫師助理 (PA),true
+Perf-0028,449161006,Physician assistant,http://snomed.info/sct,醫師助理 (PA),true
 Perf-0029,159016003,Medical radiographer,http://snomed.info/sct,醫事放射師,true
-Perf-0030,36682004,PT - Physiotherapist,http://snomed.info/sct,物理治療師,true
+Perf-0030,36682004,Physiotherapist,http://snomed.info/sct,物理治療師,true
 Perf-0031,442867008,Respiratory therapist,http://snomed.info/sct,呼吸治療師,true
-Perf-0032,80546007,OT - Occupational therapist,http://snomed.info/sct,職能治療師,true
+Perf-0032,80546007,Occupational therapist,http://snomed.info/sct,職能治療師,true
 Perf-0033,159026005,Speech and language therapist,http://snomed.info/sct,語言治療師,true
 Perf-0034,46255001,Pharmacist,http://snomed.info/sct,藥師,true
-Perf-0035,307988006,Medical technician,http://snomed.info/sct,醫事檢驗師,true
+Perf-0035,307988006,Medical technologist,http://snomed.info/sct,醫事檢驗師,true

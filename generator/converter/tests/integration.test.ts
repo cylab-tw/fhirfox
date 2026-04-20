@@ -66,6 +66,15 @@ const organization: SourceResource = {
 	address: '台北市中正區常德街1號',
 };
 
+const practitioner: SourceResource = {
+	id: '1',
+	resourceType: 'practitioner',
+	active: true,
+	idType: 'MR',
+	idNumber: 'DOC0001',
+	name: '陳醫師',
+};
+
 const allergyIntolerance: SourceResource = {
 	id: '1',
 	resourceType: 'allergyintolerance',
@@ -227,7 +236,7 @@ test('toFhirBundle preserves input order and builds fullUrl values', async () =>
 		baseDir: fixtureBaseDir,
 	});
 
-	const result = await service.toFhirBundle([patient, encounter], {
+	const result = await service.toFhirBundle([patient, encounter, organization, practitioner, condition], {
 		igName: 'tw.gov.mohw.twcore',
 		igVersion: '1.0.0',
 		fullUrlBase: 'https://example.test/fhir',
@@ -235,26 +244,36 @@ test('toFhirBundle preserves input order and builds fullUrl values', async () =>
 
 	assert.equal(result.resourceType, 'Bundle');
 	assert.equal(result.type, 'collection');
-	assert.equal(result.entry.length, 2);
+	assert.equal(result.entry.length, 5);
 	assert.equal(result.entry[0]?.resource.resourceType, 'Patient');
 	assert.equal(result.entry[1]?.resource.resourceType, 'Encounter');
 	assert.equal(result.entry[0]?.fullUrl, 'https://example.test/fhir/Patient/1');
 	assert.equal(result.entry[1]?.fullUrl, 'https://example.test/fhir/Encounter/1');
+	assert.equal(
+		(result.entry[1]?.resource.subject as { reference?: string } | undefined)?.reference,
+		'https://example.test/fhir/Patient/1',
+	);
+	assertBundleReferencesResolveToFullUrls(result);
 	assertValidTwCoreBundle(result);
 });
 
-test('toFhirBundle builds default fullUrl values when no base is configured', async () => {
+test('toFhirBundle builds default absolute fullUrl values when no base is configured', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
 	});
 
-	const result = await service.toFhirBundle([patient, encounter], {
+	const result = await service.toFhirBundle([patient, encounter, organization, practitioner, condition], {
 		igName: 'tw.gov.mohw.twcore',
 		igVersion: '1.0.0',
 	});
 
-	assert.match(result.entry[0]?.fullUrl ?? '', /^urn:uuid:[0-9a-f-]{36}$/);
-	assert.match(result.entry[1]?.fullUrl ?? '', /^urn:uuid:[0-9a-f-]{36}$/);
+	assert.equal(result.entry[0]?.fullUrl, 'https://fhirfox.dev/fhir/Patient/1');
+	assert.equal(result.entry[1]?.fullUrl, 'https://fhirfox.dev/fhir/Encounter/1');
+	assert.equal(
+		(result.entry[1]?.resource.subject as { reference?: string } | undefined)?.reference,
+		'https://fhirfox.dev/fhir/Patient/1',
+	);
+	assertBundleReferencesResolveToFullUrls(result);
 });
 
 test('toFhirResource maps observation quantity display into unit instead of invalid display', async () => {
@@ -777,6 +796,44 @@ function assertValidTwCoreBundle(bundle: FhirBundle): void {
 			assertValidTwCoreEncounter(entry.resource);
 		}
 	}
+}
+
+function assertBundleReferencesResolveToFullUrls(bundle: FhirBundle): void {
+	const fullUrls = new Set(
+		bundle.entry.map((entry) => entry.fullUrl).filter((fullUrl): fullUrl is string => Boolean(fullUrl)),
+	);
+
+	for (const [index, entry] of bundle.entry.entries()) {
+		assert.equal(typeof entry.fullUrl, 'string', `Bundle.entry[${index}] is missing fullUrl.`);
+	}
+
+	for (const reference of collectReferences(bundle)) {
+		if (reference.startsWith('#')) {
+			continue;
+		}
+
+		assert.ok(fullUrls.has(reference), `Reference "${reference}" does not match any Bundle.entry.fullUrl.`);
+	}
+}
+
+function collectReferences(value: unknown): string[] {
+	if (Array.isArray(value)) {
+		return value.flatMap((entry) => collectReferences(entry));
+	}
+
+	if (typeof value !== 'object' || value === null) {
+		return [];
+	}
+
+	return Object.entries(value).flatMap(([key, entryValue]) => {
+		const nestedReferences = collectReferences(entryValue);
+
+		if (key === 'reference' && typeof entryValue === 'string') {
+			return [entryValue, ...nestedReferences];
+		}
+
+		return nestedReferences;
+	});
 }
 
 function assertValidTwCoreAllergyIntolerance(resource: FhirResource): void {

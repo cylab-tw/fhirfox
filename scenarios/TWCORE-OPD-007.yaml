@@ -15,13 +15,24 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 2
+  maxSeeds: 5
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
 
+condition:
+  conditionCode: Cond-016
+
+observation:
+  - observationCode: VS-0005
+    encounterId: "1"
+  - observationCode: Lab-0001
+    encounterId: "1"
+
 medicationRequest:
-  id: "1"
+  medicationId: "1"
+  encounterId: "1"
 
 diagnosticReport:
-  id: "1"
+  reportCode: Rep-0001
+  encounterId: "1"

@@ -15,14 +15,39 @@ details: |
 
 selection:
   strategy: grouped-by-patient
-  maxSeeds: 2
+  maxSeeds: 1
   maxPatients: 1
   maxLinkedEncounters: 3
   expandLinks: true
 
+patient:
+  ageGroup: adult
+  samePerson: true
+
+encounter:
+  class: ambulatory
+  status: finished
+  count:
+    gte: 2
+
+condition:
+  - conditionCode: Cond-030
+  - conditionCode: Cond-054
+
+observation:
+  - observationCode: VS-0008
+    patientId: "1"
+  - observationCode: Lab-0007
+    patientId: "1"
+  - observationCode: Lab-0008
+    patientId: "1"
+
 medicationRequest:
-  - id: "3"
-  - id: "4"
+  - medicationId: "3"
+    patientId: "1"
+  - medicationId: "4"
+    patientId: "1"
 
 diagnosticReport:
-  id: "3"
+  reportCode: Rep-0004
+  patientId: "1"

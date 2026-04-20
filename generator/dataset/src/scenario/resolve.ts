@@ -3,6 +3,17 @@ import type { ResolvedScenario, Scenario, ScenarioResourceSelection, ScenarioSel
 import type { DatasetProvider } from '../providers/index.js';
 import type { ResourceLinks } from '../resources/index.js';
 
+const FILTER_METADATA_KEYS = new Set(['limit']);
+const FILTER_CONSTRAINED_RESOURCE_TYPES = new Set<ResourceType>([
+	'condition',
+	'allergyintolerance',
+	'observation',
+	'procedure',
+	'diagnosticreport',
+	'medicationrequest',
+	'imagingstudy',
+]);
+
 /**
  * Resolves one scenario into concrete source resources from a dataset provider.
  *
@@ -17,7 +28,9 @@ export async function resolveScenario(provider: DatasetProvider, scenario: Scena
 
 	for (const [resourceType, selection] of Object.entries(scenario.resources)) {
 		const filters = normalizeSelection(selection);
-		const matches = await Promise.all(filters.map((filter) => provider.queryResources(resourceType, filter)));
+		const matches = await Promise.all(
+			filters.map((filter) => queryFilteredResources(provider, resourceType, filter, warningSet)),
+		);
 
 		resolved[resourceType] = dedupeResources(matches.flat());
 	}
@@ -64,6 +77,37 @@ function normalizeSelection(selection: ScenarioResourceSelection): Dataset[] {
 	return Array.isArray(selection) ? selection : [selection];
 }
 
+async function queryFilteredResources(
+	provider: DatasetProvider,
+	resourceType: ResourceType,
+	filter: Dataset,
+	warnings: Set<string>,
+): Promise<Resource[]> {
+	const queryFilter = stripFilterMetadata(filter);
+	const matches = sortResourcesById(await provider.queryResources(resourceType, queryFilter));
+	const limit = readFilterLimit(filter);
+
+	if (limit === undefined || matches.length <= limit) {
+		return matches;
+	}
+
+	warnings.add(`${resourceType} filter matched ${matches.length} resources; kept ${limit} because limit is ${limit}.`);
+	return matches.slice(0, limit);
+}
+
+function stripFilterMetadata(filter: Dataset): Dataset {
+	return Object.fromEntries(Object.entries(filter).filter(([key]) => !FILTER_METADATA_KEYS.has(key)));
+}
+
+function readFilterLimit(filter: Dataset): number | undefined {
+	const value = filter.limit;
+	return typeof value === 'number' && Number.isInteger(value) && value > 0 ? value : undefined;
+}
+
+function sortResourcesById(resources: Resource[]): Resource[] {
+	return [...resources].sort((left, right) => left.id.localeCompare(right.id));
+}
+
 function dedupeResources(resources: Resource[]): Resource[] {
 	const byKey = new Map<string, Resource>();
 
@@ -101,7 +145,11 @@ async function buildClinicalScope(
 	addResources(scoped, encounterResources);
 
 	const patientScopeIds = [
-		...new Set([...allowedPatientIds, ...collectIds(encounterResources, ['patientId', 'patient_id'])]),
+		...new Set([
+			...allowedPatientIds,
+			...collectPatientIds(seeds),
+			...collectIds(encounterResources, ['patientId', 'patient_id']),
+		]),
 	];
 	const patientResources = await loadByIds(provider, 'patient', patientScopeIds);
 	addResources(scoped, patientResources);
@@ -117,17 +165,18 @@ async function buildClinicalScope(
 		limitedEncounterIds,
 		warnings,
 		matchLinkTargetTypes,
-		getClinicalResourceTypes(scenario),
+		scenario,
 	);
 	addResources(scoped, clinicalResources);
 
-	const medicationIds = collectIds(clinicalResources, ['medicationId']);
+	const scopedResources = [...scoped.values()];
+	const medicationIds = collectIds(scopedResources, ['medicationId']);
 	const medicationResources = await loadByIds(provider, 'medication', medicationIds);
 	addResources(scoped, medicationResources);
 
 	const practitionerIds = new Set<string>([
 		...collectIds(encounterResources, ['practitionerId']),
-		...collectIds(clinicalResources, ['recorderId', 'performerId', 'requesterId']),
+		...collectIds(scopedResources, ['recorderId', 'performerId', 'requesterId']),
 	]);
 	const practitionerResources = await loadByIds(provider, 'practitioner', [...practitionerIds]);
 	addResources(scoped, practitionerResources);
@@ -329,44 +378,6 @@ function applyEncounterLimit(encounterIds: string[], maxLinkedEncounters: number
 	return [...encounterIds].sort((left, right) => left.localeCompare(right)).slice(0, maxLinkedEncounters);
 }
 
-function getClinicalResourceTypes(scenario: Scenario): ResourceType[] {
-	if (scenario.level === undefined) {
-		return [
-			'condition',
-			'allergyintolerance',
-			'observation',
-			'procedure',
-			'diagnosticreport',
-			'medicationrequest',
-			'imagingstudy',
-		];
-	}
-
-	const types = new Set<ResourceType>(['condition', 'allergyintolerance']);
-	const level = scenario.level;
-
-	if (level >= 2 || 'observation' in scenario.resources) {
-		types.add('observation');
-	}
-
-	if (level >= 2 || 'procedure' in scenario.resources) {
-		types.add('procedure');
-	}
-
-	if (
-		level >= 3 ||
-		'diagnosticreport' in scenario.resources ||
-		'medicationrequest' in scenario.resources ||
-		'imagingstudy' in scenario.resources
-	) {
-		types.add('diagnosticreport');
-		types.add('medicationrequest');
-		types.add('imagingstudy');
-	}
-
-	return [...types];
-}
-
 async function loadClinicalResources(
 	provider: DatasetProvider,
 	links: ResourceLinks,
@@ -374,11 +385,15 @@ async function loadClinicalResources(
 	allowedEncounterIds: string[],
 	warnings: Set<string>,
 	matchLinkTargetTypes: LinkTargetMatcher,
-	clinicalTypes: ResourceType[],
+	scenario: Scenario,
 ): Promise<Resource[]> {
 	const results: Resource[] = [];
+	const clinicalTypes = Object.keys(scenario.resources).filter((resourceType) =>
+		FILTER_CONSTRAINED_RESOURCE_TYPES.has(resourceType),
+	);
 
 	for (const resourceType of clinicalTypes) {
+		const filters = normalizeSelection(scenario.resources[resourceType] ?? {});
 		const patientLinked = await loadLinkedResources(
 			provider,
 			links,
@@ -397,9 +412,9 @@ async function loadClinicalResources(
 			warnings,
 			matchLinkTargetTypes,
 		);
-		const scoped = dedupeResources([...patientLinked, ...encounterLinked]).filter((resource) =>
-			isClinicalResourceInScope(resource, allowedPatientIds, allowedEncounterIds),
-		);
+		const scoped = dedupeResources([...patientLinked, ...encounterLinked])
+			.filter((resource) => isClinicalResourceInScope(resource, allowedPatientIds, allowedEncounterIds))
+			.filter((resource) => matchesAnyScenarioFilter(resource, filters));
 
 		results.push(...scoped);
 	}
@@ -538,6 +553,20 @@ function collectIds(resources: Resource[], fields: string[]): string[] {
 	return [...ids];
 }
 
+function collectPatientIds(resources: Resource[]): string[] {
+	const ids = new Set<string>();
+
+	for (const resource of resources) {
+		const patientId = getPatientId(resource);
+
+		if (patientId) {
+			ids.add(patientId);
+		}
+	}
+
+	return [...ids];
+}
+
 function getEncounterId(resource: Resource): string | undefined {
 	return getFirstString(resource, ['encounterId', 'encounter_id']);
 }
@@ -571,6 +600,66 @@ function groupResources(resources: Resource[]): Partial<Record<ResourceType, Res
 
 function toResourceKey(resource: Resource): string {
 	return `${resource.type}/${resource.id}`;
+}
+
+function matchesAnyScenarioFilter(resource: Resource, filters: Dataset[]): boolean {
+	return filters.some((filter) => matchesScenarioFilter(resource, filter));
+}
+
+function matchesScenarioFilter(resource: Resource, filter: Dataset): boolean {
+	return Object.entries(stripFilterMetadata(filter)).every(([key, expected]) =>
+		matchesFilterValue(resource[key], expected),
+	);
+}
+
+function matchesFilterValue(actual: unknown, expected: unknown): boolean {
+	if (isRangeFilter(expected)) {
+		const comparable = toComparableValue(actual);
+		return comparable !== undefined && matchesRange(comparable, expected);
+	}
+
+	return actual === expected;
+}
+
+function isRangeFilter(value: unknown): value is Record<string, unknown> {
+	return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function toComparableValue(value: unknown): number | string | undefined {
+	return typeof value === 'number' || typeof value === 'string' ? value : undefined;
+}
+
+function matchesRange(actual: number | string, expected: Record<string, unknown>): boolean {
+	return (
+		compareRangeBound(actual, expected.gt, (left, right) => left > right) &&
+		compareRangeBound(actual, expected.gte, (left, right) => left >= right) &&
+		compareRangeBound(actual, expected.lt, (left, right) => left < right) &&
+		compareRangeBound(actual, expected.lte, (left, right) => left <= right) &&
+		compareRangeBound(actual, expected.$gt, (left, right) => left > right) &&
+		compareRangeBound(actual, expected.$gte, (left, right) => left >= right) &&
+		compareRangeBound(actual, expected.$lt, (left, right) => left < right) &&
+		compareRangeBound(actual, expected.$lte, (left, right) => left <= right)
+	);
+}
+
+function compareRangeBound(
+	actual: number | string,
+	expected: unknown,
+	compare: (left: number, right: number) => boolean,
+): boolean {
+	if (expected === undefined) {
+		return true;
+	}
+
+	if (typeof actual === 'number' && typeof expected === 'number') {
+		return compare(actual, expected);
+	}
+
+	if (typeof actual === 'string' && typeof expected === 'string') {
+		return compare(actual.localeCompare(expected), 0);
+	}
+
+	return false;
 }
 
 type LinkTargetMatcher = (link: ResourceLinks[number], targetId: string) => Promise<ResourceType[]>;

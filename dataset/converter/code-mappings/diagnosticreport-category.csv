@@ -1,4 +1,6 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
-LAB,LAB,Laboratory,http://terminology.hl7.org/CodeSystem/v2-0074,實驗室,true
-RAD,RAD,Radiology,http://terminology.hl7.org/CodeSystem/v2-0074,放射影像,true
-PAT,PAT,Pathology,http://terminology.hl7.org/CodeSystem/v2-0074,病理,true
+LAB,LAB,Laboratory,http://terminology.hl7.org/CodeSystem/v2-0074,實驗室檢驗,true
+RAD,RAD,Radiology,http://terminology.hl7.org/CodeSystem/v2-0074,放射影像檢查,true
+CP,CP,Cytopathology,http://terminology.hl7.org/CodeSystem/v2-0074,細胞病理學,true
+SP,SP,Surgical Pathology,http://terminology.hl7.org/CodeSystem/v2-0074,外科病理學,true
+OSL,OSL,Outside Lab,http://terminology.hl7.org/CodeSystem/v2-0074,外部代檢,true

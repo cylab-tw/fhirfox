@@ -15,6 +15,5 @@
 	"frequency": 4,
 	"period": 1,
 	"periodUnit": "d",
-	"durationValue": 3,
-	"durationUnit": "d"
+	"durationValue": 3
 }

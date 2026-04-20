@@ -2,45 +2,45 @@ practitionerrole:
   description: 此情境納入的 PractitionerRole 原始資料。
   cardinality: 0..*
   id:
-    description: 角色邏輯 ID。
+    description: 邏輯 ID
     fhirMapping: PractitionerRole.id
     cardinality: 0..1
     required: true
   active:
-    description: 紀錄狀態。
+    description: 紀錄狀態
     fhirMapping: PractitionerRole.active
     cardinality: 0..1
   periodStart:
-    description: 生效開始時間。
+    description: 授權起始日
     fhirMapping: PractitionerRole.period.start
     cardinality: 0..1
   practitionerId:
-    description: 醫事人員。
+    description: 醫事人員
     fhirMapping: PractitionerRole.practitioner.reference
     cardinality: 0..1
     reference: practitioner
   organizationId:
-    description: 醫療機構。
+    description: 醫療機構
     fhirMapping: PractitionerRole.organization.reference
     cardinality: 0..1
     reference: organization
   roleCode:
-    description: 角色代碼。
+    description: 角色代碼
     fhirMapping: PractitionerRole.code.coding.code
     cardinality: 0..1
   specialtyCode:
-    description: 專科代碼。
+    description: 專科/科別
     fhirMapping: PractitionerRole.specialty.coding.code
     cardinality: 0..1
   telecomSystem:
-    description: 聯絡方式類型。
+    description: 聯絡方式類型
     fhirMapping: PractitionerRole.telecom.system
     cardinality: 0..1
   telecomValue:
-    description: 聯絡號碼或信箱。
+    description: 聯絡號碼/信箱
     fhirMapping: PractitionerRole.telecom.value
     cardinality: 0..1
   telecomUse:
-    description: 聯絡方式用途。
+    description: 聯絡方式用途
     fhirMapping: PractitionerRole.telecom.use
     cardinality: 0..1

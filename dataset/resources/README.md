@@ -13,6 +13,10 @@
 
 - 同一類型資料通常集中在同一個子目錄
 - 各筆資料以 `id` 作為穩定識別值
+- 情境重用既有資料時，優先以 code、category、gender、ageGroup、class、status 等自然 scenario filter 命中；不要新增 pool/config。
+- 只有自然條件無法穩定表達情境時，才使用 resource 自身的 `id`。
+- 只有當情境 filter 能完全且只命中預期 resource 時，才重用既有 resource file。
+- 若重用會讓 filter 變得過寬、依賴偶然的 patient/encounter overlap，或多帶出不屬於情境的資料，應保留或新增獨立 resource file。
 - `xxxId` 欄位通常用來對應其他 resource 的 `id`
 - 若同一個 `xxxId` 可能指向多種 resource type，可另外提供 `xxxType` 來消除歧義
 

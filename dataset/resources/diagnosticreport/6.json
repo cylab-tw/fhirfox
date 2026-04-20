@@ -1,8 +1,8 @@
 {
 	"id": "6",
 	"status": "final",
-	"categoryCode": "PAT",
-	"reportCode": "DR-0005",
+	"categoryCode": "SP",
+	"reportCode": "Rep-0017",
 	"patientId": "3",
 	"encounterId": "7",
 	"effectiveDate": "2026-03-27T10:30:00+08:00",

@@ -7,11 +7,11 @@ patient:
     cardinality: 0..1
     required: true
   idType:
-    description: 證件類型。
+    description: 證件類型
     fhirMapping: Patient.identifier.type.coding.code
     cardinality: 0..1
   idNumber:
-    description: 證件號碼。
+    description: 證件號碼
     fhirMapping: Patient.identifier.value
     cardinality: 0..1
   active:
@@ -19,35 +19,35 @@ patient:
     fhirMapping: Patient.active
     cardinality: 0..1
   name:
-    description: 病人姓名。
+    description: 姓名
     fhirMapping: Patient.name.text
     cardinality: 0..1
   telecomSystem:
-    description: 聯絡方式類型。
+    description: 聯絡方式類型
     fhirMapping: Patient.telecom.system
     cardinality: 0..1
   telecomValue:
-    description: 聯絡號碼或信箱。
+    description: 聯絡號碼/信箱
     fhirMapping: Patient.telecom.value
     cardinality: 0..1
   telecomUse:
-    description: 聯絡方式用途。
+    description: 聯絡方式用途
     fhirMapping: Patient.telecom.use
     cardinality: 0..1
   gender:
-    description: 病人性別。
+    description: 病人性別
     fhirMapping: Patient.gender
     cardinality: 0..1
   birthday:
-    description: 出生日期。
+    description: 出生日期
     fhirMapping: Patient.birthDate
     cardinality: 0..1
   address:
-    description: 通訊地址。
+    description: 通訊地址
     fhirMapping: Patient.address.text
     cardinality: 0..1
   organization:
-    description: 管理機構。
+    description: 管理機構
     fhirMapping: Patient.managingOrganization.reference
     cardinality: 0..1
     reference: organization

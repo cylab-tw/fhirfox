@@ -110,6 +110,14 @@ $defs:
     type: object
     description: >
       單一 resource filter object。詳細欄位與可用 key 由 dataset validator 檢查。
+      `limit` 可用於限制單一 filter 最多保留幾筆 match。
+    properties:
+      id:
+        $ref: "#/$defs/scalar"
+        description: Exact source resource id to reuse.
+      limit:
+        $ref: "#/$defs/positiveInteger"
+        description: Maximum number of matches to keep for this filter entry.
   resourceSelection:
     description: 單一 filter object，或由多個 filter object 組成的陣列。
     oneOf:

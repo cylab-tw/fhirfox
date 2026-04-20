@@ -2,14 +2,13 @@
 	"id": "20",
 	"status": "final",
 	"categoryCode": "laboratory",
-	"observationCode": "LAB-0006",
+	"observationCode": "Lab-0006",
 	"patientId": "3",
 	"encounterId": "7",
 	"effectiveDate": "2026-03-27T10:30:00+08:00",
 	"performerId": "4",
 	"performerType": "practitionerrole",
 	"valueQuantity": 1,
-	"valueUnit": "{score}",
 	"rangeLow": 0,
 	"rangeHigh": 1
 }

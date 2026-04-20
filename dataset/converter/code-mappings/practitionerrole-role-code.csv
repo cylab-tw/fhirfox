@@ -1,12 +1,12 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 PR-0001,158965000,Medical practitioner,http://snomed.info/sct,醫師,true
-PR-0002,394802001,General medicine,http://snomed.info/sct,一般科醫師,true
-PR-0003,59058001,General physician,http://snomed.info/sct,家醫科醫師,true
+PR-0002,394802001,General medicine,http://snomed.info/sct,一般內科醫師,true
+PR-0003,59058001,General physician,http://snomed.info/sct,家庭醫學科醫師,true
 PR-0004,39677007,Internal medicine,http://snomed.info/sct,內科醫師,true
 PR-0005,304292004,Surgeon,http://snomed.info/sct,外科醫師,true
 PR-0006,11935004,Obstetrician and gynecologist,http://snomed.info/sct,婦產科醫師,true
 PR-0007,21365001,Professional dentist,http://snomed.info/sct,牙醫師,true
-PR-0008,309294001,Accident and emergency doctor,http://snomed.info/sct,急診醫師,true
+PR-0008,309294001,Emergency physician,http://snomed.info/sct,急診醫師,true
 PR-0009,88189002,Anesthetist,http://snomed.info/sct,麻醉醫師,true
 PR-0010,17561000,Cardiologist,http://snomed.info/sct,心臟內科醫師,true
 PR-0011,71838004,Gastroenterologist,http://snomed.info/sct,腸胃內科醫師,true
@@ -31,7 +31,7 @@ PR-0029,309383003,Pediatric surgeon,http://snomed.info/sct,兒科外科醫師,tr
 PR-0030,90201008,Pedodontist,http://snomed.info/sct,兒童牙科醫師,true
 PR-0031,309330006,Pediatric cardiologist,http://snomed.info/sct,兒科心臟科醫師,true
 PR-0032,309334002,Pediatric neurologist,http://snomed.info/sct,兒科神經科醫師,true
-PR-0033,9371000175105,Adolescent medicine specialist,http://snomed.info/sct,青少年醫學專家,true
+PR-0033,9371000175105,Adolescent medicine specialist,http://snomed.info/sct,青少年醫學專科醫師,true
 PR-0034,224562001,Pediatric nurse,http://snomed.info/sct,兒科護理師,true
 PR-0035,158994007,Nurse,http://snomed.info/sct,護理師,true
 PR-0036,224535009,Registered nurse,http://snomed.info/sct,註冊護理師,true

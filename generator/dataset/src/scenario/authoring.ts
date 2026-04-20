@@ -31,10 +31,12 @@ export const SCENARIO_SELECTION_KEYS = [
 	'expandLinks',
 ] as const;
 export const SCENARIO_RANGE_KEYS = ['gt', 'gte', 'lt', 'lte'] as const;
+export const SCENARIO_COMMON_FILTER_KEYS = ['id', 'limit'] as const;
 
 export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string[] }> = {
 	patient: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'idType',
 			'idNumber',
@@ -54,6 +56,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	encounter: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'identifier',
 			'status',
@@ -77,6 +80,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	condition: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'clinicalStatus',
 			'verificationStatus',
 			'category',
@@ -94,6 +98,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	allergyIntolerance: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'clinicalStatus',
 			'verificationStatus',
 			'type',
@@ -114,6 +119,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	observation: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'status',
 			'categoryCode',
 			'observationCode',
@@ -132,6 +138,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	procedure: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'status',
 			'statusReason',
@@ -151,10 +158,11 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 		],
 	},
 	medication: {
-		keys: ['id', 'code', 'display'],
+		keys: [...SCENARIO_COMMON_FILTER_KEYS, 'id', 'code', 'display'],
 	},
 	medicationRequest: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'status',
 			'intent',
@@ -177,6 +185,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	diagnosticReport: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'status',
 			'categoryCode',
@@ -194,6 +203,7 @@ export const SCENARIO_RESOURCE_FILTER_DEFINITIONS: Record<string, { keys: string
 	},
 	imagingStudy: {
 		keys: [
+			...SCENARIO_COMMON_FILTER_KEYS,
 			'id',
 			'status',
 			'modalityCode',
@@ -368,6 +378,15 @@ function validateScenarioFilterObject(resourceType: string, value: unknown, path
 			code: 'scenario.filter.invalidBoolean',
 			path: `${path}.samePerson`,
 			message: '"samePerson" must be a boolean when provided.',
+		});
+	}
+
+	if ('limit' in value && !isPositiveInteger(value.limit)) {
+		issues.push({
+			severity: 'error',
+			code: 'scenario.filter.invalidLimit',
+			path: `${path}.limit`,
+			message: 'Filter field "limit" must be a positive integer when provided.',
 		});
 	}
 

@@ -2,20 +2,20 @@ encounter:
   description: 此情境納入的 Encounter 原始資料。
   cardinality: 0..*
   id:
-    description: 就醫事件邏輯 ID。
+    description: 邏輯 ID
     fhirMapping: Encounter.id
     cardinality: 0..1
     required: true
   identifier:
-    description: 就醫識別碼或就診號。
+    description: 就醫識別碼
     fhirMapping: Encounter.identifier
     cardinality: 0..1
   status:
-    description: 就醫狀態。
+    description: 就醫狀態
     fhirMapping: Encounter.status
     cardinality: 0..1
   class:
-    description: 就醫類別，例如門診或住院。
+    description: 就醫分類
     fhirMapping: Encounter.class
     cardinality: 0..1
   type:
@@ -23,54 +23,54 @@ encounter:
     fhirMapping: Encounter.type
     cardinality: 0..1
   serviceType:
-    description: 服務類型。
+    description: 就醫科別
     fhirMapping: Encounter.serviceType
     cardinality: 0..1
   patientId:
-    description: 病人 ID。
+    description: 就醫病人
     fhirMapping: Encounter.subject.reference
     cardinality: 0..1
     reference: patient
   participantType:
-    description: 參與角色類型。
+    description: 參與者角色
     fhirMapping: Encounter.participant.type
     cardinality: 0..1
   practitionerId:
-    description: 醫事人員 ID。
+    description: 醫事人員
     fhirMapping: Encounter.participant.individual.reference
     cardinality: 0..1
     reference: practitioner
   periodStart:
-    description: 就醫開始時間。
+    description: 開始時間
     fhirMapping: Encounter.period.start
     cardinality: 0..1
   periodEnd:
-    description: 就醫結束時間。
+    description: 結束時間
     fhirMapping: Encounter.period.end
     cardinality: 0..1
   conditionId:
-    description: 關聯病況 ID。
+    description: 診斷/處置
     fhirMapping: Encounter.diagnosis.condition.reference
     cardinality: 0..1
     reference: condition
   diagnosisUse:
-    description: 診斷用途。
+    description: 診斷作用
     fhirMapping: Encounter.diagnosis.use
     cardinality: 0..1
   admitSource:
-    description: 入院來源。
+    description: 入院來源
     fhirMapping: Encounter.hospitalization.admitSource
     cardinality: 0..1
   dischargeDisposition:
-    description: 出院去向。
+    description: 出院處置
     fhirMapping: Encounter.hospitalization.dischargeDisposition
     cardinality: 0..1
   locationId:
-    description: 就醫地點。
+    description: 就醫地點
     fhirMapping: Encounter.location.location.reference
     cardinality: 0..1
   serviceProviderId:
-    description: 服務提供機構。
+    description: 主責機構
     fhirMapping: Encounter.serviceProvider.reference
     cardinality: 0..1
     reference: organization

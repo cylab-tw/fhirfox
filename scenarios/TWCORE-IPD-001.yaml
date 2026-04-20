@@ -15,7 +15,7 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 1
+  maxSeeds: 3
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
@@ -34,3 +34,4 @@ condition:
 
 procedure:
   - procedureCode: Proc-0012
+    encounterId: "7"

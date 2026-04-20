@@ -15,7 +15,7 @@ details: |
 
 selection:
   strategy: best-match
-  maxSeeds: 1
+  maxSeeds: 4
   maxPatients: 1
   maxLinkedEncounters: 1
   expandLinks: true
