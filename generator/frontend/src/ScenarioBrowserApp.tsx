@@ -305,7 +305,7 @@ export default function ScenarioBrowserApp() {
 	}
 
 	return (
-		<div className="h-screen overflow-hidden bg-[#f5f7fb] text-slate-800 antialiased">
+		<div className="h-full overflow-hidden bg-[#f5f7fb] text-slate-800 antialiased">
 			<main className="mx-auto flex h-full max-w-[1680px] flex-col gap-4 px-4 py-5 sm:px-6 lg:px-8">
 				{scenarioSource === 'missing' ? (
 					<StatusCard
