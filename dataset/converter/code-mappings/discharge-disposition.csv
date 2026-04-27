@@ -1,0 +1,2 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+home,home,Home,http://terminology.hl7.org/CodeSystem/discharge-disposition,返家,true

@@ -22,7 +22,7 @@ Cond-022,22298006,Myocardial infarction,http://snomed.info/sct,心肌梗塞,true
 Cond-023,84114007,Heart failure,http://snomed.info/sct,心衰竭,true
 Cond-024,38341003,Hypertensive disorder,http://snomed.info/sct,高血壓性疾病,true
 Cond-025,42343007,Congestive heart failure,http://snomed.info/sct,充血性心衰竭,true
-Cond-027,47505003,Atrial fibrillation,http://snomed.info/sct,心房顫動,true
+Cond-027,49436004,Atrial fibrillation,http://snomed.info/sct,心房顫動,true
 Cond-028,22298006,Acute myocardial infarction,http://snomed.info/sct,急性心肌梗塞,true
 Cond-029,84114007,Chronic heart failure,http://snomed.info/sct,慢性心衰竭,true
 Cond-030,38341003,Hypertension,http://snomed.info/sct,高血壓,true

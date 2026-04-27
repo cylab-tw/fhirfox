@@ -3,7 +3,7 @@ Rep-0001,57021-8,CBC W Auto Differential panel - Blood,http://loinc.org,血液�
 Rep-0002,24331-1,Lipid 1996 panel - Serum or Plasma,http://loinc.org,血脂檢查報告 (Lipid Profile),true
 Rep-0003,24325-3,Hepatic function panel,http://loinc.org,肝功能檢查報告 (LFT),true
 Rep-0004,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素報告 (HbA1c),true
-Rep-0005,14771-0,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖報告,true
+Rep-0005,1558-6,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖報告,true
 Rep-0006,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液常規檢查報告 (U/A),true
 Rep-0007,36554-4,X-ray of Chest PA and Lateral,http://loinc.org,胸部 X 光檢查報告 (PA & Lat),true
 Rep-0008,36642-7,X-ray of Abdomen,http://loinc.org,腹部 X 光檢查報告 (KUB),true

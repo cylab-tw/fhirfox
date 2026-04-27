@@ -10,8 +10,8 @@ VS-0008,85354-9,Blood pressure panel with all children optional,http://loinc.org
 VS-0009,8480-6,Systolic blood pressure,http://loinc.org,收縮壓 (高壓),true
 VS-0010,8462-4,Diastolic blood pressure,http://loinc.org,舒張壓 (低壓),true
 VS-0011,8478-0,Mean arterial pressure,http://loinc.org,平均動脈壓,true
-VS-0012,59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,動脈血氧飽和度 (脈搏血氧機),true
-VS-0013,59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,脈搏血氧飽和度 (血氧機),true
+VS-0012,2708-6,Oxygen saturation in Arterial blood,http://loinc.org,動脈血氧飽和度,true
+VS-0013,2708-6,Oxygen saturation in Arterial blood,http://loinc.org,脈搏血氧飽和度 (血氧機),true
 VS-0014,8287-5,Head circumference Occipital-frontal,http://loinc.org,頭圍,true
 VS-0015,8289-1,Head circumference Percentile,http://loinc.org,頭圍百分位數,true
 VS-0016,59576-9,Body mass index (BMI) [Percentile] Per age and sex,http://loinc.org,BMI百分位數 (依年齡性別),true
@@ -22,7 +22,7 @@ Lab-0003,718-7,Hemoglobin [Mass/volume] in Blood,http://loinc.org,血紅素 (Hb)
 Lab-0004,4544-3,Hematocrit [Volume Fraction] in Blood,http://loinc.org,血球比容 (Hct),true
 Lab-0005,42757-5,Troponin I.cardiac [Mass/volume] in Blood,http://loinc.org,心肌肌鈣蛋白 I,true
 Lab-0006,787-2,Mean corpuscular volume (MCV),http://loinc.org,平均紅血球容積 (MCV),true
-Lab-0007,14771-0,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖,true
+Lab-0007,1558-6,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖,true
 Lab-0008,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素 (HbA1c),true
 Lab-0009,2093-3,Cholesterol [Mass/volume] in Serum or Plasma,http://loinc.org,總膽固醇 (T-CHO),true
 Lab-0010,2571-8,Triglycerides [Mass/volume] in Serum or Plasma,http://loinc.org,三酸甘油酯 (TG),true

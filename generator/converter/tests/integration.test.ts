@@ -231,7 +231,7 @@ test('toFhirResource uses explicit reference types for polymorphic references', 
 	assert.equal(((result.performer as Array<{ reference?: string }>)?.[0] ?? {}).reference, 'Organization/3');
 });
 
-test('toFhirBundle preserves input order and builds fullUrl values', async () => {
+test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
 	});
@@ -247,17 +247,23 @@ test('toFhirBundle preserves input order and builds fullUrl values', async () =>
 	assert.equal(result.entry.length, 5);
 	assert.equal(result.entry[0]?.resource.resourceType, 'Patient');
 	assert.equal(result.entry[1]?.resource.resourceType, 'Encounter');
-	assert.equal(result.entry[0]?.fullUrl, 'https://example.test/fhir/Patient/1');
-	assert.equal(result.entry[1]?.fullUrl, 'https://example.test/fhir/Encounter/1');
+	assert.match(
+		result.entry[0]?.fullUrl ?? '',
+		/^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u,
+	);
+	assert.match(
+		result.entry[1]?.fullUrl ?? '',
+		/^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u,
+	);
 	assert.equal(
 		(result.entry[1]?.resource.subject as { reference?: string } | undefined)?.reference,
-		'https://example.test/fhir/Patient/1',
+		result.entry[0]?.fullUrl,
 	);
 	assertBundleReferencesResolveToFullUrls(result);
 	assertValidTwCoreBundle(result);
 });
 
-test('toFhirBundle builds default absolute fullUrl values when no base is configured', async () => {
+test('toFhirBundle builds stable urn:uuid fullUrl values when no base is configured', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
 	});
@@ -267,11 +273,11 @@ test('toFhirBundle builds default absolute fullUrl values when no base is config
 		igVersion: '1.0.0',
 	});
 
-	assert.equal(result.entry[0]?.fullUrl, 'https://fhirfox.dev/fhir/Patient/1');
-	assert.equal(result.entry[1]?.fullUrl, 'https://fhirfox.dev/fhir/Encounter/1');
+	assert.equal(result.entry[0]?.fullUrl, 'urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898');
+	assert.equal(result.entry[1]?.fullUrl, 'urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158');
 	assert.equal(
 		(result.entry[1]?.resource.subject as { reference?: string } | undefined)?.reference,
-		'https://fhirfox.dev/fhir/Patient/1',
+		result.entry[0]?.fullUrl,
 	);
 	assertBundleReferencesResolveToFullUrls(result);
 });
@@ -617,7 +623,7 @@ test('toFhirResource converts Condition with mapped local condition code', async
 	});
 
 	assert.equal(result.resourceType, 'Condition');
-	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '490008');
+	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '233604007');
 	assert.equal((result.subject as { reference?: string } | undefined)?.reference, 'Patient/1');
 	assert.equal((result.recorder as { reference?: string } | undefined)?.reference, 'Practitioner/1');
 });
@@ -633,7 +639,7 @@ test('toFhirResource converts Procedure with mapped code, performer function, an
 	});
 
 	assert.equal(result.resourceType, 'Procedure');
-	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '18557009');
+	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '449814002');
 	assert.equal(
 		(result.performer as Array<{ function?: { coding?: Array<{ code?: string }> } }>)?.[0]?.function?.coding?.[0]?.code,
 		'309294001',

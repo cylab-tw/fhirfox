@@ -2,11 +2,11 @@ source_code,target_code,target_display,target_system,display_zh_tw,is_active
 PR-0001,158965000,Medical practitioner,http://snomed.info/sct,醫師,true
 PR-0002,394802001,General medicine,http://snomed.info/sct,一般內科醫師,true
 PR-0003,59058001,General physician,http://snomed.info/sct,家庭醫學科醫師,true
-PR-0004,39677007,Internal medicine,http://snomed.info/sct,內科醫師,true
+PR-0004,39677007,Internal medicine specialist,http://snomed.info/sct,內科醫師,true
 PR-0005,304292004,Surgeon,http://snomed.info/sct,外科醫師,true
 PR-0006,11935004,Obstetrician and gynecologist,http://snomed.info/sct,婦產科醫師,true
 PR-0007,21365001,Professional dentist,http://snomed.info/sct,牙醫師,true
-PR-0008,309294001,Emergency physician,http://snomed.info/sct,急診醫師,true
+PR-0008,309294001,Accident and emergency doctor,http://snomed.info/sct,急診醫師,true
 PR-0009,88189002,Anesthetist,http://snomed.info/sct,麻醉醫師,true
 PR-0010,17561000,Cardiologist,http://snomed.info/sct,心臟內科醫師,true
 PR-0011,71838004,Gastroenterologist,http://snomed.info/sct,腸胃內科醫師,true
