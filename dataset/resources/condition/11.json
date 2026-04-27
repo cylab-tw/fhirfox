@@ -1,0 +1,13 @@
+{
+	"id": "11",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "problem-list-item",
+	"conditionCode": "Cond-030",
+	"conditionText": "高血壓追蹤",
+	"patientId": "4",
+	"onsetDate": "2020-05-20T00:00:00+08:00",
+	"recordedDate": "2026-01-05T09:05:00+08:00",
+	"recorderId": "5",
+	"recorderType": "practitionerrole"
+}

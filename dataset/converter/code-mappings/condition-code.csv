@@ -75,3 +75,5 @@ Cond-078,233604007,Pneumonia,http://snomed.info/sct,肺炎,true
 Cond-079,19400003,Acute otitis media,http://snomed.info/sct,急性中耳炎,true
 Cond-080,38500000,Cellulitis,http://snomed.info/sct,蜂窩性組織炎,true
 Cond-087,82271004,Injury of head,http://snomed.info/sct,頭部外傷,true
+Cond-089,82271004,Injury of head,http://snomed.info/sct,頭部外傷（新增混合情境）,true
+Cond-088,53741008,Coronary arteriosclerosis,http://snomed.info/sct,冠狀動脈疾病,true

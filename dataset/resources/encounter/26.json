@@ -1,0 +1,15 @@
+{
+	"id": "26",
+	"identifier": "OPD202607130001",
+	"status": "finished",
+	"class": "AMB",
+	"serviceType": "cardiology",
+	"patientId": "6",
+	"periodStart": "2026-07-13T09:30:00+08:00",
+	"periodEnd": "2026-07-13T09:55:00+08:00",
+	"serviceProviderId": "1",
+	"participantType": "ATND",
+	"practitionerId": "6",
+	"conditionId": "16",
+	"diagnosisUse": "AD"
+}

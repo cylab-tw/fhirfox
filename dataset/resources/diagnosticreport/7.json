@@ -1,0 +1,14 @@
+{
+	"id": "7",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "Rep-0005",
+	"patientId": "4",
+	"encounterId": "8",
+	"effectiveDate": "2026-01-05T09:15:00+08:00",
+	"issued": "2026-01-05T11:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "22",
+	"conclusion": "空腹血糖偏高，建議持續追蹤。"
+}

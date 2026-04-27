@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: IPS_TWCORE-OPD-010
+name: 病患一：多次單一門診
+level: 3
+type: outpatient
+summary: 病患一於新陳代謝科完成 5 次門診追蹤，每次開立 3 筆慢性病用藥，並包含 3 次檢驗數據與報告。
+details: |
+  此情境用於驗證單一病人在同一科別多次門診、慢性病多重用藥與檢驗報告的轉出。
+
+  - 病患一多次新陳代謝科門診
+  - 5 次門診 Encounter
+  - 每次門診 3 筆 MedicationRequest
+  - 3 次檢驗 Observation 與對應 DiagnosticReport
+
+selection:
+  strategy: best-match
+  maxSeeds: 80
+  maxPatients: 1
+  maxLinkedEncounters: 5
+  expandLinks: true
+
+encounter:
+  patientId: "4"
+  class: AMB
+  status: finished
+  serviceType: endo
+
+condition:
+  - patientId: "4"
+    conditionCode: Cond-054
+  - patientId: "4"
+    conditionCode: Cond-030
+
+observation:
+  - patientId: "4"
+    encounterId: "8"
+    observationCode: Lab-0007
+  - patientId: "4"
+    encounterId: "10"
+    observationCode: Lab-0008
+  - patientId: "4"
+    encounterId: "12"
+    observationCode: Lab-0009
+
+medicationRequest:
+  patientId: "4"
+  status: active
+
+diagnosticReport:
+  - patientId: "4"
+    encounterId: "8"
+    reportCode: Rep-0005
+  - patientId: "4"
+    encounterId: "10"
+    reportCode: Rep-0004
+  - patientId: "4"
+    encounterId: "12"
+    reportCode: Rep-0002

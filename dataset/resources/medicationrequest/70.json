@@ -1,0 +1,20 @@
+{
+  "id": "70",
+  "status": "active",
+  "intent": "order",
+  "medicationId": "16",
+  "patientId": "7",
+  "encounterId": "29",
+  "authoredOn": "2026-03-02T09:20:00+08:00",
+  "requesterId": "6",
+  "requesterType": "practitionerrole",
+  "reasonReferenceId": "18",
+  "dosageText": "Aspirin 100 mg by mouth once daily.",
+  "doseValue": 1,
+  "doseUnit": "{tbl}",
+  "frequency": 1,
+  "period": 1,
+  "periodUnit": "d",
+  "durationValue": 28,
+  "durationUnit": "d"
+}

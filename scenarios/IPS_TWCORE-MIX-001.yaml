@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: IPS_TWCORE-MIX-001
+name: 病患四：多次門診與急診
+level: 3
+type: mixed
+summary: 病患四完成 4 次心臟內科門診與 1 次發燒急診，門診皆有 3 筆用藥並包含 2 次心臟內科檢驗。
+details: |
+  此情境用於驗證同一病人的門診與急診 Encounter 可共同展開，並保留心臟內科用藥與檢驗。
+
+  - 心臟內科門診 4 次
+  - 急診發燒 1 次
+  - 每次門診 3 筆 MedicationRequest
+  - 心臟內科檢驗 2 次
+
+selection:
+  strategy: best-match
+  maxSeeds: 80
+  maxPatients: 1
+  maxLinkedEncounters: 5
+  expandLinks: true
+
+encounter:
+  - patientId: "7"
+    class: AMB
+    status: finished
+    serviceType: cardiology
+  - patientId: "7"
+    class: EMER
+    status: finished
+    serviceType: emergency
+
+condition:
+  - patientId: "7"
+    conditionCode: Cond-027
+  - patientId: "7"
+    encounterId: "32"
+    conditionCode: Cond-062
+
+observation:
+  - patientId: "7"
+    encounterId: "28"
+    observationCode: Lab-0005
+  - patientId: "7"
+    encounterId: "30"
+    observationCode: Lab-0012
+
+medicationRequest:
+  patientId: "7"
+  status: active
+
+diagnosticReport:
+  - patientId: "7"
+    encounterId: "28"
+    reportCode: Rep-0005
+  - patientId: "7"
+    encounterId: "30"
+    reportCode: Rep-0002

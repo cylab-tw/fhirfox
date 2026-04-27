@@ -1,0 +1,15 @@
+{
+	"id": "23",
+	"status": "final",
+	"categoryCode": "laboratory",
+	"observationCode": "Lab-0008",
+	"patientId": "4",
+	"encounterId": "10",
+	"effectiveDate": "2026-03-02T09:15:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"valueQuantity": 7.4,
+	"valueUnit": "%",
+	"rangeLow": 4,
+	"rangeHigh": 5.6
+}

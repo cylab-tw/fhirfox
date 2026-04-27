@@ -1,0 +1,13 @@
+{
+	"id": "18",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "problem-list-item",
+	"conditionCode": "Cond-027",
+	"conditionText": "心房顫動追蹤",
+	"patientId": "7",
+	"onsetDate": "2021-11-11T00:00:00+08:00",
+	"recordedDate": "2026-02-02T09:05:00+08:00",
+	"recorderId": "6",
+	"recorderType": "practitionerrole"
+}

@@ -15,6 +15,7 @@ m2,m2,square meter,http://unitsofmeasure.org,,true
 {cap},{cap},capsule,http://unitsofmeasure.org,粒 (膠囊),true
 mL,mL,milliliter,http://unitsofmeasure.org,毫升,true
 mg,mg,milligram,http://unitsofmeasure.org,毫克,true
+d,d,day,http://unitsofmeasure.org,日,true
 mg/dL,mg/dL,milligram per deciliter,http://unitsofmeasure.org,mg/dL (常見生化單位),true
 ng/mL,ng/mL,nanogram per milliliter,http://unitsofmeasure.org,ng/mL (心臟標記單位),true
 g/dL,g/dL,gram per deciliter,http://unitsofmeasure.org,g/dL (血紅素單位),true

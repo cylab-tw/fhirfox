@@ -1,0 +1,13 @@
+{
+	"id": "10",
+	"clinicalStatus": "active",
+	"verificationStatus": "confirmed",
+	"category": "problem-list-item",
+	"conditionCode": "Cond-054",
+	"conditionText": "第二型糖尿病追蹤",
+	"patientId": "4",
+	"onsetDate": "2021-01-15T00:00:00+08:00",
+	"recordedDate": "2026-01-05T09:05:00+08:00",
+	"recorderId": "5",
+	"recorderType": "practitionerrole"
+}

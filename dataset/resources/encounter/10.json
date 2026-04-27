@@ -1,0 +1,15 @@
+{
+	"id": "10",
+	"identifier": "OPD202603020001",
+	"status": "finished",
+	"class": "AMB",
+	"serviceType": "endo",
+	"patientId": "4",
+	"periodStart": "2026-03-02T09:00:00+08:00",
+	"periodEnd": "2026-03-02T09:25:00+08:00",
+	"serviceProviderId": "1",
+	"participantType": "ATND",
+	"practitionerId": "5",
+	"conditionId": "10",
+	"diagnosisUse": "AD"
+}

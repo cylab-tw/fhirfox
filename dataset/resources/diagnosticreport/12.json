@@ -1,0 +1,14 @@
+{
+	"id": "12",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "Rep-0002",
+	"patientId": "5",
+	"encounterId": "17",
+	"effectiveDate": "2026-05-11T10:15:00+08:00",
+	"issued": "2026-05-11T12:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "27",
+	"conclusion": "血脂控制尚可。"
+}
