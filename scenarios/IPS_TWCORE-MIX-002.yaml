@@ -12,7 +12,6 @@ details: |
   - 急診頭部外傷 1 次
   - 每次門診 3 筆 MedicationRequest
   - 新陳代謝科 1 次檢驗、心臟內科 1 次檢驗
-  - 需求原文「門診 4 次」與科別合計 7 次不一致，此處以科別合計 7 次建模
 
 selection:
   strategy: best-match
