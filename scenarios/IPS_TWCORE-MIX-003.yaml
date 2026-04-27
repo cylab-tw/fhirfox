@@ -13,7 +13,6 @@ details: |
   - 支架置放相關住院 1 次
   - 每次門診 3 筆 MedicationRequest
   - 心臟內科檢驗 3 次
-  - 需求原文「檢驗 2 次」與括號「心臟內科 3 次」不一致，此處以括號 3 次建模
 
 selection:
   strategy: best-match
