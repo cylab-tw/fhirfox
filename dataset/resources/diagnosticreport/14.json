@@ -1,0 +1,14 @@
+{
+	"id": "14",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "Rep-0002",
+	"patientId": "5",
+	"encounterId": "19",
+	"effectiveDate": "2026-07-06T10:15:00+08:00",
+	"issued": "2026-07-06T12:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "29",
+	"conclusion": "LDL 稍高，建議加強控制。"
+}

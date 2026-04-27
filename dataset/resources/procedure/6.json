@@ -1,0 +1,15 @@
+{
+	"id": "6",
+	"status": "completed",
+	"category": "387713003",
+	"procedureCode": "Proc-0006",
+	"procedureText": "頭部傷口縫合",
+	"patientId": "6",
+	"encounterId": "27",
+	"performedDate": "2026-05-13T21:00:00+08:00",
+	"performerId": "3",
+	"performerType": "practitionerrole",
+	"performerFunction": "Perf-0004",
+	"reasonCode": "Cond-089",
+	"outcome": "385669000"
+}

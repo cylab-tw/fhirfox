@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: IPS_TWCORE-OPD-011
+name: 病患二：多次複合門診
+level: 3
+type: outpatient
+summary: 病患二完成 7 次跨科門診，涵蓋家醫科、新陳代謝科與心臟內科，每次 3 筆用藥與 5 次檢驗資料。
+details: |
+  此情境用於驗證同一病人在多科別門診間的 Encounter、用藥、檢驗與報告串接。
+
+  - 家醫科 2 次、新陳代謝科 3 次、心臟內科 2 次
+  - 每次門診 3 筆 MedicationRequest
+  - 新陳代謝科 3 次檢驗、心臟內科 2 次檢驗
+
+selection:
+  strategy: best-match
+  maxSeeds: 100
+  maxPatients: 1
+  maxLinkedEncounters: 7
+  expandLinks: true
+
+encounter:
+  - patientId: "5"
+    class: AMB
+    status: finished
+    serviceType: "01"
+  - patientId: "5"
+    class: AMB
+    status: finished
+    serviceType: endo
+  - patientId: "5"
+    class: AMB
+    status: finished
+    serviceType: cardiology
+
+condition:
+  - patientId: "5"
+    conditionCode: Cond-030
+  - patientId: "5"
+    conditionCode: Cond-054
+  - patientId: "5"
+    conditionCode: Cond-027
+
+observation:
+  - patientId: "5"
+    encounterId: "15"
+    observationCode: Lab-0007
+  - patientId: "5"
+    encounterId: "16"
+    observationCode: Lab-0008
+  - patientId: "5"
+    encounterId: "17"
+    observationCode: Lab-0009
+  - patientId: "5"
+    encounterId: "18"
+    observationCode: Lab-0005
+  - patientId: "5"
+    encounterId: "19"
+    observationCode: Lab-0012
+
+medicationRequest:
+  patientId: "5"
+  status: active
+
+diagnosticReport:
+  - patientId: "5"
+    encounterId: "15"
+    reportCode: Rep-0005
+  - patientId: "5"
+    encounterId: "16"
+    reportCode: Rep-0004
+  - patientId: "5"
+    encounterId: "17"
+    reportCode: Rep-0002
+  - patientId: "5"
+    encounterId: "18"
+    reportCode: Rep-0005
+  - patientId: "5"
+    encounterId: "19"
+    reportCode: Rep-0002

@@ -1,0 +1,20 @@
+{
+  "id": "87",
+  "status": "active",
+  "intent": "order",
+  "medicationId": "15",
+  "patientId": "8",
+  "encounterId": "36",
+  "authoredOn": "2026-05-18T09:20:00+08:00",
+  "requesterId": "6",
+  "requesterType": "practitionerrole",
+  "reasonReferenceId": "20",
+  "dosageText": "Metoprolol 25 mg by mouth twice daily.",
+  "doseValue": 1,
+  "doseUnit": "{tbl}",
+  "frequency": 2,
+  "period": 1,
+  "periodUnit": "d",
+  "durationValue": 28,
+  "durationUnit": "d"
+}

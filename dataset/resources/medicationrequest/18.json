@@ -1,0 +1,20 @@
+{
+  "id": "18",
+  "status": "active",
+  "intent": "order",
+  "medicationId": "9",
+  "patientId": "4",
+  "encounterId": "11",
+  "authoredOn": "2026-04-06T09:20:00+08:00",
+  "requesterId": "5",
+  "requesterType": "practitionerrole",
+  "reasonReferenceId": "10",
+  "dosageText": "Metformin 500 mg by mouth twice daily.",
+  "doseValue": 1,
+  "doseUnit": "{tbl}",
+  "frequency": 2,
+  "period": 1,
+  "periodUnit": "d",
+  "durationValue": 28,
+  "durationUnit": "d"
+}

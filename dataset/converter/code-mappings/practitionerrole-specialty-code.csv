@@ -2,7 +2,7 @@ source_code,target_code,target_display,target_system,display_zh_tw,is_active
 Spec-0001,419772000,Family practice,http://snomed.info/sct,家庭醫學科,true
 Spec-0002,394802001,General medicine,http://snomed.info/sct,一般內科,true
 Spec-0003,408443003,General medical practice,http://snomed.info/sct,全科醫療,true
-Spec-0004,394576009,Accident & emergency,http://snomed.info/sct,急診醫學科,true
+Spec-0004,410005002,Accident and emergency medicine,http://snomed.info/sct,急診醫學科,true
 Spec-0005,394811001,Geriatric medicine,http://snomed.info/sct,老年醫學科,true
 Spec-0006,394806003,Palliative care,http://snomed.info/sct,安寧療護科,true
 Spec-0007,409968004,Preventive medicine,http://snomed.info/sct,預防醫學科,true

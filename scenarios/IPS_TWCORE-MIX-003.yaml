@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: IPS_TWCORE-MIX-003
+name: 病患五：多次門診與住院手術
+level: 3
+type: mixed
+summary: 病患五完成 4 次心臟內科門診、冠狀動脈支架置放住院手術、每次門診 3 筆用藥與 3 次檢驗。
+details: |
+  此情境用於驗證同一病人的心臟內科門診、住院 Encounter 與支架手術 Procedure 可一起轉出。
+
+  - 心臟內科門診 4 次
+  - 冠狀動脈支架置放手術 1 次
+  - 支架置放相關住院 1 次
+  - 每次門診 3 筆 MedicationRequest
+  - 心臟內科檢驗 3 次
+  - 需求原文「檢驗 2 次」與括號「心臟內科 3 次」不一致，此處以括號 3 次建模
+
+selection:
+  strategy: best-match
+  maxSeeds: 100
+  maxPatients: 1
+  maxLinkedEncounters: 5
+  expandLinks: true
+
+encounter:
+  - patientId: "8"
+    class: AMB
+    status: finished
+    serviceType: cardiology
+  - patientId: "8"
+    class: IMP
+    status: finished
+    serviceType: cardiology
+
+condition:
+  patientId: "8"
+  conditionCode: Cond-088
+
+observation:
+  - patientId: "8"
+    encounterId: "33"
+    observationCode: Lab-0005
+  - patientId: "8"
+    encounterId: "35"
+    observationCode: Lab-0012
+  - patientId: "8"
+    encounterId: "36"
+    observationCode: Lab-0027
+
+procedure:
+  patientId: "8"
+  encounterId: "37"
+  procedureCode: Proc-0046
+
+medicationRequest:
+  patientId: "8"
+  status: active
+
+diagnosticReport:
+  - patientId: "8"
+    encounterId: "33"
+    reportCode: Rep-0005
+  - patientId: "8"
+    encounterId: "35"
+    reportCode: Rep-0002
+  - patientId: "8"
+    encounterId: "36"
+    reportCode: Rep-0001

@@ -22,9 +22,9 @@ export function writeFhirValue(
 				current[segment.name] = coerceValue(value, dataType);
 
 				if (mapping && segment.name === 'code') {
-					if (previousSegment?.name.endsWith('Quantity')) {
+					if (shouldWriteCodeDisplayAsUnit(previousSegment)) {
 						current.unit = mapping.display;
-					} else {
+					} else if (shouldWriteCodingDisplay(mapping.system)) {
 						current.display = mapping.display;
 					}
 					current.system = mapping.system;
@@ -52,6 +52,14 @@ export function writeFhirValue(
 
 		current = entry;
 	}
+}
+
+function shouldWriteCodeDisplayAsUnit(previousSegment: ParsedSegment | undefined): boolean {
+	return previousSegment?.name.endsWith('Quantity') === true || previousSegment?.name.endsWith('Duration') === true;
+}
+
+function shouldWriteCodingDisplay(system: string): boolean {
+	return system !== 'http://loinc.org' && system !== 'http://snomed.info/sct';
 }
 
 interface ParsedSegment {

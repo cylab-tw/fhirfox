@@ -1,0 +1,14 @@
+{
+	"id": "9",
+	"status": "final",
+	"categoryCode": "LAB",
+	"reportCode": "Rep-0002",
+	"patientId": "4",
+	"encounterId": "12",
+	"effectiveDate": "2026-05-04T09:15:00+08:00",
+	"issued": "2026-05-04T11:00:00+08:00",
+	"performerId": "1",
+	"performerType": "organization",
+	"resultId": "24",
+	"conclusion": "總膽固醇接近上限，持續飲食與藥物控制。"
+}

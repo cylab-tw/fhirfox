@@ -44,3 +44,4 @@ Proc-0042,52765003,Endotracheal intubation,http://snomed.info/sct,氣管插管,t
 Proc-0043,367336001,Intravenous chemotherapy,http://snomed.info/sct,靜脈化學治療,true
 Proc-0044,429643003,Wound dressing,http://snomed.info/sct,傷口包紮,true
 Proc-0045,387713003,Minor surgical procedure,http://snomed.info/sct,小手術處置,true
+Proc-0046,36969009,Placement of stent in coronary artery,http://snomed.info/sct,冠狀動脈支架置放術,true

@@ -1,0 +1,15 @@
+{
+	"id": "7",
+	"status": "completed",
+	"category": "387713003",
+	"procedureCode": "Proc-0046",
+	"procedureText": "冠狀動脈支架置放術",
+	"patientId": "8",
+	"encounterId": "37",
+	"performedDate": "2026-05-26T10:00:00+08:00",
+	"performerId": "6",
+	"performerType": "practitionerrole",
+	"performerFunction": "Perf-0014",
+	"reasonCode": "Cond-088",
+	"outcome": "385669000"
+}

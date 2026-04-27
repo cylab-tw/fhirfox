@@ -1,0 +1,20 @@
+{
+  "id": "56",
+  "status": "active",
+  "intent": "order",
+  "medicationId": "12",
+  "patientId": "6",
+  "encounterId": "23",
+  "authoredOn": "2026-04-20T09:50:00+08:00",
+  "requesterId": "5",
+  "requesterType": "practitionerrole",
+  "reasonReferenceId": "16",
+  "dosageText": "Atorvastatin 20 mg by mouth once nightly.",
+  "doseValue": 1,
+  "doseUnit": "{tbl}",
+  "frequency": 1,
+  "period": 1,
+  "periodUnit": "d",
+  "durationValue": 28,
+  "durationUnit": "d"
+}

@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=./schema.yaml
+
+id: IPS_TWCORE-MIX-002
+name: 病患三：多次複合門診與急診
+level: 3
+type: mixed
+summary: 病患三完成跨科門診與頭部外傷急診，包含每次門診 3 筆用藥、2 次檢驗與急診處置。
+details: |
+  此情境用於驗證同一病人的多科別門診、急診頭部外傷與處置可在同一 scenario 內完整轉出。
+
+  - 家醫科 2 次、新陳代謝科 3 次、心臟內科 2 次
+  - 急診頭部外傷 1 次
+  - 每次門診 3 筆 MedicationRequest
+  - 新陳代謝科 1 次檢驗、心臟內科 1 次檢驗
+  - 需求原文「門診 4 次」與科別合計 7 次不一致，此處以科別合計 7 次建模
+
+selection:
+  strategy: best-match
+  maxSeeds: 120
+  maxPatients: 1
+  maxLinkedEncounters: 8
+  expandLinks: true
+
+encounter:
+  - patientId: "6"
+    class: AMB
+    status: finished
+    serviceType: "01"
+  - patientId: "6"
+    class: AMB
+    status: finished
+    serviceType: endo
+  - patientId: "6"
+    class: AMB
+    status: finished
+    serviceType: cardiology
+  - patientId: "6"
+    class: EMER
+    status: finished
+    serviceType: emergency
+
+condition:
+  - patientId: "6"
+    conditionCode: Cond-054
+  - patientId: "6"
+    conditionCode: Cond-027
+  - patientId: "6"
+    encounterId: "27"
+    conditionCode: Cond-089
+
+observation:
+  - patientId: "6"
+    encounterId: "22"
+    observationCode: Lab-0008
+  - patientId: "6"
+    encounterId: "25"
+    observationCode: Lab-0005
+
+procedure:
+  patientId: "6"
+  encounterId: "27"
+  procedureCode: Proc-0006
+
+medicationRequest:
+  patientId: "6"
+  status: active
+
+diagnosticReport:
+  - patientId: "6"
+    encounterId: "22"
+    reportCode: Rep-0004
+  - patientId: "6"
+    encounterId: "25"
+    reportCode: Rep-0005

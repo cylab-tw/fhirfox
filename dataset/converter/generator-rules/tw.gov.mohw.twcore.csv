@@ -69,7 +69,7 @@ tw.gov.mohw.twcore,1.0.0,encounter,practitionerId,Encounter.participant[0].indiv
 tw.gov.mohw.twcore,1.0.0,encounter,conditionId,Encounter.diagnosis[0].condition.reference,string,false,build_reference,,Condition,100,true
 tw.gov.mohw.twcore,1.0.0,encounter,diagnosisUse,Encounter.diagnosis[0].use.coding[0].code,string,false,code_map,diagnosis-role,,110,true
 tw.gov.mohw.twcore,1.0.0,encounter,admitSource,Encounter.hospitalization.admitSource.coding[0].code,string,false,code_map,admit-source,,120,true
-tw.gov.mohw.twcore,1.0.0,encounter,dischargeDisposition,Encounter.hospitalization.dischargeDisposition.coding[0].code,string,false,copy,,,130,true
+tw.gov.mohw.twcore,1.0.0,encounter,dischargeDisposition,Encounter.hospitalization.dischargeDisposition.coding[0].code,string,false,code_map,discharge-disposition,,130,true
 tw.gov.mohw.twcore,1.0.0,condition,clinicalStatus,Condition.clinicalStatus.coding[0].code,string,true,code_map,condition-clinical,,10,true
 tw.gov.mohw.twcore,1.0.0,condition,verificationStatus,Condition.verificationStatus.coding[0].code,string,false,code_map,condition-ver-status,,20,true
 tw.gov.mohw.twcore,1.0.0,condition,category,Condition.category[0].coding[0].code,string,true,code_map,condition-category,,30,true

@@ -32,17 +32,37 @@ export function convertResource(
 	resource.id ??= input.id;
 
 	const profile = ruleSet.resourceProfilesByResourceType.get(sourceResourceType);
+	const profileUrl = resolveResourceProfile(sourceResourceType, input, profile?.profileUrl);
 
-	if (profile) {
+	if (profileUrl) {
 		resource.meta = {
 			...resource.meta,
-			profile: [profile.profileUrl],
+			profile: [profileUrl],
 		};
 	}
 
 	applyResourceDefaults(resource, input, sourceResourceType);
 
 	return resource;
+}
+
+function resolveResourceProfile(
+	sourceResourceType: string,
+	input: SourceResource,
+	defaultProfileUrl: string | undefined,
+): string | undefined {
+	if (sourceResourceType !== 'observation') {
+		return defaultProfileUrl;
+	}
+
+	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
+	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
+
+	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
+		return 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore';
+	}
+
+	return defaultProfileUrl;
 }
 
 function applyRule(

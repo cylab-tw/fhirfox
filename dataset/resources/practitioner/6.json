@@ -1,0 +1,15 @@
+{
+	"id": "6",
+	"active": true,
+	"idType": "NNxxx",
+	"idNumber": "F223456789",
+	"name": "鄭心臟內科醫師",
+	"gender": "male",
+	"birthday": "1974-09-14",
+	"telecomSystem": "phone",
+	"telecomUse": "work",
+	"telecomValue": "02-2312-3456#6601",
+	"address": "台北市中正區常德街1號",
+	"qualificationCode": "Qual-0001",
+	"qualificationIssuer": "1"
+}

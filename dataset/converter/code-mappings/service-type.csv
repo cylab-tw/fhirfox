@@ -3,3 +3,5 @@ emergency,117,Emergency Medical,http://terminology.hl7.org/CodeSystem/service-ty
 01,124,General Practice,http://terminology.hl7.org/CodeSystem/service-type,一般門診,true
 10,200,Paediatric Medicine,http://terminology.hl7.org/CodeSystem/service-type,小兒科,true
 inpatient,159,Pathology - General,http://terminology.hl7.org/CodeSystem/service-type,住院服務,true
+endo,394583002,Endocrinology,http://snomed.info/sct,新陳代謝科,true
+cardiology,394579002,Cardiology,http://snomed.info/sct,心臟內科,true
