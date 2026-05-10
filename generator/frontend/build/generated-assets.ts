@@ -7,8 +7,8 @@ import {
 	orderSourceResourceFields,
 	readSourceResourceType,
 } from '../../converter/src/browser.ts';
-import path from 'node:path';
 import { createInMemoryDatasetProvider, resolveScenario } from '../../dataset/src/index.ts';
+import path from 'node:path';
 
 import {
 	buildSourceFieldDocs,
@@ -21,16 +21,15 @@ import {
 } from './loaders.js';
 import { createSourceResourceKey } from '../src/resource-mapping.js';
 
+import type { DatasetProvider, ScenarioDefinition } from '../../dataset/src/index.ts';
 import type {
 	GeneratedAssetSet,
 	ScenarioIndexRecord,
-	ScenarioRecord,
 	ScenarioResourceMappingRecord,
 	ScenarioResultRecord,
 	SourceResource,
 } from './types.js';
 import type { ConverterRuleSet } from '../../converter/src/browser.ts';
-import type { DatasetProvider, ScenarioDefinition } from '../../dataset/src/index.ts';
 
 const DATA_BASE_URL = '/data';
 

@@ -11,7 +11,7 @@ import type {
 import type { ScenarioBrowserDataSource } from '../data-source.js';
 
 interface ScenarioBrowserState {
-	scenarioSource: 'authored' | 'missing';
+	scenarioSource: 'authored' | 'backend' | 'missing';
 	levelDefinitions: ScenarioLevelDefinition[];
 	scenarios: ScenarioRecord[];
 	sourceFieldDocs: Record<string, SourceFieldDocRecord>;
@@ -34,10 +34,11 @@ interface ScenarioBrowserState {
 export function useScenarioBrowser(
 	dataSource: ScenarioBrowserDataSource,
 	preferredScenarioId?: string | null,
+	preferredScenarioSeed?: string | null,
 	loadBundle?: boolean,
 ): ScenarioBrowserState {
 	const [scenarios, setScenarios] = useState<ScenarioRecord[]>([]);
-	const [scenarioSource, setScenarioSource] = useState<'authored' | 'missing'>('missing');
+	const [scenarioSource, setScenarioSource] = useState<'authored' | 'backend' | 'missing'>('missing');
 	const [levelDefinitions, setLevelDefinitions] = useState<ScenarioLevelDefinition[]>([]);
 	const [sourceFieldDocs, setSourceFieldDocs] = useState<Record<string, SourceFieldDocRecord>>({});
 	const [sourceCodeDisplayMap, setSourceCodeDisplayMap] = useState<SourceCodeDisplayMap>({});
@@ -170,10 +171,14 @@ export function useScenarioBrowser(
 		let cancelled = false;
 		setScenarioLoading(true);
 		setScenarioError(null);
+		setSelectedScenarioResult(null);
+		setSelectedBundle(null);
 
 		async function loadScenarioResult() {
 			try {
-				const scenarioResult = await dataSource.loadScenario(selectedScenarioId);
+				const scenarioResult = await dataSource.loadScenario(selectedScenarioId, {
+					seed: preferredScenarioSeed,
+				});
 
 				if (cancelled) {
 					return;
@@ -190,7 +195,6 @@ export function useScenarioBrowser(
 			}
 		}
 
-		setSelectedBundle(null);
 		setBundleError(null);
 		setBundleLoading(false);
 		void loadScenarioResult();
@@ -198,7 +202,7 @@ export function useScenarioBrowser(
 		return () => {
 			cancelled = true;
 		};
-	}, [dataSource, selectedScenarioId]);
+	}, [dataSource, preferredScenarioSeed, selectedScenarioId]);
 
 	useEffect(() => {
 		if (!selectedScenarioId || !loadBundle) {
@@ -211,7 +215,9 @@ export function useScenarioBrowser(
 
 		async function loadBundleResult() {
 			try {
-				const bundle = await dataSource.loadFhirBundle(selectedScenarioId);
+				const bundle = await dataSource.loadFhirBundle(selectedScenarioId, {
+					seed: preferredScenarioSeed,
+				});
 
 				if (cancelled) {
 					return;
@@ -233,7 +239,7 @@ export function useScenarioBrowser(
 		return () => {
 			cancelled = true;
 		};
-	}, [dataSource, selectedScenarioId, loadBundle]);
+	}, [dataSource, preferredScenarioSeed, selectedScenarioId, loadBundle]);
 
 	return {
 		scenarioSource,

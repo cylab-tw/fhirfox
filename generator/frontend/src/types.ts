@@ -1,6 +1,7 @@
 import type { FhirBundle, SourceResource } from '@fhirfox/converter/browser';
 import type {
 	AppManifest as SharedAppManifest,
+	BackendDataSourceConfig as SharedBackendDataSourceConfig,
 	ScenarioIndexRecord as SharedScenarioIndexRecord,
 	ScenarioLevelDefinition as SharedScenarioLevelDefinition,
 	ScenarioRecord as SharedScenarioRecord,
@@ -55,6 +56,7 @@ export type ScenarioIndexRecord = SharedScenarioIndexRecord & {
 };
 
 export type ScenarioLevelDefinition = SharedScenarioLevelDefinition;
+export type BackendDataSourceConfig = SharedBackendDataSourceConfig;
 export type StaticAssetDataSourceConfig = SharedStaticAssetDataSourceConfig;
 export type AppManifest = SharedAppManifest;
 

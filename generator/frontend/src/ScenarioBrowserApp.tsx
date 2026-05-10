@@ -29,11 +29,16 @@ import type {
 } from './types.js';
 
 const manifest = appManifest as AppManifest;
+const defaultBackendSeed = manifest.dataSource.kind === 'backend' ? (manifest.dataSource.defaultSeed ?? '1234') : null;
 
 export default function ScenarioBrowserApp() {
 	const dataSource = useMemo(() => createScenarioBrowserDataSource(manifest), []);
 	const [routeState, setRouteState] = useState(() =>
-		getScenarioRouteState(typeof window === 'undefined' ? '/' : window.location.pathname),
+		getScenarioRouteState(
+			typeof window === 'undefined' ? '/' : window.location.pathname,
+			typeof window === 'undefined' ? '' : window.location.search,
+			defaultBackendSeed,
+		),
 	);
 	const [activeTab, setActiveTab] = useState<OutputTab>('simplified');
 	const [sourcePreviewMode, setSourcePreviewMode] = useState<PreviewMode>('resource');
@@ -43,6 +48,7 @@ export default function ScenarioBrowserApp() {
 	const [viewContextEpoch, setViewContextEpoch] = useState(0);
 	const resourceJumpContextRef = useRef<ResourceJumpContext | null>(null);
 	const resourceJumpState = useRef<{ resourceType: string; ordinal: number } | null>(null);
+	const scenarioSeed = routeState.seed ?? defaultBackendSeed ?? '';
 	const {
 		scenarioSource,
 		levelDefinitions,
@@ -60,7 +66,7 @@ export default function ScenarioBrowserApp() {
 		scenarioError,
 		bundleError,
 		setSelectedScenarioId,
-	} = useScenarioBrowser(dataSource, routeState.scenarioId, activeTab === 'fhir');
+	} = useScenarioBrowser(dataSource, routeState.scenarioId, scenarioSeed, activeTab === 'fhir');
 	const sourcePreviewResources = useMemo(
 		() => getSourcePreviewResourceItems(selectedScenarioResult, sourceCodeDisplayMap),
 		[selectedScenarioResult, sourceCodeDisplayMap],
@@ -98,9 +104,10 @@ export default function ScenarioBrowserApp() {
 			[
 				selectedScenarioResult ? `${selectedScenarioResult.meta.totalResources} source resources` : null,
 				selectedBundle ? `${selectedBundle.entry.length} FHIR entries` : null,
+				scenarioSeed ? `seed ${scenarioSeed}` : null,
 				selectedScenarioResult?.warnings?.length ? `${selectedScenarioResult.warnings.length} warnings` : null,
 			].filter((item): item is string => item !== null),
-		[selectedBundle, selectedScenarioResult],
+		[selectedBundle, selectedScenarioResult, scenarioSeed],
 	);
 	const scenarioPanelProps = {
 		levelDefinitions,
@@ -108,7 +115,10 @@ export default function ScenarioBrowserApp() {
 		selectedScenarioId,
 		selectedScenario,
 		selectedScenarioResult,
+		scenarioSeed,
+		seedEditable: manifest.dataSource.kind === 'backend',
 		onScenarioChange: handleScenarioChange,
+		onScenarioSeedChange: handleScenarioSeedChange,
 		onResourceTypeSelect: handleSourceResourceJump,
 		resourceSelectionEnabled: canJumpToResource,
 		activeResourceType: isResourceMode ? activeResourceType : null,
@@ -150,11 +160,11 @@ export default function ScenarioBrowserApp() {
 		}
 
 		if (restoreRedirectedScenarioPath()) {
-			setRouteState(getScenarioRouteState(window.location.pathname));
+			setRouteState(getScenarioRouteState(window.location.pathname, window.location.search, defaultBackendSeed));
 		}
 
 		const handlePopState = () => {
-			setRouteState(getScenarioRouteState(window.location.pathname));
+			setRouteState(getScenarioRouteState(window.location.pathname, window.location.search, defaultBackendSeed));
 		};
 
 		window.addEventListener('popstate', handlePopState);
@@ -166,12 +176,12 @@ export default function ScenarioBrowserApp() {
 			return;
 		}
 
-		const targetPath = buildScenarioPath(routeState.basePath, selectedScenarioId);
+		const targetPath = buildScenarioPath(routeState.basePath, selectedScenarioId, scenarioSeed);
 
-		if (window.location.pathname !== targetPath) {
+		if (`${window.location.pathname}${window.location.search}` !== targetPath) {
 			window.history.replaceState(null, '', targetPath);
 		}
-	}, [routeState.basePath, selectedScenarioId]);
+	}, [routeState.basePath, scenarioSeed, selectedScenarioId]);
 
 	useEffect(() => {
 		if (typeof document === 'undefined') {
@@ -283,6 +293,10 @@ export default function ScenarioBrowserApp() {
 	function handleScenarioChange(scenarioId: string) {
 		setRouteState((current) => ({ ...current, scenarioId }));
 		setSelectedScenarioId(scenarioId);
+	}
+
+	function handleScenarioSeedChange(seed: string) {
+		setRouteState((current) => ({ ...current, seed }));
 	}
 
 	function advanceViewContextEpoch() {

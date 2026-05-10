@@ -3,7 +3,7 @@ import { parse } from 'yaml';
 import path from 'node:path';
 
 import type { Preset, ResourceTypeDefinition, ScenarioDefinition } from '../../dataset/src/index.ts';
-import type { ScenarioLevel, ScenarioLevelDefinition, ScenarioRecord, SourceFieldDocRecord } from './types.js';
+import type { ScenarioLevelDefinition, ScenarioRecord, SourceFieldDocRecord } from './types.js';
 import type { StaticConverterRows } from '../../converter/src/browser.ts';
 
 export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
@@ -115,10 +115,6 @@ export async function loadConverterRows(converterDir: string, igName: string): P
 			isActive: parseBoolean(requiredCell(row, 'is_active')),
 		})),
 	};
-}
-
-function isScenarioLevel(value: unknown): value is ScenarioLevel {
-	return typeof value === 'number' && Number.isInteger(value);
 }
 
 async function loadYamlDirectory<T>(directoryPath: string): Promise<T[]> {

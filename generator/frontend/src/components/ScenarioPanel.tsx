@@ -16,7 +16,10 @@ interface ScenarioPanelProps {
 	selectedScenarioId: string;
 	selectedScenario: ScenarioRecord | null;
 	selectedScenarioResult: ScenarioResultRecord | null;
+	scenarioSeed: string;
+	seedEditable: boolean;
 	onScenarioChange: (scenarioId: string) => void;
+	onScenarioSeedChange: (seed: string) => void;
 	onResourceTypeSelect: (resourceType: string) => void;
 	resourceSelectionEnabled: boolean;
 	activeResourceType?: string | null;
@@ -40,6 +43,9 @@ export function ScenarioPanel(props: ScenarioPanelProps) {
 						selectedScenario={props.selectedScenario}
 						onScenarioChange={props.onScenarioChange}
 					/>
+					{props.seedEditable ? (
+						<SeedControl scenarioSeed={props.scenarioSeed} onScenarioSeedChange={props.onScenarioSeedChange} />
+					) : null}
 				</div>
 
 				<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
@@ -72,6 +78,9 @@ export function ScenarioMobileHeader(props: ScenarioPanelProps) {
 					selectedScenario={props.selectedScenario}
 					onScenarioChange={props.onScenarioChange}
 				/>
+				{props.seedEditable ? (
+					<SeedControl scenarioSeed={props.scenarioSeed} onScenarioSeedChange={props.onScenarioSeedChange} />
+				) : null}
 			</div>
 		</section>
 	);
@@ -191,6 +200,28 @@ function ScenarioSelectControl({
 					<Icon icon={chevronDown} className="h-5 w-5" />
 				</span>
 			</div>
+		</label>
+	);
+}
+
+function SeedControl({
+	scenarioSeed,
+	onScenarioSeedChange,
+}: {
+	scenarioSeed: string;
+	onScenarioSeedChange: (seed: string) => void;
+}) {
+	return (
+		<label className="mt-4 grid gap-2.5">
+			<span className="text-sm font-semibold text-slate-900">Seed</span>
+			<input
+				type="text"
+				value={scenarioSeed}
+				onChange={(event) => onScenarioSeedChange(event.target.value)}
+				placeholder="1234"
+				className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
+			/>
+			<p className="text-xs leading-5 text-slate-500">變更 seed 會重新解析目前情境。</p>
 		</label>
 	);
 }

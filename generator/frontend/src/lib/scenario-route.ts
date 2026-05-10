@@ -4,26 +4,30 @@ const scenarioPathSegment = '/scenarios/';
 export interface ScenarioRouteState {
 	basePath: string;
 	scenarioId: string | null;
+	seed: string | null;
 }
 
-export function getScenarioRouteState(pathname: string): ScenarioRouteState {
+export function getScenarioRouteState(pathname: string, search = '', defaultSeed?: string | null): ScenarioRouteState {
 	const normalizedPath = normalizePathname(pathname);
 	const markerIndex = normalizedPath.lastIndexOf(scenarioPathSegment);
+	const seed = readScenarioSeed(search, defaultSeed);
 
 	if (markerIndex >= 0) {
 		const basePath = normalizeBasePath(normalizedPath.slice(0, markerIndex));
 		const scenarioId = decodeURIComponent(normalizedPath.slice(markerIndex + scenarioPathSegment.length)) || null;
-		return { basePath, scenarioId };
+		return { basePath, scenarioId, seed };
 	}
 
 	return {
 		basePath: normalizedPath === '/' ? '' : normalizedPath,
 		scenarioId: null,
+		seed,
 	};
 }
 
-export function buildScenarioPath(basePath: string, scenarioId: string): string {
-	return `${normalizeBasePath(basePath)}/scenarios/${encodeURIComponent(scenarioId)}`.replace(/^\/\//u, '/');
+export function buildScenarioPath(basePath: string, scenarioId: string, seed?: string | null): string {
+	const query = normalizeScenarioSeed(seed);
+	return `${normalizeBasePath(basePath)}/scenarios/${encodeURIComponent(scenarioId)}${query}`.replace(/^\/\//u, '/');
 }
 
 export function restoreRedirectedScenarioPath(): boolean {
@@ -58,4 +62,23 @@ function normalizePathname(pathname: string): string {
 
 	const withoutFallbackPage = pathname.replace(/\/404\.html(?=\/|$)/u, '');
 	return withoutFallbackPage.replace(/\/+$/u, '') || '/';
+}
+
+function readScenarioSeed(search: string, defaultSeed?: string | null): string | null {
+	const params = new URLSearchParams(search.startsWith('?') ? search : `?${search}`);
+	const seed = params.get('seed');
+
+	if (seed && seed.length > 0) {
+		return seed;
+	}
+
+	return defaultSeed ?? null;
+}
+
+function normalizeScenarioSeed(seed?: string | null): string {
+	if (!seed) {
+		return '';
+	}
+
+	return `?seed=${encodeURIComponent(seed)}`;
 }

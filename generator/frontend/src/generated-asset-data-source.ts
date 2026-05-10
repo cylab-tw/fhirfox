@@ -10,7 +10,7 @@ import type {
 	SourceFieldDocRecord,
 	StaticAssetDataSourceConfig,
 } from './types.js';
-import type { ScenarioBrowserDataSource } from './data-source.js';
+import type { ScenarioBrowserDataSource, ScenarioLoadOptions } from './data-source.js';
 
 export class GeneratedAssetScenarioBrowserDataSource implements ScenarioBrowserDataSource {
 	private readonly cache = new Map<string, Promise<unknown>>();
@@ -29,14 +29,14 @@ export class GeneratedAssetScenarioBrowserDataSource implements ScenarioBrowserD
 		return this.readJson(this.config.sourceCodeDisplayMapUrl);
 	}
 
-	loadScenario(scenarioId: string): Promise<ScenarioResultRecord> {
+	loadScenario(scenarioId: string, _options?: ScenarioLoadOptions): Promise<ScenarioResultRecord> {
 		return Promise.all([
 			this.readJson<ScenarioResultRecord>(this.toScenarioAssetUrl(scenarioId, 'source.json')),
 			this.readJson<ScenarioResourceMappingRecord>(this.toScenarioAssetUrl(scenarioId, 'mapping.json')),
 		]).then(([result, mapping]) => attachScenarioResourceMapping(hydrateScenarioResultResourceTypes(result), mapping));
 	}
 
-	loadFhirBundle(scenarioId: string): Promise<FhirBundleRecord> {
+	loadFhirBundle(scenarioId: string, _options?: ScenarioLoadOptions): Promise<FhirBundleRecord> {
 		return Promise.all([
 			this.readJson<FhirBundleRecord>(this.toScenarioAssetUrl(scenarioId, 'bundle.json')),
 			this.readJson<ScenarioResourceMappingRecord>(this.toScenarioAssetUrl(scenarioId, 'mapping.json')),

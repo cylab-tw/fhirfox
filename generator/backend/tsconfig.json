@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#/*": ["../dataset/src/*"],
+			"@fhirfox-generator/dataset": ["../dataset/src/index.ts"],
+			"@fhirfox-generator/dataset/source": ["../dataset/src/source.ts"],
+			"@fhirfox/converter/browser": ["../converter/src/browser.ts"]
+		}
+	},
+	"include": ["src/**/*.ts"]
+}

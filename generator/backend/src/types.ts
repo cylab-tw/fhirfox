@@ -1,4 +1,4 @@
-import type { SourceResource } from '@fhirfox/converter/browser';
+import type { FhirBundle, SourceResource } from '@fhirfox/converter/browser';
 
 export type ScenarioLevel = number;
 
@@ -30,6 +30,18 @@ export interface ScenarioRecord {
 	resources: Record<string, Record<string, unknown> | Array<Record<string, unknown>>>;
 }
 
+export interface ScenarioIndexRecord {
+	generatedAt: string;
+	scenarioSource: 'authored' | 'backend' | 'missing';
+	levelDefinitions: ScenarioLevelDefinition[];
+	scenarios: ScenarioRecord[];
+}
+
+export interface ScenarioResourceMappingRecord {
+	orderedSourceKeys: string[];
+	bundleEntrySourceKeys: string[];
+}
+
 export interface ScenarioResultRecord {
 	scenarioId: string;
 	resources: Record<string, SourceResource[]>;
@@ -42,16 +54,24 @@ export interface ScenarioResultRecord {
 	};
 }
 
-export interface ScenarioResourceMappingRecord {
-	orderedSourceKeys: string[];
-	bundleEntrySourceKeys: string[];
+export interface FhirBundleRecord {
+	resourceType: 'Bundle';
+	type: string;
+	entry: Array<{ resource: Record<string, unknown> }>;
 }
 
-export interface ScenarioIndexRecord {
+export type FhirBundleShape = FhirBundle;
+
+export interface ResolvedScenarioResponse {
+	generation: GenerationRecord;
+	result: ScenarioResultRecord;
+	bundle: FhirBundleRecord;
+	mapping: ScenarioResourceMappingRecord;
+}
+
+export interface BackendManifest {
 	generatedAt: string;
-	scenarioSource: 'authored' | 'backend' | 'missing';
-	levelDefinitions: ScenarioLevelDefinition[];
-	scenarios: ScenarioRecord[];
+	dataSource: BackendDataSourceConfig;
 }
 
 export interface BackendDataSourceConfig {
@@ -70,7 +90,27 @@ export interface StaticAssetDataSourceConfig {
 
 export type AppDataSourceConfig = BackendDataSourceConfig | StaticAssetDataSourceConfig;
 
-export interface AppManifest {
+export interface UserRecord {
+	id: string;
+	createdAt: string;
+	lastLoginAt?: string;
+	displayName?: string;
+}
+
+export interface GenerationRecord {
+	id: string;
+	scenarioId: string;
+	userId: string;
+	seed: string;
+	requestedAt: string;
 	generatedAt: string;
-	dataSource: AppDataSourceConfig;
+}
+
+export interface BackendState {
+	users: UserRecord[];
+	generations: GenerationRecord[];
+}
+
+export interface ScenarioResolutionRequest {
+	seed?: string;
 }
