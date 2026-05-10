@@ -3,7 +3,7 @@ import type { IndexedResource, ResourceLink } from './types.js';
 
 export function createInMemoryProvider(resources: IndexedResource[], links: ResourceLink[]): DatasetProvider {
 	return {
-		async queryResources(resourceType, filter) {
+		async queryResources(resourceType: string, filter?: Record<string, unknown>) {
 			return resources.filter((resource) => {
 				if (resource.type !== resourceType) {
 					return false;
@@ -19,7 +19,7 @@ export function createInMemoryProvider(resources: IndexedResource[], links: Reso
 		listResourceLinks() {
 			return links;
 		},
-		async queryLinkedResources(resourceType, field, targetId) {
+		async queryLinkedResources(resourceType: string, field: string, targetId: string) {
 			return resources.filter((resource) => {
 				if (resource.type !== resourceType) {
 					return false;

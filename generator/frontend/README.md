@@ -1,6 +1,6 @@
 # Frontend
 
-The frontend currently runs against generated JSON assets built from `dataset/` and `scenarios/`.
+The frontend currently runs against generated JSON assets built from `dataset/`.
 
 ## Configuration
 
@@ -44,5 +44,5 @@ Current generated-asset fields:
 
 ## Notes
 
-- Generated assets are built from the repository `dataset/` and `scenarios/` directories.
+- Generated assets are built from the repository `dataset/` directory.
 - The manifest/data-source split is in place so future implementations can be added without rewriting the scenario browser state flow.

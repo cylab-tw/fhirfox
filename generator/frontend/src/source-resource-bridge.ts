@@ -3,9 +3,9 @@ import {
 	normalizeSourceResourceType,
 	readSourceResourceType,
 } from '@fhirfox/converter/browser';
+import type { Resource } from '@fhirfox-generator/dataset';
 
 import type { ScenarioResultRecord, SourceResourceRecord } from './types.js';
-import type { Resource } from '@fhirfox/dataset';
 
 export interface IndexedResource extends Resource {
 	__sourceRecord: SourceResourceRecord;

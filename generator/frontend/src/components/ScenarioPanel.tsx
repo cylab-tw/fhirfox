@@ -84,7 +84,7 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 		return (
 			<section className="rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
 				<div className="px-6 py-6 text-[15px] leading-7 text-slate-500">
-					目前沒有可載入的情境定義。請將情境檔放到 `scenarios/`，前端就會在 dev/build 時自動讀取。
+					目前沒有可載入的情境定義。請將情境檔放到 `dataset/scenarios/`，前端就會在 dev/build 時自動讀取。
 				</div>
 			</section>
 		);
@@ -199,7 +199,7 @@ function ScenarioContextSections(props: ScenarioPanelProps & { mobile: boolean; 
 	if (!props.selectedScenario) {
 		return (
 			<p className="text-[15px] leading-7 text-slate-500">
-				目前沒有可載入的情境定義。請將情境檔放到 `scenarios/`，前端就會在 dev/build 時自動讀取。
+				目前沒有可載入的情境定義。請將情境檔放到 `dataset/scenarios/`，前端就會在 dev/build 時自動讀取。
 			</p>
 		);
 	}

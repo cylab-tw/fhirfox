@@ -5,20 +5,20 @@ import {
 	normalizeRuleSet,
 	orderFhirResourceFields,
 	orderSourceResourceFields,
-	orderSourceResources,
 	readSourceResourceType,
-} from '@fhirfox/converter/browser';
-import { deriveResourceLinks, resolveScenario } from '../../dataset/src/index.ts';
+} from '../../converter/src/browser.ts';
+import path from 'node:path';
+import { createInMemoryDatasetProvider, resolveScenario } from '../../dataset/src/index.ts';
 
 import {
+	buildSourceFieldDocs,
 	loadConverterRows,
-	loadResources,
+	loadPresets,
+	loadResourceDefinitions,
 	loadScenarioLevelDefinitions,
 	loadScenarios,
-	loadSourceFieldDocs,
+	toScenarioRecord,
 } from './loaders.js';
-import { toIndexedResource, toSourceResourceRecord } from '../src/source-resource-bridge.js';
-import { createInMemoryProvider } from './provider.js';
 import { createSourceResourceKey } from '../src/resource-mapping.js';
 
 import type {
@@ -27,39 +27,32 @@ import type {
 	ScenarioRecord,
 	ScenarioResourceMappingRecord,
 	ScenarioResultRecord,
+	SourceResource,
 } from './types.js';
-import type { ConverterRuleSet } from '@fhirfox/converter/browser';
-import type { DatasetProvider } from '../../dataset/src/index.ts';
-import type { Scenario } from '../../dataset/src/index.ts';
+import type { ConverterRuleSet } from '../../converter/src/browser.ts';
+import type { DatasetProvider, ScenarioDefinition } from '../../dataset/src/index.ts';
 
 const DATA_BASE_URL = '/data';
 
-export async function buildGeneratedAssets(
-	datasetRoot: string,
-	scenariosRoot: string,
-	appBaseUrl = '/',
-): Promise<GeneratedAssetSet> {
+export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'): Promise<GeneratedAssetSet> {
 	const igName = 'tw.gov.mohw.twcore';
 	const igVersion = '1.0.0';
 	const generatedAt = new Date().toISOString();
-	const sourceResources = await loadResources(`${datasetRoot}/resources`);
-	const {
-		docs: sourceFieldDocs,
-		order: sourceFieldOrder,
-		schema,
-	} = await loadSourceFieldDocs(`${datasetRoot}/resources/definitions`);
-	const links = deriveResourceLinks(schema);
+	const resourceTypeDefinitions = await loadResourceDefinitions(`${datasetRoot}/definitions`);
+	const presets = await loadPresets(`${datasetRoot}/presets`);
+	const { docs: sourceFieldDocs, order: sourceFieldOrder } = buildSourceFieldDocs(resourceTypeDefinitions);
 	const converterRows = await loadConverterRows(`${datasetRoot}/converter`, igName);
 	const sourceCodeDisplayMap = buildSourceCodeDisplayMap(converterRows);
 	const levelDefinitions = await loadScenarioLevelDefinitions(`${datasetRoot}/scenarios/levels.json`);
-	const scenarios = await loadScenarios(scenariosRoot);
+	const scenarios = await loadScenarios(path.join(datasetRoot, '..', 'scenarios'));
+	const scenarioRecords = scenarios.map(toScenarioRecord);
 	const scenarioSource = scenarios.length > 0 ? 'authored' : 'missing';
 	const assets = new Map<string, string>();
 	const scenarioIndex: ScenarioIndexRecord = {
 		generatedAt,
 		scenarioSource,
 		levelDefinitions,
-		scenarios,
+		scenarios: scenarioRecords,
 	};
 
 	assets.set(`${DATA_BASE_URL}/scenario-index.json`, JSON.stringify(scenarioIndex));
@@ -67,8 +60,10 @@ export async function buildGeneratedAssets(
 	assets.set(`${DATA_BASE_URL}/source-code-displays.json`, JSON.stringify(sourceCodeDisplayMap));
 
 	if (scenarios.length > 0) {
-		const indexedResources = sourceResources.map((resource) => toIndexedResource(resource));
-		const provider = createInMemoryProvider(indexedResources, links);
+		const provider = createInMemoryDatasetProvider({
+			resourceTypeDefinitions,
+			presets,
+		});
 		const ruleSet = normalizeRuleSet(converterRows, igName, igVersion);
 		ruleSet.sourceFieldOrder = sourceFieldOrder;
 
@@ -147,34 +142,41 @@ function normalizeBaseUrl(baseUrl: string): string {
 
 async function buildScenarioSourceResult(
 	provider: DatasetProvider,
-	scenario: ScenarioRecord,
+	scenario: ScenarioDefinition,
 	ruleSet: ConverterRuleSet,
 ): Promise<ScenarioResultRecord> {
-	const resolved = await resolveScenario(provider, scenario as Scenario);
-	const ordered = orderSourceResources(resolved.orderedResources.map((resource) => toSourceResourceRecord(resource)));
-	const orderedResources = ordered.orderedResources.map((resource) =>
-		attachInternalSourceResourceType(orderSourceResourceFields(resource, ruleSet), readSourceResourceType(resource)),
-	);
-	const groupedResources = Object.fromEntries(
-		Object.entries(ordered.groupedResources).map(([resourceType, resources]) => [
-			resourceType,
-			resources.map((resource) =>
-				attachInternalSourceResourceType(orderSourceResourceFields(resource, ruleSet), resourceType),
-			),
-		]),
-	);
+	const resolved = await resolveScenario(provider, scenario, {
+		seed: '1234',
+	});
+	const orderedResources = resolved.resources.map((resource) => {
+		const typedResource = attachInternalSourceResourceType(resource.resource, resource.resourceType);
+		return attachInternalSourceResourceType(orderSourceResourceFields(typedResource, ruleSet), resource.resourceType);
+	});
+	const groupedResources = groupSourceResources(orderedResources);
 
 	return {
 		scenarioId: scenario.id,
 		resources: groupedResources,
 		orderedResources,
-		warnings: resolved.warnings,
+		warnings: resolved.warnings.length > 0 ? resolved.warnings.map((warning) => warning.message) : undefined,
 		meta: {
-			directMatchCount: resolved.meta?.directMatchCount ?? 0,
-			expandedMatchCount: resolved.meta?.expandedMatchCount ?? 0,
+			directMatchCount: resolved.metadata.stats.explicitResourceCount,
+			expandedMatchCount: resolved.metadata.stats.resourceCount,
 			totalResources: orderedResources.length,
 		},
 	};
+}
+
+function groupSourceResources(resources: SourceResource[]): Record<string, SourceResource[]> {
+	const grouped: Record<string, SourceResource[]> = {};
+
+	for (const resource of resources) {
+		const resourceType = readSourceResourceType(resource);
+		grouped[resourceType] ??= [];
+		grouped[resourceType].push(resource);
+	}
+
+	return grouped;
 }
 
 function buildScenarioBundle(

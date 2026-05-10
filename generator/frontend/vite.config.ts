@@ -20,9 +20,9 @@ export default defineConfig(({ mode }) => {
 		base: normalizeBasePath(env.FHIRFOX_BASE_PATH),
 		resolve: {
 			alias: {
-				'@fhirfox/dataset/source': fileURLToPath(new URL('../dataset/src/source.ts', import.meta.url)),
-				'@fhirfox/dataset': fileURLToPath(new URL('../dataset/src/index.ts', import.meta.url)),
-				'@fhirfox/converter/browser': fileURLToPath(new URL('../converter/dist/browser.js', import.meta.url)),
+				'@fhirfox-generator/dataset/source': fileURLToPath(new URL('../dataset/src/source.ts', import.meta.url)),
+				'@fhirfox-generator/dataset': fileURLToPath(new URL('../dataset/src/index.ts', import.meta.url)),
+				'@fhirfox/converter/browser': fileURLToPath(new URL('../converter/src/browser.ts', import.meta.url)),
 			},
 		},
 		plugins: [react(), tailwindcss(), fhirfoxDataPlugin()],

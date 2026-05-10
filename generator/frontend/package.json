@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@fhirfox/converter": "0.1.0",
-		"@fhirfox/dataset": "0.1.0",
+		"@fhirfox-generator/dataset": "0.1.0",
 		"@iconify-icons/mdi": "^1.2.48",
 		"@iconify/react": "^6.0.2",
 		"@tailwindcss/typography": "^0.5.19",

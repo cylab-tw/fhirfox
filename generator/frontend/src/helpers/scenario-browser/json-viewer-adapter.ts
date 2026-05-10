@@ -71,7 +71,7 @@ function getFieldDoc(
 	].filter((entry): entry is { label: string; value: string } => entry !== null);
 
 	return {
-		description: doc.description,
+		description: doc.description ?? '',
 		metadata,
 	};
 }

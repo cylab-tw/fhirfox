@@ -15,7 +15,6 @@ export function fhirfoxDataPlugin(): Plugin {
 	const generatorRoot = path.resolve(frontendRoot, '..');
 	const repoRoot = path.resolve(generatorRoot, '..');
 	const datasetRoot = path.join(repoRoot, 'dataset');
-	const scenariosRoot = path.join(repoRoot, 'scenarios');
 	let appBaseUrl = '/';
 	let cachedAssets: Promise<GeneratedAssetSet> | null = null;
 
@@ -24,7 +23,7 @@ export function fhirfoxDataPlugin(): Plugin {
 	}
 
 	function getAssets(): Promise<GeneratedAssetSet> {
-		cachedAssets ??= buildGeneratedAssets(datasetRoot, scenariosRoot, appBaseUrl);
+		cachedAssets ??= buildGeneratedAssets(datasetRoot, appBaseUrl);
 		return cachedAssets;
 	}
 
@@ -49,7 +48,6 @@ export function fhirfoxDataPlugin(): Plugin {
 		},
 		configureServer(server) {
 			server.watcher.add(datasetRoot);
-			server.watcher.add(scenariosRoot);
 			server.middlewares.use(async (req, res, next) => {
 				const requestUrl = stripBasePath(req.url?.split('?', 1)[0], appBaseUrl);
 
@@ -75,7 +73,7 @@ export function fhirfoxDataPlugin(): Plugin {
 			});
 		},
 		handleHotUpdate(context) {
-			if (!context.file.startsWith(datasetRoot) && !context.file.startsWith(scenariosRoot)) {
+			if (!context.file.startsWith(datasetRoot)) {
 				return;
 			}
 

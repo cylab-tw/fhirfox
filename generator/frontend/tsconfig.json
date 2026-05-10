@@ -10,8 +10,9 @@
 		"resolveJsonModule": true,
 		"types": ["vite/client", "node"],
 		"paths": {
-			"@fhirfox/dataset": ["dataset/src/index.ts"],
-			"@fhirfox/dataset/source": ["dataset/src/source.ts"],
+			"#/*": ["dataset/src/*"],
+			"@fhirfox-generator/dataset": ["dataset/src/index.ts"],
+			"@fhirfox-generator/dataset/source": ["dataset/src/source.ts"],
 			"@fhirfox/converter/browser": ["converter/src/browser.ts"]
 		}
 	},
