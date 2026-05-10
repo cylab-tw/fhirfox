@@ -1,0 +1,15 @@
+id: observation.lab.total-cholesterol
+resourceType: observation
+summary: Lab-0009 observation profile.
+fields:
+  observationCode: Lab-0009
+  rangeHigh: 200
+  rangeLow: 0
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 174
+      lte: 186
+      decimals: 0
+  valueUnit: mg/dL
+  categoryCode: laboratory

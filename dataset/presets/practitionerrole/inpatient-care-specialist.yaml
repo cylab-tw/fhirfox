@@ -1,0 +1,5 @@
+id: practitionerrole.inpatient-care-specialist
+resourceType: practitionerrole
+fields:
+  roleCode: PR-0004
+  specialtyCode: Spec-0009

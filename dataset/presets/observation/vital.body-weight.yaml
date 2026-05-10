@@ -1,0 +1,13 @@
+id: observation.vital.body-weight
+resourceType: observation
+summary: VS-0003 observation profile.
+fields:
+  observationCode: VS-0003
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 22.4
+      lte: 22.4
+      decimals: 1
+  valueUnit: kg
+  categoryCode: vital-signs

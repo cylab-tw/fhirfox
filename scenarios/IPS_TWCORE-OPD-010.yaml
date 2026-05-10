@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: IPS_TWCORE-OPD-010
 name: 病患一：多次單一門診
-level: 3
-type: outpatient
 summary: 病患一於新陳代謝科完成 5 次門診追蹤，每次開立 3 筆慢性病用藥，並包含 3 次檢驗數據與報告。
 details: |
   此情境用於驗證單一病人在同一科別多次門診、慢性病多重用藥與檢驗報告的轉出。
@@ -12,48 +8,284 @@ details: |
   - 5 次門診 Encounter
   - 每次門診 3 筆 MedicationRequest
   - 3 次檢驗 Observation 與對應 DiagnosticReport
-
-selection:
-  strategy: best-match
-  maxSeeds: 80
-  maxPatients: 1
-  maxLinkedEncounters: 5
-  expandLinks: true
-
-encounter:
-  patientId: "4"
-  class: AMB
-  status: finished
-  serviceType: endo
-
-condition:
-  - patientId: "4"
-    conditionCode: Cond-054
-  - patientId: "4"
-    conditionCode: Cond-030
-
-observation:
-  - patientId: "4"
-    encounterId: "8"
-    observationCode: Lab-0007
-  - patientId: "4"
-    encounterId: "10"
-    observationCode: Lab-0008
-  - patientId: "4"
-    encounterId: "12"
-    observationCode: Lab-0009
-
-medicationRequest:
-  patientId: "4"
-  status: active
-
-diagnosticReport:
-  - patientId: "4"
-    encounterId: "8"
-    reportCode: Rep-0005
-  - patientId: "4"
-    encounterId: "10"
-    reportCode: Rep-0004
-  - patientId: "4"
-    encounterId: "12"
-    reportCode: Rep-0002
+level: 3
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.type-2-diabetes-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.type-2-diabetes-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.type-2-diabetes-followup-visit-subsequent
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.hypertension-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.hypertension-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.hypertension-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.hypertension-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.endocrinology-specialist
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.endocrinology-clinician
+    with:
+      - practitionerrole.endocrinology-specialist
+  - alias: practitioner.endocrinology-clinician
+    resourceType: practitioner
+  - alias: observation.lab-blood-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      performerId: organization.hospital
+    with:
+      - observation.lab.blood-glucose
+  - alias: observation.lab-hba1c
+    resourceType: observation
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      performerId: organization.hospital
+    with:
+      - observation.lab.hba1c
+  - alias: observation.lab-total-cholesterol
+    resourceType: observation
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      performerId: organization.hospital
+    with:
+      - observation.lab.total-cholesterol
+  - alias: diagnosticreport.cardiac-enzyme-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      performerId: organization.hospital
+      resultId: observation.lab-blood-glucose
+    inputs:
+      reportCode: Rep-0005
+  - alias: diagnosticreport.hba1c-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      performerId: organization.hospital
+      resultId: observation.lab-hba1c
+    inputs:
+      reportCode: Rep-0004
+  - alias: diagnosticreport.lipid-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      performerId: organization.hospital
+      resultId: observation.lab-total-cholesterol
+    inputs:
+      reportCode: Rep-0002
+  - alias: medicationrequest.sitagliptin-100-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.amlodipine-5-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.amlodipine-5-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.amlodipine-5-mg
+  - alias: medicationrequest.metformin-500-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.metformin-500-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.insulin-glargine-10-units-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.insulin-glargine-pen
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.insulin-glargine-10-units
+  - alias: medicationrequest.amlodipine-5-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.amlodipine-5-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.amlodipine-5-mg
+  - alias: medicationrequest.metformin-500-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.losartan-50-mg-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.losartan-50-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.losartan-50-mg
+  - alias: medicationrequest.metformin-500-mg-order-maintenance
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-maintenance
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.metformin-500-mg-order-latest
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: condition.hypertension-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.endocrinology-specialist
+    with:
+      - condition.hypertension-followup
+  - alias: condition.type-2-diabetes-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.endocrinology-specialist
+    with:
+      - condition.type-2-diabetes-followup
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: medication.sitagliptin-100-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0054
+  - alias: medication.insulin-glargine-pen
+    resourceType: medication
+    inputs:
+      code: Med-0053
+  - alias: medication.atorvastatin-20-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0038
+  - alias: medication.amlodipine-5-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0032
+  - alias: medication.losartan-50-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0035
+  - alias: medication.metformin-500-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0047

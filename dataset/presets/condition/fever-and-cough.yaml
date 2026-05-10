@@ -1,0 +1,10 @@
+id: condition.fever-and-cough
+resourceType: condition
+summary: "Cond-019: 發燒與咳嗽"
+fields:
+  conditionCode: Cond-019
+  conditionText: 發燒與咳嗽
+  category: encounter-diagnosis
+  severity: "6736007"
+  note: 主訴發燒、咳嗽。
+  verificationStatus: provisional

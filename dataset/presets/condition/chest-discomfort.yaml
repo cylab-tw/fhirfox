@@ -1,0 +1,9 @@
+id: condition.chest-discomfort
+resourceType: condition
+summary: "Cond-065: 胸悶/胸部不適"
+fields:
+  conditionCode: Cond-065
+  conditionText: 胸悶/胸部不適
+  category: encounter-diagnosis
+  severity: "6736007"
+  note: 主訴胸悶 2 天。

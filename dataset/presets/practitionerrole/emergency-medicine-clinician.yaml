@@ -1,0 +1,5 @@
+id: practitionerrole.emergency-medicine-clinician
+resourceType: practitionerrole
+fields:
+  roleCode: PR-0008
+  specialtyCode: Spec-0004

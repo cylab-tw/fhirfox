@@ -1,0 +1,15 @@
+id: observation.lab.pathology-marker
+resourceType: observation
+summary: Lab-0027 observation profile.
+fields:
+  observationCode: Lab-0027
+  rangeHigh: 1.2
+  rangeLow: 0.8
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 1.1
+      lte: 1.1
+      decimals: 1
+  valueUnit: "%"
+  categoryCode: laboratory

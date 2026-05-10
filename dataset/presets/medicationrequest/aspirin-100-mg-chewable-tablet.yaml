@@ -1,0 +1,9 @@
+id: medicationrequest.aspirin-100-mg-chewable-tablet
+resourceType: medicationrequest
+summary: Aspirin 100 mg chewable tablet immediately in emergency department.
+fields:
+  dosageText: Aspirin 100 mg chewable tablet immediately in emergency department.
+  doseUnit: mg
+  doseValue: 100
+  durationValue: 1
+  frequency: 1

@@ -103,7 +103,7 @@ function parseArgs(args: string[]): CheckCliOptions {
 	return {
 		definitions: resolve(values.get('definitions') ?? '../../dataset/definitions'),
 		presets: resolve(values.get('presets') ?? '../../dataset/presets'),
-		scenarios: resolve(values.get('scenarios') ?? '../../dataset/scenarios'),
+		scenarios: resolve(values.get('scenarios') ?? '../../scenarios'),
 		scenario: values.has('scenario') ? resolve(values.get('scenario') ?? '') : undefined,
 	};
 }

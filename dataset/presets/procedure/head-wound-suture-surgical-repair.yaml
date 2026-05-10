@@ -1,0 +1,9 @@
+id: procedure.head-wound-suture-surgical-repair
+resourceType: procedure
+summary: "Proc-0006: 頭部傷口縫合"
+fields:
+  procedureCode: Proc-0006
+  procedureText: 頭部傷口縫合
+  category: "387713003"
+  performerFunction: Perf-0004
+  reasonCode: Cond-089

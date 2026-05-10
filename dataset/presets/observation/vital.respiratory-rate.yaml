@@ -1,0 +1,15 @@
+id: observation.vital.respiratory-rate
+resourceType: observation
+summary: VS-0007 observation profile.
+fields:
+  observationCode: VS-0007
+  rangeHigh: 20
+  rangeLow: 12
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 24
+      lte: 24
+      decimals: 0
+  valueUnit: /min
+  categoryCode: vital-signs

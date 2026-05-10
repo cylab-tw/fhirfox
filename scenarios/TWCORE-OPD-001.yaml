@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-001
 name: 一般門診（成人）
-level: 1
-type: outpatient
 summary: 成人一般門診情境，涵蓋常見感冒主訴與基本病人資料，適合作為門診資料轉換的起始案例。
 details: |
   此情境代表最基本的成人門診案例，用於驗證第三方系統能否產出完整且一致的核心 FHIR 資料。
@@ -12,13 +8,39 @@ details: |
   - 涵蓋成人病人的基本資料
   - `Encounter` 類型為門診
   - `Condition` 以感冒相關主訴為主
-
-selection:
-  strategy: best-match
-  maxSeeds: 1
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-condition:
-  - conditionCode: Cond-016
+level: 1
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.common-cold-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.common-cold
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: condition.common-cold
+    resourceType: condition
+    references:
+      encounterId: encounter.common-cold-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.common-cold

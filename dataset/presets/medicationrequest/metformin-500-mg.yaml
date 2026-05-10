@@ -1,0 +1,10 @@
+id: medicationrequest.metformin-500-mg
+resourceType: medicationrequest
+summary: Metformin 500 mg by mouth twice daily.
+fields:
+  dosageText: Metformin 500 mg by mouth twice daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 2

@@ -1,0 +1,15 @@
+id: observation.vital.body-temperature
+resourceType: observation
+summary: VS-0005 observation profile.
+fields:
+  observationCode: VS-0005
+  rangeHigh: 37.5
+  rangeLow: 36
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 37.8
+      lte: 38.5
+      decimals: 1
+  valueUnit: Cel
+  categoryCode: vital-signs

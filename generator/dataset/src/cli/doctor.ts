@@ -52,7 +52,7 @@ function parseArgs(args: string[]): CheckCliOptions {
 	return {
 		definitions: values.get('definitions') ?? resolve('../../dataset/definitions'),
 		presets: values.get('presets') ?? resolve('../../dataset/presets'),
-		scenarios: values.get('scenarios') ?? resolve('../../dataset/scenarios'),
+		scenarios: values.get('scenarios') ?? resolve('../../scenarios'),
 		scenario: values.has('scenario') ? resolve(values.get('scenario') ?? '') : undefined,
 	};
 }

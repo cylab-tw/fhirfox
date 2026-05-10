@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-ER-002
 name: 急診（即時檢驗與緊急處置）
-level: 2
-type: emergency
 summary: 急診胸痛情境，加入血氧、心跳、Troponin 與 ECG，驗證即時檢驗和緊急處置紀錄。
 details: |
   此情境延續急診案例，強調急性就醫流程中即時量測、實驗室檢驗與處置資料的關聯。
@@ -12,22 +8,59 @@ details: |
   - 包含 SpO2、HR 與 Troponin
   - 加入 ECG 作為緊急處置/檢查紀錄
   - 適合驗證急診檢驗時間與診斷關聯
-
-selection:
-  strategy: best-match
-  maxSeeds: 3
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-observation:
-  - observationCode: VS-0013
-    encounterId: "5"
-  - observationCode: VS-0006
-    encounterId: "5"
-  - observationCode: Lab-0005
-    encounterId: "5"
-
-procedure:
-  procedureCode: Proc-0016
-  encounterId: "5"
+level: 2
+scenarioType: emergency
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.emergency-visit
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.emergency-medicine-clinician
+    inputs:
+      encounterProfile: emergency-visit-from-ed
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.emergency-medicine-emergency-clinician
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.emergency-medicine-clinician
+    with:
+      - practitionerrole.emergency-medicine-clinician
+  - alias: practitioner.emergency-medicine-clinician
+    resourceType: practitioner
+  - alias: observation.vital-heart-rate
+    resourceType: observation
+    references:
+      encounterId: encounter.emergency-visit
+      performerId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - observation.vital.heart-rate
+  - alias: observation.vital-oxygen-saturation
+    resourceType: observation
+    references:
+      encounterId: encounter.emergency-visit
+      performerId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - observation.vital.oxygen-saturation
+  - alias: observation.lab-troponin
+    resourceType: observation
+    references:
+      encounterId: encounter.emergency-visit
+      performerId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - observation.lab.troponin
+  - alias: procedure.emergency-ecg
+    resourceType: procedure
+    references:
+      encounterId: encounter.emergency-visit
+      performerId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - procedure.emergency-ecg-chest-pain

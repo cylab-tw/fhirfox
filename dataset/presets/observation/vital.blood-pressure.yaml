@@ -1,0 +1,19 @@
+id: observation.vital.blood-pressure
+resourceType: observation
+summary: VS-0008 observation profile.
+fields:
+  diastolicValue:
+    generator: $number()
+    input:
+      gte: 78
+      lte: 88
+      decimals: 0
+  observationCode: VS-0008
+  systolicValue:
+    generator: $number()
+    input:
+      gte: 128
+      lte: 142
+      decimals: 0
+  valueUnit: mm[Hg]
+  categoryCode: vital-signs

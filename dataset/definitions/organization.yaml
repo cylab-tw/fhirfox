@@ -1,0 +1,102 @@
+resourceType: organization
+name: Organization
+summary: 此情境納入的 Organization 原始資料。
+fields:
+  - id: active
+    name: Active
+    summary: 紀錄狀態
+    type: boolean
+    path: Organization.active
+    cardinality: 0..1
+    fhirMapping: Organization.active
+    required: false
+    default: true
+  - id: address
+    name: Address
+    summary: 機構地址
+    type: string
+    path: Organization.address.text
+    cardinality: 0..1
+    fhirMapping: Organization.address.text
+    required: false
+    default: 台北市中正區常德街1號
+  - id: alias
+    name: Alias
+    summary: 其他名稱(別名)
+    type: string
+    path: Organization.alias
+    cardinality: 0..1
+    fhirMapping: Organization.alias
+    required: false
+    default: 範例醫院
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: Organization.id
+    cardinality: 0..1
+    fhirMapping: Organization.id
+    required: true
+  - id: idNumber
+    name: Id Number
+    summary: 機構識別碼
+    type: string
+    path: Organization.identifier.value
+    cardinality: 0..1
+    fhirMapping: Organization.identifier.value
+    required: false
+    default: "1234560018"
+  - id: idType
+    name: Id Type
+    summary: 機構識別碼類型
+    type: code
+    path: Organization.identifier.type.coding.code
+    cardinality: 0..1
+    fhirMapping: Organization.identifier.type.coding.code
+    required: false
+    default: MR
+  - id: name
+    name: Name
+    summary: 機構名稱
+    type: string
+    path: Organization.name
+    cardinality: 0..1
+    fhirMapping: Organization.name
+    required: false
+    default: 台北範例醫院
+  - id: telecomSystem
+    name: Telecom System
+    summary: 聯絡方式類型
+    type: code
+    path: Organization.telecom.system
+    cardinality: 0..1
+    fhirMapping: Organization.telecom.system
+    required: false
+    default: phone
+  - id: telecomUse
+    name: Telecom Use
+    summary: 聯絡方式用途
+    type: code
+    path: Organization.telecom.use
+    cardinality: 0..1
+    fhirMapping: Organization.telecom.use
+    required: false
+    default: work
+  - id: telecomValue
+    name: Telecom Value
+    summary: 聯絡號碼/信箱
+    type: string
+    path: Organization.telecom.value
+    cardinality: 0..1
+    fhirMapping: Organization.telecom.value
+    required: false
+    default: 02-2312-3456
+  - id: type
+    name: Type
+    summary: 機構類型
+    type: code
+    path: Organization.type.coding.code
+    cardinality: 0..1
+    fhirMapping: Organization.type.coding.code
+    required: false
+    default: prov

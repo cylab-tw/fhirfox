@@ -1,0 +1,9 @@
+id: procedure.coronary-stent-placement-cardiology
+resourceType: procedure
+summary: "Proc-0046: 冠狀動脈支架置放術"
+fields:
+  procedureCode: Proc-0046
+  procedureText: 冠狀動脈支架置放術
+  category: "387713003"
+  performerFunction: Perf-0014
+  reasonCode: Cond-088

@@ -1,0 +1,9 @@
+id: condition.pneumonia-dyspnea
+resourceType: condition
+summary: "Cond-018: 肺炎伴呼吸喘"
+fields:
+  conditionCode: Cond-018
+  conditionText: 肺炎伴呼吸喘
+  category: encounter-diagnosis
+  severity: "24484000"
+  note: 住院診斷肺炎，伴隨發燒與呼吸喘。

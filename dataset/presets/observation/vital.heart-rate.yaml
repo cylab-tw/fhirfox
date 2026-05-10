@@ -1,0 +1,15 @@
+id: observation.vital.heart-rate
+resourceType: observation
+summary: VS-0006 observation profile.
+fields:
+  observationCode: VS-0006
+  rangeHigh: 100
+  rangeLow: 60
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 86
+      lte: 112
+      decimals: 0
+  valueUnit: /min
+  categoryCode: vital-signs

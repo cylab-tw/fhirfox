@@ -1,0 +1,184 @@
+resourceType: procedure
+name: Procedure
+summary: 此情境納入的 Procedure 原始資料。
+bindings:
+  encounter:
+    key: encounter
+    name: Scenario encounter
+    resourceTypes:
+      - encounter
+    summary: 此情境相關就醫事件。
+  patient:
+    key: subject
+    name: Scenario patient
+    resourceTypes:
+      - patient
+    summary: 此情境主要病人。
+  performer:
+    key: procedure.performer
+    name: Scenario performer
+    resourceTypes:
+      - organization
+      - patient
+      - practitioner
+      - practitionerrole
+    summary: 此情境執行者。
+fields:
+  - id: bodySite
+    name: Body Site
+    summary: 目標身體部位
+    type: string
+    path: Procedure.bodySite
+    cardinality: 0..1
+    fhirMapping: Procedure.bodySite
+    required: false
+  - id: category
+    name: Category
+    summary: 分類
+    type: code
+    path: Procedure.category
+    cardinality: 0..1
+    fhirMapping: Procedure.category
+    required: false
+  - id: complication
+    name: Complication
+    summary: 併發症
+    type: string
+    path: Procedure.complication
+    cardinality: 0..1
+    fhirMapping: Procedure.complication
+    required: false
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: Procedure.encounter.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: Procedure.id
+    cardinality: 0..1
+    fhirMapping: Procedure.id
+    required: true
+  - id: locationId
+    name: Location Id
+    summary: 發生地點
+    type: string
+    path: Procedure.location.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.location.reference
+    required: false
+  - id: outcome
+    name: Outcome
+    summary: 處置結果
+    type: code
+    path: Procedure.outcome
+    cardinality: 0..1
+    fhirMapping: Procedure.outcome
+    required: false
+    default: "385669000"
+  - id: patientId
+    name: Patient Id
+    summary: 病人
+    type: reference
+    path: Procedure.subject.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.subject.reference
+    required: false
+    reference:
+      binding: patient
+  - id: performedDate
+    name: Performed Date
+    summary: 執行時間
+    type: datetime
+    path: Procedure.performedDateTime
+    cardinality: 0..1
+    fhirMapping: Procedure.performedDateTime
+    required: false
+    default: $dateTime()
+    input:
+      between:
+        - 2026-03-01T08:00:00+08:00
+        - 2026-07-31T18:00:00+08:00
+  - id: performerFunction
+    name: Performer Function
+    summary: 執行者角色
+    type: code
+    path: Procedure.performer.function
+    cardinality: 0..1
+    fhirMapping: Procedure.performer.function
+    required: false
+  - id: performerId
+    name: Performer Id
+    summary: 執行人員
+    type: reference
+    path: Procedure.performer.actor.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.performer.actor.reference
+    required: false
+    reference:
+      binding: performer
+  - id: procedureCode
+    name: Procedure Code
+    summary: 處置/手術代碼
+    type: code
+    path: Procedure.code.coding.code
+    cardinality: 0..1
+    fhirMapping: Procedure.code.coding.code
+    required: false
+    default: $input()
+  - id: procedureText
+    name: Procedure Text
+    summary: 處置/手術名稱
+    type: string
+    path: Procedure.code.text
+    cardinality: 0..1
+    fhirMapping: Procedure.code.text
+    required: false
+    default: $case()
+    input:
+      source: procedureCode
+      cases:
+        Proc-0006:
+          procedureText: 頭部傷口縫合
+        Proc-0011:
+          procedureText: 住院病理切片
+        Proc-0012:
+          procedureText: 住院胸部 X 光檢查
+        Proc-0016:
+          procedureText: 急診心電圖檢查
+        Proc-0030:
+          procedureText: 頭部傷口換藥
+        Proc-0046:
+          procedureText: 冠狀動脈支架置放術
+  - id: reasonCode
+    name: Reason Code
+    summary: 執行原因
+    type: code
+    path: Procedure.reasonCode
+    cardinality: 0..1
+    fhirMapping: Procedure.reasonCode
+    required: false
+  - id: status
+    name: Status
+    summary: 狀態
+    type: code
+    path: Procedure.status
+    cardinality: 0..1
+    fhirMapping: Procedure.status
+    required: false
+    default: completed
+  - id: statusReason
+    name: Status Reason
+    summary: 狀態原因
+    type: string
+    path: Procedure.statusReason
+    cardinality: 0..1
+    fhirMapping: Procedure.statusReason
+    required: false
