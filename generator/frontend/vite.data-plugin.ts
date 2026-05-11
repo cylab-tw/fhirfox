@@ -36,7 +36,7 @@ export function fhirfoxDataPlugin(options: FhirfoxDataPluginOptions = {}): Plugi
 	}
 
 	function getAssets(): Promise<GeneratedAssetSet> {
-		cachedAssets ??= buildGeneratedAssets(datasetRoot, appBaseUrl);
+		cachedAssets ??= buildGeneratedAssets(datasetRoot, appBaseUrl, defaultSeed);
 		return cachedAssets;
 	}
 

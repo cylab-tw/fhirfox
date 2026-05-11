@@ -33,7 +33,7 @@ import type { ConverterRuleSet } from '../../converter/src/browser.ts';
 
 const DATA_BASE_URL = '/data';
 
-export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'): Promise<GeneratedAssetSet> {
+export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/', seed = '1234'): Promise<GeneratedAssetSet> {
 	const igName = 'tw.gov.mohw.twcore';
 	const igVersion = '1.0.0';
 	const generatedAt = new Date().toISOString();
@@ -67,7 +67,7 @@ export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'
 		ruleSet.sourceFieldOrder = sourceFieldOrder;
 
 		for (const scenario of scenarios) {
-			const sourceResult = await buildScenarioSourceResult(provider, scenario, ruleSet);
+			const sourceResult = await buildScenarioSourceResult(provider, scenario, ruleSet, seed);
 			const { bundle, mapping } = buildScenarioBundle(sourceResult, ruleSet, igName, igVersion);
 			const encodedScenarioId = encodeURIComponent(scenario.id);
 			assets.set(`${DATA_BASE_URL}/scenarios/${encodedScenarioId}/source.json`, JSON.stringify(sourceResult));
@@ -143,9 +143,10 @@ async function buildScenarioSourceResult(
 	provider: DatasetProvider,
 	scenario: ScenarioDefinition,
 	ruleSet: ConverterRuleSet,
+	seed: string,
 ): Promise<ScenarioResultRecord> {
 	const resolved = await resolveScenario(provider, scenario, {
-		seed: '1234',
+		seed,
 	});
 	const orderedResources = resolved.resources.map((resource) => {
 		const typedResource = attachInternalSourceResourceType(resource.resource, resource.resourceType);

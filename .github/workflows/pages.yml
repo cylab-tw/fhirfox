@@ -44,6 +44,8 @@ jobs:
         working-directory: generator
         env:
           FHIRFOX_BASE_PATH: /fhirfox/
+          FHIRFOX_DEPLOYMENT_MODE: static
+          FHIRFOX_DEFAULT_SEED: ${{ vars.FHIRFOX_DEFAULT_SEED || '1234' }}
         run: npm run build
 
       - name: Upload artifact
