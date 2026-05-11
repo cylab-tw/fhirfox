@@ -11,6 +11,7 @@ export type {
 	ResourceGraphEdge,
 	ResourceGraphNode,
 	ResourceRelationGraph,
+	ResourceGraphTree,
 	ResourceResolutionExplanation,
 	ResolutionEvent,
 	ScenarioResolutionMetadata,

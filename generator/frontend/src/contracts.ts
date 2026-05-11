@@ -1,4 +1,5 @@
 import type { SourceResource } from '@fhirfox/converter/browser';
+import type { ResourceRelationGraph } from '@fhirfox-generator/dataset';
 
 export type ScenarioLevel = number;
 
@@ -34,6 +35,7 @@ export interface ScenarioResultRecord {
 	scenarioId: string;
 	resources: Record<string, SourceResource[]>;
 	orderedResources: SourceResource[];
+	graph: ResourceRelationGraph;
 	warnings?: string[];
 	meta: {
 		directMatchCount: number;

@@ -129,6 +129,7 @@ export async function resolveBackendScenario(
 			scenarioId: scenario.id,
 			resources: groupedResources,
 			orderedResources,
+			graph: resolved.graph,
 			warnings: resolved.warnings.length > 0 ? resolved.warnings.map((warning) => warning.message) : undefined,
 			meta: {
 				directMatchCount: resolved.metadata.stats.explicitResourceCount,

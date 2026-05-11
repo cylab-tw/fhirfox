@@ -5,8 +5,10 @@ import closeIcon from '@iconify-icons/mdi/close';
 import helpCircleOutline from '@iconify-icons/mdi/help-circle-outline';
 
 import { formatSourceResourceType } from '../lib/source-resource-display.js';
+import { readSourceResourceType } from '@fhirfox/converter/browser';
 
-import type { ScenarioLevelDefinition, ScenarioRecord, ScenarioResultRecord } from '../types.js';
+import type { ScenarioLevelDefinition, ScenarioRecord, ScenarioResultRecord, SourceFieldDocRecord } from '../types.js';
+import type { ResourceRelationGraph, ResourceGraphTree } from '@fhirfox-generator/dataset';
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
@@ -16,6 +18,7 @@ interface ScenarioPanelProps {
 	selectedScenarioId: string;
 	selectedScenario: ScenarioRecord | null;
 	selectedScenarioResult: ScenarioResultRecord | null;
+	sourceFieldDocs: Record<string, SourceFieldDocRecord>;
 	scenarioSeed: string;
 	seedEditable: boolean;
 	onScenarioChange: (scenarioId: string) => void;
@@ -115,6 +118,7 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 					<MobileAccordion title="涵蓋資料">
 						<ScenarioCoverage
 							selectedScenarioResult={props.selectedScenarioResult}
+							sourceFieldDocs={props.sourceFieldDocs}
 							onResourceTypeSelect={props.onResourceTypeSelect}
 							resourceSelectionEnabled={props.resourceSelectionEnabled}
 							activeResourceType={props.activeResourceType}
@@ -244,6 +248,7 @@ function ScenarioContextSections(props: ScenarioPanelProps & { mobile: boolean; 
 			<Section title="涵蓋資料" mobile={props.mobile}>
 				<ScenarioCoverage
 					selectedScenarioResult={props.selectedScenarioResult}
+					sourceFieldDocs={props.sourceFieldDocs}
 					onResourceTypeSelect={props.onResourceTypeSelect}
 					resourceSelectionEnabled={props.resourceSelectionEnabled}
 					activeResourceType={props.activeResourceType}
@@ -312,17 +317,15 @@ function LevelInfoTrigger({ levelLabel, onClick }: { levelLabel: string; onClick
 
 function ScenarioCoverage({
 	selectedScenarioResult,
+	sourceFieldDocs,
 	onResourceTypeSelect,
 	resourceSelectionEnabled,
 	activeResourceType,
 }: Pick<
 	ScenarioPanelProps,
-	'selectedScenarioResult' | 'onResourceTypeSelect' | 'resourceSelectionEnabled' | 'activeResourceType'
+	'selectedScenarioResult' | 'sourceFieldDocs' | 'onResourceTypeSelect' | 'resourceSelectionEnabled' | 'activeResourceType'
 >) {
 	const resourceEntries = Object.entries(selectedScenarioResult?.resources ?? {});
-	const resourceCounts = Object.fromEntries(
-		resourceEntries.map(([resourceType, resources]) => [resourceType, resources.length]),
-	);
 
 	return (
 		<div className="grid gap-3.5">
@@ -333,7 +336,8 @@ function ScenarioCoverage({
 			</p>
 			{resourceEntries.length > 0 ? (
 				<ResourceCoverageTree
-					resourceCounts={resourceCounts}
+					selectedScenarioResult={selectedScenarioResult}
+					sourceFieldDocs={sourceFieldDocs}
 					clickable={resourceSelectionEnabled}
 					onResourceTypeSelect={onResourceTypeSelect}
 					activeResourceType={activeResourceType ?? null}
@@ -534,17 +538,19 @@ function getScenarioLevelDefinition(
 }
 
 function ResourceCoverageTree({
-	resourceCounts,
+	selectedScenarioResult,
+	sourceFieldDocs,
 	clickable,
 	onResourceTypeSelect,
 	activeResourceType,
 }: {
-	resourceCounts: Record<string, number>;
+	selectedScenarioResult: ScenarioResultRecord | null;
+	sourceFieldDocs: Record<string, SourceFieldDocRecord>;
 	clickable: boolean;
 	onResourceTypeSelect: (resourceType: string) => void;
 	activeResourceType: string | null;
 }) {
-	const tree = buildCoverageTree(resourceCounts);
+	const tree = buildCoverageTree(selectedScenarioResult, sourceFieldDocs);
 
 	return (
 		<div className="rounded-[24px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(250,251,253,0.96),rgba(246,248,251,0.92))] px-4 py-4">
@@ -667,71 +673,172 @@ function ResourceTreeNodeChip({
 	);
 }
 
-export function buildCoverageTree(resourceCounts: Record<string, number>): CoverageTreeNode[] {
-	const definitions: Array<{ resourceType: string; children?: string[] }> = [
-		{ resourceType: 'patient', children: ['encounter'] },
-		{
-			resourceType: 'encounter',
-			children: [
-				'organization',
-				'practitionerrole',
-				'condition',
-				'allergyintolerance',
-				'observation',
-				'procedure',
-				'practitioner',
-			],
-		},
-		{ resourceType: 'practitionerrole', children: ['practitioner'] },
-	];
+export function buildCoverageTree(
+	selectedScenarioResult: ScenarioResultRecord | null,
+	sourceFieldDocs: Record<string, SourceFieldDocRecord>,
+): CoverageTreeNode[] {
+	if (!selectedScenarioResult) {
+		return [];
+	}
 
-	const definitionMap = new Map(definitions.map((entry) => [entry.resourceType, entry.children ?? []]));
-	const childTypes = new Set(definitions.flatMap((entry) => entry.children ?? []));
-	const seen = new Set<string>();
+	if (selectedScenarioResult.graph?.tree) {
+		return buildCoverageTreeFromInstanceTree(selectedScenarioResult.graph.tree);
+	}
+
+	return buildCoverageTreeFromScenarioResult(selectedScenarioResult, sourceFieldDocs);
+}
+
+function buildCoverageTreeFromInstanceTree(tree: ResourceGraphTree[]): CoverageTreeNode[] {
+	const resourceCounts = new Map<string, number>();
+	const childrenByType = new Map<string, Set<string>>();
+	const incomingTypes = new Set<string>();
+	const firstSeenOrder = new Map<string, number>();
+	let orderIndex = 0;
+
+	function traverse(nodes: ResourceGraphTree[], parentType: string | null) {
+		for (const node of nodes) {
+			const type = node.resourceType;
+			resourceCounts.set(type, (resourceCounts.get(type) ?? 0) + 1);
+
+			if (!firstSeenOrder.has(type)) {
+				firstSeenOrder.set(type, orderIndex++);
+			}
+
+			if (parentType) {
+				const children = childrenByType.get(parentType) ?? new Set<string>();
+				children.add(type);
+				childrenByType.set(parentType, children);
+				incomingTypes.add(type);
+			}
+
+			traverse(node.children, type);
+		}
+	}
+
+	traverse(tree, null);
+
+	return buildCoverageTreeFromCountsAndAdjacency(resourceCounts, childrenByType, incomingTypes, firstSeenOrder);
+}
+
+function buildCoverageTreeFromScenarioResult(
+	selectedScenarioResult: ScenarioResultRecord,
+	sourceFieldDocs: Record<string, SourceFieldDocRecord>,
+): CoverageTreeNode[] {
+	const resourceCounts = new Map<string, number>();
+	const childrenByType = new Map<string, Set<string>>();
+	const incomingTypes = new Set<string>();
+	const firstSeenOrder = new Map<string, number>();
+	const idToResourceType = new Map<string, string>();
+
+	for (const [index, resource] of selectedScenarioResult.orderedResources.entries()) {
+		const resourceType = readSourceResourceType(resource);
+		resourceCounts.set(resourceType, (resourceCounts.get(resourceType) ?? 0) + 1);
+		if (!firstSeenOrder.has(resourceType)) {
+			firstSeenOrder.set(resourceType, index);
+		}
+
+		const id = typeof resource.id === 'string' ? resource.id : null;
+		if (id) {
+			idToResourceType.set(id, resourceType);
+			idToResourceType.set(`${resourceType}/${id}`, resourceType);
+		}
+	}
+
+	for (const resource of selectedScenarioResult.orderedResources) {
+		const sourceType = readSourceResourceType(resource);
+		for (const [field, value] of Object.entries(resource)) {
+			const doc = sourceFieldDocs[`${sourceType}.${field}`];
+			const targetTypes = readReferenceTypes(doc?.reference);
+
+			if (targetTypes.length === 0) {
+				continue;
+			}
+
+			for (const targetId of readReferenceValues(value)) {
+				const targetType = idToResourceType.get(targetId) ?? idToResourceType.get(targetId.split('/').pop() ?? '');
+
+				if (!targetType || !targetTypes.some((candidate) => candidate.toLowerCase() === targetType.toLowerCase())) {
+					continue;
+				}
+
+				const children = childrenByType.get(sourceType) ?? new Set<string>();
+				children.add(targetType);
+				childrenByType.set(sourceType, children);
+				incomingTypes.add(targetType);
+			}
+		}
+	}
+
+	return buildCoverageTreeFromCountsAndAdjacency(resourceCounts, childrenByType, incomingTypes, firstSeenOrder);
+}
+
+function buildCoverageTreeFromCountsAndAdjacency(
+	resourceCounts: Map<string, number>,
+	childrenByType: Map<string, Set<string>>,
+	incomingTypes: Set<string>,
+	firstSeenOrder: Map<string, number>,
+): CoverageTreeNode[] {
+	const sortedTypes = [...resourceCounts.keys()].sort(
+		(left, right) => (firstSeenOrder.get(left) ?? 0) - (firstSeenOrder.get(right) ?? 0) || left.localeCompare(right),
+	);
+	const roots = sortedTypes.filter((resourceType) => !incomingTypes.has(resourceType));
+	const assigned = new Set<string>();
+	const visiting = new Set<string>();
 
 	function buildNode(resourceType: string): CoverageTreeNode | null {
-		const count = resourceCounts[resourceType];
+		const count = resourceCounts.get(resourceType);
 
-		if (!count || seen.has(resourceType)) {
+		if (!count || assigned.has(resourceType) || visiting.has(resourceType)) {
 			return null;
 		}
 
-		seen.add(resourceType);
+		visiting.add(resourceType);
+		assigned.add(resourceType);
+		const children = [...(childrenByType.get(resourceType) ?? [])]
+			.sort((left, right) => (firstSeenOrder.get(left) ?? 0) - (firstSeenOrder.get(right) ?? 0) || left.localeCompare(right))
+			.map((childType) => buildNode(childType))
+			.filter((child): child is CoverageTreeNode => child !== null);
+		visiting.delete(resourceType);
+
 		return {
 			resourceType,
 			count,
-			children: (definitionMap.get(resourceType) ?? [])
-				.filter((childType) => shouldIncludeCoverageChild(resourceType, childType, resourceCounts))
-				.map((childType) => buildNode(childType))
-				.filter((child): child is CoverageTreeNode => child !== null),
+			children,
 		};
 	}
 
-	const roots = definitions
-		.filter((entry) => !childTypes.has(entry.resourceType))
-		.map((entry) => buildNode(entry.resourceType))
-		.filter((node): node is CoverageTreeNode => node !== null);
+	const tree = roots.map((resourceType) => buildNode(resourceType)).filter((node): node is CoverageTreeNode => node !== null);
 
-	for (const [resourceType, count] of Object.entries(resourceCounts)) {
-		if (!count || seen.has(resourceType)) {
+	for (const resourceType of sortedTypes) {
+		if (assigned.has(resourceType)) {
 			continue;
 		}
 
-		seen.add(resourceType);
-		roots.push({ resourceType, count, children: [] });
+		const node = buildNode(resourceType);
+		if (node) {
+			tree.push(node);
+		}
 	}
 
-	return roots;
+	return tree;
 }
 
-function shouldIncludeCoverageChild(
-	parentType: string,
-	childType: string,
-	resourceCounts: Record<string, number>,
-): boolean {
-	if (parentType === 'encounter' && childType === 'practitioner') {
-		return !resourceCounts.practitionerrole;
+function readReferenceTypes(value: string | string[] | undefined): string[] {
+	if (!value) {
+		return [];
 	}
 
-	return true;
+	return Array.isArray(value) ? value : [value];
+}
+
+function readReferenceValues(value: unknown): string[] {
+	if (typeof value === 'string') {
+		return value.length > 0 ? [value] : [];
+	}
+
+	if (Array.isArray(value)) {
+		return value.filter((entry): entry is string => typeof entry === 'string' && entry.length > 0);
+	}
+
+	return [];
 }

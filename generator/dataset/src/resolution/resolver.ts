@@ -21,7 +21,7 @@ import type {
 	ScenarioResolutionWarning,
 	SelectionResolutionExplanation,
 } from './types.js';
-import type { ResourceTypeDefinition } from '#/model/index.js';
+import type { FieldDefinition, ResourceTypeDefinition } from '#/model/index.js';
 import type { Preset, PresetRequirement } from '#/preset/index.js';
 import type { DatasetProvider } from '#/provider/index.js';
 import type { ReferenceSpec } from '#/references/index.js';
@@ -63,6 +63,7 @@ export async function resolveScenario(
 	const definitions = indexResourceDefinitions(await provider.getResourceTypeDefinitions());
 	const presetIndex = indexPresets(await provider.getPresets());
 	const bindingAliases = collectScenarioBindingAliases(scenario.resources);
+	const preferredPractitionerRoleAliases = collectPreferredPractitionerRoleAliases(scenario.resources);
 	const expanded = expandImplicitResources(
 		scenario.resources.map((resource) => ({ resource, origin: 'explicit' })),
 		definitions,
@@ -193,7 +194,14 @@ export async function resolveScenario(
 			});
 		}
 		for (const [field, spec] of Object.entries(item.resource.references ?? {})) {
-			const reference = await resolveReference(field, resolveSelectAliases(spec, resolved), {
+			const preferredAlias = getPreferredPractitionerRoleAlias(
+				spec,
+				fieldIndex.get(field),
+				preferredPractitionerRoleAliases,
+				definition,
+			);
+			const referenceSpec = preferredAlias ? rewriteReferenceAlias(spec, preferredAlias) : spec;
+			const reference = await resolveReference(field, resolveSelectAliases(referenceSpec, resolved), {
 				getField: (fieldId) => fieldIndex.get(fieldId),
 				getResource: (alias) => {
 					const target = resolved.get(alias);
@@ -403,6 +411,82 @@ function collectScenarioBindingAliases(resources: ScenarioResourceDefinition[]):
 	}
 
 	return aliases;
+}
+
+function collectPreferredPractitionerRoleAliases(resources: ScenarioResourceDefinition[]): Map<string, string> {
+	const aliases = new Map<string, string | null>();
+
+	for (const resource of resources) {
+		if (resource.resourceType !== 'practitionerrole') {
+			continue;
+		}
+
+		const reference = readReferenceAlias(resource.references?.practitionerId);
+		if (!reference) {
+			continue;
+		}
+
+		if (!aliases.has(reference)) {
+			aliases.set(reference, resource.alias);
+			continue;
+		}
+
+		const existing = aliases.get(reference);
+		if (existing !== resource.alias) {
+			aliases.set(reference, null);
+		}
+	}
+
+	return new Map(
+		[...aliases.entries()].flatMap(([alias, value]) => (typeof value === 'string' ? ([[alias, value]] as const) : [])),
+	);
+}
+
+function getPreferredPractitionerRoleAlias(
+	spec: ReferenceSpec,
+	field: FieldDefinition | undefined,
+	preferredPractitionerRoleAliases: Map<string, string>,
+	definition: ResourceTypeDefinition,
+): string | undefined {
+	const bindingId = field?.reference?.binding;
+	const binding = bindingId ? definition.bindings?.[bindingId] : undefined;
+	if (!binding || !binding.resourceTypes.some((resourceType) => resourceType.toLowerCase() === 'practitionerrole')) {
+		return undefined;
+	}
+
+	const alias = readReferenceAlias(spec);
+	if (!alias) {
+		return undefined;
+	}
+
+	return preferredPractitionerRoleAliases.get(alias);
+}
+
+function rewriteReferenceAlias(spec: ReferenceSpec, alias: string): ReferenceSpec {
+	if (typeof spec === 'string') {
+		return alias;
+	}
+
+	if ('alias' in spec) {
+		return {
+			...spec,
+			alias,
+		};
+	}
+
+	return spec;
+}
+
+function readReferenceAlias(spec: ReferenceSpec | undefined): string | undefined {
+	if (typeof spec === 'string') {
+		return spec;
+	}
+
+	if (spec && 'alias' in spec && typeof spec.alias === 'string') {
+		return spec.alias;
+	}
+
+	return undefined;
 }
 
 function resolveSelectAliases(spec: ReferenceSpec, resolved: Map<string, ResolvedSourceResource>): ReferenceSpec {

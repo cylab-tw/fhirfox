@@ -3,13 +3,79 @@ import test from 'node:test';
 
 import { buildCoverageTree } from '../src/components/ScenarioPanel.js';
 
-test('coverage tree nests practitioner under encounter when no practitioner role is present', () => {
-	const tree = buildCoverageTree({
-		patient: 1,
-		encounter: 2,
-		practitioner: 1,
-		condition: 1,
-	});
+test('coverage tree displays patient, encounter, and encounter children in the expected shape', () => {
+	const tree = buildCoverageTree(
+		{
+			graph: {
+				tree: [
+					{
+						resourceType: 'patient',
+						id: '1',
+						children: [
+							{
+								resourceType: 'organization',
+								id: '1',
+								children: [],
+							},
+							{
+								resourceType: 'encounter',
+								id: '1',
+								children: [
+									{
+										resourceType: 'condition',
+										id: '1',
+										children: [],
+									},
+									{
+										resourceType: 'allergyintolerance',
+										id: '1',
+										children: [],
+									},
+									{
+										resourceType: 'observation',
+										id: '1',
+										children: [],
+									},
+									{
+										resourceType: 'practitionerrole',
+										id: '1',
+										children: [
+											{
+												resourceType: 'practitioner',
+												id: '1',
+												children: [],
+											},
+										],
+									},
+									{
+										resourceType: 'medicationrequest',
+										id: '1',
+										children: [
+											{
+												resourceType: 'medication',
+												id: '1',
+												children: [],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			resources: {},
+			orderedResources: [],
+			warnings: [],
+			meta: {
+				directMatchCount: 0,
+				expandedMatchCount: 0,
+				totalResources: 0,
+			},
+			scenarioId: 'test',
+		} as never,
+		{},
+	);
 
 	assert.deepEqual(tree, [
 		{
@@ -17,8 +83,13 @@ test('coverage tree nests practitioner under encounter when no practitioner role
 			count: 1,
 			children: [
 				{
+					resourceType: 'organization',
+					count: 1,
+					children: [],
+				},
+				{
 					resourceType: 'encounter',
-					count: 2,
+					count: 1,
 					children: [
 						{
 							resourceType: 'condition',
@@ -26,9 +97,36 @@ test('coverage tree nests practitioner under encounter when no practitioner role
 							children: [],
 						},
 						{
-							resourceType: 'practitioner',
+							resourceType: 'allergyintolerance',
 							count: 1,
 							children: [],
+						},
+						{
+							resourceType: 'observation',
+							count: 1,
+							children: [],
+						},
+						{
+							resourceType: 'practitionerrole',
+							count: 1,
+							children: [
+								{
+									resourceType: 'practitioner',
+									count: 1,
+									children: [],
+								},
+							],
+						},
+						{
+							resourceType: 'medicationrequest',
+							count: 1,
+							children: [
+								{
+									resourceType: 'medication',
+									count: 1,
+									children: [],
+								},
+							],
 						},
 					],
 				},
@@ -37,13 +135,42 @@ test('coverage tree nests practitioner under encounter when no practitioner role
 	]);
 });
 
-test('coverage tree keeps practitioner nested under practitioner role when that role is present', () => {
-	const tree = buildCoverageTree({
-		patient: 1,
-		encounter: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-	});
+test('coverage tree falls back to encounter for practitioner when no practitioner role is present', () => {
+	const tree = buildCoverageTree(
+		{
+			graph: {
+				tree: [
+					{
+						resourceType: 'patient',
+						id: '1',
+						children: [
+							{
+								resourceType: 'encounter',
+								id: '1',
+								children: [
+									{
+										resourceType: 'practitioner',
+										id: '1',
+										children: [],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			resources: {},
+			orderedResources: [],
+			warnings: [],
+			meta: {
+				directMatchCount: 0,
+				expandedMatchCount: 0,
+				totalResources: 0,
+			},
+			scenarioId: 'test',
+		} as never,
+		{},
+	);
 
 	assert.deepEqual(tree, [
 		{
@@ -55,15 +182,9 @@ test('coverage tree keeps practitioner nested under practitioner role when that 
 					count: 1,
 					children: [
 						{
-							resourceType: 'practitionerrole',
+							resourceType: 'practitioner',
 							count: 1,
-							children: [
-								{
-									resourceType: 'practitioner',
-									count: 1,
-									children: [],
-								},
-							],
+							children: [],
 						},
 					],
 				},

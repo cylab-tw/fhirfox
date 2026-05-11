@@ -115,6 +115,7 @@ export default function ScenarioBrowserApp() {
 		selectedScenarioId,
 		selectedScenario,
 		selectedScenarioResult,
+		sourceFieldDocs,
 		scenarioSeed,
 		seedEditable: manifest.dataSource.kind === 'backend',
 		onScenarioChange: handleScenarioChange,

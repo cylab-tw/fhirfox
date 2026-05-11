@@ -18,6 +18,7 @@ bindings:
     key: practitioner
     name: Scenario practitioner
     resourceTypes:
+      - practitionerrole
       - practitioner
     summary: 此情境醫事人員。
   serviceProvider:

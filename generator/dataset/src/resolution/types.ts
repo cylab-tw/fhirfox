@@ -33,8 +33,15 @@ export interface ScenarioResolutionMetadata {
 
 /** Directed graph of generated or selected records and their relationships. */
 export interface ResourceRelationGraph {
-	nodes: ResourceGraphNode[];
-	edges: ResourceGraphEdge[];
+	/** Instance-level tree representation for UI displays. */
+	tree: ResourceGraphTree[];
+}
+
+/** One node in the instance-level tree. */
+export interface ResourceGraphTree {
+	resourceType: string;
+	id: string;
+	children: ResourceGraphTree[];
 }
 
 /** One generated or selected record in the relation graph. */
