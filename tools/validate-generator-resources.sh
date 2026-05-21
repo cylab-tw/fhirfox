@@ -6,6 +6,7 @@ validator_jar="${FHIR_VALIDATOR_JAR:-$HOME/.fhir/validator/validator_cli.jar}"
 ig_package="${FHIR_IG_PACKAGE:-$HOME/.fhir/packages/tw.gov.mohw.twcore#1.0.0/package}"
 fhir_version="${FHIR_VERSION:-4.0.1}"
 validation_level="${FHIR_VALIDATION_LEVEL:-warnings}"
+terminology_server="${FHIR_TERMINOLOGY_SERVER:-https://tx.fhir.org/r4}"
 
 project_root="$(dirname "$(dirname "$(realpath "$0")")")"
 input_dir="$project_root/generator/frontend/dist/data/scenarios"
@@ -38,6 +39,7 @@ java -jar "$validator_jar" \
 	"${validation_inputs[@]}" \
 	-version "$fhir_version" \
 	-ig "$ig_package" \
+	-tx "$terminology_server" \
 	-level "$validation_level" \
 	-output "$output_file"
 
