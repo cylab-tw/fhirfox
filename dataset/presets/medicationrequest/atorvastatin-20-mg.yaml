@@ -1,0 +1,10 @@
+id: medicationrequest.atorvastatin-20-mg
+resourceType: medicationrequest
+summary: Atorvastatin 20 mg by mouth once nightly.
+fields:
+  dosageText: Atorvastatin 20 mg by mouth once nightly.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

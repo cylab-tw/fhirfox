@@ -1,177 +1,245 @@
-import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { buildGeneratedAssets } from '../build/generated-assets.js';
-import { parse } from 'yaml';
 import path from 'node:path';
 import test from 'node:test';
 
-const SCENARIO_RESOURCE_KEYS = [
-	'patient',
-	'encounter',
-	'condition',
-	'allergyIntolerance',
-	'observation',
-	'procedure',
-	'medication',
-	'medicationRequest',
-	'diagnosticReport',
-	'imagingStudy',
-] as const;
-
 const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
-	'TWCORE-ER-001': {
-		patient: 1,
-		encounter: 2,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 2,
-		observation: 2,
-		procedure: 2,
+	"IPS_TWCORE-MIX-001": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 6,
+		"practitionerrole": 4,
+		"practitioner": 3,
+		"condition": 3,
+		"observation": 2,
+		"diagnosticreport": 2,
+		"imagingstudy": 1,
+		"medicationrequest": 12,
+		"medication": 4
 	},
-	'TWCORE-ER-002': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		observation: 3,
-		procedure: 1,
+	"IPS_TWCORE-MIX-002": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 9,
+		"practitionerrole": 5,
+		"practitioner": 4,
+		"condition": 4,
+		"observation": 2,
+		"procedure": 1,
+		"diagnosticreport": 2,
+		"imagingstudy": 1,
+		"medicationrequest": 21,
+		"medication": 9
 	},
-	'TWCORE-ER-003': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 2,
-		practitioner: 2,
-		observation: 1,
-		procedure: 1,
-		diagnosticreport: 1,
-		imagingstudy: 1,
-		medicationrequest: 1,
-		medication: 1,
+	"IPS_TWCORE-MIX-003": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 6,
+		"practitionerrole": 3,
+		"practitioner": 2,
+		"condition": 2,
+		"observation": 3,
+		"procedure": 1,
+		"diagnosticreport": 3,
+		"imagingstudy": 1,
+		"medicationrequest": 12,
+		"medication": 4
 	},
-	'TWCORE-IPD-001': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 1,
-		procedure: 1,
+	"IPS_TWCORE-OPD-010": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 6,
+		"practitionerrole": 3,
+		"practitioner": 2,
+		"condition": 3,
+		"observation": 3,
+		"diagnosticreport": 3,
+		"imagingstudy": 1,
+		"medicationrequest": 15,
+		"medication": 6
 	},
-	'TWCORE-IPD-002': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		observation: 5,
+	"IPS_TWCORE-OPD-011": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 8,
+		"practitionerrole": 4,
+		"practitioner": 3,
+		"condition": 4,
+		"observation": 5,
+		"diagnosticreport": 5,
+		"imagingstudy": 1,
+		"medicationrequest": 21,
+		"medication": 9
 	},
-	'TWCORE-IPD-003': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 2,
-		practitioner: 2,
-		procedure: 2,
-		observation: 6,
-		diagnosticreport: 2,
-		imagingstudy: 1,
-		medicationrequest: 3,
-		medication: 3,
+	"TWCORE-ER-001": {
+		"patient": 1,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 1,
+		"practitioner": 1,
+		"condition": 2,
+		"observation": 2,
+		"procedure": 2
 	},
-	'TWCORE-OPD-001': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 1,
+	"TWCORE-ER-002": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 1,
+		"observation": 3,
+		"procedure": 1
 	},
-	'TWCORE-OPD-002': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 1,
-		allergyintolerance: 1,
+	"TWCORE-ER-003": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 3,
+		"practitioner": 2,
+		"condition": 1,
+		"observation": 1,
+		"procedure": 1,
+		"diagnosticreport": 1,
+		"imagingstudy": 1,
+		"medicationrequest": 1,
+		"medication": 1
 	},
-	'TWCORE-OPD-003': {
-		patient: 1,
-		encounter: 3,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 3,
+	"TWCORE-IPD-001": {
+		"patient": 1,
+		"organization": 1,
+		"encounter": 1,
+		"practitionerrole": 1,
+		"practitioner": 1,
+		"condition": 1,
+		"procedure": 1
 	},
-	'TWCORE-OPD-004': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		observation: 3,
+	"TWCORE-IPD-002": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 1,
+		"observation": 5
 	},
-	'TWCORE-OPD-005': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		observation: 4,
+	"TWCORE-IPD-003": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 3,
+		"practitioner": 2,
+		"condition": 1,
+		"observation": 6,
+		"procedure": 2,
+		"diagnosticreport": 2,
+		"imagingstudy": 2,
+		"medicationrequest": 3,
+		"medication": 3
 	},
-	'TWCORE-OPD-006': {
-		patient: 1,
-		encounter: 3,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		observation: 4,
+	"TWCORE-OPD-001": {
+		"patient": 1,
+		"organization": 1,
+		"encounter": 1,
+		"practitionerrole": 1,
+		"practitioner": 1,
+		"condition": 1
 	},
-	'TWCORE-OPD-007': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 1,
-		observation: 2,
-		diagnosticreport: 1,
-		medicationrequest: 1,
-		medication: 1,
+	"TWCORE-OPD-002": {
+		"patient": 1,
+		"organization": 1,
+		"encounter": 1,
+		"practitionerrole": 1,
+		"practitioner": 1,
+		"condition": 1,
+		"allergyintolerance": 1
 	},
-	'TWCORE-OPD-008': {
-		patient: 1,
-		encounter: 1,
-		organization: 1,
-		practitionerrole: 2,
-		practitioner: 2,
-		condition: 1,
-		allergyintolerance: 1,
-		observation: 3,
-		diagnosticreport: 1,
-		medicationrequest: 1,
-		medication: 1,
+	"TWCORE-OPD-003": {
+		"patient": 1,
+		"organization": 1,
+		"encounter": 3,
+		"practitionerrole": 1,
+		"practitioner": 1,
+		"condition": 3
 	},
-	'TWCORE-OPD-009': {
-		patient: 1,
-		encounter: 3,
-		organization: 1,
-		practitionerrole: 1,
-		practitioner: 1,
-		condition: 2,
-		observation: 5,
-		diagnosticreport: 1,
-		medicationrequest: 2,
-		medication: 2,
+	"TWCORE-OPD-004": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 1,
+		"observation": 3
 	},
+	"TWCORE-OPD-005": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 1,
+		"observation": 4
+	},
+	"TWCORE-OPD-006": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 4,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 1,
+		"observation": 4
+	},
+	"TWCORE-OPD-007": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 2,
+		"observation": 2,
+		"diagnosticreport": 1,
+		"imagingstudy": 1,
+		"medicationrequest": 1,
+		"medication": 1
+	},
+	"TWCORE-OPD-008": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 2,
+		"practitionerrole": 3,
+		"practitioner": 2,
+		"condition": 2,
+		"allergyintolerance": 1,
+		"observation": 3,
+		"diagnosticreport": 1,
+		"imagingstudy": 1,
+		"medicationrequest": 1,
+		"medication": 1
+	},
+	"TWCORE-OPD-009": {
+		"patient": 2,
+		"organization": 1,
+		"encounter": 4,
+		"practitionerrole": 2,
+		"practitioner": 1,
+		"condition": 3,
+		"observation": 5,
+		"diagnosticreport": 1,
+		"imagingstudy": 1,
+		"medicationrequest": 2,
+		"medication": 2
+	}
 };
 
-test('authored scenarios resolve to explicit fixture counts', async () => {
+test('migrated dataset scenarios resolve to explicit fixture counts', async () => {
 	const repoRoot = path.resolve(import.meta.dirname, '../../..');
-	const assets = await buildGeneratedAssets(path.join(repoRoot, 'dataset'), path.join(repoRoot, 'scenarios'));
+	const assets = await buildGeneratedAssets(path.join(repoRoot, 'dataset'));
+	const scenarioIndex = JSON.parse(assets.assets.get('/data/scenario-index.json') ?? '{}') as {
+		scenarios?: Array<{ id: string }>;
+	};
+	const scenarioIds = scenarioIndex.scenarios?.map((scenario) => scenario.id).sort() ?? [];
+
+	assert.deepEqual(scenarioIds, Object.keys(EXPECTED_SCENARIO_COUNTS).sort());
 
 	for (const [scenarioId, expectedCounts] of Object.entries(EXPECTED_SCENARIO_COUNTS)) {
 		const sourceAsset = assets.assets.get(`/data/scenarios/${encodeURIComponent(scenarioId)}/source.json`);
@@ -190,31 +258,3 @@ test('authored scenarios resolve to explicit fixture counts', async () => {
 		assert.equal(sourceResult.warnings, undefined, scenarioId);
 	}
 });
-
-test('authored scenarios prefer natural filters over exact resource ids', async () => {
-	const scenariosRoot = path.resolve(import.meta.dirname, '../../../scenarios');
-	const filenames = (await readdir(scenariosRoot))
-		.filter((filename) => filename.endsWith('.yaml') && filename !== 'schema.yaml')
-		.sort();
-
-	for (const filename of filenames) {
-		const document = parse(await readFile(path.join(scenariosRoot, filename), 'utf8')) as Record<string, unknown>;
-
-		for (const resourceKey of SCENARIO_RESOURCE_KEYS) {
-			const selection = document[resourceKey];
-			const filters = Array.isArray(selection) ? selection : selection ? [selection] : [];
-
-			for (const [index, filter] of filters.entries()) {
-				assert.equal(
-					isRecord(filter) && 'id' in filter,
-					false,
-					`${filename} ${resourceKey}[${index}] should use natural filters instead of exact id`,
-				);
-			}
-		}
-	}
-});
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-	return typeof value === 'object' && value !== null && !Array.isArray(value);
-}

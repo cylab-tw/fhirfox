@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-009
 name: 同病人多次門診（慢性病用藥）
-level: 3
-type: outpatient
 summary: 同一成人病人的高血壓與糖尿病追蹤，加入 HbA1c、長期處方與 repeat/duration 測試。
 details: |
   此情境以同一病人的多次門診為範圍，整合慢性病觀察值與長期用藥，支援 repeat、duration 與多重用藥測試。
@@ -12,42 +8,126 @@ details: |
   - 包含血壓趨勢、血糖與 HbA1c
   - 開立高血壓與糖尿病長期用藥
   - 適合驗證慢性病診斷與用藥關聯
-
-selection:
-  strategy: grouped-by-patient
-  maxSeeds: 1
-  maxPatients: 1
-  maxLinkedEncounters: 3
-  expandLinks: true
-
-patient:
-  ageGroup: adult
-  samePerson: true
-
-encounter:
-  class: ambulatory
-  status: finished
-  count:
-    gte: 2
-
-condition:
-  - conditionCode: Cond-030
-  - conditionCode: Cond-054
-
-observation:
-  - observationCode: VS-0008
-    patientId: "1"
-  - observationCode: Lab-0007
-    patientId: "1"
-  - observationCode: Lab-0008
-    patientId: "1"
-
-medicationRequest:
-  - medicationId: "3"
-    patientId: "1"
-  - medicationId: "4"
-    patientId: "1"
-
-diagnosticReport:
-  reportCode: Rep-0004
-  patientId: "1"
+level: 3
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.family-medicine-visit-initial
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.family-medicine-visit-followup
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.family-medicine-visit-subsequent
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: condition.hypertension-followup
+    resourceType: condition
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.hypertension-followup
+  - alias: condition.type-2-diabetes-followup
+    resourceType: condition
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.type-2-diabetes-followup
+  - alias: observation.vital-blood-pressure-initial
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit-initial
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.blood-pressure
+  - alias: observation.lab-blood-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit-initial
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.lab.blood-glucose
+  - alias: observation.vital-blood-pressure-followup
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit-followup
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.blood-pressure
+  - alias: observation.vital-blood-pressure-subsequent
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.blood-pressure
+  - alias: observation.lab-hba1c
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.lab.hba1c
+  - alias: diagnosticreport.hba1c-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      performerId: organization.hospital
+      resultId: observation.lab-hba1c
+    inputs:
+      reportCode: Rep-0004
+  - alias: medicationrequest.amlodipine-5-mg-hypertension-followup-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      medicationId: medication.amlodipine-5-mg
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.amlodipine-5-mg-hypertension-followup
+  - alias: medicationrequest.metformin-500-mg-glucose-control-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.family-medicine-visit-subsequent
+      medicationId: medication.metformin-500-mg
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.metformin-500-mg-glucose-control
+  - alias: medication.amlodipine-5-mg
+    resourceType: medication
+    inputs:
+      code: Med-0003
+  - alias: medication.metformin-500-mg
+    resourceType: medication
+    inputs:
+      code: Med-0004

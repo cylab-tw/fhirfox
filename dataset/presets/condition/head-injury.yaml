@@ -1,0 +1,10 @@
+id: condition.head-injury
+resourceType: condition
+summary: "Cond-087: 頭部外傷"
+fields:
+  conditionCode: Cond-087
+  conditionText: 頭部外傷
+  category: encounter-diagnosis
+  severity: "24484000"
+  note: 跌倒外傷，頭部腫痛。
+  verificationStatus: provisional

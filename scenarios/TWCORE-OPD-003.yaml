@@ -1,33 +1,72 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-003
 name: 同病人多次門診
-level: 1
-type: outpatient
 summary: 同一病人的多次門診紀錄集合，用於驗證跨次就醫資料的關聯與追蹤能力。
 details: |
   此情境聚焦於同一病人的歷次門診資料，適合用來驗證系統如何表達個人縱向就醫紀錄。
 
   - 反映同一病人的多次門診紀錄集合
   - 適合檢視重複就醫與持續追蹤資料的關聯性
-
-selection:
-  strategy: grouped-by-patient
-  maxSeeds: 1
-  maxPatients: 1
-  maxLinkedEncounters: 3
-  expandLinks: true
-
-patient:
-  samePerson: true
-
-encounter:
-  class: ambulatory
-  status: finished
-  count:
-    gte: 2
-
-condition:
-  - conditionCode: Cond-016
-  - conditionCode: Cond-065
-  - conditionCode: Cond-064
+level: 1
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.common-cold-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.common-cold
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.chest-discomfort-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.chest-discomfort
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.low-back-pain-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.low-back-pain
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: condition.common-cold
+    resourceType: condition
+    references:
+      encounterId: encounter.common-cold-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.common-cold
+  - alias: condition.chest-discomfort
+    resourceType: condition
+    references:
+      encounterId: encounter.chest-discomfort-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.chest-discomfort
+  - alias: condition.low-back-pain
+    resourceType: condition
+    references:
+      encounterId: encounter.low-back-pain-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.low-back-pain

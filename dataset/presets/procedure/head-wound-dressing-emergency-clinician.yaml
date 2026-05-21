@@ -1,0 +1,8 @@
+id: procedure.head-wound-dressing-emergency-clinician
+resourceType: procedure
+summary: "Proc-0030: 頭部傷口換藥"
+fields:
+  procedureCode: Proc-0030
+  procedureText: 頭部傷口換藥
+  category: "387713003"
+  performerFunction: Perf-0007

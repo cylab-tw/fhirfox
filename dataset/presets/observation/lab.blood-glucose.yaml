@@ -1,0 +1,15 @@
+id: observation.lab.blood-glucose
+resourceType: observation
+summary: Lab-0007 observation profile.
+fields:
+  observationCode: Lab-0007
+  rangeHigh: 99
+  rangeLow: 70
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 136
+      lte: 142
+      decimals: 0
+  valueUnit: mg/dL
+  categoryCode: laboratory

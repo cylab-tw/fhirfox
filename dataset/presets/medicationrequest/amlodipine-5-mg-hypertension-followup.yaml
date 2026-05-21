@@ -1,0 +1,9 @@
+id: medicationrequest.amlodipine-5-mg-hypertension-followup
+resourceType: medicationrequest
+summary: Amlodipine 5 mg by mouth once daily for hypertension follow-up.
+fields:
+  dosageText: Amlodipine 5 mg by mouth once daily for hypertension follow-up.
+  doseUnit: mg
+  doseValue: 5
+  durationValue: 28
+  frequency: 1

@@ -1,0 +1,4 @@
+id: imagingstudy.emergency-chest-xray
+resourceType: imagingstudy
+fields:
+  studyDescription: 急診胸部 X 光

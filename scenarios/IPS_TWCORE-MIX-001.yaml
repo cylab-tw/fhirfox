@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: IPS_TWCORE-MIX-001
 name: 病患四：多次門診與急診
-level: 3
-type: mixed
 summary: 病患四完成 4 次心臟內科門診與 1 次發燒急診，門診皆有 3 筆用藥並包含 2 次心臟內科檢驗。
 details: |
   此情境用於驗證同一病人的門診與急診 Encounter 可共同展開，並保留心臟內科用藥與檢驗。
@@ -12,47 +8,243 @@ details: |
   - 急診發燒 1 次
   - 每次門診 3 筆 MedicationRequest
   - 心臟內科檢驗 2 次
-
-selection:
-  strategy: best-match
-  maxSeeds: 80
-  maxPatients: 1
-  maxLinkedEncounters: 5
-  expandLinks: true
-
-encounter:
-  - patientId: "7"
-    class: AMB
-    status: finished
-    serviceType: cardiology
-  - patientId: "7"
-    class: EMER
-    status: finished
-    serviceType: emergency
-
-condition:
-  - patientId: "7"
-    conditionCode: Cond-027
-  - patientId: "7"
-    encounterId: "32"
-    conditionCode: Cond-062
-
-observation:
-  - patientId: "7"
-    encounterId: "28"
-    observationCode: Lab-0005
-  - patientId: "7"
-    encounterId: "30"
-    observationCode: Lab-0012
-
-medicationRequest:
-  patientId: "7"
-  status: active
-
-diagnosticReport:
-  - patientId: "7"
-    encounterId: "28"
-    reportCode: Rep-0005
-  - patientId: "7"
-    encounterId: "30"
-    reportCode: Rep-0002
+level: 3
+scenarioType: mixed
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.atrial-fibrillation-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: encounter.atrial-fibrillation-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: encounter.atrial-fibrillation-followup-visit-subsequent
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: encounter.emergency-fever-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.emergency-fever
+      practitionerId: practitioner.emergency-medicine-clinician
+    inputs:
+      encounterProfile: emergency-visit
+  - alias: encounter.atrial-fibrillation-followup-visit-maintenance
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.emergency-medicine-emergency-clinician
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.emergency-medicine-clinician
+    with:
+      - practitionerrole.emergency-medicine-clinician
+  - alias: practitionerrole.cardiology-specialist
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.cardiology-clinician
+    with:
+      - practitionerrole.cardiology-specialist
+  - alias: practitioner.emergency-medicine-clinician
+    resourceType: practitioner
+  - alias: practitioner.cardiology-clinician
+    resourceType: practitioner
+  - alias: condition.emergency-fever
+    resourceType: condition
+    references:
+      encounterId: encounter.emergency-fever-visit
+      recorderId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - condition.emergency-fever
+  - alias: observation.lab-troponin
+    resourceType: observation
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      performerId: organization.hospital
+    with:
+      - observation.lab.troponin
+  - alias: observation.lab-followup-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
+      performerId: organization.hospital
+    with:
+      - observation.lab.followup-glucose
+  - alias: diagnosticreport.cardiac-enzyme-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      performerId: organization.hospital
+      resultId: observation.lab-troponin
+    inputs:
+      reportCode: Rep-0005
+  - alias: diagnosticreport.lipid-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
+      performerId: organization.hospital
+      resultId: observation.lab-followup-glucose
+    inputs:
+      reportCode: Rep-0002
+  - alias: medicationrequest.metoprolol-25-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.clopidogrel-75-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.clopidogrel-75-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.clopidogrel-75-mg
+  - alias: medicationrequest.metoprolol-25-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.metoprolol-25-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.clopidogrel-75-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
+      medicationId: medication.clopidogrel-75-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.clopidogrel-75-mg
+  - alias: medicationrequest.metoprolol-25-mg-order-maintenance
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-maintenance
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-maintenance
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-maintenance
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-maintenance
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: condition.atrial-fibrillation-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.cardiology-specialist
+    with:
+      - condition.atrial-fibrillation-followup
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: medication.atorvastatin-20-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0038
+  - alias: medication.metoprolol-25-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0036
+  - alias: medication.aspirin-100-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0025
+  - alias: medication.clopidogrel-75-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0040

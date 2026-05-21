@@ -1,0 +1,559 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Patient/1</p></div>"
+        },
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "NNxxx",
+                  "display": "National Person Identifier where the xxx is the ISO table 3166 3-character (alphabetic) country code"
+                }
+              ]
+            },
+            "value": "A123456789",
+            "system": "http://www.moi.gov.tw"
+          }
+        ],
+        "name": [
+          {
+            "text": "王小明",
+            "use": "usual"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0912-345-678",
+            "use": "mobile"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1985-04-12",
+        "address": [
+          {
+            "text": "台北市中正區仁愛路一段1號"
+          }
+        ],
+        "managingOrganization": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Encounter/1</p></div>"
+        },
+        "identifier": [
+          {
+            "value": "OPD202603300001",
+            "system": "https://fhirfox.dev/identifier-system/encounter"
+          }
+        ],
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "AMB",
+          "display": "ambulatory"
+        },
+        "serviceType": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/service-type",
+              "code": "124",
+              "display": "General Practice"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "ATND",
+                    "display": "attender"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+            }
+          }
+        ],
+        "period": {
+          "start": "2026-03-30T09:00:00+08:00",
+          "end": "2026-03-30T09:20:00+08:00"
+        },
+        "diagnosis": [
+          {
+            "condition": {
+              "reference": "urn:uuid:54e6558f-7295-54ee-9f63-e642e1ace79b"
+            },
+            "use": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                  "code": "AD",
+                  "display": "Admission diagnosis"
+                }
+              ]
+            }
+          }
+        ],
+        "serviceProvider": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Organization-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Organization/1</p></div>"
+        },
+        "active": true,
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical record number"
+                }
+              ]
+            },
+            "value": "1234560018",
+            "system": "https://www.tph.mohw.gov.tw"
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov",
+                "display": "Healthcare Provider"
+              }
+            ]
+          }
+        ],
+        "name": "台北範例醫院",
+        "alias": [
+          "範例醫院"
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "02-2312-3456",
+            "use": "work"
+          }
+        ],
+        "address": [
+          {
+            "text": "台北市中正區常德街1號"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/PractitionerRole-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>PractitionerRole/1</p></div>"
+        },
+        "active": true,
+        "period": {
+          "start": "2024-01-01T08:00:00+08:00"
+        },
+        "practitioner": {
+          "reference": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c"
+        },
+        "organization": {
+          "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "59058001",
+                "display": "General physician"
+              }
+            ]
+          }
+        ],
+        "specialty": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "419772000",
+                "display": "Family practice"
+              }
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "02-2312-3456#1201",
+            "use": "work"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dae05cd6-dbca-5ec4-8a88-380138568a8c",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Practitioner-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Practitioner/1</p></div>"
+        },
+        "active": true,
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MD",
+                  "display": "Medical License number"
+                }
+              ]
+            },
+            "value": "DOC0001",
+            "system": "https://fhirfox.dev/identifier-system/practitioner/MD"
+          }
+        ],
+        "name": [
+          {
+            "text": "陳醫師"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "02-2312-3456#1201",
+            "use": "work"
+          }
+        ],
+        "address": [
+          {
+            "text": "台北市中正區常德街1號"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1977-01-15",
+        "qualification": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "158965000",
+                  "display": "Medical practitioner"
+                }
+              ]
+            },
+            "issuer": {
+              "reference": "urn:uuid:b311ff33-8bc6-5aec-bf87-1db695151a10"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:54e6558f-7295-54ee-9f63-e642e1ace79b",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Condition/1</p></div>"
+        },
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis"
+              }
+            ]
+          }
+        ],
+        "severity": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "255604002",
+              "display": "Mild"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "490008",
+              "display": "Upper respiratory tract hypersensitivity reaction"
+            }
+          ],
+          "text": "感冒/上呼吸道不適"
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "recordedDate": "2026-03-30T09:05:00+08:00",
+        "recorder": {
+          "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+        },
+        "note": [
+          {
+            "text": "主訴感冒、流鼻水與喉嚨痛。"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:416db128-3fe0-5988-ab2c-9838debca0b4",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/AllergyIntolerance-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>AllergyIntolerance/1</p></div>"
+        },
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "medication"
+        ],
+        "criticality": "high",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "91936005",
+              "display": "Penicillin allergy"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "onsetDateTime": "2024-11-03T08:00:00+08:00",
+        "recordedDate": "2026-03-30T09:10:00+08:00",
+        "recorder": {
+          "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+        },
+        "note": [
+          {
+            "text": "Patient reports rash after penicillin."
+          }
+        ],
+        "reaction": [
+          {
+            "substance": {
+              "coding": [
+                {
+                  "code": "70618"
+                }
+              ]
+            },
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "247472004"
+                  }
+                ]
+              }
+            ],
+            "severity": "severe",
+            "exposureRoute": {
+              "coding": [
+                {
+                  "code": "26643006"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9355c5dc-6588-590d-9ccb-00239be99dfc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1",
+        "meta": {
+          "profile": [
+            "https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Observation/1</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2341326",
+              "display": "Body temperature"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:9856207c-fa65-5c44-a20e-b663ce8a5898"
+        },
+        "encounter": {
+          "reference": "urn:uuid:f79ff2d8-f1f8-547b-a55e-235b05ad3158"
+        },
+        "effectiveDateTime": "2026-03-30T09:06:00+08:00",
+        "performer": [
+          {
+            "reference": "urn:uuid:c76027d9-c407-531b-8ee9-36580b45b778"
+          }
+        ],
+        "valueQuantity": {
+          "system": "http://unitsofmeasure.org",
+          "value": 37.8,
+          "code": "Cel",
+          "unit": "degree Celsius"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 36
+            },
+            "high": {
+              "value": 37.5
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+resourceType: allergyintolerance
+name: Allergyintolerance
+summary: 此情境納入的 AllergyIntolerance 原始資料。
+bindings:
+  encounter:
+    key: encounter
+    name: Scenario encounter
+    resourceTypes:
+      - encounter
+    summary: 此情境相關就醫事件。
+  patient:
+    key: subject
+    name: Scenario patient
+    resourceTypes:
+      - patient
+    summary: 此情境主要病人。
+  recorder:
+    key: recorder
+    name: Scenario recorder
+    resourceTypes:
+      - patient
+      - practitioner
+      - practitionerrole
+    summary: 此情境紀錄者。
+fields:
+  - id: allergyCode
+    name: Allergy Code
+    summary: 過敏原代碼
+    type: code
+    path: AllergyIntolerance.code.coding.code
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.code.coding.code
+    required: false
+    default: Al-F0007
+  - id: category
+    name: Category
+    summary: 過敏原類別
+    type: code
+    path: AllergyIntolerance.category
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.category
+    required: false
+    default: food
+  - id: clinicalStatus
+    name: Clinical Status
+    summary: 臨床狀態
+    type: code
+    path: AllergyIntolerance.clinicalStatus
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.clinicalStatus
+    required: false
+    default: active
+  - id: criticality
+    name: Criticality
+    summary: 嚴重性評估
+    type: code
+    path: AllergyIntolerance.criticality
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.criticality
+    required: false
+    default: low
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫事件
+    type: reference
+    path: AllergyIntolerance.encounter.reference
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: exposureRoute
+    name: Exposure Route
+    summary: 接觸途徑
+    type: string
+    path: AllergyIntolerance.reaction.exposureRoute
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.exposureRoute
+    required: false
+  - id: id
+    name: Id
+    summary: 過敏紀錄ID
+    type: string
+    path: AllergyIntolerance.id
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.id
+    required: true
+  - id: manifestation
+    name: Manifestation
+    summary: 臨床症狀
+    type: code
+    path: AllergyIntolerance.reaction.manifestation
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.manifestation
+    required: false
+    default: "271807003"
+  - id: note
+    name: Note
+    summary: 備註
+    type: string
+    path: AllergyIntolerance.note.text
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.note.text
+    required: false
+    default: 對蝦子過敏，曾出現皮膚紅疹。
+  - id: onsetDate
+    name: Onset Date
+    summary: 發作時間
+    type: datetime
+    path: AllergyIntolerance.onsetDateTime
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.onsetDateTime
+    required: false
+  - id: patientId
+    name: Patient Id
+    summary: 過敏病人
+    type: reference
+    path: AllergyIntolerance.patient.reference
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.patient.reference
+    required: false
+    reference:
+      binding: patient
+  - id: reactionSubstance
+    name: Reaction Substance
+    summary: 不良反應物質
+    type: string
+    path: AllergyIntolerance.reaction.substance
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.substance
+    required: false
+  - id: recordedDate
+    name: Recorded Date
+    summary: 紀錄日期
+    type: datetime
+    path: AllergyIntolerance.recordedDate
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.recordedDate
+    required: false
+    default: 2026-03-30T10:10:00+08:00
+  - id: recorderId
+    name: Recorder Id
+    summary: 紀錄者
+    type: reference
+    path: AllergyIntolerance.recorder.reference
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.recorder.reference
+    required: false
+    reference:
+      binding: recorder
+  - id: severity
+    name: Severity
+    summary: 反應嚴重度
+    type: code
+    path: AllergyIntolerance.reaction.severity
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.severity
+    required: false
+    default: moderate
+  - id: type
+    name: Type
+    summary: 過敏類型
+    type: code
+    path: AllergyIntolerance.type
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.type
+    required: false
+    default: allergy
+  - id: verificationStatus
+    name: Verification Status
+    summary: 確認狀態
+    type: code
+    path: AllergyIntolerance.verificationStatus
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.verificationStatus
+    required: false
+    default: confirmed

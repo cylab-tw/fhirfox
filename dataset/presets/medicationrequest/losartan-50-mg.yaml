@@ -1,0 +1,10 @@
+id: medicationrequest.losartan-50-mg
+resourceType: medicationrequest
+summary: Losartan 50 mg by mouth once daily.
+fields:
+  dosageText: Losartan 50 mg by mouth once daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

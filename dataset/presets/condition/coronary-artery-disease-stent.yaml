@@ -1,0 +1,7 @@
+id: condition.coronary-artery-disease-stent
+resourceType: condition
+summary: "Cond-088: 冠狀動脈疾病待支架治療"
+fields:
+  conditionCode: Cond-088
+  conditionText: 冠狀動脈疾病待支架治療
+  category: problem-list-item

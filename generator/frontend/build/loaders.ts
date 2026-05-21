@@ -1,92 +1,69 @@
 import { readFile, readdir } from 'node:fs/promises';
-import { attachInternalSourceResourceType } from '@fhirfox/converter/browser';
-import { buildSourceAuthoringSchema } from '../../dataset/src/authoring/source-fields.ts';
-import { normalizeScenario } from '../../dataset/src/index.ts';
 import { parse } from 'yaml';
 import path from 'node:path';
 
-import type { ScenarioDocument, ScenarioLevelDefinition, SourceAuthoringSchema } from '../../dataset/src/index.ts';
-import type { ScenarioLevel, ScenarioRecord, SourceFieldDocRecord } from './types.js';
-import type { SourceResource, StaticConverterRows } from '@fhirfox/converter/browser';
+import type { Preset, ResourceTypeDefinition, ScenarioDefinition } from '../../dataset/src/index.ts';
+import type { ScenarioLevelDefinition, ScenarioRecord, SourceFieldDocRecord } from './types.js';
+import type { StaticConverterRows } from '../../converter/src/browser.ts';
 
-const SCENARIO_SCHEMA_FILENAME = 'schema.yaml';
-
-export async function loadSourceFieldDocs(directoryPath: string): Promise<{
+export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
 	docs: Record<string, SourceFieldDocRecord>;
 	order: Record<string, string[]>;
-	schema: SourceAuthoringSchema;
-}> {
-	const entries = await readdir(directoryPath, { withFileTypes: true });
-	const docFiles = entries
-		.filter((entry) => entry.isFile() && (entry.name.endsWith('.yaml') || entry.name.endsWith('.yml')))
-		.map((entry) => path.join(directoryPath, entry.name))
-		.sort();
+} {
+	const docs: Record<string, SourceFieldDocRecord> = {};
+	const order: Record<string, string[]> = {};
 
-	const docsByFile = await Promise.all(
-		docFiles.map(async (filePath) => {
-			const content = await readFile(filePath, 'utf8');
-			return parse(content) as Record<string, unknown>;
-		}),
-	);
-	const schema = buildSourceAuthoringSchema(docsByFile);
+	for (const definition of definitions) {
+		docs[definition.resourceType] = {
+			description: definition.summary,
+			cardinality: '0..*',
+			required: false,
+		};
+		order[definition.resourceType] = definition.fields.map((field) => field.id);
+
+		for (const field of definition.fields) {
+			docs[`${definition.resourceType}.${field.id}`] = {
+				description: field.summary,
+				cardinality: field.cardinality,
+				required: field.required,
+				fhirMapping: field.fhirMapping ?? field.path,
+				reference: readDocReference(definition, field),
+			};
+		}
+	}
 
 	return {
-		docs: schema.docs,
-		order: schema.order,
-		schema,
+		docs,
+		order,
 	};
 }
 
-export async function loadResources(resourcesDir: string): Promise<SourceResource[]> {
-	const resourceTypes = (await readdir(resourcesDir, { withFileTypes: true }))
-		.filter((entry) => entry.isDirectory())
-		.map((entry) => entry.name)
-		.sort();
-
-	const resources = await Promise.all(
-		resourceTypes.map(async (resourceType) => {
-			const resourceDir = path.join(resourcesDir, resourceType);
-			const files = (await readdir(resourceDir, { withFileTypes: true }))
-				.filter((entry) => entry.isFile() && entry.name.endsWith('.json'))
-				.map((entry) => entry.name)
-				.sort();
-
-			return Promise.all(
-				files.map(async (filename) => {
-					const content = await readFile(path.join(resourceDir, filename), 'utf8');
-					const parsed = JSON.parse(content) as SourceResource;
-
-					return attachInternalSourceResourceType(parsed, resourceType);
-				}),
-			);
-		}),
-	);
-
-	return resources.flat();
+export async function loadResourceDefinitions(directoryPath: string): Promise<ResourceTypeDefinition[]> {
+	return loadYamlDirectory<ResourceTypeDefinition>(directoryPath);
 }
 
-export async function loadScenarios(scenariosDir: string): Promise<ScenarioRecord[]> {
-	try {
-		const entries = await readdir(scenariosDir, { withFileTypes: true });
-		const scenarioFiles = entries
-			.filter(
-				(entry) =>
-					entry.isFile() &&
-					(entry.name.endsWith('.yaml') || entry.name.endsWith('.yml')) &&
-					entry.name !== SCENARIO_SCHEMA_FILENAME,
-			)
-			.map((entry) => entry.name)
-			.sort();
+export async function loadPresets(directoryPath: string): Promise<Preset[]> {
+	return loadYamlDirectory<Preset>(directoryPath);
+}
 
-		return Promise.all(
-			scenarioFiles.map(async (filename) => {
-				const content = await readFile(path.join(scenariosDir, filename), 'utf8');
-				return normalizeScenarioDocument(parse(content) as Record<string, unknown>);
-			}),
-		);
+export async function loadScenarios(scenariosDir: string): Promise<ScenarioDefinition[]> {
+	try {
+		return loadYamlDirectory<ScenarioDefinition>(scenariosDir);
 	} catch {
 		return [];
 	}
+}
+
+export function toScenarioRecord(scenario: ScenarioDefinition): ScenarioRecord {
+	return {
+		id: scenario.id,
+		displayName: scenario.name,
+		type: scenario.scenarioType ?? 'unknown',
+		summary: scenario.summary,
+		details: scenario.details,
+		level: scenario.level,
+		resources: {},
+	};
 }
 
 export async function loadScenarioLevelDefinitions(filePath: string): Promise<ScenarioLevelDefinition[]> {
@@ -140,25 +117,48 @@ export async function loadConverterRows(converterDir: string, igName: string): P
 	};
 }
 
-function normalizeScenarioDocument(document: Record<string, unknown>): ScenarioRecord {
-	const normalized = normalizeScenario(document as ScenarioDocument);
-	const { summary, details, level } = document;
-	const normalizedLevel = 'level' in normalized && isScenarioLevel(normalized.level) ? normalized.level : undefined;
+async function loadYamlDirectory<T>(directoryPath: string): Promise<T[]> {
+	const yamlFiles = await listYamlFiles(directoryPath);
 
-	return {
-		id: normalized.id,
-		displayName: normalized.displayName,
-		type: normalized.type,
-		summary: typeof summary === 'string' ? summary : normalized.summary,
-		details: typeof details === 'string' ? details : normalized.details,
-		level: normalizedLevel ?? (isScenarioLevel(level) ? level : undefined),
-		selection: normalized.selection,
-		resources: normalized.resources as Record<string, Record<string, unknown>>,
-	};
+	return Promise.all(
+		yamlFiles.map(async (filePath) => {
+			const content = await readFile(filePath, 'utf8');
+			return parse(content) as T;
+		}),
+	);
 }
 
-function isScenarioLevel(value: unknown): value is ScenarioLevel {
-	return typeof value === 'number' && Number.isInteger(value);
+async function listYamlFiles(directoryPath: string): Promise<string[]> {
+	const entries = await readdir(directoryPath, { withFileTypes: true });
+	const files = await Promise.all(
+		entries.map(async (entry) => {
+			const filePath = path.join(directoryPath, entry.name);
+			if (entry.isDirectory()) {
+				return listYamlFiles(filePath);
+			}
+			return entry.isFile() && (entry.name.endsWith('.yaml') || entry.name.endsWith('.yml')) ? [filePath] : [];
+		}),
+	);
+
+	return files.flat().sort();
+}
+
+function readDocReference(
+	definition: ResourceTypeDefinition,
+	field: ResourceTypeDefinition['fields'][number],
+): string | string[] | undefined {
+	const bindingId = field.reference?.binding;
+	if (!bindingId) {
+		return undefined;
+	}
+
+	const resourceTypes = definition.bindings?.[bindingId]?.resourceTypes ?? [];
+
+	if (resourceTypes.length === 0) {
+		return undefined;
+	}
+
+	return resourceTypes.length === 1 ? resourceTypes[0] : resourceTypes;
 }
 
 type CsvRow = Record<string, string>;

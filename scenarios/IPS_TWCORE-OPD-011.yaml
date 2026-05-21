@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: IPS_TWCORE-OPD-011
 name: 病患二：多次複合門診
-level: 3
-type: outpatient
 summary: 病患二完成 7 次跨科門診，涵蓋家醫科、新陳代謝科與心臟內科，每次 3 筆用藥與 5 次檢驗資料。
 details: |
   此情境用於驗證同一病人在多科別門診間的 Encounter、用藥、檢驗與報告串接。
@@ -11,70 +7,408 @@ details: |
   - 家醫科 2 次、新陳代謝科 3 次、心臟內科 2 次
   - 每次門診 3 筆 MedicationRequest
   - 新陳代謝科 3 次檢驗、心臟內科 2 次檢驗
-
-selection:
-  strategy: best-match
-  maxSeeds: 100
-  maxPatients: 1
-  maxLinkedEncounters: 7
-  expandLinks: true
-
-encounter:
-  - patientId: "5"
-    class: AMB
-    status: finished
-    serviceType: "01"
-  - patientId: "5"
-    class: AMB
-    status: finished
-    serviceType: endo
-  - patientId: "5"
-    class: AMB
-    status: finished
-    serviceType: cardiology
-
-condition:
-  - patientId: "5"
-    conditionCode: Cond-030
-  - patientId: "5"
-    conditionCode: Cond-054
-  - patientId: "5"
-    conditionCode: Cond-027
-
-observation:
-  - patientId: "5"
-    encounterId: "15"
-    observationCode: Lab-0007
-  - patientId: "5"
-    encounterId: "16"
-    observationCode: Lab-0008
-  - patientId: "5"
-    encounterId: "17"
-    observationCode: Lab-0009
-  - patientId: "5"
-    encounterId: "18"
-    observationCode: Lab-0005
-  - patientId: "5"
-    encounterId: "19"
-    observationCode: Lab-0012
-
-medicationRequest:
-  patientId: "5"
-  status: active
-
-diagnosticReport:
-  - patientId: "5"
-    encounterId: "15"
-    reportCode: Rep-0005
-  - patientId: "5"
-    encounterId: "16"
-    reportCode: Rep-0004
-  - patientId: "5"
-    encounterId: "17"
-    reportCode: Rep-0002
-  - patientId: "5"
-    encounterId: "18"
-    reportCode: Rep-0005
-  - patientId: "5"
-    encounterId: "19"
-    reportCode: Rep-0002
+level: 3
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.hypertension-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.hypertension-followup
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.hypertension-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.hypertension-followup
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: encounter.type-2-diabetes-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.type-2-diabetes-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.type-2-diabetes-followup-visit-subsequent
+    resourceType: encounter
+    references:
+      conditionId: condition.type-2-diabetes-followup
+      practitionerId: practitioner.endocrinology-clinician
+    inputs:
+      encounterProfile: endocrinology-outpatient
+  - alias: encounter.atrial-fibrillation-followup-visit-initial
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: encounter.atrial-fibrillation-followup-visit-followup
+    resourceType: encounter
+    references:
+      conditionId: condition.atrial-fibrillation-followup
+      practitionerId: practitioner.cardiology-clinician
+    inputs:
+      encounterProfile: cardiology-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitionerrole.endocrinology-specialist
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.endocrinology-clinician
+    with:
+      - practitionerrole.endocrinology-specialist
+  - alias: practitionerrole.cardiology-specialist
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.cardiology-clinician
+    with:
+      - practitionerrole.cardiology-specialist
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: practitioner.endocrinology-clinician
+    resourceType: practitioner
+  - alias: practitioner.cardiology-clinician
+    resourceType: practitioner
+  - alias: observation.lab-blood-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      performerId: organization.hospital
+    with:
+      - observation.lab.blood-glucose
+  - alias: observation.lab-hba1c
+    resourceType: observation
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      performerId: organization.hospital
+    with:
+      - observation.lab.hba1c
+  - alias: observation.lab-total-cholesterol
+    resourceType: observation
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      performerId: organization.hospital
+    with:
+      - observation.lab.total-cholesterol
+  - alias: observation.lab-troponin
+    resourceType: observation
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      performerId: organization.hospital
+    with:
+      - observation.lab.troponin
+  - alias: observation.lab-followup-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      performerId: organization.hospital
+    with:
+      - observation.lab.followup-glucose
+  - alias: diagnosticreport.cardiac-enzyme-report-initial
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      performerId: organization.hospital
+      resultId: observation.lab-blood-glucose
+    inputs:
+      reportCode: Rep-0005
+  - alias: diagnosticreport.hba1c-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      performerId: organization.hospital
+      resultId: observation.lab-hba1c
+    inputs:
+      reportCode: Rep-0004
+  - alias: diagnosticreport.lipid-report-initial
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      performerId: organization.hospital
+      resultId: observation.lab-total-cholesterol
+    inputs:
+      reportCode: Rep-0002
+  - alias: diagnosticreport.cardiac-enzyme-report-followup
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      performerId: organization.hospital
+      resultId: observation.lab-troponin
+    inputs:
+      reportCode: Rep-0005
+  - alias: diagnosticreport.lipid-report-followup
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      performerId: organization.hospital
+      resultId: observation.lab-followup-glucose
+    inputs:
+      reportCode: Rep-0002
+  - alias: medicationrequest.amlodipine-5-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.amlodipine-5-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.amlodipine-5-mg
+  - alias: medicationrequest.losartan-50-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.losartan-50-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.losartan-50-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-initial
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.amlodipine-5-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.amlodipine-5-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.amlodipine-5-mg
+  - alias: medicationrequest.losartan-50-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.losartan-50-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.losartan-50-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.hypertension-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.metformin-500-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.insulin-glargine-10-units-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-initial
+      medicationId: medication.insulin-glargine-pen
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.insulin-glargine-10-units
+  - alias: medicationrequest.metformin-500-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: medicationrequest.metformin-500-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.metformin-500-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.metformin-500-mg
+  - alias: medicationrequest.sitagliptin-100-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.sitagliptin-100-mg-tablet
+      reasonReferenceId: condition.type-2-diabetes-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.sitagliptin-100-mg
+  - alias: medicationrequest.amlodipine-5-mg-order-subsequent
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.type-2-diabetes-followup-visit-subsequent
+      medicationId: medication.amlodipine-5-mg-tablet
+      reasonReferenceId: condition.hypertension-followup
+      requesterId: practitionerrole.endocrinology-specialist
+    with:
+      - medicationrequest.amlodipine-5-mg
+  - alias: medicationrequest.metoprolol-25-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-initial
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.clopidogrel-75-mg-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-initial
+      medicationId: medication.clopidogrel-75-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.clopidogrel-75-mg
+  - alias: medicationrequest.metoprolol-25-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.metoprolol-25-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.metoprolol-25-mg
+  - alias: medicationrequest.aspirin-100-mg-order-followup
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.aspirin-100-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.aspirin-100-mg
+  - alias: medicationrequest.atorvastatin-20-mg-order-maintenance
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.atrial-fibrillation-followup-visit-followup
+      medicationId: medication.atorvastatin-20-mg-tablet
+      reasonReferenceId: condition.atrial-fibrillation-followup
+      requesterId: practitionerrole.cardiology-specialist
+    with:
+      - medicationrequest.atorvastatin-20-mg
+  - alias: condition.hypertension-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.hypertension-followup
+  - alias: condition.type-2-diabetes-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.endocrinology-specialist
+    with:
+      - condition.type-2-diabetes-followup
+  - alias: condition.atrial-fibrillation-followup
+    resourceType: condition
+    references:
+      recorderId: practitionerrole.cardiology-specialist
+    with:
+      - condition.atrial-fibrillation-followup
+  - alias: medication.sitagliptin-100-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0054
+  - alias: medication.insulin-glargine-pen
+    resourceType: medication
+    inputs:
+      code: Med-0053
+  - alias: medication.atorvastatin-20-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0038
+  - alias: medication.amlodipine-5-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0032
+  - alias: medication.losartan-50-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0035
+  - alias: medication.metoprolol-25-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0036
+  - alias: medication.aspirin-100-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0025
+  - alias: medication.clopidogrel-75-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0040
+  - alias: medication.metformin-500-mg-tablet
+    resourceType: medication
+    inputs:
+      code: Med-0047

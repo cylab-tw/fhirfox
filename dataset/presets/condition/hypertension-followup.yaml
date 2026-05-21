@@ -1,0 +1,9 @@
+id: condition.hypertension-followup
+resourceType: condition
+summary: "Cond-030: 高血壓追蹤"
+fields:
+  conditionCode: Cond-030
+  conditionText: 高血壓追蹤
+  category: problem-list-item
+  severity: "6736007"
+  note: 血壓偏高，持續門診追蹤。

@@ -1,4 +1,4 @@
-import { readSourceResourceType } from '@fhirfox/converter/browser';
+import { readSourceResourceType } from '../../converter/src/browser.ts';
 
 import type {
 	FhirBundleRecord,

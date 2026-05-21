@@ -1,0 +1,191 @@
+resourceType: medicationrequest
+name: MedicationRequest
+summary: 此情境納入的 MedicationRequest 原始資料。
+bindings:
+  condition:
+    key: condition
+    name: Scenario condition
+    resourceTypes:
+      - condition
+    summary: 此情境開立原因。
+  encounter:
+    key: encounter
+    name: Scenario encounter
+    resourceTypes:
+      - encounter
+    summary: 此情境相關就醫事件。
+  medication:
+    key: medication
+    name: Scenario medication
+    resourceTypes:
+      - medication
+    summary: 此情境藥品。
+  patient:
+    key: subject
+    name: Scenario patient
+    resourceTypes:
+      - patient
+    summary: 此情境主要病人。
+  requester:
+    key: requester
+    name: Scenario requester
+    resourceTypes:
+      - practitioner
+      - practitionerrole
+    summary: 此情境開立者。
+fields:
+  - id: authoredOn
+    name: Authored On
+    summary: 開立時間
+    type: datetime
+    path: MedicationRequest.authoredOn
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.authoredOn
+    required: false
+    default: $dateTime()
+    input:
+      between:
+        - 2026-03-01T08:00:00+08:00
+        - 2026-07-31T18:00:00+08:00
+  - id: dosageText
+    name: Dosage Text
+    summary: 用法說明
+    type: string
+    path: MedicationRequest.dosageInstruction.text
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.text
+    required: false
+  - id: doseUnit
+    name: Dose Unit
+    summary: 劑量單位
+    type: code
+    path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.code
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.code
+    required: false
+  - id: doseValue
+    name: Dose Value
+    summary: 每次劑量
+    type: number
+    path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.value
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.value
+    required: false
+  - id: durationUnit
+    name: Duration Unit
+    summary: 預期供藥天數或期間單位。
+    type: code
+    path: MedicationRequest.dispenseRequest.expectedSupplyDuration.code
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dispenseRequest.expectedSupplyDuration.code
+    required: false
+  - id: durationValue
+    name: Duration Value
+    summary: 處方天數
+    type: number
+    path: MedicationRequest.dispenseRequest.expectedSupplyDuration.value
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dispenseRequest.expectedSupplyDuration.value
+    required: false
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: MedicationRequest.encounter.reference
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: frequency
+    name: Frequency
+    summary: 用藥頻率。
+    type: number
+    path: MedicationRequest.dosageInstruction.timing.repeat.frequency
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.frequency
+    required: false
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: MedicationRequest.id
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.id
+    required: true
+  - id: intent
+    name: Intent
+    summary: 意圖
+    type: code
+    path: MedicationRequest.intent
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.intent
+    required: false
+    default: order
+  - id: medicationId
+    name: Medication Id
+    summary: 藥品參照
+    type: reference
+    path: MedicationRequest.medicationReference.reference
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.medicationReference.reference
+    required: false
+    reference:
+      binding: medication
+  - id: patientId
+    name: Patient Id
+    summary: 病人
+    type: reference
+    path: MedicationRequest.subject.reference
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.subject.reference
+    required: false
+    reference:
+      binding: patient
+  - id: period
+    name: Period
+    summary: 用藥頻率週期。
+    type: number
+    path: MedicationRequest.dosageInstruction.timing.repeat.period
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.period
+    required: false
+    default: 1
+  - id: periodUnit
+    name: Period Unit
+    summary: 用藥頻率週期單位。
+    type: string
+    path: MedicationRequest.dosageInstruction.timing.repeat.periodUnit
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.periodUnit
+    required: false
+    default: d
+  - id: reasonReferenceId
+    name: Reason Reference Id
+    summary: 開立原因參照
+    type: reference
+    path: MedicationRequest.reasonReference.reference
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.reasonReference.reference
+    required: false
+    reference:
+      binding: condition
+  - id: requesterId
+    name: Requester Id
+    summary: 開立者
+    type: reference
+    path: MedicationRequest.requester.reference
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.requester.reference
+    required: false
+    reference:
+      binding: requester
+  - id: status
+    name: Status
+    summary: 狀態
+    type: code
+    path: MedicationRequest.status
+    cardinality: 0..1
+    fhirMapping: MedicationRequest.status
+    required: false
+    default: active

@@ -1,0 +1,67 @@
+resourceType: medication
+name: Medication
+summary: 此情境納入的 Medication 原始資料。
+fields:
+  - id: code
+    name: Code
+    summary: 藥品代碼
+    type: code
+    path: Medication.code.coding.code
+    cardinality: 0..1
+    fhirMapping: Medication.code.coding.code
+    required: false
+    default: $input()
+  - id: display
+    name: Display
+    summary: 藥品名稱
+    type: string
+    path: Medication.code.text
+    cardinality: 0..1
+    fhirMapping: Medication.code.text
+    required: false
+    default: $case()
+    input:
+      source: code
+      cases:
+        Med-0001:
+          display: Acetaminophen 500 mg
+        Med-0032:
+          display: Amlodipine 5 mg tablet
+        Med-0003:
+          display: Amlodipine 5 mg
+        Med-0025:
+          display: Aspirin 100 mg tablet
+        Med-0005:
+          display: Aspirin 100 mg
+        Med-0038:
+          display: Atorvastatin 20 mg tablet
+        Med-0006:
+          display: Ceftriaxone injection 1 g
+        Med-0040:
+          display: Clopidogrel 75 mg tablet
+        Med-0008:
+          display: Ibuprofen 400 mg
+        Med-0053:
+          display: Insulin glargine pen
+        Med-0035:
+          display: Losartan 50 mg tablet
+        Med-0047:
+          display: Metformin 500 mg tablet
+        Med-0004:
+          display: Metformin 500 mg
+        Med-0036:
+          display: Metoprolol 25 mg tablet
+        Med-0007:
+          display: Normal saline 0.9%
+        Med-0002:
+          display: Pediatric acetaminophen syrup
+        Med-0054:
+          display: Sitagliptin 100 mg tablet
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: Medication.id
+    cardinality: 0..1
+    fhirMapping: Medication.id
+    required: true

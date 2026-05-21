@@ -1,0 +1,4 @@
+id: imagingstudy.inpatient-chest-xray-followup
+resourceType: imagingstudy
+fields:
+  studyDescription: 住院胸部 X 光追蹤

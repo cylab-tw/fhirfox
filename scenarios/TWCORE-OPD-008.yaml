@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-008
 name: 小兒門診（退燒藥與尿液檢查）
-level: 3
-type: outpatient
 summary: 小兒發燒門診，整合體溫、CBC、尿液檢查與小兒退燒藥處方。
 details: |
   此情境用於驗證小兒用藥與檢驗報告整合能力，特別是兒科劑量需以體重與 mg/kg 邏輯呈現。
@@ -12,32 +8,95 @@ details: |
   - 包含 CBC 與尿液檢查
   - 開立退燒藥，劑量文字標示 mg/kg
   - 適合檢查小兒用藥劑量差異
-
-selection:
-  strategy: best-match
-  maxSeeds: 7
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-condition:
-  conditionCode: Cond-019
-
-allergyIntolerance:
-  category: food
-
-observation:
-  - observationCode: VS-0005
-    encounterId: "4"
-  - observationCode: Lab-0001
-    encounterId: "4"
-  - observationCode: Lab-0021
-    encounterId: "4"
-
-medicationRequest:
-  medicationId: "2"
-  encounterId: "4"
-
-diagnosticReport:
-  reportCode: Rep-0006
-  encounterId: "4"
+level: 3
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gte: 0
+        lt: 12
+    as:
+      - subject
+  - alias: encounter.fever-and-cough-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.fever-and-cough
+      practitionerId: practitioner.pediatrics-clinician
+    inputs:
+      encounterProfile: pediatrics-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.pediatrics-pediatrician
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.pediatrics-clinician
+    with:
+      - practitionerrole.pediatrics-pediatrician
+  - alias: practitioner.pediatrics-clinician
+    resourceType: practitioner
+  - alias: condition.fever-and-cough
+    resourceType: condition
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      recorderId: practitionerrole.pediatrics-pediatrician
+    with:
+      - condition.fever-and-cough
+  - alias: allergyintolerance.shrimp-allergy
+    resourceType: allergyintolerance
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      recorderId: practitionerrole.pediatrics-pediatrician
+  - alias: observation.vital-body-temperature
+    resourceType: observation
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      performerId: practitionerrole.pediatrics-pediatrician
+    with:
+      - observation.vital.body-temperature
+  - alias: observation.lab-cbc-white-blood-cell
+    resourceType: observation
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      performerId: practitionerrole.pediatrics-pediatrician
+    with:
+      - observation.lab.cbc-white-blood-cell
+  - alias: observation.lab-urine-specific-gravity
+    resourceType: observation
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      performerId: practitionerrole.pediatrics-pediatrician
+    with:
+      - observation.lab.urine-specific-gravity
+  - alias: diagnosticreport.urinalysis-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      performerId: organization.hospital
+      resultId: observation.lab-urine-specific-gravity
+    inputs:
+      reportCode: Rep-0006
+  - alias: medicationrequest.acetaminophen-syrup-10-mg-kg-dose-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      medicationId: medication.pediatric-acetaminophen-syrup
+      reasonReferenceId: condition.fever-and-cough
+      requesterId: practitionerrole.pediatrics-pediatrician
+    with:
+      - medicationrequest.acetaminophen-syrup-10-mg-kg-dose
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: medication.pediatric-acetaminophen-syrup
+    resourceType: medication
+    inputs:
+      code: Med-0002

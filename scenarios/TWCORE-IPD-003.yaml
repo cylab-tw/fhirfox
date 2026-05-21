@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-IPD-003
 name: 住院（檢驗報告、病理與多重用藥）
-level: 3
-type: inpatient
 summary: 住院案例整合生命徵象、Lab panel、病理報告與多重用藥，驗證完整住院流程。
 details: |
   此情境延續住院案例，加入檢查報告與多重用藥，作為 Level 3 住院端到端流程測試。
@@ -12,48 +8,153 @@ details: |
   - 包含 Lab panel 與病理報告
   - 加入 X-ray / biopsy 相關檢查與報告
   - 開立 3 至 5 種住院用藥以支援 polypharmacy 測試
-
-selection:
-  strategy: best-match
-  maxSeeds: 13
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-observation:
-  - observationCode: VS-0005
-    encounterId: "7"
-  - observationCode: VS-0007
-    encounterId: "7"
-  - observationCode: VS-0013
-    encounterId: "7"
-  - observationCode: Lab-0001
-    encounterId: "7"
-  - observationCode: Lab-0007
-    encounterId: "7"
-  - observationCode: Lab-0006
-    encounterId: "7"
-
-procedure:
-  - procedureCode: Proc-0012
-    encounterId: "7"
-  - procedureCode: Proc-0011
-    encounterId: "7"
-
-medicationRequest:
-  - medicationId: "6"
-    encounterId: "7"
-  - medicationId: "7"
-    encounterId: "7"
-  - medicationId: "8"
-    encounterId: "7"
-
-diagnosticReport:
-  - reportCode: Rep-0001
-    encounterId: "7"
-  - reportCode: Rep-0017
-    encounterId: "7"
-
-imagingStudy:
-  modalityCode: DX
-  encounterId: "7"
+level: 3
+scenarioType: inpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.inpatient-stay
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.inpatient-care-clinician
+    inputs:
+      encounterProfile: inpatient-stay-from-ed-home
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.inpatient-care-specialist
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.inpatient-care-clinician
+    with:
+      - practitionerrole.inpatient-care-specialist
+  - alias: practitioner.inpatient-care-clinician
+    resourceType: practitioner
+  - alias: observation.vital-body-temperature
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.vital.body-temperature
+  - alias: observation.vital-respiratory-rate
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.vital.respiratory-rate
+  - alias: observation.vital-oxygen-saturation
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.vital.oxygen-saturation
+  - alias: observation.lab-cbc-white-blood-cell
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.lab.cbc-white-blood-cell
+  - alias: observation.lab-blood-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.lab.blood-glucose
+  - alias: observation.lab-urine-protein
+    resourceType: observation
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - observation.lab.urine-protein
+  - alias: procedure.inpatient-chest-xray
+    resourceType: procedure
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - procedure.inpatient-chest-xray-pneumonia
+  - alias: procedure.inpatient-biopsy
+    resourceType: procedure
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: practitionerrole.inpatient-care-specialist
+    with:
+      - procedure.inpatient-biopsy-pneumonia
+  - alias: diagnosticreport.cbc-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: organization.hospital
+      resultId: observation.lab-cbc-white-blood-cell
+    inputs:
+      reportCode: Rep-0001
+  - alias: diagnosticreport.pathology-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.inpatient-stay
+      performerId: organization.hospital
+      resultId: observation.lab-urine-protein
+    inputs:
+      reportCode: Rep-0017
+  - alias: imagingstudy.inpatient-chest-xray-followup
+    resourceType: imagingstudy
+    with:
+      - imagingstudy.inpatient-chest-xray-followup
+    references:
+      encounterId: encounter.inpatient-stay
+  - alias: medicationrequest.ceftriaxone-1-g-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.inpatient-stay
+      medicationId: medication.ceftriaxone-injection-1-g
+      requesterId: practitionerrole.inpatient-care-specialist
+    with:
+      - medicationrequest.ceftriaxone-1-g
+  - alias: medicationrequest.normal-saline-0-9-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.inpatient-stay
+      medicationId: medication.normal-saline-0-9
+      requesterId: practitionerrole.inpatient-care-specialist
+    with:
+      - medicationrequest.normal-saline-0-9
+  - alias: medicationrequest.ibuprofen-400-mg-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.inpatient-stay
+      medicationId: medication.ibuprofen-400-mg
+      requesterId: practitionerrole.inpatient-care-specialist
+    with:
+      - medicationrequest.ibuprofen-400-mg
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: medication.ceftriaxone-injection-1-g
+    resourceType: medication
+    inputs:
+      code: Med-0006
+  - alias: medication.normal-saline-0-9
+    resourceType: medication
+    inputs:
+      code: Med-0007
+  - alias: medication.ibuprofen-400-mg
+    resourceType: medication
+    inputs:
+      code: Med-0008

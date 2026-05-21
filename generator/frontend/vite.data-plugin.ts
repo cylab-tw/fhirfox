@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { buildGeneratedAssets } from './build/generated-assets.js';
 
+import type { AppManifest } from './src/types.js';
 import type { GeneratedAssetSet } from './build/types.js';
 import type { Plugin } from 'vite';
 
@@ -10,28 +11,60 @@ const VIRTUAL_MODULE_ID = 'virtual:fhirfox-manifest';
 const RESOLVED_VIRTUAL_MODULE_ID = '\0virtual:fhirfox-manifest';
 const DATA_BASE_URL = '/data';
 
-export function fhirfoxDataPlugin(): Plugin {
+export interface FhirfoxDataPluginOptions {
+	deploymentMode?: 'static' | 'backend';
+	backendApiBaseUrl?: string;
+	backendProxyTarget?: string;
+	defaultSeed?: string;
+}
+
+export function fhirfoxDataPlugin(options: FhirfoxDataPluginOptions = {}): Plugin {
 	const frontendRoot = path.dirname(fileURLToPath(import.meta.url));
 	const generatorRoot = path.resolve(frontendRoot, '..');
 	const repoRoot = path.resolve(generatorRoot, '..');
 	const datasetRoot = path.join(repoRoot, 'dataset');
-	const scenariosRoot = path.join(repoRoot, 'scenarios');
 	let appBaseUrl = '/';
+	let deploymentMode: 'static' | 'backend' = options.deploymentMode ?? 'static';
+	let backendApiBaseUrl = normalizeBackendApiBaseUrl(options.backendApiBaseUrl ?? '/api');
+	let defaultSeed = options.defaultSeed ?? '1234';
 	let cachedAssets: Promise<GeneratedAssetSet> | null = null;
+	let cachedManifest: AppManifest | null = null;
 
 	function invalidateAssets() {
 		cachedAssets = null;
+		cachedManifest = null;
 	}
 
 	function getAssets(): Promise<GeneratedAssetSet> {
-		cachedAssets ??= buildGeneratedAssets(datasetRoot, scenariosRoot, appBaseUrl);
+		cachedAssets ??= buildGeneratedAssets(datasetRoot, appBaseUrl, defaultSeed);
 		return cachedAssets;
+	}
+
+	function getManifest(): Promise<AppManifest> {
+		if (deploymentMode === 'backend') {
+			cachedManifest ??= {
+				generatedAt: new Date().toISOString(),
+				dataSource: {
+					kind: 'backend',
+					apiBaseUrl: backendApiBaseUrl,
+					defaultSeed,
+				},
+			};
+			return Promise.resolve(cachedManifest);
+		}
+
+		return getAssets().then(({ manifest }) => manifest);
 	}
 
 	return {
 		name: 'fhirfox-data',
 		configResolved(config) {
 			appBaseUrl = normalizeBaseUrl(config.base);
+			deploymentMode = normalizeDeploymentMode(options.deploymentMode ?? process.env.FHIRFOX_DEPLOYMENT_MODE);
+			backendApiBaseUrl = normalizeBackendApiBaseUrl(
+				options.backendApiBaseUrl ?? process.env.FHIRFOX_BACKEND_API_BASE_URL ?? '/api',
+			);
+			defaultSeed = options.defaultSeed ?? process.env.FHIRFOX_DEFAULT_SEED ?? '1234';
 			invalidateAssets();
 		},
 		resolveId(id) {
@@ -44,12 +77,15 @@ export function fhirfoxDataPlugin(): Plugin {
 				return null;
 			}
 
-			const { manifest } = await getAssets();
+			const manifest = await getManifest();
 			return `export const manifest = ${JSON.stringify(manifest)}; export default manifest;`;
 		},
 		configureServer(server) {
+			if (deploymentMode !== 'static') {
+				return;
+			}
+
 			server.watcher.add(datasetRoot);
-			server.watcher.add(scenariosRoot);
 			server.middlewares.use(async (req, res, next) => {
 				const requestUrl = stripBasePath(req.url?.split('?', 1)[0], appBaseUrl);
 
@@ -75,7 +111,11 @@ export function fhirfoxDataPlugin(): Plugin {
 			});
 		},
 		handleHotUpdate(context) {
-			if (!context.file.startsWith(datasetRoot) && !context.file.startsWith(scenariosRoot)) {
+			if (deploymentMode !== 'static') {
+				return;
+			}
+
+			if (!context.file.startsWith(datasetRoot)) {
 				return;
 			}
 
@@ -90,6 +130,10 @@ export function fhirfoxDataPlugin(): Plugin {
 			return [];
 		},
 		async generateBundle() {
+			if (deploymentMode !== 'static') {
+				return;
+			}
+
 			const { assets } = await getAssets();
 
 			for (const [assetPath, source] of assets) {
@@ -110,6 +154,18 @@ function normalizeBaseUrl(baseUrl: string): string {
 
 	const trimmed = baseUrl.trim().replace(/^\/+|\/+$/gu, '');
 	return trimmed ? `/${trimmed}/` : '/';
+}
+
+function normalizeBackendApiBaseUrl(baseUrl: string): string {
+	const normalized = baseUrl.trim();
+	if (!normalized || normalized === '/') {
+		return '/api';
+	}
+	return normalized.startsWith('/') ? normalized.replace(/\/+$/u, '') : `/${normalized.replace(/\/+$/u, '')}`;
+}
+
+function normalizeDeploymentMode(value: string | undefined): 'static' | 'backend' {
+	return value === 'backend' ? 'backend' : 'static';
 }
 
 function stripBasePath(requestPath: string | undefined, baseUrl: string): string | undefined {

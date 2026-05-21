@@ -1,0 +1,15 @@
+id: observation.vital.oxygen-saturation
+resourceType: observation
+summary: VS-0013 observation profile.
+fields:
+  observationCode: VS-0013
+  rangeHigh: 100
+  rangeLow: 95
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 94
+      lte: 95
+      decimals: 0
+  valueUnit: "%"
+  categoryCode: vital-signs

@@ -1,3 +1,4 @@
+import { BackendScenarioBrowserDataSource } from './backend-data-source.js';
 import { GeneratedAssetScenarioBrowserDataSource } from './generated-asset-data-source.js';
 
 import type { AppManifest } from './types.js';
@@ -7,6 +8,8 @@ export function createScenarioBrowserDataSource(manifest: AppManifest): Scenario
 	switch (manifest.dataSource.kind) {
 		case 'generated-asset':
 			return new GeneratedAssetScenarioBrowserDataSource(manifest.dataSource);
+		case 'backend':
+			return new BackendScenarioBrowserDataSource(manifest.dataSource);
 		default:
 			return throwUnsupportedDataSource(manifest.dataSource);
 	}

@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-002
 name: 小兒門診
-level: 1
-type: outpatient
 summary: 12 歲以下病人的小兒門診情境，涵蓋常見兒科症狀，並可延伸驗證過敏相關資料。
 details: |
   此情境用於驗證小兒門診資料的基本轉換能力，並反映兒科個案在病人屬性與臨床內容上的差異。
@@ -12,23 +8,45 @@ details: |
   - 主訴以發燒、咳嗽等常見兒科症狀為主
   - 可觀察兒童病人在欄位內容上的差異
   - 納入 `AllergyIntolerance` 以支援過敏資料的基本驗證
-
-selection:
-  strategy: best-match
-  maxSeeds: 4
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-patient:
-  ageGroup: child
-
-encounter:
-  class: ambulatory
-  status: finished
-
-condition:
-  - conditionCode: Cond-019
-
-allergyIntolerance:
-  category: food
+level: 1
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gte: 0
+        lt: 12
+    as:
+      - subject
+  - alias: encounter.fever-and-cough-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.fever-and-cough
+      practitionerId: practitioner.pediatrics-clinician
+    inputs:
+      encounterProfile: pediatrics-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.pediatrics-pediatrician
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.pediatrics-clinician
+    with:
+      - practitionerrole.pediatrics-pediatrician
+  - alias: practitioner.pediatrics-clinician
+    resourceType: practitioner
+  - alias: condition.fever-and-cough
+    resourceType: condition
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      recorderId: practitionerrole.pediatrics-pediatrician
+    with:
+      - condition.fever-and-cough
+  - alias: allergyintolerance.shrimp-allergy
+    resourceType: allergyintolerance
+    references:
+      encounterId: encounter.fever-and-cough-visit
+      recorderId: practitionerrole.pediatrics-pediatrician

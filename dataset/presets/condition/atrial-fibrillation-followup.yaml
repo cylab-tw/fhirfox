@@ -1,0 +1,7 @@
+id: condition.atrial-fibrillation-followup
+resourceType: condition
+summary: "Cond-027: 心房顫動追蹤"
+fields:
+  conditionCode: Cond-027
+  conditionText: 心房顫動追蹤
+  category: problem-list-item

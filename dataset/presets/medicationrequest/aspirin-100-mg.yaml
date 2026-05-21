@@ -1,0 +1,10 @@
+id: medicationrequest.aspirin-100-mg
+resourceType: medicationrequest
+summary: Aspirin 100 mg by mouth once daily.
+fields:
+  dosageText: Aspirin 100 mg by mouth once daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

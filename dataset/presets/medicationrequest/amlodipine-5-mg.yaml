@@ -1,0 +1,10 @@
+id: medicationrequest.amlodipine-5-mg
+resourceType: medicationrequest
+summary: Amlodipine 5 mg by mouth once daily.
+fields:
+  dosageText: Amlodipine 5 mg by mouth once daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

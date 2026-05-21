@@ -13,8 +13,28 @@ export default [
 	...tseslint.configs.recommended,
 	prettierConfig,
 	{
+		files: ['**/*.{js,mjs,cjs}'],
 		rules: {
 			'sort-imports': ['warn', { allowSeparatedGroups: true }],
+			'no-unused-vars': [
+				'error',
+				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+			],
+		},
+	},
+	{
+		files: ['**/*.{ts,tsx,mts,cts}'],
+		rules: {
+			'sort-imports': ['warn', { allowSeparatedGroups: true }],
+			'no-unused-vars': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					args: 'none',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_',
+				},
+			],
 		},
 	},
 	{

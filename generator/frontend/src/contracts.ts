@@ -1,16 +1,33 @@
-import type {
-	SourceFieldDocRecord as DatasetSourceFieldDocRecord,
-	ScenarioLevelDefinition,
-	ScenarioMetadata,
-} from '@fhirfox/dataset/source';
-export type { ScenarioLevel } from '@fhirfox/dataset/source';
-export type { ScenarioLevelDefinition } from '@fhirfox/dataset/source';
 import type { SourceResource } from '@fhirfox/converter/browser';
+import type { ResourceRelationGraph } from '@fhirfox-generator/dataset';
 
-export type SourceFieldDocRecord = DatasetSourceFieldDocRecord;
+export type ScenarioLevel = number;
+
+export interface ScenarioLevelDefinition {
+	level: ScenarioLevel;
+	label: string;
+	title: string;
+	englishTitle?: string;
+	description?: string;
+}
+
+export interface SourceFieldDocRecord {
+	description?: string;
+	cardinality?: string;
+	required?: boolean;
+	fhirMapping?: string;
+	reference?: string | string[];
+}
+
 export type SourceCodeDisplayMap = Record<string, string>;
 
-export interface ScenarioRecord extends ScenarioMetadata {
+export interface ScenarioRecord {
+	id: string;
+	displayName: string;
+	type: string;
+	summary?: string;
+	details?: string;
+	level?: ScenarioLevel;
 	resources: Record<string, Record<string, unknown> | Array<Record<string, unknown>>>;
 }
 
@@ -18,6 +35,7 @@ export interface ScenarioResultRecord {
 	scenarioId: string;
 	resources: Record<string, SourceResource[]>;
 	orderedResources: SourceResource[];
+	graph: ResourceRelationGraph;
 	warnings?: string[];
 	meta: {
 		directMatchCount: number;
@@ -33,9 +51,15 @@ export interface ScenarioResourceMappingRecord {
 
 export interface ScenarioIndexRecord {
 	generatedAt: string;
-	scenarioSource: 'authored' | 'missing';
+	scenarioSource: 'authored' | 'backend' | 'missing';
 	levelDefinitions: ScenarioLevelDefinition[];
 	scenarios: ScenarioRecord[];
+}
+
+export interface BackendDataSourceConfig {
+	kind: 'backend';
+	apiBaseUrl: string;
+	defaultSeed?: string;
 }
 
 export interface StaticAssetDataSourceConfig {
@@ -46,7 +70,7 @@ export interface StaticAssetDataSourceConfig {
 	scenarioAssetBaseUrl: string;
 }
 
-export type AppDataSourceConfig = StaticAssetDataSourceConfig;
+export type AppDataSourceConfig = BackendDataSourceConfig | StaticAssetDataSourceConfig;
 
 export interface AppManifest {
 	generatedAt: string;

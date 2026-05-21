@@ -1,0 +1,9 @@
+id: medicationrequest.normal-saline-0-9
+resourceType: medicationrequest
+summary: Normal saline 0.9% IV infusion 500 mL once daily as clinically indicated.
+fields:
+  dosageText: Normal saline 0.9% IV infusion 500 mL once daily as clinically indicated.
+  doseUnit: mL
+  doseValue: 500
+  durationValue: 3
+  frequency: 1

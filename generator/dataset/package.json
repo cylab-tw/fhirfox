@@ -1,26 +1,33 @@
 {
-	"name": "@fhirfox/dataset",
+	"name": "@fhirfox-generator/dataset",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
+	"imports": {
+		"#/*": {
+			"types": "./dist/*",
+			"default": "./dist/*"
+		}
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
 			"default": "./dist/index.js"
 		},
 		"./source": {
-			"types": "./src/source.ts",
-			"default": "./src/source.ts"
+			"types": "./dist/source.d.ts",
+			"default": "./dist/source.js"
 		}
 	},
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
-		"check": "node --import tsx src/authoring/cli.ts check",
-		"doctor": "node --import tsx src/authoring/cli.ts doctor",
-		"typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
-		"test": "tsx --test tests/**/*.test.ts"
+		"typecheck": "tsc -p tsconfig.test.json --noEmit",
+		"test": "tsx --test tests/**/*.test.ts",
+		"check": "node --import tsx src/cli/index.ts check",
+		"doctor": "node --import tsx src/cli/index.ts doctor",
+		"resolve": "node --import tsx src/cli/index.ts resolve"
 	},
-	"dependencies": {
-		"yaml": "^2.8.1"
+	"devDependencies": {
+		"yaml": "^2.8.4"
 	}
 }

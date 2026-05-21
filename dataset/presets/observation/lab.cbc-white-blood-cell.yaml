@@ -1,0 +1,15 @@
+id: observation.lab.cbc-white-blood-cell
+resourceType: observation
+summary: Lab-0001 observation profile.
+fields:
+  observationCode: Lab-0001
+  rangeHigh: 10
+  rangeLow: 4
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 7.6
+      lte: 13.4
+      decimals: 1
+  valueUnit: 10*3/uL
+  categoryCode: laboratory

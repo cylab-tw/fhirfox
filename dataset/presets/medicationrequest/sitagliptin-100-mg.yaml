@@ -1,0 +1,10 @@
+id: medicationrequest.sitagliptin-100-mg
+resourceType: medicationrequest
+summary: Sitagliptin 100 mg by mouth once daily.
+fields:
+  dosageText: Sitagliptin 100 mg by mouth once daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

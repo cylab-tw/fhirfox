@@ -1,0 +1,15 @@
+id: observation.lab.troponin
+resourceType: observation
+summary: Lab-0005 observation profile.
+fields:
+  observationCode: Lab-0005
+  rangeHigh: 0.04
+  rangeLow: 0
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 0.01
+      lte: 0.08
+      decimals: 2
+  valueUnit: ng/mL
+  categoryCode: laboratory

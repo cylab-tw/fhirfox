@@ -1,0 +1,14 @@
+id: observation.lab.urine-protein
+resourceType: observation
+summary: Lab-0006 observation profile.
+fields:
+  observationCode: Lab-0006
+  rangeHigh: 1
+  rangeLow: 0
+  valueQuantity:
+    generator: $number()
+    input:
+      gte: 1
+      lte: 1
+      decimals: 0
+  categoryCode: laboratory

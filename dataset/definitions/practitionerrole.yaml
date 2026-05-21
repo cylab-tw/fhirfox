@@ -1,0 +1,105 @@
+resourceType: practitionerrole
+name: Practitionerrole
+summary: 此情境納入的 PractitionerRole 原始資料。
+bindings:
+  organization:
+    key: provider
+    name: Scenario organization
+    resourceTypes:
+      - organization
+    summary: 此情境主要照護或資料提供機構。
+  practitioner:
+    key: practitioner
+    name: Scenario practitioner
+    resourceTypes:
+      - practitioner
+    summary: 此情境醫事人員。
+fields:
+  - id: active
+    name: Active
+    summary: 紀錄狀態
+    type: boolean
+    path: PractitionerRole.active
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.active
+    required: false
+    default: true
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: PractitionerRole.id
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.id
+    required: true
+  - id: organizationId
+    name: Organization Id
+    summary: 醫療機構
+    type: reference
+    path: PractitionerRole.organization.reference
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.organization.reference
+    required: false
+    reference:
+      binding: organization
+  - id: periodStart
+    name: Period Start
+    summary: 授權起始日
+    type: datetime
+    path: PractitionerRole.period.start
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.period.start
+    required: false
+    default: 2024-01-01T08:00:00+08:00
+  - id: practitionerId
+    name: Practitioner Id
+    summary: 醫事人員
+    type: reference
+    path: PractitionerRole.practitioner.reference
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.practitioner.reference
+    required: false
+    reference:
+      binding: practitioner
+  - id: roleCode
+    name: Role Code
+    summary: 角色代碼
+    type: code
+    path: PractitionerRole.code.coding.code
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.code.coding.code
+    required: false
+  - id: specialtyCode
+    name: Specialty Code
+    summary: 專科/科別
+    type: code
+    path: PractitionerRole.specialty.coding.code
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.specialty.coding.code
+    required: false
+  - id: telecomSystem
+    name: Telecom System
+    summary: 聯絡方式類型
+    type: code
+    path: PractitionerRole.telecom.system
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.telecom.system
+    required: false
+    default: phone
+  - id: telecomUse
+    name: Telecom Use
+    summary: 聯絡方式用途
+    type: code
+    path: PractitionerRole.telecom.use
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.telecom.use
+    required: false
+    default: work
+  - id: telecomValue
+    name: Telecom Value
+    summary: 聯絡號碼/信箱
+    type: string
+    path: PractitionerRole.telecom.value
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.telecom.value
+    required: false

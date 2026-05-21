@@ -1,0 +1,10 @@
+id: medicationrequest.clopidogrel-75-mg
+resourceType: medicationrequest
+summary: Clopidogrel 75 mg by mouth once daily.
+fields:
+  dosageText: Clopidogrel 75 mg by mouth once daily.
+  doseUnit: "{tbl}"
+  doseValue: 1
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

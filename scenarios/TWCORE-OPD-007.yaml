@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-007
 name: 一般門診（感冒用藥與 CBC）
-level: 3
-type: outpatient
 summary: 成人感冒門診，整合生命徵象、CBC、DiagnosticReport 與感冒藥處方。
 details: |
   此情境在 Level 2 成人門診基礎上加入用藥與檢驗報告，驗證處方與檢查結果能否在同一次門診事件中完整串接。
@@ -12,27 +8,74 @@ details: |
   - 包含生命徵象、CBC 與檢驗報告
   - 開立單一感冒藥處方
   - 驗證 `MedicationRequest.authoredOn`、劑量、頻率與用藥天數
-
-selection:
-  strategy: best-match
-  maxSeeds: 5
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-condition:
-  conditionCode: Cond-016
-
-observation:
-  - observationCode: VS-0005
-    encounterId: "1"
-  - observationCode: Lab-0001
-    encounterId: "1"
-
-medicationRequest:
-  medicationId: "1"
-  encounterId: "1"
-
-diagnosticReport:
-  reportCode: Rep-0001
-  encounterId: "1"
+level: 3
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.common-cold-visit
+    resourceType: encounter
+    references:
+      conditionId: condition.common-cold
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: condition.common-cold
+    resourceType: condition
+    references:
+      encounterId: encounter.common-cold-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.common-cold
+  - alias: observation.vital-body-temperature
+    resourceType: observation
+    references:
+      encounterId: encounter.common-cold-visit
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.body-temperature
+  - alias: observation.lab-cbc-white-blood-cell
+    resourceType: observation
+    references:
+      encounterId: encounter.common-cold-visit
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.lab.cbc-white-blood-cell
+  - alias: diagnosticreport.cbc-report
+    resourceType: diagnosticreport
+    references:
+      encounterId: encounter.common-cold-visit
+      performerId: organization.hospital
+      resultId: observation.lab-cbc-white-blood-cell
+    inputs:
+      reportCode: Rep-0001
+  - alias: medicationrequest.acetaminophen-500-mg-order
+    resourceType: medicationrequest
+    references:
+      encounterId: encounter.common-cold-visit
+      medicationId: medication.acetaminophen-500-mg
+      reasonReferenceId: condition.common-cold
+      requesterId: practitionerrole.family-medicine-attending
+    with:
+      - medicationrequest.acetaminophen-500-mg
+  - alias: medication.acetaminophen-500-mg
+    resourceType: medication
+    inputs:
+      code: Med-0001

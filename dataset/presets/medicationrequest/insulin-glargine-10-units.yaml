@@ -1,0 +1,10 @@
+id: medicationrequest.insulin-glargine-10-units
+resourceType: medicationrequest
+summary: Insulin glargine 10 units subcutaneously every night.
+fields:
+  dosageText: Insulin glargine 10 units subcutaneously every night.
+  doseUnit: mL
+  doseValue: 10
+  durationUnit: d
+  durationValue: 28
+  frequency: 1

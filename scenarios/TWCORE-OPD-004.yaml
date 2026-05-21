@@ -1,9 +1,5 @@
-# yaml-language-server: $schema=./schema.yaml
-
 id: TWCORE-OPD-004
 name: 一般門診（成人，生命徵象與血糖）
-level: 2
-type: outpatient
 summary: 延續成人一般門診，加入血壓、心跳與血糖檢驗，用於驗證 Observation 與門診 Encounter 的關聯。
 details: |
   此情境用於驗證成人門診中常見檢驗資料是否能正確轉換為 `Observation`，並與同一次 `Encounter`、`Patient` 與診斷資料建立關聯。
@@ -12,18 +8,52 @@ details: |
   - 包含血壓（BP）、心跳（HR）與血糖（Glucose）
   - 檢驗結果需具備數值、單位與量測時間
   - 適合檢查 `Observation.valueQuantity` 與 LOINC mapping
-
-selection:
-  strategy: best-match
-  maxSeeds: 2
-  maxPatients: 1
-  maxLinkedEncounters: 1
-  expandLinks: true
-
-observation:
-  - observationCode: VS-0008
-    encounterId: "1"
-  - observationCode: VS-0006
-    encounterId: "1"
-  - observationCode: Lab-0007
-    encounterId: "1"
+level: 2
+scenarioType: outpatient
+resources:
+  - alias: patient.current
+    resourceType: patient
+    inputs:
+      birthday:
+        gt: 18
+    as:
+      - subject
+  - alias: encounter.family-medicine-visit
+    resourceType: encounter
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    inputs:
+      encounterProfile: family-medicine-outpatient
+  - alias: organization.hospital
+    resourceType: organization
+    as:
+      - provider
+  - alias: practitionerrole.family-medicine-attending
+    resourceType: practitionerrole
+    references:
+      practitionerId: practitioner.family-medicine-clinician
+    with:
+      - practitionerrole.family-medicine-attending
+  - alias: practitioner.family-medicine-clinician
+    resourceType: practitioner
+  - alias: observation.vital-blood-pressure
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.blood-pressure
+  - alias: observation.vital-heart-rate
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.vital.heart-rate
+  - alias: observation.lab-blood-glucose
+    resourceType: observation
+    references:
+      encounterId: encounter.family-medicine-visit
+      performerId: practitionerrole.family-medicine-attending
+    with:
+      - observation.lab.blood-glucose

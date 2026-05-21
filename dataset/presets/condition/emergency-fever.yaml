@@ -1,0 +1,8 @@
+id: condition.emergency-fever
+resourceType: condition
+summary: "Cond-062: 急診發燒"
+fields:
+  conditionCode: Cond-062
+  conditionText: 急診發燒
+  category: encounter-diagnosis
+  severity: "255604002"
