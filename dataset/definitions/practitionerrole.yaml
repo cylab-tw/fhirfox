@@ -15,6 +15,14 @@ bindings:
       - practitioner
     summary: 此情境醫事人員。
 fields:
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: PractitionerRole.id
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.id
+    required: true
   - id: active
     name: Active
     summary: 紀錄狀態
@@ -24,24 +32,6 @@ fields:
     fhirMapping: PractitionerRole.active
     required: false
     default: true
-  - id: id
-    name: Id
-    summary: 邏輯 ID
-    type: string
-    path: PractitionerRole.id
-    cardinality: 0..1
-    fhirMapping: PractitionerRole.id
-    required: true
-  - id: organizationId
-    name: Organization Id
-    summary: 醫療機構
-    type: reference
-    path: PractitionerRole.organization.reference
-    cardinality: 0..1
-    fhirMapping: PractitionerRole.organization.reference
-    required: false
-    reference:
-      binding: organization
   - id: periodStart
     name: Period Start
     summary: 授權起始日
@@ -61,6 +51,16 @@ fields:
     required: false
     reference:
       binding: practitioner
+  - id: organizationId
+    name: Organization Id
+    summary: 醫療機構
+    type: reference
+    path: PractitionerRole.organization.reference
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.organization.reference
+    required: false
+    reference:
+      binding: organization
   - id: roleCode
     name: Role Code
     summary: 角色代碼

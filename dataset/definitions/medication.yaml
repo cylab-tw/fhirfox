@@ -2,6 +2,14 @@ resourceType: medication
 name: Medication
 summary: 此情境納入的 Medication 原始資料。
 fields:
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: Medication.id
+    cardinality: 0..1
+    fhirMapping: Medication.id
+    required: true
   - id: code
     name: Code
     summary: 藥品代碼
@@ -57,11 +65,3 @@ fields:
           display: Pediatric acetaminophen syrup
         Med-0054:
           display: Sitagliptin 100 mg tablet
-  - id: id
-    name: Id
-    summary: 邏輯 ID
-    type: string
-    path: Medication.id
-    cardinality: 0..1
-    fhirMapping: Medication.id
-    required: true

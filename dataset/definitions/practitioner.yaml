@@ -9,44 +9,6 @@ bindings:
       - organization
     summary: 此情境主要照護或資料提供機構。
 fields:
-  - id: active
-    name: Active
-    summary: 紀錄狀態
-    type: boolean
-    path: Practitioner.active
-    cardinality: 0..1
-    fhirMapping: Practitioner.active
-    required: false
-    default: true
-  - id: address
-    name: Address
-    summary: 通訊地址
-    type: string
-    path: Practitioner.address.text
-    cardinality: 0..1
-    fhirMapping: Practitioner.address.text
-    required: false
-    default: $taiwanAddress()
-  - id: birthday
-    name: Birthday
-    summary: 出生日期
-    type: date
-    path: Practitioner.birthDate
-    cardinality: 0..1
-    fhirMapping: Practitioner.birthDate
-    required: false
-    default: $birthDate()
-    input:
-      gte: 25
-      lte: 75
-  - id: gender
-    name: Gender
-    summary: 人員性別
-    type: code
-    path: Practitioner.gender
-    cardinality: 0..1
-    fhirMapping: Practitioner.gender
-    required: false
   - id: id
     name: Id
     summary: 醫事人員 ID
@@ -73,6 +35,15 @@ fields:
     fhirMapping: Practitioner.identifier.type.coding.code
     required: false
     default: NNxxx
+  - id: active
+    name: Active
+    summary: 紀錄狀態
+    type: boolean
+    path: Practitioner.active
+    cardinality: 0..1
+    fhirMapping: Practitioner.active
+    required: false
+    default: true
   - id: name
     name: Name
     summary: 姓名
@@ -82,25 +53,6 @@ fields:
     fhirMapping: Practitioner.name.text
     required: false
     default: $humanName()
-  - id: qualificationCode
-    name: Qualification Code
-    summary: 醫事人員類別
-    type: code
-    path: Practitioner.qualification.code.coding.code
-    cardinality: 0..1
-    fhirMapping: Practitioner.qualification.code.coding.code
-    required: false
-    default: Qual-0001
-  - id: qualificationIssuer
-    name: Qualification Issuer
-    summary: 證書發行機構
-    type: reference
-    path: Practitioner.qualification.issuer.reference
-    cardinality: 0..1
-    fhirMapping: Practitioner.qualification.issuer.reference
-    required: false
-    reference:
-      binding: organization
   - id: telecomSystem
     name: Telecom System
     summary: 聯絡方式類型
@@ -128,3 +80,51 @@ fields:
     fhirMapping: Practitioner.telecom.value
     required: false
     default: $taiwanMobilePhone()
+  - id: address
+    name: Address
+    summary: 通訊地址
+    type: string
+    path: Practitioner.address.text
+    cardinality: 0..1
+    fhirMapping: Practitioner.address.text
+    required: false
+    default: $taiwanAddress()
+  - id: gender
+    name: Gender
+    summary: 人員性別
+    type: code
+    path: Practitioner.gender
+    cardinality: 0..1
+    fhirMapping: Practitioner.gender
+    required: false
+  - id: birthday
+    name: Birthday
+    summary: 出生日期
+    type: date
+    path: Practitioner.birthDate
+    cardinality: 0..1
+    fhirMapping: Practitioner.birthDate
+    required: false
+    default: $birthDate()
+    input:
+      gte: 25
+      lte: 75
+  - id: qualificationCode
+    name: Qualification Code
+    summary: 醫事人員類別
+    type: code
+    path: Practitioner.qualification.code.coding.code
+    cardinality: 0..1
+    fhirMapping: Practitioner.qualification.code.coding.code
+    required: false
+    default: Qual-0001
+  - id: qualificationIssuer
+    name: Qualification Issuer
+    summary: 證書發行機構
+    type: reference
+    path: Practitioner.qualification.issuer.reference
+    cardinality: 0..1
+    fhirMapping: Practitioner.qualification.issuer.reference
+    required: false
+    reference:
+      binding: organization

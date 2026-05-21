@@ -24,53 +24,6 @@ bindings:
       - practitionerrole
     summary: 此情境量測或執行者。
 fields:
-  - id: categoryCode
-    name: Category Code
-    summary: 分類代碼
-    type: code
-    path: Observation.category
-    cardinality: 0..1
-    fhirMapping: Observation.category
-    required: false
-  - id: dataAbsentReason
-    name: Data Absent Reason
-    summary: 缺失原因
-    type: string
-    path: Observation.dataAbsentReason
-    cardinality: 0..1
-    fhirMapping: Observation.dataAbsentReason
-    required: false
-  - id: diastolicValue
-    name: Diastolic Value
-    summary: 舒張壓數值
-    type: number
-    path: Observation.component.valueQuantity.value
-    cardinality: 0..1
-    fhirMapping: Observation.component.valueQuantity.value
-    required: false
-  - id: effectiveDate
-    name: Effective Date
-    summary: 量測時間
-    type: datetime
-    path: Observation.effectiveDateTime
-    cardinality: 0..1
-    fhirMapping: Observation.effectiveDateTime
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: Observation.encounter.reference
-    cardinality: 0..1
-    fhirMapping: Observation.encounter.reference
-    required: false
-    reference:
-      binding: encounter
   - id: id
     name: Id
     summary: 邏輯 ID
@@ -79,6 +32,23 @@ fields:
     cardinality: 0..1
     fhirMapping: Observation.id
     required: true
+  - id: status
+    name: Status
+    summary: 狀態
+    type: code
+    path: Observation.status
+    cardinality: 0..1
+    fhirMapping: Observation.status
+    required: false
+    default: final
+  - id: categoryCode
+    name: Category Code
+    summary: 分類代碼
+    type: code
+    path: Observation.category
+    cardinality: 0..1
+    fhirMapping: Observation.category
+    required: false
   - id: observationCode
     name: Observation Code
     summary: 量測項目
@@ -97,6 +67,29 @@ fields:
     required: false
     reference:
       binding: patient
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: Observation.encounter.reference
+    cardinality: 0..1
+    fhirMapping: Observation.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: effectiveDate
+    name: Effective Date
+    summary: 量測時間
+    type: datetime
+    path: Observation.effectiveDateTime
+    cardinality: 0..1
+    fhirMapping: Observation.effectiveDateTime
+    required: false
+    default: $dateTime()
+    input:
+      between:
+        - 2026-03-01T08:00:00+08:00
+        - 2026-07-31T18:00:00+08:00
   - id: performerId
     name: Performer Id
     summary: 量測人員
@@ -107,39 +100,6 @@ fields:
     required: false
     reference:
       binding: performer
-  - id: rangeHigh
-    name: Range High
-    summary: 參考上限
-    type: number
-    path: Observation.referenceRange.high
-    cardinality: 0..1
-    fhirMapping: Observation.referenceRange.high
-    required: false
-  - id: rangeLow
-    name: Range Low
-    summary: 參考下限
-    type: number
-    path: Observation.referenceRange.low
-    cardinality: 0..1
-    fhirMapping: Observation.referenceRange.low
-    required: false
-  - id: status
-    name: Status
-    summary: 狀態
-    type: code
-    path: Observation.status
-    cardinality: 0..1
-    fhirMapping: Observation.status
-    required: false
-    default: final
-  - id: systolicValue
-    name: Systolic Value
-    summary: 收縮壓數值
-    type: number
-    path: Observation.component.valueQuantity.value
-    cardinality: 0..1
-    fhirMapping: Observation.component.valueQuantity.value
-    required: false
   - id: valueQuantity
     name: Value Quantity
     summary: 測量數值
@@ -155,4 +115,44 @@ fields:
     path: Observation.valueQuantity.unit
     cardinality: 0..1
     fhirMapping: Observation.valueQuantity.unit
+    required: false
+  - id: dataAbsentReason
+    name: Data Absent Reason
+    summary: 缺失原因
+    type: string
+    path: Observation.dataAbsentReason
+    cardinality: 0..1
+    fhirMapping: Observation.dataAbsentReason
+    required: false
+  - id: rangeLow
+    name: Range Low
+    summary: 參考下限
+    type: number
+    path: Observation.referenceRange.low
+    cardinality: 0..1
+    fhirMapping: Observation.referenceRange.low
+    required: false
+  - id: rangeHigh
+    name: Range High
+    summary: 參考上限
+    type: number
+    path: Observation.referenceRange.high
+    cardinality: 0..1
+    fhirMapping: Observation.referenceRange.high
+    required: false
+  - id: systolicValue
+    name: Systolic Value
+    summary: 收縮壓數值
+    type: number
+    path: Observation.component.valueQuantity.value
+    cardinality: 0..1
+    fhirMapping: Observation.component.valueQuantity.value
+    required: false
+  - id: diastolicValue
+    name: Diastolic Value
+    summary: 舒張壓數值
+    type: number
+    path: Observation.component.valueQuantity.value
+    cardinality: 0..1
+    fhirMapping: Observation.component.valueQuantity.value
     required: false

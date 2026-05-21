@@ -23,23 +23,14 @@ bindings:
       - practitionerrole
     summary: 此情境紀錄者。
 fields:
-  - id: abatementDate
-    name: Abatement Date
-    summary: 緩解/解決時間
-    type: datetime
-    path: Condition.abatementDateTime
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: Condition.id
     cardinality: 0..1
-    fhirMapping: Condition.abatementDateTime
-    required: false
-  - id: category
-    name: Category
-    summary: 分類
-    type: code
-    path: Condition.category
-    cardinality: 0..1
-    fhirMapping: Condition.category
-    required: false
-    default: encounter-diagnosis
+    fhirMapping: Condition.id
+    required: true
   - id: clinicalStatus
     name: Clinical Status
     summary: 臨床狀態
@@ -49,6 +40,32 @@ fields:
     fhirMapping: Condition.clinicalStatus
     required: false
     default: active
+  - id: verificationStatus
+    name: Verification Status
+    summary: 驗證狀態
+    type: code
+    path: Condition.verificationStatus
+    cardinality: 0..1
+    fhirMapping: Condition.verificationStatus
+    required: false
+    default: confirmed
+  - id: category
+    name: Category
+    summary: 分類
+    type: code
+    path: Condition.category
+    cardinality: 0..1
+    fhirMapping: Condition.category
+    required: false
+    default: encounter-diagnosis
+  - id: severity
+    name: Severity
+    summary: 嚴重程度
+    type: code
+    path: Condition.severity
+    cardinality: 0..1
+    fhirMapping: Condition.severity
+    required: false
   - id: conditionCode
     name: Condition Code
     summary: 疾病/問題代碼
@@ -65,40 +82,6 @@ fields:
     cardinality: 0..1
     fhirMapping: Condition.code.text
     required: false
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: Condition.encounter.reference
-    cardinality: 0..1
-    fhirMapping: Condition.encounter.reference
-    required: false
-    reference:
-      binding: encounter
-  - id: id
-    name: Id
-    summary: 邏輯 ID
-    type: string
-    path: Condition.id
-    cardinality: 0..1
-    fhirMapping: Condition.id
-    required: true
-  - id: note
-    name: Note
-    summary: 備註
-    type: string
-    path: Condition.note.text
-    cardinality: 0..1
-    fhirMapping: Condition.note.text
-    required: false
-  - id: onsetDate
-    name: Onset Date
-    summary: 發病時間
-    type: datetime
-    path: Condition.onsetDateTime
-    cardinality: 0..1
-    fhirMapping: Condition.onsetDateTime
-    required: false
   - id: patientId
     name: Patient Id
     summary: 病人
@@ -109,6 +92,32 @@ fields:
     required: false
     reference:
       binding: patient
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: Condition.encounter.reference
+    cardinality: 0..1
+    fhirMapping: Condition.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: onsetDate
+    name: Onset Date
+    summary: 發病時間
+    type: datetime
+    path: Condition.onsetDateTime
+    cardinality: 0..1
+    fhirMapping: Condition.onsetDateTime
+    required: false
+  - id: abatementDate
+    name: Abatement Date
+    summary: 緩解/解決時間
+    type: datetime
+    path: Condition.abatementDateTime
+    cardinality: 0..1
+    fhirMapping: Condition.abatementDateTime
+    required: false
   - id: recordedDate
     name: Recorded Date
     summary: 記錄日期
@@ -132,20 +141,11 @@ fields:
     required: false
     reference:
       binding: recorder
-  - id: severity
-    name: Severity
-    summary: 嚴重程度
-    type: code
-    path: Condition.severity
+  - id: note
+    name: Note
+    summary: 備註
+    type: string
+    path: Condition.note.text
     cardinality: 0..1
-    fhirMapping: Condition.severity
+    fhirMapping: Condition.note.text
     required: false
-  - id: verificationStatus
-    name: Verification Status
-    summary: 驗證狀態
-    type: code
-    path: Condition.verificationStatus
-    cardinality: 0..1
-    fhirMapping: Condition.verificationStatus
-    required: false
-    default: confirmed

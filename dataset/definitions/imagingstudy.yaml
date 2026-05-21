@@ -15,16 +15,6 @@ bindings:
       - patient
     summary: 此情境主要病人。
 fields:
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫事件 ID。
-    type: reference
-    path: ImagingStudy.encounter.reference
-    cardinality: 0..1
-    fhirMapping: ImagingStudy.encounter.reference
-    required: false
-    reference:
-      binding: encounter
   - id: id
     name: Id
     summary: 影像檢查邏輯 ID。
@@ -33,6 +23,15 @@ fields:
     cardinality: 0..1
     fhirMapping: ImagingStudy.id
     required: true
+  - id: status
+    name: Status
+    summary: 影像檢查狀態。
+    type: code
+    path: ImagingStudy.status
+    cardinality: 0..1
+    fhirMapping: ImagingStudy.status
+    required: false
+    default: available
   - id: modalityCode
     name: Modality Code
     summary: 影像 modality 代碼。
@@ -42,24 +41,6 @@ fields:
     fhirMapping: ImagingStudy.modality
     required: false
     default: DX
-  - id: numberOfInstances
-    name: Number Of Instances
-    summary: 影像實例數。
-    type: number
-    path: ImagingStudy.numberOfInstances
-    cardinality: 0..1
-    fhirMapping: ImagingStudy.numberOfInstances
-    required: false
-    default: 1
-  - id: numberOfSeries
-    name: Number Of Series
-    summary: 影像序列數。
-    type: number
-    path: ImagingStudy.numberOfSeries
-    cardinality: 0..1
-    fhirMapping: ImagingStudy.numberOfSeries
-    required: false
-    default: 1
   - id: patientId
     name: Patient Id
     summary: 病人 ID。
@@ -70,6 +51,16 @@ fields:
     required: false
     reference:
       binding: patient
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫事件 ID。
+    type: reference
+    path: ImagingStudy.encounter.reference
+    cardinality: 0..1
+    fhirMapping: ImagingStudy.encounter.reference
+    required: false
+    reference:
+      binding: encounter
   - id: started
     name: Started
     summary: 影像檢查開始時間。
@@ -83,15 +74,24 @@ fields:
       between:
         - 2026-03-01T08:00:00+08:00
         - 2026-07-31T18:00:00+08:00
-  - id: status
-    name: Status
-    summary: 影像檢查狀態。
-    type: code
-    path: ImagingStudy.status
+  - id: numberOfSeries
+    name: Number Of Series
+    summary: 影像序列數。
+    type: number
+    path: ImagingStudy.numberOfSeries
     cardinality: 0..1
-    fhirMapping: ImagingStudy.status
+    fhirMapping: ImagingStudy.numberOfSeries
     required: false
-    default: available
+    default: 1
+  - id: numberOfInstances
+    name: Number Of Instances
+    summary: 影像實例數。
+    type: number
+    path: ImagingStudy.numberOfInstances
+    cardinality: 0..1
+    fhirMapping: ImagingStudy.numberOfInstances
+    required: false
+    default: 1
   - id: studyDescription
     name: Study Description
     summary: 影像檢查描述。

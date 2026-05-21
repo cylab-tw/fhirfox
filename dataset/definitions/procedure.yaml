@@ -24,40 +24,6 @@ bindings:
       - practitionerrole
     summary: 此情境執行者。
 fields:
-  - id: bodySite
-    name: Body Site
-    summary: 目標身體部位
-    type: string
-    path: Procedure.bodySite
-    cardinality: 0..1
-    fhirMapping: Procedure.bodySite
-    required: false
-  - id: category
-    name: Category
-    summary: 分類
-    type: code
-    path: Procedure.category
-    cardinality: 0..1
-    fhirMapping: Procedure.category
-    required: false
-  - id: complication
-    name: Complication
-    summary: 併發症
-    type: string
-    path: Procedure.complication
-    cardinality: 0..1
-    fhirMapping: Procedure.complication
-    required: false
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: Procedure.encounter.reference
-    cardinality: 0..1
-    fhirMapping: Procedure.encounter.reference
-    required: false
-    reference:
-      binding: encounter
   - id: id
     name: Id
     summary: 邏輯 ID
@@ -66,64 +32,6 @@ fields:
     cardinality: 0..1
     fhirMapping: Procedure.id
     required: true
-  - id: locationId
-    name: Location Id
-    summary: 發生地點
-    type: string
-    path: Procedure.location.reference
-    cardinality: 0..1
-    fhirMapping: Procedure.location.reference
-    required: false
-  - id: outcome
-    name: Outcome
-    summary: 處置結果
-    type: code
-    path: Procedure.outcome
-    cardinality: 0..1
-    fhirMapping: Procedure.outcome
-    required: false
-    default: "385669000"
-  - id: patientId
-    name: Patient Id
-    summary: 病人
-    type: reference
-    path: Procedure.subject.reference
-    cardinality: 0..1
-    fhirMapping: Procedure.subject.reference
-    required: false
-    reference:
-      binding: patient
-  - id: performedDate
-    name: Performed Date
-    summary: 執行時間
-    type: datetime
-    path: Procedure.performedDateTime
-    cardinality: 0..1
-    fhirMapping: Procedure.performedDateTime
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: performerFunction
-    name: Performer Function
-    summary: 執行者角色
-    type: code
-    path: Procedure.performer.function
-    cardinality: 0..1
-    fhirMapping: Procedure.performer.function
-    required: false
-  - id: performerId
-    name: Performer Id
-    summary: 執行人員
-    type: reference
-    path: Procedure.performer.actor.reference
-    cardinality: 0..1
-    fhirMapping: Procedure.performer.actor.reference
-    required: false
-    reference:
-      binding: performer
   - id: procedureCode
     name: Procedure Code
     summary: 處置/手術代碼
@@ -157,14 +65,6 @@ fields:
           procedureText: 頭部傷口換藥
         Proc-0046:
           procedureText: 冠狀動脈支架置放術
-  - id: reasonCode
-    name: Reason Code
-    summary: 執行原因
-    type: code
-    path: Procedure.reasonCode
-    cardinality: 0..1
-    fhirMapping: Procedure.reasonCode
-    required: false
   - id: status
     name: Status
     summary: 狀態
@@ -181,4 +81,104 @@ fields:
     path: Procedure.statusReason
     cardinality: 0..1
     fhirMapping: Procedure.statusReason
+    required: false
+  - id: category
+    name: Category
+    summary: 分類
+    type: code
+    path: Procedure.category
+    cardinality: 0..1
+    fhirMapping: Procedure.category
+    required: false
+  - id: patientId
+    name: Patient Id
+    summary: 病人
+    type: reference
+    path: Procedure.subject.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.subject.reference
+    required: false
+    reference:
+      binding: patient
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: Procedure.encounter.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: performedDate
+    name: Performed Date
+    summary: 執行時間
+    type: datetime
+    path: Procedure.performedDateTime
+    cardinality: 0..1
+    fhirMapping: Procedure.performedDateTime
+    required: false
+    default: $dateTime()
+    input:
+      between:
+        - 2026-03-01T08:00:00+08:00
+        - 2026-07-31T18:00:00+08:00
+  - id: performerId
+    name: Performer Id
+    summary: 執行人員
+    type: reference
+    path: Procedure.performer.actor.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.performer.actor.reference
+    required: false
+    reference:
+      binding: performer
+  - id: performerFunction
+    name: Performer Function
+    summary: 執行者角色
+    type: code
+    path: Procedure.performer.function
+    cardinality: 0..1
+    fhirMapping: Procedure.performer.function
+    required: false
+  - id: locationId
+    name: Location Id
+    summary: 發生地點
+    type: string
+    path: Procedure.location.reference
+    cardinality: 0..1
+    fhirMapping: Procedure.location.reference
+    required: false
+  - id: reasonCode
+    name: Reason Code
+    summary: 執行原因
+    type: code
+    path: Procedure.reasonCode
+    cardinality: 0..1
+    fhirMapping: Procedure.reasonCode
+    required: false
+  - id: bodySite
+    name: Body Site
+    summary: 目標身體部位
+    type: string
+    path: Procedure.bodySite
+    cardinality: 0..1
+    fhirMapping: Procedure.bodySite
+    required: false
+  - id: outcome
+    name: Outcome
+    summary: 處置結果
+    type: code
+    path: Procedure.outcome
+    cardinality: 0..1
+    fhirMapping: Procedure.outcome
+    required: false
+    default: "385669000"
+  - id: complication
+    name: Complication
+    summary: 併發症
+    type: string
+    path: Procedure.complication
+    cardinality: 0..1
+    fhirMapping: Procedure.complication
     required: false
