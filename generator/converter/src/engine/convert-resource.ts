@@ -94,11 +94,12 @@ function applyRule(
 			);
 			return;
 		case 'code_map': {
-			if (!rule.mappingKey) {
+			const mappingKey = resolveMappingKey(rule, input);
+			if (!mappingKey) {
 				throw new Error(`Missing mapping key for rule "${rule.fhirPath}".`);
 			}
 
-			const mapping = resolveCodeMapping(ruleSet, rule.mappingKey, String(rawValue));
+			const mapping = resolveCodeMapping(ruleSet, mappingKey, String(rawValue));
 			writeFhirValue(resource, rule.fhirPath, mapping.code, rule.dataType, mapping);
 			return;
 		}
@@ -119,6 +120,21 @@ function getFhirResourceType(fhirPath: string | undefined): string {
 	}
 
 	return resourceType;
+}
+
+function resolveMappingKey(rule: GeneratorRuleRow, input: SourceResource): string | undefined {
+	if (rule.resourceType !== 'observation' || rule.sourceColumn !== 'observationCode') {
+		return rule.mappingKey;
+	}
+
+	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
+	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
+
+	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
+		return 'laboratoryresult-lab-code';
+	}
+
+	return rule.mappingKey;
 }
 
 function isMissing(value: unknown): boolean {

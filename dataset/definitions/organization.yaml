@@ -2,33 +2,6 @@ resourceType: organization
 name: Organization
 summary: 此情境納入的 Organization 原始資料。
 fields:
-  - id: active
-    name: Active
-    summary: 紀錄狀態
-    type: boolean
-    path: Organization.active
-    cardinality: 0..1
-    fhirMapping: Organization.active
-    required: false
-    default: true
-  - id: address
-    name: Address
-    summary: 機構地址
-    type: string
-    path: Organization.address.text
-    cardinality: 0..1
-    fhirMapping: Organization.address.text
-    required: false
-    default: 台北市中正區常德街1號
-  - id: alias
-    name: Alias
-    summary: 其他名稱(別名)
-    type: string
-    path: Organization.alias
-    cardinality: 0..1
-    fhirMapping: Organization.alias
-    required: false
-    default: 範例醫院
   - id: id
     name: Id
     summary: 邏輯 ID
@@ -55,6 +28,24 @@ fields:
     fhirMapping: Organization.identifier.type.coding.code
     required: false
     default: MR
+  - id: active
+    name: Active
+    summary: 紀錄狀態
+    type: boolean
+    path: Organization.active
+    cardinality: 0..1
+    fhirMapping: Organization.active
+    required: false
+    default: true
+  - id: alias
+    name: Alias
+    summary: 其他名稱(別名)
+    type: string
+    path: Organization.alias
+    cardinality: 0..1
+    fhirMapping: Organization.alias
+    required: false
+    default: 範例醫院
   - id: name
     name: Name
     summary: 機構名稱
@@ -64,6 +55,15 @@ fields:
     fhirMapping: Organization.name
     required: false
     default: 台北範例醫院
+  - id: type
+    name: Type
+    summary: 機構類型
+    type: code
+    path: Organization.type.coding.code
+    cardinality: 0..1
+    fhirMapping: Organization.type.coding.code
+    required: false
+    default: prov
   - id: telecomSystem
     name: Telecom System
     summary: 聯絡方式類型
@@ -91,12 +91,12 @@ fields:
     fhirMapping: Organization.telecom.value
     required: false
     default: 02-2312-3456
-  - id: type
-    name: Type
-    summary: 機構類型
-    type: code
-    path: Organization.type.coding.code
+  - id: address
+    name: Address
+    summary: 機構地址
+    type: string
+    path: Organization.address.text
     cardinality: 0..1
-    fhirMapping: Organization.type.coding.code
+    fhirMapping: Organization.address.text
     required: false
-    default: prov
+    default: 台北市中正區常德街1號

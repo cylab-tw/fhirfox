@@ -1,8 +1,8 @@
 id: condition.type-2-diabetes-followup
 resourceType: condition
-summary: "Cond-054: 第二型糖尿病追蹤"
+summary: "Cond-0050: 第二型糖尿病追蹤"
 fields:
-  conditionCode: Cond-054
+  conditionCode: Cond-0050
   conditionText: 第二型糖尿病追蹤
   category: problem-list-item
   severity: "6736007"

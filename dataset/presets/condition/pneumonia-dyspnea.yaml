@@ -1,8 +1,8 @@
 id: condition.pneumonia-dyspnea
 resourceType: condition
-summary: "Cond-018: 肺炎伴呼吸喘"
+summary: "Cond-0011: 肺炎伴呼吸喘"
 fields:
-  conditionCode: Cond-018
+  conditionCode: Cond-0011
   conditionText: 肺炎伴呼吸喘
   category: encounter-diagnosis
   severity: "24484000"

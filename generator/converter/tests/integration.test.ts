@@ -142,6 +142,14 @@ const observation: SourceResource = {
 	valueUnit: '%',
 };
 
+const labObservation: SourceResource = {
+	...observation,
+	categoryCode: 'laboratory',
+	observationCode: 'Lab-0005',
+	valueQuantity: '12',
+	valueUnit: '10*3/uL',
+};
+
 test('loadStaticConverterRows and normalizeRuleSet index TW Core rows', async () => {
 	const rows = await loadStaticConverterRows(fixtureBaseDir, 'tw.gov.mohw.twcore');
 	const ruleSet = normalizeRuleSet(rows, 'tw.gov.mohw.twcore', '1.0.0');
@@ -229,6 +237,27 @@ test('toFhirResource uses explicit reference types for polymorphic references', 
 	);
 
 	assert.equal(((result.performer as Array<{ reference?: string }>)?.[0] ?? {}).reference, 'Organization/3');
+});
+
+test('toFhirResource converts laboratory Observation with lab code mapping', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(labObservation, {
+		igName: 'tw.gov.mohw.twcore',
+		igVersion: '1.0.0',
+	});
+
+	assert.equal(result.resourceType, 'Observation');
+	assert.equal((result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code, '777-3');
+	assert.equal(
+		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.system,
+		'http://loinc.org',
+	);
+	assert.deepEqual(result.meta?.profile, [
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore',
+	]);
 });
 
 test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', async () => {

@@ -1,8 +1,8 @@
 id: condition.hypertension-followup
 resourceType: condition
-summary: "Cond-030: 高血壓追蹤"
+summary: "Cond-0018: 高血壓追蹤"
 fields:
-  conditionCode: Cond-030
+  conditionCode: Cond-0018
   conditionText: 高血壓追蹤
   category: problem-list-item
   severity: "6736007"

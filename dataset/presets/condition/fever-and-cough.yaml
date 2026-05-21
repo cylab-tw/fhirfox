@@ -1,8 +1,8 @@
 id: condition.fever-and-cough
 resourceType: condition
-summary: "Cond-019: 發燒與咳嗽"
+summary: "Cond-0014: 發燒與咳嗽"
 fields:
-  conditionCode: Cond-019
+  conditionCode: Cond-0014
   conditionText: 發燒與咳嗽
   category: encounter-diagnosis
   severity: "6736007"

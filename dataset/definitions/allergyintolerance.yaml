@@ -23,24 +23,14 @@ bindings:
       - practitionerrole
     summary: 此情境紀錄者。
 fields:
-  - id: allergyCode
-    name: Allergy Code
-    summary: 過敏原代碼
-    type: code
-    path: AllergyIntolerance.code.coding.code
+  - id: id
+    name: Id
+    summary: 過敏紀錄ID
+    type: string
+    path: AllergyIntolerance.id
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.code.coding.code
-    required: false
-    default: Al-F0007
-  - id: category
-    name: Category
-    summary: 過敏原類別
-    type: code
-    path: AllergyIntolerance.category
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.category
-    required: false
-    default: food
+    fhirMapping: AllergyIntolerance.id
+    required: true
   - id: clinicalStatus
     name: Clinical Status
     summary: 臨床狀態
@@ -50,6 +40,33 @@ fields:
     fhirMapping: AllergyIntolerance.clinicalStatus
     required: false
     default: active
+  - id: verificationStatus
+    name: Verification Status
+    summary: 確認狀態
+    type: code
+    path: AllergyIntolerance.verificationStatus
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.verificationStatus
+    required: false
+    default: confirmed
+  - id: type
+    name: Type
+    summary: 過敏類型
+    type: code
+    path: AllergyIntolerance.type
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.type
+    required: false
+    default: allergy
+  - id: category
+    name: Category
+    summary: 過敏原類別
+    type: code
+    path: AllergyIntolerance.category
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.category
+    required: false
+    default: food
   - id: criticality
     name: Criticality
     summary: 嚴重性評估
@@ -59,58 +76,15 @@ fields:
     fhirMapping: AllergyIntolerance.criticality
     required: false
     default: low
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫事件
-    type: reference
-    path: AllergyIntolerance.encounter.reference
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.encounter.reference
-    required: false
-    reference:
-      binding: encounter
-  - id: exposureRoute
-    name: Exposure Route
-    summary: 接觸途徑
-    type: string
-    path: AllergyIntolerance.reaction.exposureRoute
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.exposureRoute
-    required: false
-  - id: id
-    name: Id
-    summary: 過敏紀錄ID
-    type: string
-    path: AllergyIntolerance.id
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.id
-    required: true
-  - id: manifestation
-    name: Manifestation
-    summary: 臨床症狀
+  - id: allergyCode
+    name: Allergy Code
+    summary: 過敏原代碼
     type: code
-    path: AllergyIntolerance.reaction.manifestation
+    path: AllergyIntolerance.code.coding.code
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.manifestation
+    fhirMapping: AllergyIntolerance.code.coding.code
     required: false
-    default: "271807003"
-  - id: note
-    name: Note
-    summary: 備註
-    type: string
-    path: AllergyIntolerance.note.text
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.note.text
-    required: false
-    default: 對蝦子過敏，曾出現皮膚紅疹。
-  - id: onsetDate
-    name: Onset Date
-    summary: 發作時間
-    type: datetime
-    path: AllergyIntolerance.onsetDateTime
-    cardinality: 0..1
-    fhirMapping: AllergyIntolerance.onsetDateTime
-    required: false
+    default: Al-N0001
   - id: patientId
     name: Patient Id
     summary: 過敏病人
@@ -121,13 +95,23 @@ fields:
     required: false
     reference:
       binding: patient
-  - id: reactionSubstance
-    name: Reaction Substance
-    summary: 不良反應物質
-    type: string
-    path: AllergyIntolerance.reaction.substance
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫事件
+    type: reference
+    path: AllergyIntolerance.encounter.reference
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.substance
+    fhirMapping: AllergyIntolerance.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: onsetDate
+    name: Onset Date
+    summary: 發作時間
+    type: datetime
+    path: AllergyIntolerance.onsetDateTime
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.onsetDateTime
     required: false
   - id: recordedDate
     name: Recorded Date
@@ -148,6 +132,23 @@ fields:
     required: false
     reference:
       binding: recorder
+  - id: reactionSubstance
+    name: Reaction Substance
+    summary: 不良反應物質
+    type: string
+    path: AllergyIntolerance.reaction.substance
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.substance
+    required: false
+  - id: manifestation
+    name: Manifestation
+    summary: 臨床症狀
+    type: code
+    path: AllergyIntolerance.reaction.manifestation
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.reaction.manifestation
+    required: false
+    default: "271807003"
   - id: severity
     name: Severity
     summary: 反應嚴重度
@@ -157,21 +158,20 @@ fields:
     fhirMapping: AllergyIntolerance.reaction.severity
     required: false
     default: moderate
-  - id: type
-    name: Type
-    summary: 過敏類型
-    type: code
-    path: AllergyIntolerance.type
+  - id: exposureRoute
+    name: Exposure Route
+    summary: 接觸途徑
+    type: string
+    path: AllergyIntolerance.reaction.exposureRoute
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.type
+    fhirMapping: AllergyIntolerance.reaction.exposureRoute
     required: false
-    default: allergy
-  - id: verificationStatus
-    name: Verification Status
-    summary: 確認狀態
-    type: code
-    path: AllergyIntolerance.verificationStatus
+  - id: note
+    name: Note
+    summary: 備註
+    type: string
+    path: AllergyIntolerance.note.text
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.verificationStatus
+    fhirMapping: AllergyIntolerance.note.text
     required: false
-    default: confirmed
+    default: 對蝦子過敏，曾出現皮膚紅疹。

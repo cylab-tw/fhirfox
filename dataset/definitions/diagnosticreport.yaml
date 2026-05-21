@@ -35,6 +35,23 @@ bindings:
       - practitionerrole
     summary: 此情境報告執行者。
 fields:
+  - id: id
+    name: Id
+    summary: 邏輯 ID
+    type: string
+    path: DiagnosticReport.id
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.id
+    required: true
+  - id: status
+    name: Status
+    summary: 報告狀態
+    type: code
+    path: DiagnosticReport.status
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.status
+    required: false
+    default: final
   - id: categoryCode
     name: Category Code
     summary: 服務類別
@@ -52,6 +69,74 @@ fields:
           categoryCode: RAD
         Rep-0017:
           categoryCode: SP
+  - id: reportCode
+    name: Report Code
+    summary: 報告項目代碼
+    type: code
+    path: DiagnosticReport.code.coding.code
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.code.coding.code
+    required: false
+    default: $input()
+  - id: patientId
+    name: Patient Id
+    summary: 病人
+    type: reference
+    path: DiagnosticReport.subject.reference
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.subject.reference
+    required: false
+    reference:
+      binding: patient
+  - id: encounterId
+    name: Encounter Id
+    summary: 就醫紀錄
+    type: reference
+    path: DiagnosticReport.encounter.reference
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.encounter.reference
+    required: false
+    reference:
+      binding: encounter
+  - id: imagingStudyId
+    name: Imaging Study Id
+    summary: 影像檢查參照
+    type: reference
+    path: DiagnosticReport.imagingStudy.reference
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.imagingStudy.reference
+    required: false
+    reference:
+      binding: imagingstudy
+  - id: issued
+    name: Issued
+    summary: 報告產出時間
+    type: datetime
+    path: DiagnosticReport.issued
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.issued
+    required: false
+    default: $addMinutes($value('effectiveDate'), 90)
+  - id: performerId
+    name: Performer Id
+    summary: 報告負責人員
+    type: reference
+    path: DiagnosticReport.performer.reference
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.performer.reference
+    required: false
+    reference:
+      binding: performer
+  - id: resultId
+    name: Result Id
+    summary: 檢驗數值參照
+    type: reference
+    path: DiagnosticReport.result.reference
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.result.reference
+    required: false
+    reference:
+      binding: observation
   - id: conclusion
     name: Conclusion
     summary: 文字結論(解釋)
@@ -85,101 +170,3 @@ fields:
         Rep-0017:
           reportCode: Rep-0017
           conclusion: Pathology report generated for this scenario.
-  - id: effectiveDate
-    name: Effective Date
-    summary: 採檢/執行時間
-    type: datetime
-    path: DiagnosticReport.effectiveDateTime
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.effectiveDateTime
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: DiagnosticReport.encounter.reference
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.encounter.reference
-    required: false
-    reference:
-      binding: encounter
-  - id: id
-    name: Id
-    summary: 邏輯 ID
-    type: string
-    path: DiagnosticReport.id
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.id
-    required: true
-  - id: imagingStudyId
-    name: Imaging Study Id
-    summary: 影像檢查參照
-    type: reference
-    path: DiagnosticReport.imagingStudy.reference
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.imagingStudy.reference
-    required: false
-    reference:
-      binding: imagingstudy
-  - id: issued
-    name: Issued
-    summary: 報告產出時間
-    type: datetime
-    path: DiagnosticReport.issued
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.issued
-    required: false
-    default: $addMinutes($value('effectiveDate'), 90)
-  - id: patientId
-    name: Patient Id
-    summary: 病人
-    type: reference
-    path: DiagnosticReport.subject.reference
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.subject.reference
-    required: false
-    reference:
-      binding: patient
-  - id: performerId
-    name: Performer Id
-    summary: 報告負責人員
-    type: reference
-    path: DiagnosticReport.performer.reference
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.performer.reference
-    required: false
-    reference:
-      binding: performer
-  - id: reportCode
-    name: Report Code
-    summary: 報告項目代碼
-    type: code
-    path: DiagnosticReport.code.coding.code
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.code.coding.code
-    required: false
-    default: $input()
-  - id: resultId
-    name: Result Id
-    summary: 檢驗數值參照
-    type: reference
-    path: DiagnosticReport.result.reference
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.result.reference
-    required: false
-    reference:
-      binding: observation
-  - id: status
-    name: Status
-    summary: 報告狀態
-    type: code
-    path: DiagnosticReport.status
-    cardinality: 0..1
-    fhirMapping: DiagnosticReport.status
-    required: false
-    default: final

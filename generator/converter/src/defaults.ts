@@ -61,15 +61,14 @@ function applyObservationDefaults(resource: FhirResource, input: SourceResource,
 	const components = Array.isArray(resource.component) ? (resource.component as Array<Record<string, unknown>>) : [];
 	resource.component = components;
 
-	applyBloodPressureComponentDefaults(components, 0, '8480-6', 'Systolic blood pressure');
-	applyBloodPressureComponentDefaults(components, 1, '8462-4', 'Diastolic blood pressure');
+	applyBloodPressureComponentDefaults(components, 0, '8480-6');
+	applyBloodPressureComponentDefaults(components, 1, '8462-4');
 }
 
 function applyBloodPressureComponentDefaults(
 	components: Array<Record<string, unknown>>,
 	index: number,
 	code: string,
-	display: string,
 ): void {
 	components[index] ??= {};
 	const component = components[index];
@@ -84,7 +83,6 @@ function applyBloodPressureComponentDefaults(
 		...coding[0],
 		system: 'http://loinc.org',
 		code,
-		display,
 	};
 
 	if (

@@ -1,8 +1,8 @@
 id: condition.acute-chest-pain
 resourceType: condition
-summary: "Cond-017: 突發胸痛"
+summary: "Cond-0023: 突發胸痛"
 fields:
-  conditionCode: Cond-017
+  conditionCode: Cond-0023
   conditionText: 突發胸痛
   category: encounter-diagnosis
   severity: "24484000"

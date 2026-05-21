@@ -2,4 +2,4 @@ id: practitionerrole.pediatrics-pediatrician
 resourceType: practitionerrole
 fields:
   roleCode: PR-0027
-  specialtyCode: Spec-0045
+  telecomValue: "02-2312-3456"

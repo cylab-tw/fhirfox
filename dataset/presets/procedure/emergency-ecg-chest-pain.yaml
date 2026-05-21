@@ -4,6 +4,5 @@ summary: "Proc-0016: 急診心電圖檢查"
 fields:
   procedureCode: Proc-0016
   procedureText: 急診心電圖檢查
-  category: "103693007"
   performerFunction: Perf-0001
-  reasonCode: Cond-017
+  reasonCode: Cond-0023

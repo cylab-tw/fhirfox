@@ -1,8 +1,8 @@
 id: condition.head-injury
 resourceType: condition
-summary: "Cond-087: 頭部外傷"
+summary: "Cond-0056: 頭部外傷"
 fields:
-  conditionCode: Cond-087
+  conditionCode: Cond-0056
   conditionText: 頭部外傷
   category: encounter-diagnosis
   severity: "24484000"
