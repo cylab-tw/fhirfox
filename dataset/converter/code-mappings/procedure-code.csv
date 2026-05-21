@@ -1,47 +1,33 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 Proc-0001,80146002,Appendectomy,http://snomed.info/sct,闌尾切除術,true
-Proc-0002,174041007,Laparoscopic cholecystectomy,http://snomed.info/sct,腹腔鏡膽囊切除術,true
-Proc-0003,398026006,Inguinal hernia repair,http://snomed.info/sct,腹股溝疝氣修補術,true
-Proc-0004,112703006,Cataract extraction,http://snomed.info/sct,白內障摘除術,true
-Proc-0005,11466000,Cesarean section,http://snomed.info/sct,剖腹產,true
-Proc-0006,449814002,Suture of wound,http://snomed.info/sct,傷口縫合,true
-Proc-0007,81723002,Amputation,http://snomed.info/sct,截肢手術,true
-Proc-0008,73761001,Colonoscopy,http://snomed.info/sct,大腸鏡檢查,true
-Proc-0009,288236009,Esophagogastroduodenoscopy,http://snomed.info/sct,胃鏡檢查,true
-Proc-0010,6025007,Laparoscopy,http://snomed.info/sct,腹腔鏡檢查,true
-Proc-0011,108273007,Biopsy,http://snomed.info/sct,活體組織切片,true
-Proc-0012,168537006,Plain X-ray,http://snomed.info/sct,一般 X 光檢查,true
-Proc-0013,77477000,Computerized tomography (CT),http://snomed.info/sct,電腦斷層掃描 (CT),true
-Proc-0014,113091000,Magnetic resonance imaging (MRI),http://snomed.info/sct,磁振造影 (MRI),true
-Proc-0015,16310003,Ultrasonography,http://snomed.info/sct,超音波檢查,true
-Proc-0016,127733003,Electrocardiogram (ECG),http://snomed.info/sct,心電圖檢查,true
-Proc-0017,108241001,Hemodialysis,http://snomed.info/sct,血液透析 (洗腎),true
+Proc-0002,45595009,Laparoscopic cholecystectomy,http://snomed.info/sct,腹腔鏡膽囊切除術,true
+Proc-0003,54885007,Cataract extraction,http://snomed.info/sct,白內障摘除術,true
+Proc-0004,11466000,Cesarean section,http://snomed.info/sct,剖腹產,true
+Proc-0005,81723002,Amputation,http://snomed.info/sct,截肢手術,true
+Proc-0006,73761001,Colonoscopy,http://snomed.info/sct,大腸鏡檢查,true
+Proc-0007,76009000,Esophagogastroduodenoscopy,http://snomed.info/sct,胃鏡檢查,true
+Proc-0008,73632009,Laparoscopy,http://snomed.info/sct,腹腔鏡檢查,true
+Proc-0009,86273004,Biopsy,http://snomed.info/sct,活體組織切片,true
+Proc-0010,53767003,Endoscopic biopsy,http://snomed.info/sct,內視鏡活檢,true
+Proc-0011,168537006,Plain X-ray,http://snomed.info/sct,一般 X 光檢查,true
+Proc-0012,77477000,CT - Computerized tomography,http://snomed.info/sct,電腦斷層掃描 (CT),true
+Proc-0013,113091000,MRI - Magnetic resonance imaging,http://snomed.info/sct,磁振造影 (MRI),true
+Proc-0014,16310003,Ultrasonography,http://snomed.info/sct,超音波檢查,true
+Proc-0015,40701008,Echocardiography,http://snomed.info/sct,心臟超音波,true
+Proc-0016,29303009,Electrocardiogram,http://snomed.info/sct,心電圖檢查,true
+Proc-0017,302497006,Hemodialysis,http://snomed.info/sct,血液透析 (洗腎),true
 Proc-0018,367336001,Chemotherapy,http://snomed.info/sct,化學治療,true
-Proc-0019,429643003,Wound care,http://snomed.info/sct,傷口護理 / 換藥,true
-Proc-0020,52765003,Intubation,http://snomed.info/sct,氣管插管,true
-Proc-0021,387713003,Surgical procedure,http://snomed.info/sct,手術處置 (泛稱),true
-Proc-0022,176003,Anastomosis of rectum,http://snomed.info/sct,直腸吻合術,true
-Proc-0023,408466002,Coronary artery bypass graft,http://snomed.info/sct,冠狀動脈繞道手術,true
-Proc-0024,45544007,Total knee replacement,http://snomed.info/sct,全人工膝關節置換術,true
-Proc-0025,119000,Thoracoscopic lobectomy,http://snomed.info/sct,胸腔鏡肺葉切除術,true
-Proc-0026,387713003,Endoscopic procedure,http://snomed.info/sct,內視鏡處置 (泛稱),true
-Proc-0027,16310003,Echocardiography,http://snomed.info/sct,心臟超音波,true
-Proc-0028,108273007,Endoscopic biopsy,http://snomed.info/sct,內視鏡活檢,true
-Proc-0029,367336001,Radiation therapy,http://snomed.info/sct,放射治療,true
-Proc-0030,429643003,Dressing change,http://snomed.info/sct,傷口換藥,true
-Proc-0031,75271001,Midwifery care,http://snomed.info/sct,助產處置,true
-Proc-0032,36682004,Physical therapy,http://snomed.info/sct,物理治療,true
-Proc-0033,80546007,Occupational therapy,http://snomed.info/sct,職能治療,true
-Proc-0034,442867008,Respiratory therapy,http://snomed.info/sct,呼吸治療,true
-Proc-0035,40127002,Dietary counseling,http://snomed.info/sct,營養衛教,true
-Proc-0036,310191001,Psychological counseling,http://snomed.info/sct,心理諮商,true
-Proc-0037,224571005,Nurse practitioner procedure,http://snomed.info/sct,專科護理師處置,true
-Proc-0038,449161006,Physician assistant procedure,http://snomed.info/sct,醫師助理處置,true
-Proc-0039,168537006,Chest X-ray,http://snomed.info/sct,胸部 X 光檢查,true
-Proc-0040,16310003,Abdominal ultrasound,http://snomed.info/sct,腹部超音波,true
-Proc-0041,108241001,Peritoneal dialysis,http://snomed.info/sct,腹膜透析,true
-Proc-0042,52765003,Endotracheal intubation,http://snomed.info/sct,氣管插管,true
-Proc-0043,367336001,Intravenous chemotherapy,http://snomed.info/sct,靜脈化學治療,true
-Proc-0044,429643003,Wound dressing,http://snomed.info/sct,傷口包紮,true
-Proc-0045,387713003,Minor surgical procedure,http://snomed.info/sct,小手術處置,true
-Proc-0046,36969009,Placement of stent in coronary artery,http://snomed.info/sct,冠狀動脈支架置放術,true
+Proc-0019,225358003,Wound care,http://snomed.info/sct,傷口護理,true
+Proc-0020,71192002,Peritoneal dialysis,http://snomed.info/sct,腹膜透析,true
+Proc-0021,112798008,Endotracheal intubation,http://snomed.info/sct,氣管插管,true
+Proc-0022,1287742003,Radiation therapy,http://snomed.info/sct,放射治療,true
+Proc-0023,18949003,Dressing change,http://snomed.info/sct,傷口換藥,true
+Proc-0024,176003,Anastomosis of rectum,http://snomed.info/sct,直腸吻合術,true
+Proc-0025,232717009,Coronary artery bypass graft,http://snomed.info/sct,冠狀動脈繞道手術,true
+Proc-0026,609588000,Total knee replacement,http://snomed.info/sct,全人工膝關節置換術,true
+Proc-0027,75935006,Thoracoscopic lobectomy of lung,http://snomed.info/sct,胸腔鏡肺葉切除術,true
+Proc-0028,722138006,Physical therapy,http://snomed.info/sct,物理治療,true
+Proc-0029,84478008,Occupational therapy,http://snomed.info/sct,職能治療,true
+Proc-0030,53950000,Respiratory therapy,http://snomed.info/sct,呼吸治療,true
+Proc-0031,424753004,"Dietary management education, guidance, and counseling",http://snomed.info/sct,飲食管理教育與諮商,true
+Proc-0032,171022008,Psychological counseling,http://snomed.info/sct,心理諮商,true

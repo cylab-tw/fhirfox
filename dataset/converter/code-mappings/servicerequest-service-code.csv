@@ -1,0 +1,24 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+SR-L0001,57021-8,CBC W Auto Differential panel - Blood,http://loinc.org,血液常規檢查套餐 (CBC),true
+SR-L0002,24331-1,Lipid 1996 panel - Serum or Plasma,http://loinc.org,血脂檢查套餐 (Lipid Profile),true
+SR-L0003,24323-8,Comprehensive metabolic 2000 panel - Serum or Plasma,http://loinc.org,綜合代謝功能檢查套餐,true
+SR-L0004,24325-3,Hepatic function 2000 panel - Serum or Plasma,http://loinc.org,肝功能檢查套餐 (LFT),true
+SR-L0005,24322-0,Comprehensive metabolic 1998 panel - Serum or Plasma,http://loinc.org,腎功能檢查套餐,true
+SR-L0006,14771-0,Fasting glucose [Moles/volume] in Serum or Plasma,http://loinc.org,空腹血糖,true
+SR-L0007,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素 (HbA1c),true
+SR-L0008,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液常規檢查套餐 (U/A),true
+SR-R0001,36643-5,XR Chest 2 Views,http://loinc.org,胸部 X 光檢查 (PA & Lat),true
+SR-R0002,168537006,Plain radiography,http://snomed.info/sct,腹部 X 光檢查 (KUB),true
+SR-R0003,24558-9,US Abdomen,http://loinc.org,腹部超音波檢查,true
+SR-R0004,24725-4,CT Head,http://loinc.org,頭部電腦斷層掃描 (Brain CT),true
+SR-R0005,77477000,Computed tomography,http://snomed.info/sct,腹部電腦斷層掃描 (Abdo CT),true
+SR-R0006,113091000,Magnetic resonance imaging,http://snomed.info/sct,腦部磁振造影 (Brain MRI),true
+SR-R0007,113091000,Magnetic resonance imaging,http://snomed.info/sct,頸椎磁振造影 (C-Spine MRI),true
+SR-R0008,16310003,Ultrasonography,http://snomed.info/sct,甲狀腺超音波,true
+SR-R0009,71651007,Mammography,http://snomed.info/sct,雙側乳房 X 光檢查,true
+SR-E0001,34534-8,12 lead EKG panel,http://loinc.org,12導程心電圖 (ECG/EKG),true
+SR-E0002,76009000,Esophagogastroduodenoscopy,http://snomed.info/sct,上消化道內視鏡 (胃鏡),true
+SR-E0003,73761001,Colonoscopy,http://snomed.info/sct,全大腸鏡檢查,true
+SR-E0004,225358003,Wound care,http://snomed.info/sct,傷口照護 / 換藥,true
+SR-E0005,40701008,Echocardiography,http://snomed.info/sct,心臟超音波檢查,true
+SR-E0006,38266-3,DXA Calcaneus [T-score] Bone density,http://loinc.org,骨密度檢查 (DEXA),true

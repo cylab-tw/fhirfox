@@ -1,19 +1,19 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 Rep-0001,57021-8,CBC W Auto Differential panel - Blood,http://loinc.org,血液常規檢查報告 (CBC),true
 Rep-0002,24331-1,Lipid 1996 panel - Serum or Plasma,http://loinc.org,血脂檢查報告 (Lipid Profile),true
-Rep-0003,24325-3,Hepatic function panel,http://loinc.org,肝功能檢查報告 (LFT),true
+Rep-0003,24325-3,Hepatic function 2000 panel - Serum or Plasma,http://loinc.org,肝功能檢查報告 (LFT),true
 Rep-0004,4548-4,Hemoglobin A1c/Hemoglobin.total in Blood,http://loinc.org,糖化血色素報告 (HbA1c),true
-Rep-0005,1558-6,Fasting glucose [Mass/volume] in Serum or Plasma,http://loinc.org,空腹血糖報告,true
+Rep-0005,14771-0,Fasting glucose [Moles/volume] in Serum or Plasma,http://loinc.org,空腹血糖報告,true
 Rep-0006,24356-8,Urinalysis complete panel - Urine,http://loinc.org,尿液常規檢查報告 (U/A),true
-Rep-0007,36554-4,X-ray of Chest PA and Lateral,http://loinc.org,胸部 X 光檢查報告 (PA & Lat),true
-Rep-0008,36642-7,X-ray of Abdomen,http://loinc.org,腹部 X 光檢查報告 (KUB),true
-Rep-0009,24531-6,US of Abdomen,http://loinc.org,腹部超音波檢查報告,true
-Rep-0010,24725-4,CT of Head,http://loinc.org,頭部電腦斷層掃描報告 (Brain CT),true
-Rep-0011,24706-4,CT of Abdomen,http://loinc.org,腹部電腦斷層掃描報告 (Abdo CT),true
-Rep-0012,24848-4,MRI of Brain,http://loinc.org,腦部磁振造影報告 (Brain MRI),true
-Rep-0013,24838-5,MRI of Spine cervical,http://loinc.org,頸椎磁振造影報告 (C-Spine MRI),true
-Rep-0014,24604-9,US of Thyroid,http://loinc.org,甲狀腺超音波檢查報告,true
-Rep-0015,34534-8,EKG 12 channel panel,http://loinc.org,12導程心電圖報告 (ECG/EKG),true
-Rep-0016,399210009,Echocardiography,http://snomed.info/sct,心臟超音波檢查報告,true
-Rep-0017,288236009,Esophagogastroduodenoscopy,http://snomed.info/sct,上消化道內視鏡報告 (胃鏡),true
+Rep-0007,36643-5,XR Chest 2 Views,http://loinc.org,胸部 X 光檢查報告 (PA & Lat),true
+Rep-0008,168537006,Plain radiography,http://snomed.info/sct,腹部 X 光檢查報告 (KUB),true
+Rep-0009,24558-9,US Abdomen,http://loinc.org,腹部超音波檢查報告,true
+Rep-0010,24725-4,CT Head,http://loinc.org,頭部電腦斷層掃描報告 (Brain CT),true
+Rep-0011,77477000,Computed tomography,http://snomed.info/sct,腹部電腦斷層掃描報告 (Abdo CT),true
+Rep-0012,113091000,Magnetic resonance imaging,http://snomed.info/sct,腦部磁振造影報告 (Brain MRI),true
+Rep-0013,113091000,Magnetic resonance imaging,http://snomed.info/sct,頸椎磁振造影報告 (C-Spine MRI),true
+Rep-0014,16310003,Ultrasonography,http://snomed.info/sct,甲狀腺超音波檢查報告,true
+Rep-0015,34534-8,12 lead EKG panel,http://loinc.org,12導程心電圖報告 (ECG/EKG),true
+Rep-0016,40701008,Echocardiography,http://snomed.info/sct,心臟超音波檢查報告,true
+Rep-0017,76009000,Esophagogastroduodenoscopy,http://snomed.info/sct,上消化道內視鏡報告 (胃鏡),true
 Rep-0018,73761001,Colonoscopy,http://snomed.info/sct,大腸鏡檢查報告,true

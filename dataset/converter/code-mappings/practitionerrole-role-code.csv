@@ -4,10 +4,10 @@ PR-0002,394802001,General medicine,http://snomed.info/sct,一般內科醫師,tru
 PR-0003,59058001,General physician,http://snomed.info/sct,家庭醫學科醫師,true
 PR-0004,39677007,Internal medicine specialist,http://snomed.info/sct,內科醫師,true
 PR-0005,304292004,Surgeon,http://snomed.info/sct,外科醫師,true
-PR-0006,11935004,Obstetrician and gynecologist,http://snomed.info/sct,婦產科醫師,true
-PR-0007,21365001,Professional dentist,http://snomed.info/sct,牙醫師,true
+PR-0006,309367003,Obstetrician and gynecologist,http://snomed.info/sct,婦產科醫師,true
+PR-0007,106289002,Dentist,http://snomed.info/sct,牙醫師,true
 PR-0008,309294001,Accident and emergency doctor,http://snomed.info/sct,急診醫師,true
-PR-0009,88189002,Anesthetist,http://snomed.info/sct,麻醉醫師,true
+PR-0009,88189002,Anesthesiologist,http://snomed.info/sct,麻醉醫師,true
 PR-0010,17561000,Cardiologist,http://snomed.info/sct,心臟內科醫師,true
 PR-0011,71838004,Gastroenterologist,http://snomed.info/sct,腸胃內科醫師,true
 PR-0012,56397003,Neurologist,http://snomed.info/sct,神經內科醫師,true
@@ -22,7 +22,7 @@ PR-0020,24590004,Urologist,http://snomed.info/sct,泌尿科醫師,true
 PR-0021,80584001,Psychiatrist,http://snomed.info/sct,精神科醫師,true
 PR-0022,22731001,Orthopedic surgeon,http://snomed.info/sct,骨科醫師,true
 PR-0023,8724009,Plastic surgeon,http://snomed.info/sct,整形外科醫師,true
-PR-0024,422140007,Ophthalmologist,http://snomed.info/sct,眼科醫師,true
+PR-0024,422140007,Medical ophthalmologist,http://snomed.info/sct,眼科醫師,true
 PR-0025,66862007,Radiologist,http://snomed.info/sct,放射科醫師,true
 PR-0026,61207006,Medical pathologist,http://snomed.info/sct,病理科醫師,true
 PR-0027,82296001,Pediatrician,http://snomed.info/sct,兒科醫師,true
@@ -30,15 +30,15 @@ PR-0028,28411006,Neonatologist,http://snomed.info/sct,新生兒科醫師,true
 PR-0029,309383003,Pediatric surgeon,http://snomed.info/sct,兒科外科醫師,true
 PR-0030,90201008,Pedodontist,http://snomed.info/sct,兒童牙科醫師,true
 PR-0031,309330006,Pediatric cardiologist,http://snomed.info/sct,兒科心臟科醫師,true
-PR-0032,309334002,Pediatric neurologist,http://snomed.info/sct,兒科神經科醫師,true
+PR-0032,309334002,Paediatric neurologist,http://snomed.info/sct,兒科神經科醫師,true
 PR-0033,9371000175105,Adolescent medicine specialist,http://snomed.info/sct,青少年醫學專科醫師,true
-PR-0034,224562001,Pediatric nurse,http://snomed.info/sct,兒科護理師,true
-PR-0035,158994007,Nurse,http://snomed.info/sct,護理師,true
+PR-0034,224562001,Paediatric nurse,http://snomed.info/sct,兒科護理師,true
+PR-0035,158994007,Staff nurse,http://snomed.info/sct,護理師,true
 PR-0036,224535009,Registered nurse,http://snomed.info/sct,註冊護理師,true
-PR-0037,6816002,Specialized nurse,http://snomed.info/sct,專科護理師,true
+PR-0037,6816002,Specialised nurse,http://snomed.info/sct,專科護理師,true
 PR-0038,224571005,Nurse practitioner,http://snomed.info/sct,執業護理師,true
-PR-0039,415506007,Operating room nurse,http://snomed.info/sct,手術室護理師,true
-PR-0040,224537001,Emergency nurse,http://snomed.info/sct,急診護理師,true
+PR-0039,415075003,Perioperative nurse,http://snomed.info/sct,手術室護理師,true
+PR-0040,224537001,Accident and Emergency nurse,http://snomed.info/sct,急診護理師,true
 PR-0041,106294002,Midwifery personnel,http://snomed.info/sct,助產人員,true
 PR-0042,46255001,Pharmacist,http://snomed.info/sct,藥師,true
 PR-0043,159016003,Medical radiographer,http://snomed.info/sct,醫事放射師,true
@@ -46,9 +46,9 @@ PR-0044,36682004,Physiotherapist,http://snomed.info/sct,物理治療師,true
 PR-0045,80546007,Occupational therapist,http://snomed.info/sct,職能治療師,true
 PR-0046,159026005,Speech and language therapist,http://snomed.info/sct,語言治療師,true
 PR-0047,442867008,Respiratory therapist,http://snomed.info/sct,呼吸治療師,true
-PR-0048,40127002,Dietitian,http://snomed.info/sct,營養師,true
+PR-0048,159033005,Dietician,http://snomed.info/sct,營養師,true
 PR-0049,310191001,Clinical psychologist,http://snomed.info/sct,臨床心理師,true
-PR-0050,307988006,Medical technologist,http://snomed.info/sct,醫事檢驗師,true
+PR-0050,386626000,Medical technologist,http://snomed.info/sct,醫事技術員,true
 PR-0051,B,中醫師,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,中醫師,true
 PR-0052,X,諮商心理師,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,諮商心理師,true
 PR-0053,T,醫事放射士,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/health-professional-tw,醫事放射士,true

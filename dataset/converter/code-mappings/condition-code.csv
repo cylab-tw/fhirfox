@@ -1,79 +1,69 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
-Cond-001,160245001,No current problems or disability,http://snomed.info/sct,目前無健康問題或失能,true
-Cond-002,409002,Food allergy,http://snomed.info/sct,食物過敏,true
-Cond-003,160245001,No active problems,http://snomed.info/sct,目前無活躍健康問題,true
-Cond-004,409002,Food intolerance,http://snomed.info/sct,食物不耐症,true
-Cond-005,370143000,Major depressive disorder,http://snomed.info/sct,重度憂鬱障礙,true
-Cond-006,48694002,Anxiety disorder,http://snomed.info/sct,焦慮障礙,true
-Cond-007,66347000,Depressive disorder,http://snomed.info/sct,憂鬱症,true
-Cond-008,48694002,Generalized anxiety disorder,http://snomed.info/sct,廣泛性焦慮障礙,true
-Cond-009,370143000,Recurrent major depressive disorder,http://snomed.info/sct,復發性重度憂鬱障礙,true
-Cond-010,195967001,Asthma,http://snomed.info/sct,氣喘,true
-Cond-011,13645005,Chronic obstructive pulmonary disease,http://snomed.info/sct,慢性阻塞性肺疾病 (COPD),true
-Cond-012,233604007,Pneumonia,http://snomed.info/sct,肺炎,true
-Cond-013,10509002,Acute pharyngitis,http://snomed.info/sct,急性咽炎,true
-Cond-014,367498009,Allergic rhinitis,http://snomed.info/sct,過敏性鼻炎,true
-Cond-016,233604007,Acute bronchitis,http://snomed.info/sct,急性支氣管炎,true
-Cond-017,111975006,Chronic sinusitis,http://snomed.info/sct,慢性鼻竇炎,true
-Cond-018,195967001,Chronic asthma,http://snomed.info/sct,慢性氣喘,true
-Cond-019,233604007,Community acquired pneumonia,http://snomed.info/sct,社區型肺炎,true
-Cond-021,59621000,Essential hypertension,http://snomed.info/sct,原發性高血壓,true
-Cond-022,22298006,Myocardial infarction,http://snomed.info/sct,心肌梗塞,true
-Cond-023,84114007,Heart failure,http://snomed.info/sct,心衰竭,true
-Cond-024,38341003,Hypertensive disorder,http://snomed.info/sct,高血壓性疾病,true
-Cond-025,42343007,Congestive heart failure,http://snomed.info/sct,充血性心衰竭,true
-Cond-027,49436004,Atrial fibrillation,http://snomed.info/sct,心房顫動,true
-Cond-028,22298006,Acute myocardial infarction,http://snomed.info/sct,急性心肌梗塞,true
-Cond-029,84114007,Chronic heart failure,http://snomed.info/sct,慢性心衰竭,true
-Cond-030,38341003,Hypertension,http://snomed.info/sct,高血壓,true
-Cond-031,12843005,Gastroesophageal reflux disease,http://snomed.info/sct,胃食道逆流症,true
-Cond-032,20159001,Diarrhea,http://snomed.info/sct,腹瀉,true
-Cond-034,10743008,Irritable bowel syndrome,http://snomed.info/sct,腸躁症,true
-Cond-035,14760008,Constipation,http://snomed.info/sct,便秘,true
-Cond-036,66071002,Chronic viral hepatitis B,http://snomed.info/sct,慢性B型病毒性肝炎,true
-Cond-037,53619000,Disorder of digestive system,http://snomed.info/sct,消化系統疾病,true
-Cond-038,69832003,Duodenal ulcer,http://snomed.info/sct,十二指腸潰瘍,true
-Cond-039,230690007,Cerebrovascular accident,http://snomed.info/sct,腦血管意外 (中風),true
-Cond-040,37757003,Migraine,http://snomed.info/sct,偏頭痛,true
-Cond-041,84757009,Epilepsy,http://snomed.info/sct,癲癇,true
-Cond-042,193570009,Cataract,http://snomed.info/sct,白內障,true
-Cond-043,23986001,Glaucoma,http://snomed.info/sct,青光眼,true
-Cond-044,19400003,Acute otitis media,http://snomed.info/sct,急性中耳炎,true
-Cond-045,371405004,Disorder of eye,http://snomed.info/sct,眼部疾病,true
-Cond-046,75532007,Osteoarthritis,http://snomed.info/sct,骨關節炎,true
-Cond-047,36971009,Osteoporosis,http://snomed.info/sct,骨質疏鬆症,true
-Cond-048,75532007,Osteoarthritis of knee,http://snomed.info/sct,膝關節骨關節炎,true
-Cond-049,24079001,Atopic dermatitis,http://snomed.info/sct,異位性皮膚炎,true
-Cond-050,90140000,Psoriasis,http://snomed.info/sct,乾癬,true
-Cond-051,11381005,Acne vulgaris,http://snomed.info/sct,尋常性痤瘡,true
-Cond-052,95320005,Disorder of skin,http://snomed.info/sct,皮膚疾病,true
-Cond-053,709044004,Chronic kidney disease,http://snomed.info/sct,慢性腎臟病,true
-Cond-054,44054006,Type 2 diabetes mellitus,http://snomed.info/sct,第二型糖尿病,true
-Cond-055,73211009,Diabetes mellitus,http://snomed.info/sct,糖尿病,true
-Cond-056,399211009,Type 1 diabetes mellitus,http://snomed.info/sct,第一型糖尿病,true
-Cond-057,267432006,Hyperlipidemia,http://snomed.info/sct,高脂血症,true
-Cond-058,414916001,Obesity,http://snomed.info/sct,肥胖症,true
-Cond-059,75478009,Hypercholesterolemia,http://snomed.info/sct,高膽固醇血症,true
-Cond-061,44054006,Non-insulin dependent diabetes,http://snomed.info/sct,非胰島素依賴型糖尿病,true
-Cond-062,386661006,Fever,http://snomed.info/sct,發燒,true
-Cond-063,386661006,Pyrexia of unknown origin,http://snomed.info/sct,不明原因發燒,true
-Cond-064,16114001,Fracture of forearm,http://snomed.info/sct,前臂骨折,true
-Cond-065,378007,Morquio syndrome,http://snomed.info/sct,莫基奧症候群 (黏多醣症),true
-Cond-066,613003,FRAXA - Fragile X syndrome,http://snomed.info/sct,脆性X染色體症候群,true
-Cond-067,4104000,Down syndrome,http://snomed.info/sct,唐氏症,true
-Cond-068,80281000,Cleft lip,http://snomed.info/sct,唇裂,true
-Cond-069,87979003,Cleft palate,http://snomed.info/sct,顎裂,true
-Cond-070,67531005,Spina bifida,http://snomed.info/sct,脊柱裂,true
-Cond-071,23770002,Turner syndrome,http://snomed.info/sct,透納氏症,true
-Cond-072,33950009,Klinefelter syndrome,http://snomed.info/sct,克氏症,true
-Cond-073,19030000,Congenital hypothyroidism,http://snomed.info/sct,先天性甲狀腺功能低下症,true
-Cond-074,276654001,Congenital malformation,http://snomed.info/sct,先天性畸形,true
-Cond-075,13213009,Congenital heart disease,http://snomed.info/sct,先天性心臟病,true
-Cond-076,66071002,Chronic viral hepatitis B,http://snomed.info/sct,慢性B型病毒性肝炎,true
-Cond-077,10509002,Acute pharyngitis,http://snomed.info/sct,急性咽炎,true
-Cond-078,233604007,Pneumonia,http://snomed.info/sct,肺炎,true
-Cond-079,19400003,Acute otitis media,http://snomed.info/sct,急性中耳炎,true
-Cond-080,38500000,Cellulitis,http://snomed.info/sct,蜂窩性組織炎,true
-Cond-087,82271004,Injury of head,http://snomed.info/sct,頭部外傷,true
-Cond-089,82271004,Injury of head,http://snomed.info/sct,頭部外傷（新增混合情境）,true
-Cond-088,53741008,Coronary arteriosclerosis,http://snomed.info/sct,冠狀動脈疾病,true
+Cond-0001,160245001,No current problems or disability,http://snomed.info/sct,目前無健康問題或失能,true
+Cond-0002,414285001,Food allergy,http://snomed.info/sct,食物過敏,true
+Cond-0003,235719002,Food intolerance,http://snomed.info/sct,食物不耐症,true
+Cond-0004,370143000,Major depressive disorder,http://snomed.info/sct,重度憂鬱障礙,true
+Cond-0005,197480006,Anxiety disorder,http://snomed.info/sct,焦慮障礙,true
+Cond-0006,35489007,Depressive disorder,http://snomed.info/sct,憂鬱症,true
+Cond-0007,21897009,Generalized anxiety disorder,http://snomed.info/sct,廣泛性焦慮障礙,true
+Cond-0008,66344007,Recurrent major depressive disorder,http://snomed.info/sct,復發性重度憂鬱障礙,true
+Cond-0009,195967001,Airway hyperreactivity,http://snomed.info/sct,氣喘,true
+Cond-0010,13645005,Chronic obstructive lung disease,http://snomed.info/sct,慢性阻塞性肺疾病 (COPD),true
+Cond-0011,233604007,Pneumonia,http://snomed.info/sct,肺炎,true
+Cond-0012,363746003,Acute pharyngitis,http://snomed.info/sct,急性咽炎,true
+Cond-0013,61582004,Allergic rhinitis,http://snomed.info/sct,過敏性鼻炎,true
+Cond-0014,10509002,Acute bronchitis,http://snomed.info/sct,急性支氣管炎,true
+Cond-0015,40055000,Chronic sinusitis,http://snomed.info/sct,慢性鼻竇炎,true
+Cond-0016,195949008,Chronic asthmatic bronchitis,http://snomed.info/sct,慢性氣喘性支氣管炎,true
+Cond-0017,385093006,Community acquired pneumonia,http://snomed.info/sct,社區型肺炎,true
+Cond-0018,59621000,Essential hypertension,http://snomed.info/sct,原發性高血壓,true
+Cond-0019,22298006,Myocardial infarction,http://snomed.info/sct,心肌梗塞,true
+Cond-0020,84114007,Heart failure,http://snomed.info/sct,心衰竭,true
+Cond-0021,42343007,Congestive heart failure,http://snomed.info/sct,充血性心衰竭,true
+Cond-0022,49436004,Atrial fibrillation,http://snomed.info/sct,心房顫動,true
+Cond-0023,57054005,Acute myocardial infarction,http://snomed.info/sct,急性心肌梗塞,true
+Cond-0024,48447003,Chronic heart failure,http://snomed.info/sct,慢性心衰竭,true
+Cond-0025,38341003,High blood pressure,http://snomed.info/sct,高血壓,true
+Cond-0026,235595009,Gastroesophageal reflux disease,http://snomed.info/sct,胃食道逆流症,true
+Cond-0027,62315008,Diarrhea,http://snomed.info/sct,腹瀉,true
+Cond-0028,10743008,Irritable colon,http://snomed.info/sct,腸躁症,true
+Cond-0029,14760008,Constipation,http://snomed.info/sct,便秘,true
+Cond-0030,61977001,Chronic viral hepatitis B,http://snomed.info/sct,慢性B型病毒性肝炎,true
+Cond-0031,53619000,GIT diseases,http://snomed.info/sct,消化系統疾病,true
+Cond-0032,51868009,Duodenal ulcer,http://snomed.info/sct,十二指腸潰瘍,true
+Cond-0033,230690007,CVA - Cerebrovascular accident,http://snomed.info/sct,腦血管意外 (中風),true
+Cond-0034,37796009,Migraine,http://snomed.info/sct,偏頭痛,true
+Cond-0035,84757009,Epilepsy,http://snomed.info/sct,癲癇,true
+Cond-0036,193570009,Cataract,http://snomed.info/sct,白內障,true
+Cond-0037,23986001,Glaucoma,http://snomed.info/sct,青光眼,true
+Cond-0038,3110003,Acute otitis media,http://snomed.info/sct,急性中耳炎,true
+Cond-0039,371405004,Disorder of eye,http://snomed.info/sct,眼部疾病,true
+Cond-0040,396275006,Osteoarthritis,http://snomed.info/sct,骨關節炎,true
+Cond-0041,64859006,Osteoporosis,http://snomed.info/sct,骨質疏鬆症,true
+Cond-0042,239873007,Osteoarthritis of knee,http://snomed.info/sct,膝關節骨關節炎,true
+Cond-0043,24079001,Atopic dermatitis,http://snomed.info/sct,異位性皮膚炎,true
+Cond-0044,9014002,Psoriasis,http://snomed.info/sct,乾癬,true
+Cond-0045,88616000,Acne vulgaris,http://snomed.info/sct,尋常性痤瘡,true
+Cond-0046,95320005,Disorder of skin,http://snomed.info/sct,皮膚疾病,true
+Cond-0047,709044004,Chronic kidney disease,http://snomed.info/sct,慢性腎臟病,true
+Cond-0048,73211009,Diabetes mellitus,http://snomed.info/sct,糖尿病,true
+Cond-0049,46635009,Type 1 diabetes mellitus,http://snomed.info/sct,第一型糖尿病,true
+Cond-0050,44054006,Type 2 diabetes mellitus,http://snomed.info/sct,第二型糖尿病,true
+Cond-0051,55822004,Hyperlipidemia,http://snomed.info/sct,高脂血症,true
+Cond-0052,414916001,Obesity,http://snomed.info/sct,肥胖症,true
+Cond-0053,13644009,Hypercholesterolemia,http://snomed.info/sct,高膽固醇血症,true
+Cond-0054,386661006,Fever,http://snomed.info/sct,發燒,true
+Cond-0055,7520000,Pyrexia of unknown origin,http://snomed.info/sct,不明原因發燒,true
+Cond-0056,65966004,Fracture of forearm,http://snomed.info/sct,前臂骨折,true
+Cond-0057,378007,Morquio syndrome,http://snomed.info/sct,莫基奧症候群 (黏多醣症),true
+Cond-0058,613003,FRAXA - Fragile X syndrome,http://snomed.info/sct,脆性X染色體症候群,true
+Cond-0059,41040004,Down syndrome,http://snomed.info/sct,唐氏症,true
+Cond-0060,80281008,Cleft lip,http://snomed.info/sct,唇裂,true
+Cond-0061,87979003,Cleft palate,http://snomed.info/sct,顎裂,true
+Cond-0062,67531005,Spina bifida,http://snomed.info/sct,脊柱裂,true
+Cond-0063,38804009,Turner syndrome,http://snomed.info/sct,透納氏症,true
+Cond-0064,22053006,Klinefelter syndrome,http://snomed.info/sct,克氏症,true
+Cond-0065,190268003,Congenital hypothyroidism,http://snomed.info/sct,先天性甲狀腺功能低下症,true
+Cond-0066,276654001,Congenital malformation,http://snomed.info/sct,先天性畸形,true
+Cond-0067,13213009,Congenital heart disease,http://snomed.info/sct,先天性心臟病,true
+Cond-0068,128045006,Cellulitis,http://snomed.info/sct,蜂窩性組織炎,true

@@ -1,96 +1,93 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
 Med-0001,372687004,Amoxicillin,http://snomed.info/sct,阿莫西林,true
-Med-0002,387517004,Amoxicillin and clavulanate,http://snomed.info/sct,阿莫西林/克拉維酸鉀,true
-Med-0003,372689001,Cefalexin,http://snomed.info/sct,頭孢氨苄,true
-Med-0004,372690005,Ceftriaxone,http://snomed.info/sct,頭孢曲松,true
-Med-0005,387458003,Ciprofloxacin,http://snomed.info/sct,環丙沙星,true
-Med-0006,372691009,Clarithromycin,http://snomed.info/sct,克拉黴素,true
-Med-0007,387000003,Clindamycin,http://snomed.info/sct,克林達黴素,true
-Med-0008,387517000,Doxycycline,http://snomed.info/sct,強力黴素,true
-Med-0009,372692002,Erythromycin,http://snomed.info/sct,紅黴素,true
-Med-0010,372693007,Gentamicin,http://snomed.info/sct,慶大黴素,true
-Med-0011,387458041,Azithromycin,http://snomed.info/sct,阿奇黴素,true
-Med-0012,387458042,Vancomycin,http://snomed.info/sct,萬古黴素,true
-Med-0013,372694001,Cefuroxime,http://snomed.info/sct,頭孢呋辛,true
-Med-0014,387458067,Metronidazole,http://snomed.info/sct,甲硝唑,true
-Med-0015,387458068,Cefazolin,http://snomed.info/sct,頭孢唑林,true
-Med-0016,387458069,Piperacillin and tazobactam,http://snomed.info/sct,哌拉西林/他唑巴坦,true
-Med-0017,387458070,Amikacin,http://snomed.info/sct,阿米卡星,true
-Med-0018,387458095,Levofloxacin,http://snomed.info/sct,左氧氟沙星,true
-Med-0019,387458096,Moxifloxacin,http://snomed.info/sct,莫西沙星,true
-Med-0020,387458097,Linezolid,http://snomed.info/sct,利奈唑胺,true
-Med-0021,387458098,Meropenem,http://snomed.info/sct,美羅培南,true
-Med-0022,387458099,Piperacillin,http://snomed.info/sct,哌拉西林,true
-Med-0023,387458100,Cefepime,http://snomed.info/sct,頭孢吡肟,true
-Med-0024,387458008,Acetaminophen,http://snomed.info/sct,乙醯胺酚 (普拿疼),true
-Med-0025,387517009,Aspirin,http://snomed.info/sct,阿斯匹靈,true
-Med-0026,387458009,Ibuprofen,http://snomed.info/sct,布洛芬,true
-Med-0027,387458010,Diclofenac,http://snomed.info/sct,雙氯芬酸,true
-Med-0028,387458011,Naproxen,http://snomed.info/sct,萘普生,true
-Med-0029,387458012,Morphine,http://snomed.info/sct,嗎啡,true
-Med-0030,387458013,Codeine,http://snomed.info/sct,可待因,true
-Med-0031,387458014,Tramadol,http://snomed.info/sct,曲馬多,true
-Med-0032,387458015,Amlodipine,http://snomed.info/sct,氨氯地平,true
-Med-0033,387458016,Atenolol,http://snomed.info/sct,阿替洛爾,true
-Med-0034,387458017,Lisinopril,http://snomed.info/sct,賴諾普利,true
-Med-0035,387458018,Losartan,http://snomed.info/sct,洛沙坦,true
-Med-0036,387458019,Metoprolol,http://snomed.info/sct,美托洛爾,true
-Med-0037,387458020,Simvastatin,http://snomed.info/sct,辛伐他汀,true
-Med-0038,387458021,Atorvastatin,http://snomed.info/sct,阿托伐他汀,true
-Med-0039,387458022,Warfarin,http://snomed.info/sct,華法林,true
-Med-0040,387458023,Clopidogrel,http://snomed.info/sct,氯吡格雷,true
-Med-0041,387458053,Enalapril,http://snomed.info/sct,依那普利,true
-Med-0042,387458054,Valsartan,http://snomed.info/sct,纈沙坦,true
-Med-0043,387458062,Digoxin,http://snomed.info/sct,地高辛,true
-Med-0044,387458064,Propranolol,http://snomed.info/sct,普萘洛爾,true
-Med-0045,387458065,Verapamil,http://snomed.info/sct,維拉帕米,true
-Med-0046,387458066,Diltiazem,http://snomed.info/sct,地爾硫卓,true
-Med-0047,387458024,Metformin,http://snomed.info/sct,二甲雙胍,true
-Med-0048,387458025,Insulin human,http://snomed.info/sct,人類胰島素,true
-Med-0049,387458026,Glibenclamide,http://snomed.info/sct,格列本脲,true
-Med-0050,387458027,Levothyroxine,http://snomed.info/sct,左旋甲狀腺素,true
-Med-0051,387458028,Prednisolone,http://snomed.info/sct,潑尼松龍,true
-Med-0052,387458029,Hydrocortisone,http://snomed.info/sct,氫化可的松,true
-Med-0053,387458055,Insulin glargine,http://snomed.info/sct,甘精胰島素,true
-Med-0054,387458056,Sitagliptin,http://snomed.info/sct,西格列汀,true
-Med-0055,387458072,Allopurinol,http://snomed.info/sct,別嘌醇,true
-Med-0056,387458030,Cetirizine,http://snomed.info/sct,西替利嗪,true
-Med-0057,387458035,Loratadine,http://snomed.info/sct,氯雷他定,true
-Med-0058,387458036,Diphenhydramine,http://snomed.info/sct,苯海拉明,true
-Med-0059,387458031,Omeprazole,http://snomed.info/sct,奧美拉唑,true
-Med-0060,387458032,Ranitidine,http://snomed.info/sct,雷尼替丁,true
-Med-0061,387458057,Pantoprazole,http://snomed.info/sct,泮托拉唑,true
-Med-0062,387458073,Metoclopramide,http://snomed.info/sct,胃復安,true
-Med-0063,387458087,Famotidine,http://snomed.info/sct,法莫替丁,true
-Med-0064,387458088,Esomeprazole,http://snomed.info/sct,艾索美拉唑,true
-Med-0065,387458089,Domperidone,http://snomed.info/sct,杜麻丁 (Domperidone),true
-Med-0066,387458033,Salbutamol,http://snomed.info/sct,沙丁胺醇,true
-Med-0067,387458034,Budesonide,http://snomed.info/sct,布地奈德,true
-Med-0068,387458058,Montelukast,http://snomed.info/sct,孟魯司特,true
-Med-0069,387458061,Theophylline,http://snomed.info/sct,茶鹼,true
-Med-0070,387458090,Salmeterol,http://snomed.info/sct,沙美特羅,true
-Med-0071,387458091,Fluticasone,http://snomed.info/sct,氟替卡松,true
-Med-0072,387458092,Ipratropium,http://snomed.info/sct,異丙托溴銨,true
-Med-0073,387458094,Aminophylline,http://snomed.info/sct,胺茶鹼,true
-Med-0074,387458101,Acetylcysteine,http://snomed.info/sct,乙醯半胱胺酸 (痰易淨),true
-Med-0075,387458102,Bromhexine,http://snomed.info/sct,溴己新,true
-Med-0076,387458037,Furosemide,http://snomed.info/sct,呋塞米,true
-Med-0077,387458038,Spironolactone,http://snomed.info/sct,螺內酯,true
-Med-0078,387458063,Hydrochlorothiazide,http://snomed.info/sct,氫氯噻嗪,true
-Med-0079,387458039,Diazepam,http://snomed.info/sct,地西泮,true
-Med-0080,387458040,Midazolam,http://snomed.info/sct,咪達唑侖,true
-Med-0081,387458079,Lorazepam,http://snomed.info/sct,勞拉西泮,true
-Med-0082,387458080,Alprazolam,http://snomed.info/sct,阿普唑侖,true
-Med-0083,387458059,Carbamazepine,http://snomed.info/sct,卡馬西平,true
-Med-0084,387458060,Phenytoin,http://snomed.info/sct,苯妥英,true
-Med-0085,387458076,Fluoxetine,http://snomed.info/sct,氟西汀,true
-Med-0086,387458077,Sertraline,http://snomed.info/sct,舍曲林,true
-Med-0087,387458078,Paroxetine,http://snomed.info/sct,帕羅西汀,true
-Med-0088,387458072,Ondansetron,http://snomed.info/sct,昂丹司瓊,true
-Med-0089,387458074,Lactulose,http://snomed.info/sct,乳果糖,true
-Med-0090,387458075,Bisacodyl,http://snomed.info/sct,比沙可啶,true
-Med-0091,387458081,Potassium chloride,http://snomed.info/sct,氯化鉀,true
-Med-0092,387458082,Calcium carbonate,http://snomed.info/sct,碳酸鈣,true
-Med-0093,387458083,Vitamin D,http://snomed.info/sct,維生素 D,true
-Med-0094,387458084,Folic acid,http://snomed.info/sct,葉酸,true
-Med-0095,387458085,Vitamin B complex,http://snomed.info/sct,複合維生素 B,true
+Med-0002,387304003,Cephalexin,http://snomed.info/sct,頭孢氨苄,true
+Med-0003,372670001,Ceftriaxone,http://snomed.info/sct,頭孢曲松,true
+Med-0004,372840008,Ciprofloxacin,http://snomed.info/sct,環丙沙星,true
+Med-0005,387487009,Clarithromycin,http://snomed.info/sct,克拉黴素,true
+Med-0006,372786004,Clindamycin,http://snomed.info/sct,克林達黴素,true
+Med-0007,372478003,Doxycycline,http://snomed.info/sct,強力黴素,true
+Med-0008,372694001,Erythromycin,http://snomed.info/sct,紅黴素,true
+Med-0009,387321007,Gentamicin,http://snomed.info/sct,慶大黴素,true
+Med-0010,387531004,Azithromycin,http://snomed.info/sct,阿奇黴素,true
+Med-0011,372735009,Vancomycin,http://snomed.info/sct,萬古黴素,true
+Med-0012,372833007,Cefuroxime,http://snomed.info/sct,頭孢呋辛,true
+Med-0013,372602008,Metronidazole,http://snomed.info/sct,甲硝唑,true
+Med-0014,387470007,Cefazolin,http://snomed.info/sct,頭孢唑林,true
+Med-0015,387266001,Amikacin,http://snomed.info/sct,阿米卡星,true
+Med-0016,387552007,Levofloxacin,http://snomed.info/sct,左氧氟沙星,true
+Med-0017,412439003,Moxifloxacin,http://snomed.info/sct,莫西沙星,true
+Med-0018,387056004,Linezolid,http://snomed.info/sct,利奈唑胺,true
+Med-0019,387540000,Meropenem,http://snomed.info/sct,美羅培南,true
+Med-0020,372836004,Piperacillin,http://snomed.info/sct,哌拉西林,true
+Med-0021,96048006,Cefepime,http://snomed.info/sct,頭孢吡肟,true
+Med-0022,387517004,Acetaminophen,http://snomed.info/sct,乙醯胺酚 (普拿疼),true
+Med-0023,387458008,Aspirin,http://snomed.info/sct,阿斯匹靈,true
+Med-0024,387207008,Ibuprofen,http://snomed.info/sct,布洛芬,true
+Med-0025,7034005,Diclofenac,http://snomed.info/sct,雙氯芬酸,true
+Med-0026,372588000,Naproxen,http://snomed.info/sct,萘普生,true
+Med-0027,373529000,Morphine,http://snomed.info/sct,嗎啡,true
+Med-0028,387494007,Codeine,http://snomed.info/sct,可待因,true
+Med-0029,386858008,Tramadol,http://snomed.info/sct,曲馬多,true
+Med-0030,386864001,Amlodipine,http://snomed.info/sct,氨氯地平,true
+Med-0031,387506000,Atenolol,http://snomed.info/sct,阿替洛爾,true
+Med-0032,386873009,Lisinopril,http://snomed.info/sct,賴諾普利,true
+Med-0033,373567002,Losartan,http://snomed.info/sct,洛沙坦,true
+Med-0034,372826007,Metoprolol,http://snomed.info/sct,美托洛爾,true
+Med-0035,387584000,Simvastatin,http://snomed.info/sct,辛伐他汀,true
+Med-0036,373444002,Atorvastatin,http://snomed.info/sct,阿托伐他汀,true
+Med-0037,372756006,Warfarin,http://snomed.info/sct,華法林,true
+Med-0038,386952008,Clopidogrel,http://snomed.info/sct,氯吡格雷,true
+Med-0039,372658000,Enalapril,http://snomed.info/sct,依那普利,true
+Med-0040,386876001,Valsartan,http://snomed.info/sct,纈沙坦,true
+Med-0041,387461009,Digoxin,http://snomed.info/sct,地高辛,true
+Med-0042,372772003,Propranolol,http://snomed.info/sct,普萘洛爾,true
+Med-0043,372754009,Verapamil,http://snomed.info/sct,維拉帕米,true
+Med-0044,372793000,Diltiazem,http://snomed.info/sct,地爾硫卓,true
+Med-0045,372567009,Metformin,http://snomed.info/sct,二甲雙胍,true
+Med-0046,96367001,Human insulin,http://snomed.info/sct,人類胰島素,true
+Med-0047,384978002,Glibenclamide,http://snomed.info/sct,格列本脲,true
+Med-0048,710809001,Levothyroxine,http://snomed.info/sct,左旋甲狀腺素,true
+Med-0049,116601002,Prednisolone,http://snomed.info/sct,潑尼松龍,true
+Med-0050,396458002,Hydrocortisone,http://snomed.info/sct,氫化可的松,true
+Med-0051,411529005,Insulin glargine,http://snomed.info/sct,甘精胰島素,true
+Med-0052,423307000,Sitagliptin,http://snomed.info/sct,西格列汀,true
+Med-0053,387135004,Allopurinol,http://snomed.info/sct,別嘌醇,true
+Med-0054,372523007,Cetirizine,http://snomed.info/sct,西替利嗪,true
+Med-0055,386884002,Loratadine,http://snomed.info/sct,氯雷他定,true
+Med-0056,372682005,Diphenhydramine,http://snomed.info/sct,苯海拉明,true
+Med-0057,387137007,Omeprazole,http://snomed.info/sct,奧美拉唑,true
+Med-0058,372755005,Ranitidine,http://snomed.info/sct,雷尼替丁,true
+Med-0059,395821003,Pantoprazole,http://snomed.info/sct,泮托拉唑,true
+Med-0060,372776000,Metoclopramide,http://snomed.info/sct,胃復安,true
+Med-0061,387211002,Famotidine,http://snomed.info/sct,法莫替丁,true
+Med-0062,396047003,Esomeprazole,http://snomed.info/sct,艾索美拉唑,true
+Med-0063,387181004,Domperidone,http://snomed.info/sct,杜麻丁 (Domperidone),true
+Med-0064,372897005,Albuterol,http://snomed.info/sct,沙丁胺醇,true
+Med-0065,395726003,Budesonide,http://snomed.info/sct,布地奈德,true
+Med-0066,373728005,Montelukast,http://snomed.info/sct,孟魯司特,true
+Med-0067,372810006,Theophylline,http://snomed.info/sct,茶鹼,true
+Med-0068,372515005,Salmeterol,http://snomed.info/sct,沙美特羅,true
+Med-0069,397192001,Fluticasone,http://snomed.info/sct,氟替卡松,true
+Med-0070,372518007,Ipratropium,http://snomed.info/sct,異丙托溴銨,true
+Med-0071,373508009,Aminophylline,http://snomed.info/sct,胺茶鹼,true
+Med-0072,387440002,Acetylcysteine,http://snomed.info/sct,乙醯半胱胺酸 (痰易淨),true
+Med-0073,708561003,Bromhexine,http://snomed.info/sct,溴己新,true
+Med-0074,387475002,Furosemide,http://snomed.info/sct,呋塞米,true
+Med-0075,387078006,Spironolactone,http://snomed.info/sct,螺內酯,true
+Med-0076,387525002,Hydrochlorothiazide,http://snomed.info/sct,氫氯噻嗪,true
+Med-0077,387264003,Diazepam,http://snomed.info/sct,地西泮,true
+Med-0078,373476007,Midazolam,http://snomed.info/sct,咪達唑侖,true
+Med-0079,387106007,Lorazepam,http://snomed.info/sct,勞拉西泮,true
+Med-0080,386983007,Alprazolam,http://snomed.info/sct,阿普唑侖,true
+Med-0081,387222003,Carbamazepine,http://snomed.info/sct,卡馬西平,true
+Med-0082,387220006,Phenytoin,http://snomed.info/sct,苯妥英,true
+Med-0083,372767007,Fluoxetine,http://snomed.info/sct,氟西汀,true
+Med-0084,372594008,Sertraline,http://snomed.info/sct,舍曲林,true
+Med-0085,372595009,Paroxetine,http://snomed.info/sct,帕羅西汀,true
+Med-0086,372487007,Ondansetron,http://snomed.info/sct,昂丹司瓊,true
+Med-0087,273945008,Lactulose,http://snomed.info/sct,乳果糖,true
+Med-0088,387075009,Bisacodyl,http://snomed.info/sct,比沙可啶,true
+Med-0089,8631001,Potassium chloride,http://snomed.info/sct,氯化鉀,true
+Med-0090,387307005,Calcium carbonate,http://snomed.info/sct,碳酸鈣,true
+Med-0091,18414002,Vitamin D>3<,http://snomed.info/sct,維生素 D3,true
+Med-0092,63718003,Folic acid,http://snomed.info/sct,葉酸,true
