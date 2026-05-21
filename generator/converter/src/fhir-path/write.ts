@@ -19,17 +19,29 @@ export function writeFhirValue(
 
 		if (segment.index === undefined) {
 			if (isLeaf) {
-				current[segment.name] = coerceValue(value, dataType);
+				const coercedValue = coerceValue(value, dataType);
 
 				if (mapping && segment.name === 'code') {
 					if (shouldWriteCodeDisplayAsUnit(previousSegment)) {
-						current.unit = mapping.display;
-					} else if (shouldWriteCodingDisplay(mapping.system)) {
-						current.display = mapping.display;
+						// MedicationRequest dosage units can be emitted as plain unit text,
+						// but observations still need coded UCUM quantities to satisfy their profiles.
+						if (parsedPath.resourceType === 'MedicationRequest') {
+							current.unit = mapping.display ?? coercedValue;
+							return;
+						}
+
+						current.unit = mapping.display ?? coercedValue;
+						current[segment.name] = coercedValue;
+						current.system = mapping.system;
+						return;
 					}
+
+					current[segment.name] = coercedValue;
 					current.system = mapping.system;
+					return;
 				}
 
+				current[segment.name] = coercedValue;
 				return;
 			}
 
@@ -56,10 +68,6 @@ export function writeFhirValue(
 
 function shouldWriteCodeDisplayAsUnit(previousSegment: ParsedSegment | undefined): boolean {
 	return previousSegment?.name.endsWith('Quantity') === true || previousSegment?.name.endsWith('Duration') === true;
-}
-
-function shouldWriteCodingDisplay(system: string): boolean {
-	return system !== 'http://loinc.org' && system !== 'http://snomed.info/sct';
 }
 
 interface ParsedSegment {

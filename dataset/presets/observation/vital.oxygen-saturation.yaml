@@ -2,7 +2,7 @@ id: observation.vital.oxygen-saturation
 resourceType: observation
 summary: VS-0013 observation profile.
 fields:
-  observationCode: VS-0013
+  observationCode: VS-0012
   rangeHigh: 100
   rangeLow: 95
   valueQuantity:
