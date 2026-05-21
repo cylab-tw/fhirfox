@@ -4,6 +4,5 @@ summary: "Proc-0011: 住院病理切片"
 fields:
   procedureCode: Proc-0011
   procedureText: 住院病理切片
-  category: "103693007"
   performerFunction: Perf-0001
-  reasonCode: Cond-018
+  reasonCode: Cond-0011

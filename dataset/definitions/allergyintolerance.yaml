@@ -84,7 +84,7 @@ fields:
     cardinality: 0..1
     fhirMapping: AllergyIntolerance.code.coding.code
     required: false
-    default: Al-F0007
+    default: Al-N0001
   - id: patientId
     name: Patient Id
     summary: 過敏病人

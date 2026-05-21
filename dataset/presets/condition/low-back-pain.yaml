@@ -1,8 +1,8 @@
 id: condition.low-back-pain
 resourceType: condition
-summary: "Cond-064: 腰痛"
+summary: "Cond-0040: 腰痛"
 fields:
-  conditionCode: Cond-064
+  conditionCode: Cond-0040
   conditionText: 腰痛
   category: encounter-diagnosis
   severity: "6736007"

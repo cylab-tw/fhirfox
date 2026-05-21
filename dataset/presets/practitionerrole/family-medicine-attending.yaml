@@ -3,3 +3,4 @@ resourceType: practitionerrole
 fields:
   roleCode: PR-0003
   specialtyCode: Spec-0001
+  telecomValue: "02-2312-3456"

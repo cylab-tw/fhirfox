@@ -103,3 +103,4 @@ fields:
     cardinality: 0..1
     fhirMapping: PractitionerRole.telecom.value
     required: false
+    default: "02-2312-3456"

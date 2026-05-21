@@ -4,6 +4,5 @@ summary: "Proc-0012: 住院胸部 X 光檢查"
 fields:
   procedureCode: Proc-0012
   procedureText: 住院胸部 X 光檢查
-  category: "103693007"
   performerFunction: Perf-0001
-  reasonCode: Cond-018
+  reasonCode: Cond-0011
