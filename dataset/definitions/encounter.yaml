@@ -116,6 +116,7 @@ fields:
     cardinality: 0..1
     fhirMapping: Encounter.id
     required: true
+    default: $id("encounter")
   - id: identifier
     name: Identifier
     summary: 就醫識別碼
@@ -124,6 +125,16 @@ fields:
     cardinality: 0..1
     fhirMapping: Encounter.identifier
     required: false
+    default: $concat('ENC-', $value('id'))
+  - id: identifierSystem
+    name: Identifier System
+    summary: 就醫識別碼系統
+    type: string
+    path: Encounter.identifier.system
+    cardinality: 0..1
+    fhirMapping: Encounter.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/encounter
   - id: locationId
     name: Location Id
     summary: 就醫地點

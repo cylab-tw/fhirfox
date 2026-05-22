@@ -196,3 +196,51 @@ test('literal field defaults stay literal during materialization', () => {
 	assert.equal(result.resource.displayName, 'Alice');
 	assert.equal(result.resource.sequence, '1');
 });
+
+test('encounter identifier defaults derive from the generated id', () => {
+	const result = materializeResource({
+		resource: {
+			alias: 'encounter-1',
+			resourceType: 'encounter',
+			inputs: {},
+		},
+		definition: {
+			resourceType: 'encounter',
+			name: 'Encounter',
+			fields: [
+				{
+					id: 'id',
+					name: 'Id',
+					type: 'string',
+					path: 'Encounter.id',
+					required: true,
+					default: '$id("encounter")',
+				},
+				{
+					id: 'identifierSystem',
+					name: 'Identifier System',
+					type: 'string',
+					path: 'Encounter.identifier.system',
+					required: false,
+					default: 'https://fhirfox.dev/identifier-system/encounter',
+				},
+				{
+					id: 'identifier',
+					name: 'Identifier',
+					type: 'string',
+					path: 'Encounter.identifier',
+					required: false,
+					default: '$concat("ENC-", $value("id"))',
+				},
+			],
+		},
+		presets: [],
+		context: createResolutionContext({ seed: 'seed-a' }),
+		ref: () => undefined,
+		bindingRef: () => undefined,
+	});
+
+	assert.equal(result.resource.id, '1');
+	assert.equal(result.resource.identifierSystem, 'https://fhirfox.dev/identifier-system/encounter');
+	assert.equal(result.resource.identifier, 'ENC-1');
+});

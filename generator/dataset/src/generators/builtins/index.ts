@@ -1,5 +1,6 @@
 import { addMinutesGenerator } from './add-minutes.js';
 import { bindingRefGenerator } from './binding-ref.js';
+import { concatGenerator } from './concat.js';
 import { birthDateFromAgeGenerator } from './birth-date-from-age.js';
 import { birthDateGenerator } from './birth-date.js';
 import { caseGenerator } from './case.js';
@@ -35,6 +36,7 @@ export function createBuiltinGeneratorEntries(): Array<[string, GeneratorFunctio
 		['birthDate', birthDateGenerator],
 		['birthDateFromAge', birthDateFromAgeGenerator],
 		['addMinutes', addMinutesGenerator],
+		['concat', concatGenerator],
 		['value', valueGenerator],
 		['ref', refGenerator],
 		['bindingRef', bindingRefGenerator],

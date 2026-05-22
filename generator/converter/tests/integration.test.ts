@@ -38,6 +38,7 @@ const encounter: SourceResource = {
 	__resourceType: 'encounter',
 	type: 'encounter',
 	identifier: 'OPD202603300001',
+	identifierSystem: 'https://example.org/encounters',
 	status: 'finished',
 	class: 'AMB',
 	serviceType: 'emergency',
@@ -204,7 +205,7 @@ test('toFhirResource converts Encounter with copy, code_map, and build_reference
 	});
 	assert.equal(
 		(result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system,
-		'https://fhirfox.dev/identifier-system/encounter',
+		'https://example.org/encounters',
 	);
 	assert.equal((result.subject as { reference?: string } | undefined)?.reference, 'Patient/1');
 	assert.equal((result.serviceProvider as { reference?: string } | undefined)?.reference, 'Organization/1');

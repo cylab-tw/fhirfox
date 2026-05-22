@@ -38,8 +38,8 @@ tw.gov.mohw.twcore,1.0.0,practitioner,address,Practitioner.address[0].text,strin
 tw.gov.mohw.twcore,1.0.0,practitioner,qualificationCode,Practitioner.qualification[0].code.coding[0].code,string,false,code_map,practitioner-qualification-code,,110,true
 tw.gov.mohw.twcore,1.0.0,practitioner,qualificationIssuer,Practitioner.qualification[0].issuer.reference,string,false,build_reference,,Organization,120,true
 tw.gov.mohw.twcore,1.0.0,organization,active,Organization.active,boolean,false,copy,,,10,true
-tw.gov.mohw.twcore,1.0.0,organization,idType,Organization.identifier[0].type.coding[0].code,string,false,code_map,v2-0203,,20,true
-tw.gov.mohw.twcore,1.0.0,organization,idNumber,Organization.identifier[0].value,string,false,copy,,,30,true
+tw.gov.mohw.twcore,1.0.0,organization,identifierSystem,Organization.identifier[0].system,string,false,copy,,,20,true
+tw.gov.mohw.twcore,1.0.0,organization,identifier,Organization.identifier[0].value,string,false,copy,,,30,true
 tw.gov.mohw.twcore,1.0.0,organization,type,Organization.type[0].coding[0].code,string,false,code_map,organization-type,,40,true
 tw.gov.mohw.twcore,1.0.0,organization,name,Organization.name,string,true,copy,,,50,true
 tw.gov.mohw.twcore,1.0.0,organization,alias,Organization.alias[0],string,false,copy,,,60,true
@@ -57,6 +57,7 @@ tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomSystem,PractitionerRole.telecom
 tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomUse,PractitionerRole.telecom[0].use,string,false,code_map,contact-point-use,,80,true
 tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomValue,PractitionerRole.telecom[0].value,string,false,copy,,,90,true
 tw.gov.mohw.twcore,1.0.0,encounter,identifier,Encounter.identifier[0].value,string,false,copy,,,10,true
+tw.gov.mohw.twcore,1.0.0,encounter,identifierSystem,Encounter.identifier[0].system,string,false,copy,,,11,true
 tw.gov.mohw.twcore,1.0.0,encounter,status,Encounter.status,string,true,code_map,encounter-status,,20,true
 tw.gov.mohw.twcore,1.0.0,encounter,class,Encounter.class.code,string,true,code_map,v3-ActCode,,30,true
 tw.gov.mohw.twcore,1.0.0,encounter,serviceType,Encounter.serviceType.coding[0].code,string,false,code_map,service-type,,35,true
