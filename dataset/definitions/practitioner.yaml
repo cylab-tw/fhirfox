@@ -11,14 +11,23 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 醫事人員 ID
+    summary: 來源 HIS 醫事人員識別碼
     type: string
-    path: Practitioner.id
+    path: Practitioner.identifier.value
     cardinality: 0..1
-    fhirMapping: Practitioner.id
+    fhirMapping: Practitioner.identifier.value
     required: true
-  - id: idNumber
-    name: Id Number
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 醫事人員識別碼系統
+    type: string
+    path: Practitioner.identifier.system
+    cardinality: 0..1
+    fhirMapping: Practitioner.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/practitioner
+  - id: identityNumber
+    name: Identity Number
     summary: 證件號碼
     type: string
     path: Practitioner.identifier.value
@@ -26,8 +35,8 @@ fields:
     fhirMapping: Practitioner.identifier.value
     required: false
     default: $taiwanNationalId()
-  - id: idType
-    name: Id Type
+  - id: identityType
+    name: Identity Type
     summary: 證件類型
     type: code
     path: Practitioner.identifier.type.coding.code

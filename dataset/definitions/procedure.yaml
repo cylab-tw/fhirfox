@@ -26,12 +26,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 處置識別碼
     type: string
-    path: Procedure.id
+    path: Procedure.identifier.value
     cardinality: 0..1
-    fhirMapping: Procedure.id
+    fhirMapping: Procedure.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 處置識別碼系統
+    type: string
+    path: Procedure.identifier.system
+    cardinality: 0..1
+    fhirMapping: Procedure.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/procedure
   - id: procedureCode
     name: Procedure Code
     summary: 處置/手術代碼

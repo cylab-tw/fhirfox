@@ -17,12 +17,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 影像檢查邏輯 ID。
+    summary: 來源 HIS 影像檢查識別碼。
     type: string
-    path: ImagingStudy.id
+    path: ImagingStudy.identifier.value
     cardinality: 0..1
-    fhirMapping: ImagingStudy.id
+    fhirMapping: ImagingStudy.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 影像檢查識別碼系統。
+    type: string
+    path: ImagingStudy.identifier.system
+    cardinality: 0..1
+    fhirMapping: ImagingStudy.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/imagingstudy
   - id: status
     name: Status
     summary: 影像檢查狀態。

@@ -11,14 +11,23 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 病人邏輯 ID。
+    summary: 來源 HIS 病人識別碼。
     type: string
-    path: Patient.id
+    path: Patient.identifier.value
     cardinality: 0..1
-    fhirMapping: Patient.id
+    fhirMapping: Patient.identifier.value
     required: true
-  - id: idNumber
-    name: Id Number
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 病人識別碼系統。
+    type: string
+    path: Patient.identifier.system
+    cardinality: 0..1
+    fhirMapping: Patient.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/patient
+  - id: identityNumber
+    name: Identity Number
     summary: 證件號碼
     type: string
     path: Patient.identifier.value
@@ -26,8 +35,8 @@ fields:
     fhirMapping: Patient.identifier.value
     required: false
     default: $taiwanNationalId()
-  - id: idType
-    name: Id Type
+  - id: identityType
+    name: Identity Type
     summary: 證件類型
     type: code
     path: Patient.identifier.type.coding.code

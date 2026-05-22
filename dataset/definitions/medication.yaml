@@ -4,12 +4,21 @@ summary: 此情境納入的 Medication 原始資料。
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 藥品識別碼
     type: string
-    path: Medication.id
+    path: Medication.identifier.value
     cardinality: 0..1
-    fhirMapping: Medication.id
+    fhirMapping: Medication.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 藥品識別碼系統
+    type: string
+    path: Medication.identifier.system
+    cardinality: 0..1
+    fhirMapping: Medication.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/medication
   - id: code
     name: Code
     summary: 藥品代碼

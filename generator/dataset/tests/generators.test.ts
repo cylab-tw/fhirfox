@@ -217,7 +217,7 @@ test('encounter identifier defaults derive from the generated id', () => {
 					default: '$id("encounter")',
 				},
 				{
-					id: 'identifierSystem',
+					id: 'idSystem',
 					name: 'Identifier System',
 					type: 'string',
 					path: 'Encounter.identifier.system',
@@ -241,6 +241,6 @@ test('encounter identifier defaults derive from the generated id', () => {
 	});
 
 	assert.equal(result.resource.id, '1');
-	assert.equal(result.resource.identifierSystem, 'https://fhirfox.dev/identifier-system/encounter');
+	assert.equal(result.resource.idSystem, 'https://fhirfox.dev/identifier-system/encounter');
 	assert.equal(result.resource.identifier, 'ENC-1');
 });

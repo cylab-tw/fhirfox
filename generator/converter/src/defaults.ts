@@ -1,9 +1,41 @@
 import type { FhirResource, SourceResource } from './types.js';
 
 export function applyResourceDefaults(resource: FhirResource, input: SourceResource, sourceResourceType: string): void {
+	applySourceIdentifierDefault(resource, input, sourceResourceType);
 	applyIdentifierSystemDefaults(resource, input, sourceResourceType);
 	applyObservationDefaults(resource, input, sourceResourceType);
 	applyNarrativeDefault(resource);
+}
+
+function applySourceIdentifierDefault(
+	resource: FhirResource,
+	input: SourceResource,
+	sourceResourceType: string,
+): void {
+	if (typeof input.id !== 'string' || input.id.length === 0) {
+		return;
+	}
+
+	const identifiers = Array.isArray(resource.identifier)
+		? (resource.identifier as Array<Record<string, unknown>>)
+		: [];
+	const existingIndex = identifiers.findIndex((identifier) => identifier.value === input.id);
+	const sourceIdentifier =
+		existingIndex >= 0 ? { ...identifiers[existingIndex] } : ({ value: input.id } as Record<string, unknown>);
+
+	sourceIdentifier.system = readIdentifierSystem(input) ?? `https://fhirfox.dev/identifier-system/${sourceResourceType}`;
+
+	if (existingIndex >= 0) {
+		identifiers.splice(existingIndex, 1);
+	}
+
+	resource.identifier = allowsAdditionalIdentifiers(sourceResourceType)
+		? [sourceIdentifier, ...identifiers]
+		: [sourceIdentifier];
+}
+
+function allowsAdditionalIdentifiers(sourceResourceType: string): boolean {
+	return sourceResourceType === 'patient' || sourceResourceType === 'practitioner';
 }
 
 function applyIdentifierSystemDefaults(
@@ -47,8 +79,14 @@ function resolveIdentifierSystem(
 		return 'https://fhirfox.dev/identifier-system/encounter';
 	}
 
-	const fallbackType = identifierTypeCode ?? (typeof input.idType === 'string' ? input.idType : 'default');
+	const fallbackType = identifierTypeCode ?? (typeof input.identityType === 'string' ? input.identityType : 'default');
 	return `https://fhirfox.dev/identifier-system/${sourceResourceType}/${fallbackType}`;
+}
+
+function readIdentifierSystem(input: SourceResource): string | undefined {
+	return typeof input.idSystem === 'string' && input.idSystem.length > 0
+		? input.idSystem
+		: undefined;
 }
 
 function applyObservationDefaults(resource: FhirResource, input: SourceResource, sourceResourceType: string): void {
@@ -104,9 +142,7 @@ function applyNarrativeDefault(resource: FhirResource): void {
 		return;
 	}
 
-	const label = [resource.resourceType, resource.id]
-		.filter((value): value is string => typeof value === 'string' && value.length > 0)
-		.join('/');
+	const label = resource.resourceType;
 	resource.text = {
 		status: 'generated',
 		div: `<div xmlns="http://www.w3.org/1999/xhtml"><p>${escapeHtml(label)}</p></div>`,

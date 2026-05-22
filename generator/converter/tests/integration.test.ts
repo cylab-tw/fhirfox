@@ -21,8 +21,8 @@ const fixtureBaseDir = path.resolve(fileURLToPath(new URL('../../..', import.met
 const patient: SourceResource = {
 	id: '1',
 	resourceType: 'patient',
-	idType: 'NNxxx',
-	idNumber: 'A123456789',
+	identityType: 'NNxxx',
+	identityNumber: 'A123456789',
 	name: '王小明',
 	gender: 'male',
 	birthday: '1985-04-12',
@@ -38,7 +38,7 @@ const encounter: SourceResource = {
 	__resourceType: 'encounter',
 	type: 'encounter',
 	identifier: 'OPD202603300001',
-	identifierSystem: 'https://example.org/encounters',
+	idSystem: 'https://example.org/encounters',
 	status: 'finished',
 	class: 'AMB',
 	serviceType: 'emergency',
@@ -56,8 +56,7 @@ const organization: SourceResource = {
 	id: '1',
 	resourceType: 'organization',
 	active: true,
-	identifierSystem: 'https://www.tph.mohw.gov.tw',
-	identifier: '1234560018',
+	idSystem: 'https://www.tph.mohw.gov.tw',
 	type: 'prov',
 	name: '台北範例醫院',
 	alias: '範例醫院',
@@ -71,8 +70,8 @@ const practitioner: SourceResource = {
 	id: '1',
 	resourceType: 'practitioner',
 	active: true,
-	idType: 'MR',
-	idNumber: 'DOC0001',
+	identityType: 'MR',
+	identityNumber: 'DOC0001',
 	name: '陳醫師',
 };
 
@@ -104,7 +103,7 @@ const condition: SourceResource = {
 	verificationStatus: 'confirmed',
 	category: 'encounter-diagnosis',
 	severity: '255604002',
-	conditionCode: 'Cond-016',
+	conditionCode: 'Cond-0011',
 	conditionText: '感冒/上呼吸道不適',
 	patientId: '1',
 	encounterId: '1',
@@ -125,7 +124,7 @@ const procedure: SourceResource = {
 	performedDate: '2026-04-18T19:05:00+08:00',
 	performerId: '3',
 	performerFunction: 'Perf-0007',
-	reasonCode: 'Cond-087',
+	reasonCode: 'Cond-0054',
 	outcome: '385669000',
 };
 
@@ -175,12 +174,14 @@ test('toFhirResource converts Patient with copy and code_map rules', async () =>
 	});
 
 	assert.equal(result.resourceType, 'Patient');
-	assert.equal(result.id, '1');
+	assert.equal(result.id, undefined);
 	assertValidTwCorePatient(result);
 	assert.deepEqual(result.name, [{ use: 'usual', text: '王小明' }]);
 	assert.equal(result.gender, 'male');
-	assert.equal((result.identifier as Array<{ value?: string }>)?.[0]?.value, 'A123456789');
-	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'http://www.moi.gov.tw');
+	assert.equal((result.identifier as Array<{ value?: string }>)?.[0]?.value, '1');
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://fhirfox.dev/identifier-system/patient');
+	assert.equal((result.identifier as Array<{ value?: string }>)?.[1]?.value, 'A123456789');
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[1]?.system, 'http://www.moi.gov.tw');
 	assert.equal((result.managingOrganization as { reference?: string } | undefined)?.reference, 'Organization/1');
 });
 
@@ -195,18 +196,19 @@ test('toFhirResource converts Encounter with copy, code_map, and build_reference
 	});
 
 	assert.equal(result.resourceType, 'Encounter');
-	assert.equal(result.id, '1');
+	assert.equal(result.id, undefined);
 	assertValidTwCoreEncounter(result);
 	assert.equal(result.status, 'finished');
 	assert.deepEqual(result.class, {
 		code: 'AMB',
-		display: 'ambulatory',
 		system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
 	});
 	assert.equal(
 		(result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system,
 		'https://example.org/encounters',
 	);
+	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1');
+	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.length, 1);
 	assert.equal((result.subject as { reference?: string } | undefined)?.reference, 'Patient/1');
 	assert.equal((result.serviceProvider as { reference?: string } | undefined)?.reference, 'Organization/1');
 	assert.equal(
@@ -277,6 +279,8 @@ test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', as
 	assert.equal(result.entry.length, 5);
 	assert.equal(result.entry[0]?.resource.resourceType, 'Patient');
 	assert.equal(result.entry[1]?.resource.resourceType, 'Encounter');
+	assert.equal(result.entry[0]?.resource.id, undefined);
+	assert.equal(JSON.stringify(result).includes('__sourceId'), false);
 	assert.match(
 		result.entry[0]?.fullUrl ?? '',
 		/^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u,
@@ -407,8 +411,8 @@ test('canonical source ordering places all encounters together before shared enc
 			id: '1',
 			resourceType: 'practitioner',
 			active: true,
-			idType: 'MR',
-			idNumber: 'DOC0001',
+			identityType: 'MR',
+			identityNumber: 'DOC0001',
 			name: '陳醫師',
 		},
 		patient,
@@ -447,8 +451,8 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 		patient: [
 			'resourceType',
 			'id',
-			'idType',
-			'idNumber',
+			'identityType',
+			'identityNumber',
 			'active',
 			'name',
 			'telecomSystem',
@@ -466,9 +470,9 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 			resourceType: 'patient',
 			name: '王小明',
 			organization: '1',
-			idNumber: 'A123456789',
+			identityNumber: 'A123456789',
 			gender: 'male',
-			idType: 'NNxxx',
+			identityType: 'NNxxx',
 		},
 		ruleSet,
 	);
@@ -484,26 +488,25 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 	assert.deepEqual(Object.keys(orderedSource).slice(0, 6), [
 		'resourceType',
 		'id',
-		'idType',
-		'idNumber',
+		'identityType',
+		'identityNumber',
 		'name',
 		'gender',
 	]);
-	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), ['resourceType', 'id', 'meta', 'text', 'identifier', 'name']);
+	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), ['resourceType', 'meta', 'text', 'identifier', 'name', 'telecom']);
 	assert.deepEqual(Object.keys((orderedFhir.identifier as Array<Record<string, unknown>>)[0] ?? {}), [
-		'type',
 		'value',
 		'system',
 	]);
 	assert.deepEqual(
 		Object.keys(
 			((
-				(orderedFhir.identifier as Array<Record<string, unknown>>)[0]?.type as {
+				(orderedFhir.identifier as Array<Record<string, unknown>>)[1]?.type as {
 					coding?: Array<Record<string, unknown>>;
 				}
 			)?.coding?.[0] ?? {}) as Record<string, unknown>,
 		),
-		['system', 'code', 'display'],
+		['system', 'code'],
 	);
 });
 
@@ -589,7 +592,6 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 	]);
 	assert.deepEqual(Object.keys(orderedFhir).slice(0, 13), [
 		'resourceType',
-		'id',
 		'meta',
 		'text',
 		'identifier',
@@ -601,6 +603,7 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 		'period',
 		'diagnosis',
 		'hospitalization',
+		'serviceProvider',
 	]);
 });
 
@@ -617,7 +620,8 @@ test('toFhirResource converts Organization with mapped codings and primitive arr
 	assert.equal(result.resourceType, 'Organization');
 	assertValidTwCoreOrganization(result);
 	assert.deepEqual(result.alias, ['範例醫院']);
-	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1234560018');
+	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1');
+	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.length, 1);
 	assert.equal((result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system, 'https://www.tph.mohw.gov.tw');
 	assert.equal((result.type as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, 'prov');
 });
@@ -671,12 +675,12 @@ test('toFhirResource converts Procedure with mapped code, performer function, an
 	});
 
 	assert.equal(result.resourceType, 'Procedure');
-	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '449814002');
+	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '73761001');
 	assert.equal(
 		(result.performer as Array<{ function?: { coding?: Array<{ code?: string }> } }>)?.[0]?.function?.coding?.[0]?.code,
-		'309294001',
+		'22731001',
 	);
-	assert.equal((result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, '82271004');
+	assert.equal((result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, '386661006');
 });
 
 test('conversion fails explicitly when no rules exist for the source resource type', async () => {
@@ -880,7 +884,8 @@ function assertValidTwCoreAllergyIntolerance(resource: FhirResource): void {
 		resource,
 		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/AllergyIntolerance-twcore',
 	);
-	assert.equal(typeof resource.id, 'string');
+	assert.equal(resource.id, undefined);
+	assert.ok(Array.isArray(resource.identifier));
 	assert.equal(
 		typeof (resource.clinicalStatus as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code,
 		'string',
@@ -892,10 +897,10 @@ function assertValidTwCoreAllergyIntolerance(resource: FhirResource): void {
 function assertValidTwCorePatient(resource: FhirResource): void {
 	assert.equal(resource.resourceType, 'Patient');
 	assertValidTwCoreProfile(resource, 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Patient-twcore');
-	assert.equal(typeof resource.id, 'string');
+	assert.equal(resource.id, undefined);
 	assert.ok(Array.isArray(resource.identifier));
 	assert.equal(
-		(resource.identifier as Array<{ type?: { coding?: Array<{ code?: string }> } }>)?.[0]?.type?.coding?.[0]?.code,
+		(resource.identifier as Array<{ type?: { coding?: Array<{ code?: string }> } }>)?.[1]?.type?.coding?.[0]?.code,
 		'NNxxx',
 	);
 	assert.equal(typeof (resource.name as Array<{ text?: string }>)?.[0]?.text, 'string');
@@ -906,7 +911,8 @@ function assertValidTwCorePatient(resource: FhirResource): void {
 function assertValidTwCoreEncounter(resource: FhirResource): void {
 	assert.equal(resource.resourceType, 'Encounter');
 	assertValidTwCoreProfile(resource, 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore');
-	assert.equal(typeof resource.id, 'string');
+	assert.equal(resource.id, undefined);
+	assert.ok(Array.isArray(resource.identifier));
 	assert.equal(typeof resource.status, 'string');
 	assert.equal(typeof (resource.class as { code?: string } | undefined)?.code, 'string');
 	assert.equal(typeof (resource.subject as { reference?: string } | undefined)?.reference, 'string');
@@ -916,7 +922,7 @@ function assertValidTwCoreEncounter(resource: FhirResource): void {
 function assertValidTwCoreOrganization(resource: FhirResource): void {
 	assert.equal(resource.resourceType, 'Organization');
 	assertValidTwCoreProfile(resource, 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Organization-twcore');
-	assert.equal(typeof resource.id, 'string');
+	assert.equal(resource.id, undefined);
 	assert.ok(Array.isArray(resource.identifier));
 	assert.ok(Array.isArray(resource.type));
 	assert.equal(typeof resource.name, 'string');

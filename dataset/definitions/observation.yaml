@@ -26,12 +26,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 觀察識別碼
     type: string
-    path: Observation.id
+    path: Observation.identifier.value
     cardinality: 0..1
-    fhirMapping: Observation.id
+    fhirMapping: Observation.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 觀察識別碼系統
+    type: string
+    path: Observation.identifier.system
+    cardinality: 0..1
+    fhirMapping: Observation.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/observation
   - id: status
     name: Status
     summary: 狀態

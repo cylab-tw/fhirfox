@@ -4,23 +4,14 @@ summary: 此情境納入的 Organization 原始資料。
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
-    type: string
-    path: Organization.id
-    cardinality: 0..1
-    fhirMapping: Organization.id
-    required: true
-  - id: identifier
-    name: Identifier
-    summary: 機構識別碼
+    summary: 來源 HIS 機構識別碼
     type: string
     path: Organization.identifier.value
     cardinality: 0..1
     fhirMapping: Organization.identifier.value
-    required: false
-    default: "1234560018"
-  - id: identifierSystem
-    name: Identifier System
+    required: true
+  - id: idSystem
+    name: Id System
     summary: 機構識別碼系統
     type: string
     path: Organization.identifier.system

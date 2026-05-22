@@ -37,12 +37,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 報告識別碼
     type: string
-    path: DiagnosticReport.id
+    path: DiagnosticReport.identifier.value
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.id
+    fhirMapping: DiagnosticReport.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 報告識別碼系統
+    type: string
+    path: DiagnosticReport.identifier.system
+    cardinality: 0..1
+    fhirMapping: DiagnosticReport.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/diagnosticreport
   - id: status
     name: Status
     summary: 報告狀態

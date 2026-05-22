@@ -14,7 +14,7 @@ const clinicalTypeOrder = [
 	'medicationrequest',
 ] as const;
 const fallbackTypeOrder = ['patient', 'encounter', ...encounterContextTypeOrder, ...clinicalTypeOrder] as const;
-const fhirTopLevelPrefix = ['resourceType', 'id', 'meta', 'implicitRules', 'language', 'text', 'contained'];
+const fhirTopLevelPrefix = ['resourceType', 'meta', 'implicitRules', 'language', 'text', 'contained', 'identifier'];
 
 interface ParsedSegment {
 	name: string;
@@ -266,6 +266,15 @@ function reorderFhirValue(value: unknown, path: string, metadata: ResourceFieldM
 	const preferredOrder =
 		path.length === 0 ? metadata?.topLevelFhirOrder : resolveNestedFieldOrder(path, record, metadata);
 	const ordered = reorderFlatObject(record, preferredOrder ?? []);
+
+	if (path.length === 0 && typeof (record as FhirResource).__sourceId === 'string') {
+		Object.defineProperty(ordered, '__sourceId', {
+			value: (record as FhirResource).__sourceId,
+			enumerable: false,
+			configurable: true,
+			writable: true,
+		});
+	}
 
 	for (const [key, fieldValue] of Object.entries(ordered)) {
 		const childPath = path.length === 0 ? key : `${path}.${key}`;

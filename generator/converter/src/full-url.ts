@@ -8,12 +8,14 @@ const UUID_NAMESPACE_URL = new Uint8Array([
 const FHIRFOX_URI_PREFIX = 'https://fhirfox.dev/';
 
 export function buildBundleFullUrl(fullUrlBase: string | undefined, resource: FhirResource): string | undefined {
-	if (!resource.id) {
+	const sourceId = readBundleResourceId(resource);
+
+	if (!sourceId) {
 		return undefined;
 	}
 
 	void fullUrlBase;
-	return `urn:uuid:${buildDeterministicUuid(resource.resourceType, resource.id)}`;
+	return `urn:uuid:${buildDeterministicUuid(resource.resourceType, sourceId)}`;
 }
 
 export function buildBundleReferenceIndex(
@@ -24,13 +26,18 @@ export function buildBundleReferenceIndex(
 
 	for (const resource of resources) {
 		const fullUrl = buildBundleFullUrl(fullUrlBase, resource);
+		const sourceId = readBundleResourceId(resource);
 
-		if (fullUrl && resource.id) {
-			index.set(`${resource.resourceType}/${resource.id}`, fullUrl);
+		if (fullUrl && sourceId) {
+			index.set(`${resource.resourceType}/${sourceId}`, fullUrl);
 		}
 	}
 
 	return index;
+}
+
+function readBundleResourceId(resource: FhirResource): string | undefined {
+	return resource.__sourceId ?? resource.id;
 }
 
 export function rewriteBundleReferences<TValue>(value: TValue, fullUrlByReference: Map<string, string>): TValue {

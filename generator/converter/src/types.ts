@@ -74,6 +74,7 @@ export interface StaticConverterServiceOptions {
 export interface FhirResource {
 	resourceType: string;
 	id?: string;
+	__sourceId?: string;
 	meta?: {
 		profile?: string[];
 		[key: string]: unknown;

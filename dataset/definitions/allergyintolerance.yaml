@@ -25,12 +25,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 過敏紀錄ID
+    summary: 來源 HIS 過敏紀錄識別碼
     type: string
-    path: AllergyIntolerance.id
+    path: AllergyIntolerance.identifier.value
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.id
+    fhirMapping: AllergyIntolerance.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 過敏紀錄識別碼系統
+    type: string
+    path: AllergyIntolerance.identifier.system
+    cardinality: 0..1
+    fhirMapping: AllergyIntolerance.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/allergyintolerance
   - id: clinicalStatus
     name: Clinical Status
     summary: 臨床狀態

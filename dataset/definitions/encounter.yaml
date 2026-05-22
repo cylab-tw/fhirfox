@@ -110,11 +110,11 @@ fields:
       cases: *a1
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 就醫識別碼
     type: string
-    path: Encounter.id
+    path: Encounter.identifier.value
     cardinality: 0..1
-    fhirMapping: Encounter.id
+    fhirMapping: Encounter.identifier.value
     required: true
     default: $id("encounter")
   - id: identifier
@@ -126,8 +126,8 @@ fields:
     fhirMapping: Encounter.identifier
     required: false
     default: $concat('ENC-', $value('id'))
-  - id: identifierSystem
-    name: Identifier System
+  - id: idSystem
+    name: Id System
     summary: 就醫識別碼系統
     type: string
     path: Encounter.identifier.system

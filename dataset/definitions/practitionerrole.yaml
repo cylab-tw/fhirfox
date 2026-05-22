@@ -17,12 +17,21 @@ bindings:
 fields:
   - id: id
     name: Id
-    summary: 邏輯 ID
+    summary: 來源 HIS 醫事人員角色識別碼
     type: string
-    path: PractitionerRole.id
+    path: PractitionerRole.identifier.value
     cardinality: 0..1
-    fhirMapping: PractitionerRole.id
+    fhirMapping: PractitionerRole.identifier.value
     required: true
+  - id: idSystem
+    name: Id System
+    summary: 來源 HIS 醫事人員角色識別碼系統
+    type: string
+    path: PractitionerRole.identifier.system
+    cardinality: 0..1
+    fhirMapping: PractitionerRole.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/practitionerrole
   - id: active
     name: Active
     summary: 紀錄狀態

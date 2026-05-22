@@ -29,7 +29,7 @@ export function convertResource(
 		applyRule(resource, input, rule, ruleSet);
 	}
 
-	resource.id ??= input.id;
+	attachSourceId(resource, input.id);
 
 	const profile = ruleSet.resourceProfilesByResourceType.get(sourceResourceType);
 	const profileUrl = resolveResourceProfile(sourceResourceType, input, profile?.profileUrl);
@@ -42,8 +42,18 @@ export function convertResource(
 	}
 
 	applyResourceDefaults(resource, input, sourceResourceType);
+	delete resource.id;
 
 	return resource;
+}
+
+function attachSourceId(resource: FhirResource, sourceId: string): void {
+	Object.defineProperty(resource, '__sourceId', {
+		value: sourceId,
+		enumerable: false,
+		configurable: true,
+		writable: true,
+	});
 }
 
 function resolveResourceProfile(
