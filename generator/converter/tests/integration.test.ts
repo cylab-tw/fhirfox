@@ -56,8 +56,8 @@ const organization: SourceResource = {
 	id: '1',
 	resourceType: 'organization',
 	active: true,
-	idType: 'MR',
-	idNumber: '1234560018',
+	identifierSystem: 'https://www.tph.mohw.gov.tw',
+	identifier: '1234560018',
 	type: 'prov',
 	name: '台北範例醫院',
 	alias: '範例醫院',
@@ -617,6 +617,8 @@ test('toFhirResource converts Organization with mapped codings and primitive arr
 	assert.equal(result.resourceType, 'Organization');
 	assertValidTwCoreOrganization(result);
 	assert.deepEqual(result.alias, ['範例醫院']);
+	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1234560018');
+	assert.equal((result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system, 'https://www.tph.mohw.gov.tw');
 	assert.equal((result.type as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, 'prov');
 });
 

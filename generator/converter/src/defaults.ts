@@ -39,7 +39,7 @@ function resolveIdentifierSystem(
 		return 'http://www.moi.gov.tw';
 	}
 
-	if ((sourceResourceType === 'practitioner' || sourceResourceType === 'organization') && identifierTypeCode === 'MR') {
+	if (sourceResourceType === 'practitioner' && identifierTypeCode === 'MR') {
 		return 'https://www.tph.mohw.gov.tw';
 	}
 

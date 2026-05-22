@@ -10,8 +10,8 @@ fields:
     cardinality: 0..1
     fhirMapping: Organization.id
     required: true
-  - id: idNumber
-    name: Id Number
+  - id: identifier
+    name: Identifier
     summary: 機構識別碼
     type: string
     path: Organization.identifier.value
@@ -19,15 +19,15 @@ fields:
     fhirMapping: Organization.identifier.value
     required: false
     default: "1234560018"
-  - id: idType
-    name: Id Type
-    summary: 機構識別碼類型
-    type: code
-    path: Organization.identifier.type.coding.code
+  - id: identifierSystem
+    name: Identifier System
+    summary: 機構識別碼系統
+    type: string
+    path: Organization.identifier.system
     cardinality: 0..1
-    fhirMapping: Organization.identifier.type.coding.code
+    fhirMapping: Organization.identifier.system
     required: false
-    default: MR
+    default: https://www.tph.mohw.gov.tw
   - id: active
     name: Active
     summary: 紀錄狀態
