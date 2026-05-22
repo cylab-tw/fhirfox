@@ -1,7 +1,11 @@
 const sourceResourceTypeDisplayNames: Record<string, string> = {
 	allergyintolerance: 'AllergyIntolerance',
 	condition: 'Condition',
+	diagnosticreport: 'DiagnosticReport',
 	encounter: 'Encounter',
+	imagingstudy: 'ImagingStudy',
+	medication: 'Medication',
+	medicationrequest: 'MedicationRequest',
 	observation: 'Observation',
 	organization: 'Organization',
 	patient: 'Patient',
@@ -13,7 +17,11 @@ const sourceResourceTypeDisplayNames: Record<string, string> = {
 const sourceResourceTypePluralNames: Record<string, string> = {
 	allergyintolerance: 'allergyintolerances',
 	condition: 'conditions',
+	diagnosticreport: 'diagnosticreports',
 	encounter: 'encounters',
+	imagingstudy: 'imagingstudies',
+	medication: 'medications',
+	medicationrequest: 'medicationrequests',
 	observation: 'observations',
 	organization: 'organizations',
 	patient: 'patients',

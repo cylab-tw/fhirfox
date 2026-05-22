@@ -1,6 +1,6 @@
 resourceType: encounter
 name: Encounter
-summary: 此情境納入的 Encounter 原始資料。
+summary: 表示一次門診、急診或住院就醫事件，串接病人、機構、參與人員與診斷脈絡。
 bindings:
   condition:
     key: condition

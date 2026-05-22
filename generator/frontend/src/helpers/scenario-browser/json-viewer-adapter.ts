@@ -1,5 +1,6 @@
 import { getFieldPath, getSourceFieldDoc, getSourceFieldPathPrefix } from '../../lib/source-json-docs.js';
 import { formatSourceResourceType } from '../../lib/source-resource-display.js';
+import { isLowReadabilityIdentifier } from '../../lib/resource-preview.js';
 
 import type {
 	JsonViewerAnnotation,
@@ -222,6 +223,10 @@ function formatSourceResourceKeyAnnotation(sourceKey: string): string {
 
 	if (!resourceType || !resourceId) {
 		return sourceKey;
+	}
+
+	if (isLowReadabilityIdentifier(resourceId)) {
+		return formatSourceResourceType(resourceType);
 	}
 
 	return `${formatSourceResourceType(resourceType)}/${resourceId}`;

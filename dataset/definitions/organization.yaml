@@ -1,6 +1,6 @@
 resourceType: organization
 name: Organization
-summary: 此情境納入的 Organization 原始資料。
+summary: 描述照護或資料提供機構，包含機構識別、類型、名稱、聯絡方式與地址。
 fields:
   - id: id
     name: Id

@@ -1,6 +1,6 @@
 resourceType: practitioner
 name: Practitioner
-summary: 此情境納入的 Practitioner 原始資料。
+summary: 描述參與照護的醫事人員，包含人員識別、姓名、資格與所屬機構。
 bindings:
   organization:
     key: provider

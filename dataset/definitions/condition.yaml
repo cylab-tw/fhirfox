@@ -1,6 +1,6 @@
 resourceType: condition
 name: Condition
-summary: 此情境納入的 Condition 原始資料。
+summary: 描述病人的診斷、主訴或臨床問題，並連結到對應就醫事件與紀錄時間。
 bindings:
   encounter:
     key: encounter

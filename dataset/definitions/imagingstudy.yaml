@@ -1,6 +1,6 @@
 resourceType: imagingstudy
-name: Imagingstudy
-summary: 此情境納入的 ImagingStudy 原始資料。
+name: ImagingStudy
+summary: 描述影像檢查的狀態、modality、檢查時間、影像數量與檢查說明。
 bindings:
   encounter:
     key: encounter

@@ -129,6 +129,29 @@ function getSourceResourceSubtitle(
 				readString(resource.procedureText),
 				readSourceDisplay(resourceType, 'procedureCode', resource.procedureCode, sourceCodeDisplayMap),
 			]);
+		case 'diagnosticreport':
+			return joinParts([
+				readSourceDisplay(resourceType, 'reportCode', resource.reportCode, sourceCodeDisplayMap),
+				readSourceDisplay(resourceType, 'categoryCode', resource.categoryCode, sourceCodeDisplayMap),
+				readSourceDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
+		case 'imagingstudy':
+			return joinParts([
+				readString(resource.studyDescription),
+				readSourceDisplay(resourceType, 'modalityCode', resource.modalityCode, sourceCodeDisplayMap),
+				readSourceDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
+		case 'medication':
+			return joinParts([
+				readString(resource.display),
+				readSourceDisplay(resourceType, 'code', resource.code, sourceCodeDisplayMap),
+			]);
+		case 'medicationrequest':
+			return joinParts([
+				readString(resource.dosageText),
+				readMedicationDose(resource.doseValue, resource.doseUnit, resourceType, sourceCodeDisplayMap),
+				readSourceDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
 		case 'observation':
 			return joinParts([
 				readSourceDisplay(resourceType, 'observationCode', resource.observationCode, sourceCodeDisplayMap),
@@ -173,6 +196,25 @@ function getBundleResourceSubtitle(
 		case 'Procedure':
 			return joinParts([
 				readCodeableConceptText(resource.code),
+				readBundleDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
+		case 'DiagnosticReport':
+			return joinParts([
+				readCodeableConceptText(resource.code),
+				readCodeableConceptText(resource.category),
+				readBundleDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
+		case 'ImagingStudy':
+			return joinParts([
+				readString(resource.description),
+				readCodeableConceptText(resource.modality),
+				readBundleDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
+			]);
+		case 'Medication':
+			return readCodeableConceptText(resource.code);
+		case 'MedicationRequest':
+			return joinParts([
+				readDosageInstructionText(resource.dosageInstruction),
 				readBundleDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
 			]);
 		case 'Observation':
@@ -231,6 +273,21 @@ function readMappedDisplay(
 	return sourceCodeDisplayMap[`${resourceType.toLowerCase()}.${fieldName}:${rawValue}`] ?? rawValue;
 }
 
+function readMedicationDose(
+	doseValue: unknown,
+	doseUnit: unknown,
+	resourceType: string,
+	sourceCodeDisplayMap: SourceCodeDisplayMap,
+): string | undefined {
+	const value = readString(doseValue) ?? (typeof doseValue === 'number' ? String(doseValue) : undefined);
+	const unit = readSourceDisplay(resourceType, 'doseUnit', doseUnit, sourceCodeDisplayMap);
+	if (value && unit) {
+		return `${value} ${unit}`;
+	}
+
+	return value ?? unit;
+}
+
 function buildPreviewItems<TResource>(
 	descriptors: PreviewResourceDescriptor<TResource>[],
 	scope: 'source' | 'bundle',
@@ -239,7 +296,7 @@ function buildPreviewItems<TResource>(
 		id: `${scope}-${descriptor.resourceType}-${descriptor.id}-${index}`,
 		resourceType: descriptor.resourceType,
 		sourceKey: descriptor.sourceKey,
-		title: descriptor.id,
+		title: isLowReadabilityIdentifier(descriptor.id) ? '' : descriptor.id,
 		subtitle: descriptor.subtitle,
 		resource: descriptor.resource as PreviewResourceItem['resource'],
 	}));
@@ -250,13 +307,16 @@ function readString(value: unknown): string | undefined {
 }
 
 function readBundleResourceId(resource: Record<string, unknown>): string {
-	return readString(resource.id) ?? readIdentifierValue(resource.identifier) ?? '';
+	const resourceId = readString(resource.id);
+	return readReadableIdentifier([resourceId, ...readIdentifierValues(resource.identifier)]) ?? resourceId ?? '';
 }
 
-function readIdentifierValue(value: unknown): string | undefined {
+function readIdentifierValues(value: unknown): string[] {
 	if (!Array.isArray(value)) {
-		return undefined;
+		return [];
 	}
+
+	const values: string[] = [];
 
 	for (const entry of value) {
 		if (!isRecord(entry)) {
@@ -266,11 +326,23 @@ function readIdentifierValue(value: unknown): string | undefined {
 		const identifierValue = readString(entry.value);
 
 		if (identifierValue) {
-			return identifierValue;
+			values.push(identifierValue);
 		}
 	}
 
-	return undefined;
+	return values;
+}
+
+function readReadableIdentifier(values: Array<string | undefined>): string | undefined {
+	return values.find((value): value is string => typeof value === 'string' && !isLowReadabilityIdentifier(value));
+}
+
+export function isLowReadabilityIdentifier(value: string): boolean {
+	const normalizedValue = value.trim().toLowerCase();
+	return (
+		/^(urn:uuid:)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(normalizedValue) ||
+		/^[0-9a-f]{32}$/.test(normalizedValue)
+	);
 }
 
 function readFirstString(value: unknown): string | undefined {
@@ -310,6 +382,18 @@ function readHumanName(value: unknown): string | undefined {
 }
 
 function readCodeableConceptText(value: unknown): string | undefined {
+	if (Array.isArray(value)) {
+		for (const entry of value) {
+			const text = readCodeableConceptText(entry);
+
+			if (text) {
+				return text;
+			}
+		}
+
+		return undefined;
+	}
+
 	if (!isRecord(value)) {
 		return undefined;
 	}
@@ -355,6 +439,24 @@ function readCodingText(value: unknown): string | undefined {
 	}
 
 	return readCodeableConceptText(value);
+}
+
+function readDosageInstructionText(value: unknown): string | undefined {
+	if (!Array.isArray(value)) {
+		return undefined;
+	}
+
+	for (const entry of value) {
+		if (!isRecord(entry)) {
+			continue;
+		}
+
+		if ('text' in entry && typeof entry.text === 'string' && entry.text.length > 0) {
+			return entry.text;
+		}
+	}
+
+	return undefined;
 }
 
 function readObservationValue(value: unknown): string | undefined {

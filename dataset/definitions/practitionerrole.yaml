@@ -1,6 +1,6 @@
 resourceType: practitionerrole
-name: Practitionerrole
-summary: 此情境納入的 PractitionerRole 原始資料。
+name: PractitionerRole
+summary: 定義醫事人員在特定機構中的角色、專科與聯絡資訊，用於就醫與開立者參照。
 bindings:
   organization:
     key: provider

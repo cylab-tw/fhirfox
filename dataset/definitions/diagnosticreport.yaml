@@ -1,6 +1,6 @@
 resourceType: diagnosticreport
-name: Diagnosticreport
-summary: 此情境納入的 DiagnosticReport 原始資料。
+name: DiagnosticReport
+summary: 彙整檢驗、影像或病理報告，包含報告分類、結果參照、執行者與文字結論。
 bindings:
   encounter:
     key: encounter

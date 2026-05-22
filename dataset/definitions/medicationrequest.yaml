@@ -1,6 +1,6 @@
 resourceType: medicationrequest
 name: MedicationRequest
-summary: 此情境納入的 MedicationRequest 原始資料。
+summary: 記錄處方或給藥請求，包含藥品、病人、開立者、開立原因與劑量用法。
 bindings:
   condition:
     key: condition

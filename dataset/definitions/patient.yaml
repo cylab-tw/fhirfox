@@ -1,6 +1,6 @@
 resourceType: patient
 name: Patient
-summary: 此情境納入的 Patient 原始資料。
+summary: 描述情境中的主要病人，包含身分識別、姓名、性別、生日、聯絡方式與管理機構。
 bindings:
   organization:
     key: provider

@@ -1,6 +1,6 @@
 resourceType: allergyintolerance
-name: Allergyintolerance
-summary: 此情境納入的 AllergyIntolerance 原始資料。
+name: AllergyIntolerance
+summary: 記錄病人的過敏或不良反應風險，包含過敏原、嚴重度、反應表現與紀錄者。
 bindings:
   encounter:
     key: encounter

@@ -1,6 +1,6 @@
 resourceType: observation
 name: Observation
-summary: 此情境納入的 Observation 原始資料。
+summary: 保存生命徵象、檢驗值或其他量測結果，包含項目代碼、數值、單位與量測時間。
 bindings:
   encounter:
     key: encounter

@@ -1,6 +1,6 @@
 resourceType: medication
 name: Medication
-summary: 此情境納入的 Medication 原始資料。
+summary: 定義可被處方參照的藥品項目，包含藥品代碼、顯示名稱與識別碼。
 fields:
   - id: id
     name: Id

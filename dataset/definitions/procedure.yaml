@@ -1,6 +1,6 @@
 resourceType: procedure
 name: Procedure
-summary: 此情境納入的 Procedure 原始資料。
+summary: 記錄病人接受的處置或手術，包含處置項目、執行者、時間、原因與結果。
 bindings:
   encounter:
     key: encounter
