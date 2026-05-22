@@ -160,7 +160,7 @@ export function ResourcePreview({
 								>
 									<span className="min-w-0 truncate text-[15px] text-slate-600">
 										<span className="font-semibold text-slate-950">
-											{formatSourceResourceType(resource.resourceType)}/{resource.title}
+											{formatPreviewResourceTitle(resource.resourceType, resource.title)}
 										</span>
 										{resource.subtitle ? <span className="ml-2 text-slate-500">{resource.subtitle}</span> : null}
 									</span>
@@ -198,4 +198,9 @@ export function ResourcePreview({
 			</div>
 		</div>
 	);
+}
+
+function formatPreviewResourceTitle(resourceType: string, title: string): string {
+	const formattedType = formatSourceResourceType(resourceType);
+	return title.length > 0 ? `${formattedType}/${title}` : formattedType;
 }

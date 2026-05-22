@@ -72,7 +72,7 @@ export function getBundlePreviewResourceItemsWithDisplays(
 			.map((entry, index) => {
 				const resource = entry.resource;
 				const resourceType = readString(resource.resourceType) ?? 'Resource';
-				const id = readString(resource.id) ?? `${resourceType}-${index + 1}`;
+				const id = readBundleResourceId(resource);
 				const sourceKey = sourceKeys[index] ?? `${resourceType.toLowerCase()}/${id}`;
 
 				return {
@@ -247,6 +247,30 @@ function buildPreviewItems<TResource>(
 
 function readString(value: unknown): string | undefined {
 	return typeof value === 'string' && value.length > 0 ? value : undefined;
+}
+
+function readBundleResourceId(resource: Record<string, unknown>): string {
+	return readString(resource.id) ?? readIdentifierValue(resource.identifier) ?? '';
+}
+
+function readIdentifierValue(value: unknown): string | undefined {
+	if (!Array.isArray(value)) {
+		return undefined;
+	}
+
+	for (const entry of value) {
+		if (!isRecord(entry)) {
+			continue;
+		}
+
+		const identifierValue = readString(entry.value);
+
+		if (identifierValue) {
+			return identifierValue;
+		}
+	}
+
+	return undefined;
 }
 
 function readFirstString(value: unknown): string | undefined {

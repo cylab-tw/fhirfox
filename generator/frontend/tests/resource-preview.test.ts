@@ -141,3 +141,27 @@ test('bundle preview subtitles prefer display text for scalar coded fields', () 
 	assert.equal(items[1]?.title, '5');
 	assert.equal(items[1]?.subtitle, '急診 · 已完成');
 });
+
+test('bundle preview titles use primary identifier when resource id is omitted', () => {
+	const bundle = {
+		resourceType: 'Bundle' as const,
+		type: 'collection' as const,
+		entry: [
+			{
+				resource: {
+					resourceType: 'Patient',
+					identifier: [
+						{ value: '1', system: 'https://fhirfox.dev/identifier-system/patient' },
+						{ value: 'M139140596', system: 'http://www.moi.gov.tw' },
+					],
+				},
+			},
+			{ resource: { resourceType: 'Observation' } },
+		],
+	};
+
+	const items = getBundlePreviewResourceItemsWithDisplays(bundle);
+
+	assert.equal(items[0]?.title, '1');
+	assert.equal(items[1]?.title, '');
+});
