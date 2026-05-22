@@ -28,6 +28,148 @@ bindings:
       - organization
     summary: 此情境主要照護或資料提供機構。
 fields:
+  - id: id
+    name: Id
+    summary: 來源 HIS 就醫識別碼
+    type: string
+    path: Encounter.identifier.value
+    cardinality: 0..1
+    fhirMapping: Encounter.identifier.value
+    required: true
+    default: $id("encounter")
+  - id: idSystem
+    name: Id System
+    summary: 就醫識別碼系統
+    type: string
+    path: Encounter.identifier.system
+    cardinality: 0..1
+    fhirMapping: Encounter.identifier.system
+    required: false
+    default: https://fhirfox.dev/identifier-system/encounter
+  - id: status
+    name: Status
+    summary: 就醫狀態
+    type: code
+    path: Encounter.status
+    cardinality: 0..1
+    fhirMapping: Encounter.status
+    required: false
+    default: finished
+  - id: class
+    name: Class
+    summary: 就醫分類
+    type: code
+    path: Encounter.class
+    cardinality: 0..1
+    fhirMapping: Encounter.class
+    required: false
+    default: $case()
+    input:
+      source: encounterProfile
+      default: AMB
+      cases:
+        family-medicine-outpatient:
+          serviceType: "01"
+        pediatrics-outpatient:
+          serviceType: "10"
+        endocrinology-outpatient:
+          serviceType: endo
+        cardiology-outpatient:
+          serviceType: cardiology
+        emergency-visit:
+          class: EMER
+          serviceType: emergency
+        emergency-visit-from-ed:
+          class: EMER
+          serviceType: emergency
+          admitSource: emd
+        inpatient-stay-from-ed-home:
+          class: IMP
+          serviceType: inpatient
+          admitSource: emd
+          dischargeDisposition: home
+        cardiology-inpatient-discharge-home:
+          class: IMP
+          serviceType: cardiology
+          dischargeDisposition: home
+  - id: type
+    name: Type
+    summary: 就醫種類。
+    type: string
+    path: Encounter.type
+    cardinality: 0..1
+    fhirMapping: Encounter.type
+    required: false
+  - id: patientId
+    name: Patient Id
+    summary: 就醫病人
+    type: reference
+    path: Encounter.subject.reference
+    cardinality: 0..1
+    fhirMapping: Encounter.subject.reference
+    required: false
+    reference:
+      binding: patient
+  - id: periodStart
+    name: Period Start
+    summary: 開始時間
+    type: datetime
+    path: Encounter.period.start
+    cardinality: 0..1
+    fhirMapping: Encounter.period.start
+    required: false
+    default: $dateTime()
+    input:
+      between:
+        - 2026-03-01T08:00:00+08:00
+        - 2026-07-31T18:00:00+08:00
+  - id: periodEnd
+    name: Period End
+    summary: 結束時間
+    type: datetime
+    path: Encounter.period.end
+    cardinality: 0..1
+    fhirMapping: Encounter.period.end
+    required: false
+    default: $addMinutes($value('periodStart'), 25)
+  - id: participantType
+    name: Participant Type
+    summary: 參與者角色
+    type: code
+    path: Encounter.participant.type
+    cardinality: 0..1
+    fhirMapping: Encounter.participant.type
+    required: false
+    default: ATND
+  - id: practitionerId
+    name: Practitioner Id
+    summary: 醫事人員
+    type: reference
+    path: Encounter.participant.individual.reference
+    cardinality: 0..1
+    fhirMapping: Encounter.participant.individual.reference
+    required: false
+    reference:
+      binding: practitioner
+  - id: conditionId
+    name: Condition Id
+    summary: 診斷/處置
+    type: reference
+    path: Encounter.diagnosis.condition.reference
+    cardinality: 0..1
+    fhirMapping: Encounter.diagnosis.condition.reference
+    required: false
+    reference:
+      binding: condition
+  - id: diagnosisUse
+    name: Diagnosis Use
+    summary: 診斷作用
+    type: code
+    path: Encounter.diagnosis.use
+    cardinality: 0..1
+    fhirMapping: Encounter.diagnosis.use
+    required: false
+    default: AD
   - id: admitSource
     name: Admit Source
     summary: 入院來源
@@ -64,38 +206,6 @@ fields:
           class: IMP
           serviceType: cardiology
           dischargeDisposition: home
-  - id: class
-    name: Class
-    summary: 就醫分類
-    type: code
-    path: Encounter.class
-    cardinality: 0..1
-    fhirMapping: Encounter.class
-    required: false
-    default: $case()
-    input:
-      source: encounterProfile
-      default: AMB
-      cases: *a1
-  - id: conditionId
-    name: Condition Id
-    summary: 診斷/處置
-    type: reference
-    path: Encounter.diagnosis.condition.reference
-    cardinality: 0..1
-    fhirMapping: Encounter.diagnosis.condition.reference
-    required: false
-    reference:
-      binding: condition
-  - id: diagnosisUse
-    name: Diagnosis Use
-    summary: 診斷作用
-    type: code
-    path: Encounter.diagnosis.use
-    cardinality: 0..1
-    fhirMapping: Encounter.diagnosis.use
-    required: false
-    default: AD
   - id: dischargeDisposition
     name: Discharge Disposition
     summary: 出院處置
@@ -108,102 +218,6 @@ fields:
     input:
       source: encounterProfile
       cases: *a1
-  - id: id
-    name: Id
-    summary: 來源 HIS 就醫識別碼
-    type: string
-    path: Encounter.identifier.value
-    cardinality: 0..1
-    fhirMapping: Encounter.identifier.value
-    required: true
-    default: $id("encounter")
-  - id: identifier
-    name: Identifier
-    summary: 就醫識別碼
-    type: string
-    path: Encounter.identifier
-    cardinality: 0..1
-    fhirMapping: Encounter.identifier
-    required: false
-    default: $concat('ENC-', $value('id'))
-  - id: idSystem
-    name: Id System
-    summary: 就醫識別碼系統
-    type: string
-    path: Encounter.identifier.system
-    cardinality: 0..1
-    fhirMapping: Encounter.identifier.system
-    required: false
-    default: https://fhirfox.dev/identifier-system/encounter
-  - id: locationId
-    name: Location Id
-    summary: 就醫地點
-    type: string
-    path: Encounter.location.location.reference
-    cardinality: 0..1
-    fhirMapping: Encounter.location.location.reference
-    required: false
-  - id: participantType
-    name: Participant Type
-    summary: 參與者角色
-    type: code
-    path: Encounter.participant.type
-    cardinality: 0..1
-    fhirMapping: Encounter.participant.type
-    required: false
-    default: ATND
-  - id: patientId
-    name: Patient Id
-    summary: 就醫病人
-    type: reference
-    path: Encounter.subject.reference
-    cardinality: 0..1
-    fhirMapping: Encounter.subject.reference
-    required: false
-    reference:
-      binding: patient
-  - id: periodStart
-    name: Period Start
-    summary: 開始時間
-    type: datetime
-    path: Encounter.period.start
-    cardinality: 0..1
-    fhirMapping: Encounter.period.start
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: periodEnd
-    name: Period End
-    summary: 結束時間
-    type: datetime
-    path: Encounter.period.end
-    cardinality: 0..1
-    fhirMapping: Encounter.period.end
-    required: false
-    default: $addMinutes($value('periodStart'), 25)
-  - id: practitionerId
-    name: Practitioner Id
-    summary: 醫事人員
-    type: reference
-    path: Encounter.participant.individual.reference
-    cardinality: 0..1
-    fhirMapping: Encounter.participant.individual.reference
-    required: false
-    reference:
-      binding: practitioner
-  - id: serviceProviderId
-    name: Service Provider Id
-    summary: 主責機構
-    type: reference
-    path: Encounter.serviceProvider.reference
-    cardinality: 0..1
-    fhirMapping: Encounter.serviceProvider.reference
-    required: false
-    reference:
-      binding: serviceProvider
   - id: serviceType
     name: Service Type
     summary: 就醫科別
@@ -216,20 +230,21 @@ fields:
     input:
       source: encounterProfile
       cases: *a1
-  - id: status
-    name: Status
-    summary: 就醫狀態
-    type: code
-    path: Encounter.status
-    cardinality: 0..1
-    fhirMapping: Encounter.status
-    required: false
-    default: finished
-  - id: type
-    name: Type
-    summary: 就醫種類。
+  - id: locationId
+    name: Location Id
+    summary: 就醫地點
     type: string
-    path: Encounter.type
+    path: Encounter.location.location.reference
     cardinality: 0..1
-    fhirMapping: Encounter.type
+    fhirMapping: Encounter.location.location.reference
     required: false
+  - id: serviceProviderId
+    name: Service Provider Id
+    summary: 主責機構
+    type: reference
+    path: Encounter.serviceProvider.reference
+    cardinality: 0..1
+    fhirMapping: Encounter.serviceProvider.reference
+    required: false
+    reference:
+      binding: serviceProvider

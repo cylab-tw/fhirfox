@@ -55,7 +55,6 @@ tw.gov.mohw.twcore,1.0.0,practitionerrole,periodStart,PractitionerRole.period.st
 tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomSystem,PractitionerRole.telecom[0].system,string,false,code_map,contact-point-system,,70,true
 tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomUse,PractitionerRole.telecom[0].use,string,false,code_map,contact-point-use,,80,true
 tw.gov.mohw.twcore,1.0.0,practitionerrole,telecomValue,PractitionerRole.telecom[0].value,string,false,copy,,,90,true
-tw.gov.mohw.twcore,1.0.0,encounter,identifier,Encounter.identifier[0].value,string,false,copy,,,10,true
 tw.gov.mohw.twcore,1.0.0,encounter,idSystem,Encounter.identifier[0].system,string,false,copy,,,11,true
 tw.gov.mohw.twcore,1.0.0,encounter,status,Encounter.status,string,true,code_map,encounter-status,,20,true
 tw.gov.mohw.twcore,1.0.0,encounter,class,Encounter.class.code,string,true,code_map,v3-ActCode,,30,true

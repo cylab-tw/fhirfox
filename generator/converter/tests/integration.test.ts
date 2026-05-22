@@ -37,7 +37,6 @@ const encounter: SourceResource = {
 	id: '1',
 	__resourceType: 'encounter',
 	type: 'encounter',
-	identifier: 'OPD202603300001',
 	idSystem: 'https://example.org/encounters',
 	status: 'finished',
 	class: 'AMB',
@@ -369,7 +368,6 @@ test('canonical source ordering places all encounters together before shared enc
 		{
 			id: '2',
 			resourceType: 'encounter',
-			identifier: 'OPD202604120031',
 			status: 'finished',
 			class: 'AMB',
 			patientId: '1',
@@ -544,7 +542,6 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 			periodEnd: '2026-04-06T23:45:00+08:00',
 			patientId: '3',
 			participantType: 'ATND',
-			identifier: 'ER202604060001',
 			status: 'finished',
 			periodStart: '2026-04-06T22:10:00+08:00',
 			practitionerId: '3',
@@ -576,7 +573,6 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 	assert.deepEqual(Object.keys(orderedSource), [
 		'resourceType',
 		'id',
-		'identifier',
 		'status',
 		'class',
 		'serviceType',
