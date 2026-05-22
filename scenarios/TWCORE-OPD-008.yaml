@@ -88,14 +88,6 @@ resources:
       requesterId: practitionerrole.pediatrics-pediatrician
     with:
       - medicationrequest.acetaminophen-syrup-10-mg-kg-dose
-  - alias: practitionerrole.family-medicine-attending
-    resourceType: practitionerrole
-    references:
-      practitionerId: practitioner.family-medicine-clinician
-    with:
-      - practitionerrole.family-medicine-attending
-  - alias: practitioner.family-medicine-clinician
-    resourceType: practitioner
   - alias: medication.pediatric-acetaminophen-syrup
     resourceType: medication
     inputs:

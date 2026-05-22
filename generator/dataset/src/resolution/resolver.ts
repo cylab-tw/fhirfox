@@ -558,46 +558,6 @@ function expandImplicitResources(
 				});
 			}
 		}
-		for (const field of definition.fields) {
-			const binding = field.reference?.binding;
-			if (!binding || item.resource.references?.[field.id] !== undefined) {
-				continue;
-			}
-			const resolvedRequirement = resolveBindingRequirement(definition, binding, bindingAliases);
-			if (!resolvedRequirement) {
-				continue;
-			}
-			bindings.push({
-				fromAlias: item.resource.alias,
-				binding: resolvedRequirement.binding,
-				bindingKey: resolvedRequirement.bindingKey,
-				targetResourceType: resolvedRequirement.resourceType,
-				selectedAlias: resolvedRequirement.alias,
-				source: resolvedRequirement.source,
-				candidates: [
-					{
-						alias: resolvedRequirement.alias,
-						resourceType: resolvedRequirement.resourceType,
-						source: resolvedRequirement.source,
-						selected: true,
-					},
-				],
-			});
-			if (aliases.has(resolvedRequirement.alias)) {
-				continue;
-			}
-			aliases.add(resolvedRequirement.alias);
-			output.push({
-				origin: 'implicit',
-				requiredBy: item.resource.alias,
-				withSources: new Map(),
-				resource: {
-					alias: resolvedRequirement.alias,
-					resourceType: resolvedRequirement.resourceType,
-					with: [],
-				},
-			});
-		}
 	}
 
 	return { items: output, bindings };

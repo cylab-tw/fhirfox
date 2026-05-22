@@ -257,14 +257,6 @@ resources:
       recorderId: practitionerrole.endocrinology-specialist
     with:
       - condition.type-2-diabetes-followup
-  - alias: practitionerrole.family-medicine-attending
-    resourceType: practitionerrole
-    references:
-      practitionerId: practitioner.family-medicine-clinician
-    with:
-      - practitionerrole.family-medicine-attending
-  - alias: practitioner.family-medicine-clinician
-    resourceType: practitioner
   - alias: medication.sitagliptin-100-mg-tablet
     resourceType: medication
     inputs:

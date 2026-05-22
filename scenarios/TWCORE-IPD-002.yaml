@@ -21,6 +21,7 @@ resources:
   - alias: encounter.inpatient-stay
     resourceType: encounter
     references:
+      conditionId: condition.pneumonia-dyspnea
       practitionerId: practitioner.inpatient-care-clinician
     inputs:
       encounterProfile: inpatient-stay-from-ed-home
@@ -36,6 +37,13 @@ resources:
       - practitionerrole.inpatient-care-specialist
   - alias: practitioner.inpatient-care-clinician
     resourceType: practitioner
+  - alias: condition.pneumonia-dyspnea
+    resourceType: condition
+    references:
+      encounterId: encounter.inpatient-stay
+      recorderId: practitionerrole.inpatient-care-specialist
+    with:
+      - condition.pneumonia-dyspnea
   - alias: observation.vital-body-temperature
     resourceType: observation
     references:

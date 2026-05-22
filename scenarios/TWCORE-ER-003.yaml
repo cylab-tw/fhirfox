@@ -21,6 +21,7 @@ resources:
   - alias: encounter.emergency-visit
     resourceType: encounter
     references:
+      conditionId: condition.acute-chest-pain
       practitionerId: practitioner.emergency-medicine-clinician
     inputs:
       encounterProfile: emergency-visit-from-ed
@@ -36,6 +37,13 @@ resources:
       - practitionerrole.emergency-medicine-clinician
   - alias: practitioner.emergency-medicine-clinician
     resourceType: practitioner
+  - alias: condition.acute-chest-pain
+    resourceType: condition
+    references:
+      encounterId: encounter.emergency-visit
+      recorderId: practitionerrole.emergency-medicine-emergency-clinician
+    with:
+      - condition.acute-chest-pain
   - alias: observation.lab-troponin
     resourceType: observation
     references:
@@ -73,14 +81,6 @@ resources:
       requesterId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - medicationrequest.aspirin-100-mg-chewable-tablet
-  - alias: practitionerrole.family-medicine-attending
-    resourceType: practitionerrole
-    references:
-      practitionerId: practitioner.family-medicine-clinician
-    with:
-      - practitionerrole.family-medicine-attending
-  - alias: practitioner.family-medicine-clinician
-    resourceType: practitioner
   - alias: medication.aspirin-100-mg
     resourceType: medication
     inputs:

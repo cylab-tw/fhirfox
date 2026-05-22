@@ -22,6 +22,7 @@ resources:
   - alias: encounter.pediatrics-visit
     resourceType: encounter
     references:
+      conditionId: condition.fever-and-cough
       practitionerId: practitioner.pediatrics-clinician
     inputs:
       encounterProfile: pediatrics-outpatient
@@ -37,6 +38,13 @@ resources:
       - practitionerrole.pediatrics-pediatrician
   - alias: practitioner.pediatrics-clinician
     resourceType: practitioner
+  - alias: condition.fever-and-cough
+    resourceType: condition
+    references:
+      encounterId: encounter.pediatrics-visit
+      recorderId: practitionerrole.pediatrics-pediatrician
+    with:
+      - condition.fever-and-cough
   - alias: observation.vital-body-temperature
     resourceType: observation
     references:

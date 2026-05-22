@@ -21,18 +21,21 @@ resources:
   - alias: encounter.family-medicine-visit-initial
     resourceType: encounter
     references:
+      conditionId: condition.hypertension-followup
       practitionerId: practitioner.family-medicine-clinician
     inputs:
       encounterProfile: family-medicine-outpatient
   - alias: encounter.family-medicine-visit-followup
     resourceType: encounter
     references:
+      conditionId: condition.hypertension-followup
       practitionerId: practitioner.family-medicine-clinician
     inputs:
       encounterProfile: family-medicine-outpatient
   - alias: encounter.family-medicine-visit-subsequent
     resourceType: encounter
     references:
+      conditionId: condition.hypertension-followup
       practitionerId: practitioner.family-medicine-clinician
     inputs:
       encounterProfile: family-medicine-outpatient
@@ -48,6 +51,13 @@ resources:
       - practitionerrole.family-medicine-attending
   - alias: practitioner.family-medicine-clinician
     resourceType: practitioner
+  - alias: condition.hypertension-followup
+    resourceType: condition
+    references:
+      encounterId: encounter.family-medicine-visit-initial
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.hypertension-followup
   - alias: observation.vital-blood-pressure-initial
     resourceType: observation
     references:

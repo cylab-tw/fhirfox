@@ -1,13 +1,13 @@
 id: TWCORE-ER-001
 name: 急診
-summary: 急診情境，涵蓋胸痛或外傷等突發症狀，用於驗證急診 Encounter 與相關臨床資料的表達。
+summary: 急診胸痛情境，用於驗證單次急診 Encounter 與相關臨床資料的表達。
 details: |
-  此情境代表急性就醫案例，重點在於驗證急診流程中的核心資料是否能正確轉換。
+  此情境代表單次急性胸痛就醫案例，重點在於驗證急診流程中的核心資料是否能正確轉換。
 
   - `Encounter` 類型為急診
-  - 主訴以胸痛、外傷等突發症狀為主
-  - 可連動 `Condition`、`Observation` 與 `Procedure`
-  - 適合驗證急性處置情境下的基本資料關聯
+  - 主訴以胸痛等突發症狀為主
+  - 連動 `Condition` 與 `Observation`
+  - 適合驗證單次急診情境下的基本資料關聯
 level: 1
 scenarioType: emergency
 resources:
@@ -22,13 +22,6 @@ resources:
     resourceType: encounter
     references:
       conditionId: condition.acute-chest-pain
-      practitionerId: practitioner.emergency-medicine-clinician
-    inputs:
-      encounterProfile: emergency-visit-from-ed
-  - alias: encounter.head-injury-visit
-    resourceType: encounter
-    references:
-      conditionId: condition.head-injury
       practitionerId: practitioner.emergency-medicine-clinician
     inputs:
       encounterProfile: emergency-visit-from-ed
@@ -51,13 +44,6 @@ resources:
       recorderId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - condition.acute-chest-pain
-  - alias: condition.head-injury
-    resourceType: condition
-    references:
-      encounterId: encounter.head-injury-visit
-      recorderId: practitionerrole.emergency-medicine-emergency-clinician
-    with:
-      - condition.head-injury
   - alias: observation.vital-heart-rate
     resourceType: observation
     references:
@@ -72,17 +58,3 @@ resources:
       performerId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - observation.vital.oxygen-saturation
-  - alias: procedure.head-wound-suture
-    resourceType: procedure
-    references:
-      encounterId: encounter.head-injury-visit
-      performerId: practitionerrole.emergency-medicine-emergency-clinician
-    with:
-      - procedure.head-wound-suture-emergency-clinician
-  - alias: procedure.head-wound-dressing
-    resourceType: procedure
-    references:
-      encounterId: encounter.head-injury-visit
-      performerId: practitionerrole.emergency-medicine-emergency-clinician
-    with:
-      - procedure.head-wound-dressing-emergency-clinician

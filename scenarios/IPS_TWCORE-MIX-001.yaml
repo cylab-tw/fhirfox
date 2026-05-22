@@ -224,14 +224,6 @@ resources:
       recorderId: practitionerrole.cardiology-specialist
     with:
       - condition.atrial-fibrillation-followup
-  - alias: practitionerrole.family-medicine-attending
-    resourceType: practitionerrole
-    references:
-      practitionerId: practitioner.family-medicine-clinician
-    with:
-      - practitionerrole.family-medicine-attending
-  - alias: practitioner.family-medicine-clinician
-    resourceType: practitioner
   - alias: medication.atorvastatin-20-mg-tablet
     resourceType: medication
     inputs:

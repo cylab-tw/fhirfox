@@ -21,6 +21,7 @@ resources:
   - alias: encounter.family-medicine-visit
     resourceType: encounter
     references:
+      conditionId: condition.hypertension-followup
       practitionerId: practitioner.family-medicine-clinician
     inputs:
       encounterProfile: family-medicine-outpatient
@@ -36,6 +37,13 @@ resources:
       - practitionerrole.family-medicine-attending
   - alias: practitioner.family-medicine-clinician
     resourceType: practitioner
+  - alias: condition.hypertension-followup
+    resourceType: condition
+    references:
+      encounterId: encounter.family-medicine-visit
+      recorderId: practitionerrole.family-medicine-attending
+    with:
+      - condition.hypertension-followup
   - alias: observation.vital-blood-pressure
     resourceType: observation
     references:

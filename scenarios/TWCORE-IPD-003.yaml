@@ -21,6 +21,7 @@ resources:
   - alias: encounter.inpatient-stay
     resourceType: encounter
     references:
+      conditionId: condition.pneumonia-dyspnea
       practitionerId: practitioner.inpatient-care-clinician
     inputs:
       encounterProfile: inpatient-stay-from-ed-home
@@ -36,6 +37,13 @@ resources:
       - practitionerrole.inpatient-care-specialist
   - alias: practitioner.inpatient-care-clinician
     resourceType: practitioner
+  - alias: condition.pneumonia-dyspnea
+    resourceType: condition
+    references:
+      encounterId: encounter.inpatient-stay
+      recorderId: practitionerrole.inpatient-care-specialist
+    with:
+      - condition.pneumonia-dyspnea
   - alias: observation.vital-body-temperature
     resourceType: observation
     references:
@@ -138,14 +146,6 @@ resources:
       requesterId: practitionerrole.inpatient-care-specialist
     with:
       - medicationrequest.ibuprofen-400-mg
-  - alias: practitionerrole.family-medicine-attending
-    resourceType: practitionerrole
-    references:
-      practitionerId: practitioner.family-medicine-clinician
-    with:
-      - practitionerrole.family-medicine-attending
-  - alias: practitioner.family-medicine-clinician
-    resourceType: practitioner
   - alias: medication.ceftriaxone-injection-1-g
     resourceType: medication
     inputs:
