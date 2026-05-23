@@ -30,7 +30,6 @@ fields:
     type: string
     path: Procedure.identifier.value
     cardinality: 0..1
-    fhirMapping: Procedure.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -38,7 +37,6 @@ fields:
     type: string
     path: Procedure.identifier.system
     cardinality: 0..1
-    fhirMapping: Procedure.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/procedure
   - id: procedureCode
@@ -47,7 +45,6 @@ fields:
     type: code
     path: Procedure.code.coding.code
     cardinality: 0..1
-    fhirMapping: Procedure.code.coding.code
     required: false
     default: $input()
   - id: procedureText
@@ -56,7 +53,6 @@ fields:
     type: string
     path: Procedure.code.text
     cardinality: 0..1
-    fhirMapping: Procedure.code.text
     required: false
     default: $case()
     input:
@@ -80,7 +76,6 @@ fields:
     type: code
     path: Procedure.status
     cardinality: 0..1
-    fhirMapping: Procedure.status
     required: false
     default: completed
   - id: statusReason
@@ -89,7 +84,6 @@ fields:
     type: string
     path: Procedure.statusReason
     cardinality: 0..1
-    fhirMapping: Procedure.statusReason
     required: false
   - id: category
     name: Category
@@ -97,7 +91,6 @@ fields:
     type: code
     path: Procedure.category
     cardinality: 0..1
-    fhirMapping: Procedure.category
     required: false
   - id: patientId
     name: Patient Id
@@ -105,7 +98,6 @@ fields:
     type: reference
     path: Procedure.subject.reference
     cardinality: 0..1
-    fhirMapping: Procedure.subject.reference
     required: false
     reference:
       binding: patient
@@ -115,7 +107,6 @@ fields:
     type: reference
     path: Procedure.encounter.reference
     cardinality: 0..1
-    fhirMapping: Procedure.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -125,7 +116,6 @@ fields:
     type: datetime
     path: Procedure.performedDateTime
     cardinality: 0..1
-    fhirMapping: Procedure.performedDateTime
     required: false
     default: $dateTime()
     input:
@@ -138,7 +128,6 @@ fields:
     type: reference
     path: Procedure.performer.actor.reference
     cardinality: 0..1
-    fhirMapping: Procedure.performer.actor.reference
     required: false
     reference:
       binding: performer
@@ -148,7 +137,6 @@ fields:
     type: code
     path: Procedure.performer.function
     cardinality: 0..1
-    fhirMapping: Procedure.performer.function
     required: false
   - id: locationId
     name: Location Id
@@ -156,7 +144,6 @@ fields:
     type: string
     path: Procedure.location.reference
     cardinality: 0..1
-    fhirMapping: Procedure.location.reference
     required: false
   - id: reasonCode
     name: Reason Code
@@ -164,7 +151,6 @@ fields:
     type: code
     path: Procedure.reasonCode
     cardinality: 0..1
-    fhirMapping: Procedure.reasonCode
     required: false
   - id: bodySite
     name: Body Site
@@ -172,7 +158,6 @@ fields:
     type: string
     path: Procedure.bodySite
     cardinality: 0..1
-    fhirMapping: Procedure.bodySite
     required: false
   - id: outcome
     name: Outcome
@@ -180,7 +165,6 @@ fields:
     type: code
     path: Procedure.outcome
     cardinality: 0..1
-    fhirMapping: Procedure.outcome
     required: false
     default: "385669000"
   - id: complication
@@ -189,5 +173,4 @@ fields:
     type: string
     path: Procedure.complication
     cardinality: 0..1
-    fhirMapping: Procedure.complication
     required: false

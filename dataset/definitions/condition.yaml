@@ -29,7 +29,6 @@ fields:
     type: string
     path: Condition.identifier.value
     cardinality: 0..1
-    fhirMapping: Condition.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -37,7 +36,6 @@ fields:
     type: string
     path: Condition.identifier.system
     cardinality: 0..1
-    fhirMapping: Condition.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/condition
   - id: clinicalStatus
@@ -46,7 +44,6 @@ fields:
     type: code
     path: Condition.clinicalStatus
     cardinality: 0..1
-    fhirMapping: Condition.clinicalStatus
     required: false
     default: active
   - id: verificationStatus
@@ -55,7 +52,6 @@ fields:
     type: code
     path: Condition.verificationStatus
     cardinality: 0..1
-    fhirMapping: Condition.verificationStatus
     required: false
     default: confirmed
   - id: category
@@ -64,7 +60,6 @@ fields:
     type: code
     path: Condition.category
     cardinality: 0..1
-    fhirMapping: Condition.category
     required: false
     default: encounter-diagnosis
   - id: severity
@@ -73,7 +68,6 @@ fields:
     type: code
     path: Condition.severity
     cardinality: 0..1
-    fhirMapping: Condition.severity
     required: false
   - id: conditionCode
     name: Condition Code
@@ -81,7 +75,6 @@ fields:
     type: code
     path: Condition.code.coding.code
     cardinality: 0..1
-    fhirMapping: Condition.code.coding.code
     required: false
   - id: conditionText
     name: Condition Text
@@ -89,7 +82,6 @@ fields:
     type: string
     path: Condition.code.text
     cardinality: 0..1
-    fhirMapping: Condition.code.text
     required: false
   - id: patientId
     name: Patient Id
@@ -97,7 +89,6 @@ fields:
     type: reference
     path: Condition.subject.reference
     cardinality: 0..1
-    fhirMapping: Condition.subject.reference
     required: false
     reference:
       binding: patient
@@ -107,7 +98,6 @@ fields:
     type: reference
     path: Condition.encounter.reference
     cardinality: 0..1
-    fhirMapping: Condition.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -117,7 +107,6 @@ fields:
     type: datetime
     path: Condition.onsetDateTime
     cardinality: 0..1
-    fhirMapping: Condition.onsetDateTime
     required: false
   - id: abatementDate
     name: Abatement Date
@@ -125,7 +114,6 @@ fields:
     type: datetime
     path: Condition.abatementDateTime
     cardinality: 0..1
-    fhirMapping: Condition.abatementDateTime
     required: false
   - id: recordedDate
     name: Recorded Date
@@ -133,7 +121,6 @@ fields:
     type: datetime
     path: Condition.recordedDate
     cardinality: 0..1
-    fhirMapping: Condition.recordedDate
     required: false
     default: $dateTime()
     input:
@@ -146,7 +133,6 @@ fields:
     type: reference
     path: Condition.recorder.reference
     cardinality: 0..1
-    fhirMapping: Condition.recorder.reference
     required: false
     reference:
       binding: recorder
@@ -156,5 +142,4 @@ fields:
     type: string
     path: Condition.note.text
     cardinality: 0..1
-    fhirMapping: Condition.note.text
     required: false

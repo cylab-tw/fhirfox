@@ -39,8 +39,12 @@ export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'
 	const generatedAt = new Date().toISOString();
 	const resourceTypeDefinitions = await loadResourceDefinitions(`${datasetRoot}/definitions`);
 	const presets = await loadPresets(`${datasetRoot}/presets`);
-	const { docs: sourceFieldDocs, order: sourceFieldOrder } = buildSourceFieldDocs(resourceTypeDefinitions);
 	const converterRows = await loadConverterRows(`${datasetRoot}/converter`, igName);
+	const { docs: sourceFieldDocs, order: sourceFieldOrder } = buildSourceFieldDocs(resourceTypeDefinitions, {
+		converterRows,
+		igName,
+		igVersion,
+	});
 	const sourceCodeDisplayMap = buildSourceCodeDisplayMap(converterRows);
 	const levelDefinitions = await loadScenarioLevelDefinitions(`${datasetRoot}/scenarios/levels.json`);
 	const scenarios = await loadScenarios(path.join(datasetRoot, '..', 'scenarios'));

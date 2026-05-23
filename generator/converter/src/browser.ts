@@ -18,6 +18,7 @@ export { buildBundleFullUrl, buildBundleReferenceIndex, rewriteBundleReferences 
 export { convertResource } from './engine/convert-resource.js';
 export { writeFhirValue } from './fhir-path/write.js';
 export { orderFhirResourceFields, orderSourceResourceFields, orderSourceResources } from './order/canonical.js';
+export { determineFhirMappingFromGeneratorRules } from './rules/fhir-mapping.js';
 export { normalizeRuleSet } from './rules/normalize.js';
 export {
 	attachInternalSourceResourceType,

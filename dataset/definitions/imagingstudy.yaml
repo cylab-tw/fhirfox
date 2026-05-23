@@ -21,7 +21,6 @@ fields:
     type: string
     path: ImagingStudy.identifier.value
     cardinality: 0..1
-    fhirMapping: ImagingStudy.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -29,7 +28,6 @@ fields:
     type: string
     path: ImagingStudy.identifier.system
     cardinality: 0..1
-    fhirMapping: ImagingStudy.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/imagingstudy
   - id: status
@@ -38,7 +36,6 @@ fields:
     type: code
     path: ImagingStudy.status
     cardinality: 0..1
-    fhirMapping: ImagingStudy.status
     required: false
     default: available
   - id: modalityCode
@@ -47,7 +44,6 @@ fields:
     type: code
     path: ImagingStudy.modality
     cardinality: 0..1
-    fhirMapping: ImagingStudy.modality
     required: false
     default: DX
   - id: patientId
@@ -56,7 +52,6 @@ fields:
     type: reference
     path: ImagingStudy.subject.reference
     cardinality: 0..1
-    fhirMapping: ImagingStudy.subject.reference
     required: false
     reference:
       binding: patient
@@ -66,7 +61,6 @@ fields:
     type: reference
     path: ImagingStudy.encounter.reference
     cardinality: 0..1
-    fhirMapping: ImagingStudy.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -76,7 +70,6 @@ fields:
     type: datetime
     path: ImagingStudy.started
     cardinality: 0..1
-    fhirMapping: ImagingStudy.started
     required: false
     default: $dateTime()
     input:
@@ -89,7 +82,6 @@ fields:
     type: number
     path: ImagingStudy.numberOfSeries
     cardinality: 0..1
-    fhirMapping: ImagingStudy.numberOfSeries
     required: false
     default: 1
   - id: numberOfInstances
@@ -98,7 +90,6 @@ fields:
     type: number
     path: ImagingStudy.numberOfInstances
     cardinality: 0..1
-    fhirMapping: ImagingStudy.numberOfInstances
     required: false
     default: 1
   - id: studyDescription
@@ -107,5 +98,4 @@ fields:
     type: string
     path: ImagingStudy.description
     cardinality: 0..1
-    fhirMapping: ImagingStudy.description
     required: false

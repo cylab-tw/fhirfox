@@ -40,7 +40,6 @@ fields:
     type: string
     path: MedicationRequest.identifier.value
     cardinality: 0..1
-    fhirMapping: MedicationRequest.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -48,7 +47,6 @@ fields:
     type: string
     path: MedicationRequest.identifier.system
     cardinality: 0..1
-    fhirMapping: MedicationRequest.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/medicationrequest
   - id: status
@@ -57,7 +55,6 @@ fields:
     type: code
     path: MedicationRequest.status
     cardinality: 0..1
-    fhirMapping: MedicationRequest.status
     required: false
     default: active
   - id: intent
@@ -66,7 +63,6 @@ fields:
     type: code
     path: MedicationRequest.intent
     cardinality: 0..1
-    fhirMapping: MedicationRequest.intent
     required: false
     default: order
   - id: medicationId
@@ -75,7 +71,6 @@ fields:
     type: reference
     path: MedicationRequest.medicationReference.reference
     cardinality: 0..1
-    fhirMapping: MedicationRequest.medicationReference.reference
     required: false
     reference:
       binding: medication
@@ -85,7 +80,6 @@ fields:
     type: reference
     path: MedicationRequest.subject.reference
     cardinality: 0..1
-    fhirMapping: MedicationRequest.subject.reference
     required: false
     reference:
       binding: patient
@@ -95,7 +89,6 @@ fields:
     type: reference
     path: MedicationRequest.encounter.reference
     cardinality: 0..1
-    fhirMapping: MedicationRequest.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -105,7 +98,6 @@ fields:
     type: datetime
     path: MedicationRequest.authoredOn
     cardinality: 0..1
-    fhirMapping: MedicationRequest.authoredOn
     required: false
     default: $dateTime()
     input:
@@ -118,7 +110,6 @@ fields:
     type: reference
     path: MedicationRequest.requester.reference
     cardinality: 0..1
-    fhirMapping: MedicationRequest.requester.reference
     required: false
     reference:
       binding: requester
@@ -128,7 +119,6 @@ fields:
     type: reference
     path: MedicationRequest.reasonReference.reference
     cardinality: 0..1
-    fhirMapping: MedicationRequest.reasonReference.reference
     required: false
     reference:
       binding: condition
@@ -138,7 +128,6 @@ fields:
     type: number
     path: MedicationRequest.dosageInstruction.timing.repeat.period
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.period
     required: false
     default: 1
   - id: periodUnit
@@ -147,7 +136,6 @@ fields:
     type: string
     path: MedicationRequest.dosageInstruction.timing.repeat.periodUnit
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.periodUnit
     required: false
     default: d
   - id: dosageText
@@ -156,7 +144,6 @@ fields:
     type: string
     path: MedicationRequest.dosageInstruction.text
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.text
     required: false
   - id: frequency
     name: Frequency
@@ -164,7 +151,6 @@ fields:
     type: number
     path: MedicationRequest.dosageInstruction.timing.repeat.frequency
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.timing.repeat.frequency
     required: false
   - id: doseValue
     name: Dose Value
@@ -172,7 +158,6 @@ fields:
     type: number
     path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.value
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.value
     required: false
   - id: doseUnit
     name: Dose Unit
@@ -180,7 +165,6 @@ fields:
     type: code
     path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.code
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.code
     required: false
   - id: durationValue
     name: Duration Value
@@ -188,7 +172,6 @@ fields:
     type: number
     path: MedicationRequest.dispenseRequest.expectedSupplyDuration.value
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dispenseRequest.expectedSupplyDuration.value
     required: false
   - id: durationUnit
     name: Duration Unit
@@ -196,5 +179,4 @@ fields:
     type: code
     path: MedicationRequest.dispenseRequest.expectedSupplyDuration.code
     cardinality: 0..1
-    fhirMapping: MedicationRequest.dispenseRequest.expectedSupplyDuration.code
     required: false

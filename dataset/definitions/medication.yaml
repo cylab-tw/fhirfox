@@ -8,7 +8,6 @@ fields:
     type: string
     path: Medication.identifier.value
     cardinality: 0..1
-    fhirMapping: Medication.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -16,7 +15,6 @@ fields:
     type: string
     path: Medication.identifier.system
     cardinality: 0..1
-    fhirMapping: Medication.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/medication
   - id: code
@@ -25,7 +23,6 @@ fields:
     type: code
     path: Medication.code.coding.code
     cardinality: 0..1
-    fhirMapping: Medication.code.coding.code
     required: false
     default: $input()
   - id: display
@@ -34,7 +31,6 @@ fields:
     type: string
     path: Medication.code.text
     cardinality: 0..1
-    fhirMapping: Medication.code.text
     required: false
     default: $case()
     input:

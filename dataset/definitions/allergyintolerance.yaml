@@ -29,7 +29,6 @@ fields:
     type: string
     path: AllergyIntolerance.identifier.value
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -37,7 +36,6 @@ fields:
     type: string
     path: AllergyIntolerance.identifier.system
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/allergyintolerance
   - id: clinicalStatus
@@ -46,7 +44,6 @@ fields:
     type: code
     path: AllergyIntolerance.clinicalStatus
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.clinicalStatus
     required: false
     default: active
   - id: verificationStatus
@@ -55,7 +52,6 @@ fields:
     type: code
     path: AllergyIntolerance.verificationStatus
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.verificationStatus
     required: false
     default: confirmed
   - id: type
@@ -64,7 +60,6 @@ fields:
     type: code
     path: AllergyIntolerance.type
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.type
     required: false
     default: allergy
   - id: category
@@ -73,7 +68,6 @@ fields:
     type: code
     path: AllergyIntolerance.category
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.category
     required: false
     default: food
   - id: criticality
@@ -82,7 +76,6 @@ fields:
     type: code
     path: AllergyIntolerance.criticality
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.criticality
     required: false
     default: low
   - id: allergyCode
@@ -91,7 +84,6 @@ fields:
     type: code
     path: AllergyIntolerance.code.coding.code
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.code.coding.code
     required: false
     default: Al-N0001
   - id: patientId
@@ -100,7 +92,6 @@ fields:
     type: reference
     path: AllergyIntolerance.patient.reference
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.patient.reference
     required: false
     reference:
       binding: patient
@@ -110,7 +101,6 @@ fields:
     type: reference
     path: AllergyIntolerance.encounter.reference
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -120,7 +110,6 @@ fields:
     type: datetime
     path: AllergyIntolerance.onsetDateTime
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.onsetDateTime
     required: false
   - id: recordedDate
     name: Recorded Date
@@ -128,7 +117,6 @@ fields:
     type: datetime
     path: AllergyIntolerance.recordedDate
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.recordedDate
     required: false
     default: 2026-03-30T10:10:00+08:00
   - id: recorderId
@@ -137,7 +125,6 @@ fields:
     type: reference
     path: AllergyIntolerance.recorder.reference
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.recorder.reference
     required: false
     reference:
       binding: recorder
@@ -147,7 +134,6 @@ fields:
     type: string
     path: AllergyIntolerance.reaction.substance
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.substance
     required: false
   - id: manifestation
     name: Manifestation
@@ -155,7 +141,6 @@ fields:
     type: code
     path: AllergyIntolerance.reaction.manifestation
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.manifestation
     required: false
     default: "271807003"
   - id: severity
@@ -164,7 +149,6 @@ fields:
     type: code
     path: AllergyIntolerance.reaction.severity
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.severity
     required: false
     default: moderate
   - id: exposureRoute
@@ -173,7 +157,6 @@ fields:
     type: string
     path: AllergyIntolerance.reaction.exposureRoute
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.reaction.exposureRoute
     required: false
   - id: note
     name: Note
@@ -181,6 +164,5 @@ fields:
     type: string
     path: AllergyIntolerance.note.text
     cardinality: 0..1
-    fhirMapping: AllergyIntolerance.note.text
     required: false
     default: 對蝦子過敏，曾出現皮膚紅疹。

@@ -30,7 +30,6 @@ fields:
     type: string
     path: Observation.identifier.value
     cardinality: 0..1
-    fhirMapping: Observation.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -38,7 +37,6 @@ fields:
     type: string
     path: Observation.identifier.system
     cardinality: 0..1
-    fhirMapping: Observation.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/observation
   - id: status
@@ -47,7 +45,6 @@ fields:
     type: code
     path: Observation.status
     cardinality: 0..1
-    fhirMapping: Observation.status
     required: false
     default: final
   - id: categoryCode
@@ -56,7 +53,6 @@ fields:
     type: code
     path: Observation.category
     cardinality: 0..1
-    fhirMapping: Observation.category
     required: false
   - id: observationCode
     name: Observation Code
@@ -64,7 +60,6 @@ fields:
     type: code
     path: Observation.code.coding.code
     cardinality: 0..1
-    fhirMapping: Observation.code.coding.code
     required: false
   - id: patientId
     name: Patient Id
@@ -72,7 +67,6 @@ fields:
     type: reference
     path: Observation.subject.reference
     cardinality: 0..1
-    fhirMapping: Observation.subject.reference
     required: false
     reference:
       binding: patient
@@ -82,7 +76,6 @@ fields:
     type: reference
     path: Observation.encounter.reference
     cardinality: 0..1
-    fhirMapping: Observation.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -92,7 +85,6 @@ fields:
     type: datetime
     path: Observation.effectiveDateTime
     cardinality: 0..1
-    fhirMapping: Observation.effectiveDateTime
     required: false
     default: $dateTime()
     input:
@@ -105,7 +97,6 @@ fields:
     type: reference
     path: Observation.performer.reference
     cardinality: 0..1
-    fhirMapping: Observation.performer.reference
     required: false
     reference:
       binding: performer
@@ -115,7 +106,6 @@ fields:
     type: number
     path: Observation.valueQuantity.value
     cardinality: 0..1
-    fhirMapping: Observation.valueQuantity.value
     required: false
   - id: valueUnit
     name: Value Unit
@@ -123,7 +113,6 @@ fields:
     type: code
     path: Observation.valueQuantity.unit
     cardinality: 0..1
-    fhirMapping: Observation.valueQuantity.unit
     required: false
   - id: dataAbsentReason
     name: Data Absent Reason
@@ -131,7 +120,6 @@ fields:
     type: string
     path: Observation.dataAbsentReason
     cardinality: 0..1
-    fhirMapping: Observation.dataAbsentReason
     required: false
   - id: rangeLow
     name: Range Low
@@ -139,7 +127,6 @@ fields:
     type: number
     path: Observation.referenceRange.low
     cardinality: 0..1
-    fhirMapping: Observation.referenceRange.low
     required: false
   - id: rangeHigh
     name: Range High
@@ -147,7 +134,6 @@ fields:
     type: number
     path: Observation.referenceRange.high
     cardinality: 0..1
-    fhirMapping: Observation.referenceRange.high
     required: false
   - id: systolicValue
     name: Systolic Value
@@ -155,7 +141,6 @@ fields:
     type: number
     path: Observation.component.valueQuantity.value
     cardinality: 0..1
-    fhirMapping: Observation.component.valueQuantity.value
     required: false
   - id: diastolicValue
     name: Diastolic Value
@@ -163,5 +148,4 @@ fields:
     type: number
     path: Observation.component.valueQuantity.value
     cardinality: 0..1
-    fhirMapping: Observation.component.valueQuantity.value
     required: false

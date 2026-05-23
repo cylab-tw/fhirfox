@@ -15,7 +15,6 @@ fields:
     type: string
     path: Patient.identifier.value
     cardinality: 0..1
-    fhirMapping: Patient.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -23,7 +22,6 @@ fields:
     type: string
     path: Patient.identifier.system
     cardinality: 0..1
-    fhirMapping: Patient.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/patient
   - id: identityNumber
@@ -32,7 +30,6 @@ fields:
     type: string
     path: Patient.identifier.value
     cardinality: 0..1
-    fhirMapping: Patient.identifier.value
     required: false
     default: $taiwanNationalId()
   - id: identityType
@@ -41,7 +38,6 @@ fields:
     type: code
     path: Patient.identifier.type.coding.code
     cardinality: 0..1
-    fhirMapping: Patient.identifier.type.coding.code
     required: false
     default: NNxxx
   - id: name
@@ -50,7 +46,6 @@ fields:
     type: string
     path: Patient.name.text
     cardinality: 0..1
-    fhirMapping: Patient.name.text
     required: false
     default: $humanName()
   - id: gender
@@ -59,7 +54,6 @@ fields:
     type: code
     path: Patient.gender
     cardinality: 0..1
-    fhirMapping: Patient.gender
     required: false
     default: $pick()
     input:
@@ -72,7 +66,6 @@ fields:
     type: date
     path: Patient.birthDate
     cardinality: 0..1
-    fhirMapping: Patient.birthDate
     required: false
     default: $birthDate()
     input:
@@ -84,7 +77,6 @@ fields:
     type: code
     path: Patient.telecom.system
     cardinality: 0..1
-    fhirMapping: Patient.telecom.system
     required: false
     default: phone
   - id: telecomUse
@@ -93,7 +85,6 @@ fields:
     type: code
     path: Patient.telecom.use
     cardinality: 0..1
-    fhirMapping: Patient.telecom.use
     required: false
     default: mobile
   - id: telecomValue
@@ -102,7 +93,6 @@ fields:
     type: string
     path: Patient.telecom.value
     cardinality: 0..1
-    fhirMapping: Patient.telecom.value
     required: false
     default: $taiwanMobilePhone()
   - id: address
@@ -111,7 +101,6 @@ fields:
     type: string
     path: Patient.address.text
     cardinality: 0..1
-    fhirMapping: Patient.address.text
     required: false
     default: $taiwanAddress()
   - id: organization
@@ -120,7 +109,6 @@ fields:
     type: reference
     path: Patient.managingOrganization.reference
     cardinality: 0..1
-    fhirMapping: Patient.managingOrganization.reference
     required: false
     reference:
       binding: organization
@@ -130,5 +118,4 @@ fields:
     type: string
     path: Patient.active
     cardinality: 0..1
-    fhirMapping: Patient.active
     required: false

@@ -6,6 +6,7 @@ import {
 	assembleBundle,
 	attachInternalSourceResourceType,
 	convertResource,
+	determineFhirMappingFromGeneratorRules,
 	normalizeRuleSet,
 	orderFhirResourceFields,
 	orderSourceResourceFields,
@@ -50,7 +51,11 @@ export async function loadBackendCatalog(repoRoot: string): Promise<BackendCatal
 	const scenarios = await loadScenarios(path.join(repoRoot, 'scenarios'));
 	const levelDefinitions = await loadScenarioLevelDefinitions(path.join(datasetRoot, 'scenarios', 'levels.json'));
 	const converterRows = await loadConverterRows(path.join(datasetRoot, 'converter'), IG_NAME);
-	const { docs: sourceFieldDocs, order: sourceFieldOrder } = buildSourceFieldDocs(resourceTypeDefinitions);
+	const { docs: sourceFieldDocs, order: sourceFieldOrder } = buildSourceFieldDocs(resourceTypeDefinitions, {
+		converterRows,
+		igName: IG_NAME,
+		igVersion: IG_VERSION,
+	});
 	const sourceCodeDisplayMap = buildSourceCodeDisplayMap(converterRows);
 	const provider = createInMemoryDatasetProvider({
 		resourceTypeDefinitions,
@@ -159,7 +164,13 @@ export function createBackendManifest(apiBaseUrl: string, defaultSeed = '1234'):
 	};
 }
 
-function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
+interface BuildSourceFieldDocsOptions {
+	converterRows: StaticConverterRows;
+	igName: string;
+	igVersion: string;
+}
+
+function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: BuildSourceFieldDocsOptions): {
 	docs: Record<string, SourceFieldDocRecord>;
 	order: Record<string, string[]>;
 } {
@@ -179,7 +190,12 @@ function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
 				description: field.summary,
 				cardinality: field.cardinality,
 				required: field.required,
-				fhirMapping: field.fhirMapping ?? field.path,
+				fhirMapping: determineFhirMappingFromGeneratorRules(options.converterRows.generatorRules, {
+					igName: options.igName,
+					igVersion: options.igVersion,
+					resourceType: definition.resourceType,
+					sourceColumn: field.id,
+				}),
 				reference: readDocReference(definition, field),
 			};
 		}

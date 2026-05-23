@@ -1,12 +1,19 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { parse } from 'yaml';
 import path from 'node:path';
+import { determineFhirMappingFromGeneratorRules } from '../../converter/src/browser.ts';
 
 import type { Preset, ResourceTypeDefinition, ScenarioDefinition } from '../../dataset/src/index.ts';
 import type { ScenarioLevelDefinition, ScenarioRecord, SourceFieldDocRecord } from './types.js';
 import type { StaticConverterRows } from '../../converter/src/browser.ts';
 
-export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
+export interface BuildSourceFieldDocsOptions {
+	converterRows: StaticConverterRows;
+	igName: string;
+	igVersion: string;
+}
+
+export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: BuildSourceFieldDocsOptions): {
 	docs: Record<string, SourceFieldDocRecord>;
 	order: Record<string, string[]>;
 } {
@@ -26,7 +33,12 @@ export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[]): {
 				description: field.summary,
 				cardinality: field.cardinality,
 				required: field.required,
-				fhirMapping: field.fhirMapping ?? field.path,
+				fhirMapping: determineFhirMappingFromGeneratorRules(options.converterRows.generatorRules, {
+					igName: options.igName,
+					igVersion: options.igVersion,
+					resourceType: definition.resourceType,
+					sourceColumn: field.id,
+				}),
 				reference: readDocReference(definition, field),
 			};
 		}

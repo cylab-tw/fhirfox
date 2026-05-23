@@ -15,7 +15,6 @@ fields:
     type: string
     path: Practitioner.identifier.value
     cardinality: 0..1
-    fhirMapping: Practitioner.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -23,7 +22,6 @@ fields:
     type: string
     path: Practitioner.identifier.system
     cardinality: 0..1
-    fhirMapping: Practitioner.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/practitioner
   - id: identityNumber
@@ -32,7 +30,6 @@ fields:
     type: string
     path: Practitioner.identifier.value
     cardinality: 0..1
-    fhirMapping: Practitioner.identifier.value
     required: false
     default: $taiwanNationalId()
   - id: identityType
@@ -41,7 +38,6 @@ fields:
     type: code
     path: Practitioner.identifier.type.coding.code
     cardinality: 0..1
-    fhirMapping: Practitioner.identifier.type.coding.code
     required: false
     default: NNxxx
   - id: active
@@ -50,7 +46,6 @@ fields:
     type: boolean
     path: Practitioner.active
     cardinality: 0..1
-    fhirMapping: Practitioner.active
     required: false
     default: true
   - id: name
@@ -59,7 +54,6 @@ fields:
     type: string
     path: Practitioner.name.text
     cardinality: 0..1
-    fhirMapping: Practitioner.name.text
     required: false
     default: $humanName()
   - id: telecomSystem
@@ -68,7 +62,6 @@ fields:
     type: code
     path: Practitioner.telecom.system
     cardinality: 0..1
-    fhirMapping: Practitioner.telecom.system
     required: false
     default: phone
   - id: telecomUse
@@ -77,7 +70,6 @@ fields:
     type: code
     path: Practitioner.telecom.use
     cardinality: 0..1
-    fhirMapping: Practitioner.telecom.use
     required: false
     default: work
   - id: telecomValue
@@ -86,7 +78,6 @@ fields:
     type: string
     path: Practitioner.telecom.value
     cardinality: 0..1
-    fhirMapping: Practitioner.telecom.value
     required: false
     default: $taiwanMobilePhone()
   - id: address
@@ -95,7 +86,6 @@ fields:
     type: string
     path: Practitioner.address.text
     cardinality: 0..1
-    fhirMapping: Practitioner.address.text
     required: false
     default: $taiwanAddress()
   - id: gender
@@ -104,7 +94,6 @@ fields:
     type: code
     path: Practitioner.gender
     cardinality: 0..1
-    fhirMapping: Practitioner.gender
     required: false
   - id: birthday
     name: Birthday
@@ -112,7 +101,6 @@ fields:
     type: date
     path: Practitioner.birthDate
     cardinality: 0..1
-    fhirMapping: Practitioner.birthDate
     required: false
     default: $birthDate()
     input:
@@ -124,7 +112,6 @@ fields:
     type: code
     path: Practitioner.qualification.code.coding.code
     cardinality: 0..1
-    fhirMapping: Practitioner.qualification.code.coding.code
     required: false
     default: Qual-0001
   - id: qualificationIssuer
@@ -133,7 +120,6 @@ fields:
     type: reference
     path: Practitioner.qualification.issuer.reference
     cardinality: 0..1
-    fhirMapping: Practitioner.qualification.issuer.reference
     required: false
     reference:
       binding: organization

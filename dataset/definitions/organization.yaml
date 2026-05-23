@@ -8,7 +8,6 @@ fields:
     type: string
     path: Organization.identifier.value
     cardinality: 0..1
-    fhirMapping: Organization.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -16,7 +15,6 @@ fields:
     type: string
     path: Organization.identifier.system
     cardinality: 0..1
-    fhirMapping: Organization.identifier.system
     required: false
     default: https://www.tph.mohw.gov.tw
   - id: active
@@ -25,7 +23,6 @@ fields:
     type: boolean
     path: Organization.active
     cardinality: 0..1
-    fhirMapping: Organization.active
     required: false
     default: true
   - id: alias
@@ -34,7 +31,6 @@ fields:
     type: string
     path: Organization.alias
     cardinality: 0..1
-    fhirMapping: Organization.alias
     required: false
     default: 範例醫院
   - id: name
@@ -43,7 +39,6 @@ fields:
     type: string
     path: Organization.name
     cardinality: 0..1
-    fhirMapping: Organization.name
     required: false
     default: 台北範例醫院
   - id: type
@@ -52,7 +47,6 @@ fields:
     type: code
     path: Organization.type.coding.code
     cardinality: 0..1
-    fhirMapping: Organization.type.coding.code
     required: false
     default: prov
   - id: telecomSystem
@@ -61,7 +55,6 @@ fields:
     type: code
     path: Organization.telecom.system
     cardinality: 0..1
-    fhirMapping: Organization.telecom.system
     required: false
     default: phone
   - id: telecomUse
@@ -70,7 +63,6 @@ fields:
     type: code
     path: Organization.telecom.use
     cardinality: 0..1
-    fhirMapping: Organization.telecom.use
     required: false
     default: work
   - id: telecomValue
@@ -79,7 +71,6 @@ fields:
     type: string
     path: Organization.telecom.value
     cardinality: 0..1
-    fhirMapping: Organization.telecom.value
     required: false
     default: 02-2312-3456
   - id: address
@@ -88,6 +79,5 @@ fields:
     type: string
     path: Organization.address.text
     cardinality: 0..1
-    fhirMapping: Organization.address.text
     required: false
     default: 台北市中正區常德街1號

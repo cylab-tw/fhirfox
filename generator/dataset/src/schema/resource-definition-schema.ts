@@ -50,7 +50,6 @@ export function createResourceDefinitionJsonSchema(): Record<string, unknown> {
 						},
 						path: { type: 'string' },
 						cardinality: { type: 'string' },
-						fhirMapping: { type: 'string' },
 						required: { type: 'boolean' },
 						emit: { type: 'boolean' },
 						default: { type: 'string' },

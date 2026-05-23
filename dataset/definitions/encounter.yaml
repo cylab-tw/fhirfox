@@ -34,7 +34,6 @@ fields:
     type: string
     path: Encounter.identifier.value
     cardinality: 0..1
-    fhirMapping: Encounter.identifier.value
     required: true
     default: $id("encounter")
   - id: idSystem
@@ -43,7 +42,6 @@ fields:
     type: string
     path: Encounter.identifier.system
     cardinality: 0..1
-    fhirMapping: Encounter.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/encounter
   - id: status
@@ -52,7 +50,6 @@ fields:
     type: code
     path: Encounter.status
     cardinality: 0..1
-    fhirMapping: Encounter.status
     required: false
     default: finished
   - id: class
@@ -61,7 +58,6 @@ fields:
     type: code
     path: Encounter.class
     cardinality: 0..1
-    fhirMapping: Encounter.class
     required: false
     default: $case()
     input:
@@ -98,7 +94,6 @@ fields:
     type: string
     path: Encounter.type
     cardinality: 0..1
-    fhirMapping: Encounter.type
     required: false
   - id: patientId
     name: Patient Id
@@ -106,7 +101,6 @@ fields:
     type: reference
     path: Encounter.subject.reference
     cardinality: 0..1
-    fhirMapping: Encounter.subject.reference
     required: false
     reference:
       binding: patient
@@ -116,7 +110,6 @@ fields:
     type: datetime
     path: Encounter.period.start
     cardinality: 0..1
-    fhirMapping: Encounter.period.start
     required: false
     default: $dateTime()
     input:
@@ -129,7 +122,6 @@ fields:
     type: datetime
     path: Encounter.period.end
     cardinality: 0..1
-    fhirMapping: Encounter.period.end
     required: false
     default: $addMinutes($value('periodStart'), 25)
   - id: participantType
@@ -138,7 +130,6 @@ fields:
     type: code
     path: Encounter.participant.type
     cardinality: 0..1
-    fhirMapping: Encounter.participant.type
     required: false
     default: ATND
   - id: practitionerId
@@ -147,7 +138,6 @@ fields:
     type: reference
     path: Encounter.participant.individual.reference
     cardinality: 0..1
-    fhirMapping: Encounter.participant.individual.reference
     required: false
     reference:
       binding: practitioner
@@ -157,7 +147,6 @@ fields:
     type: reference
     path: Encounter.diagnosis.condition.reference
     cardinality: 0..1
-    fhirMapping: Encounter.diagnosis.condition.reference
     required: false
     reference:
       binding: condition
@@ -167,7 +156,6 @@ fields:
     type: code
     path: Encounter.diagnosis.use
     cardinality: 0..1
-    fhirMapping: Encounter.diagnosis.use
     required: false
     default: AD
   - id: admitSource
@@ -176,7 +164,6 @@ fields:
     type: code
     path: Encounter.hospitalization.admitSource
     cardinality: 0..1
-    fhirMapping: Encounter.hospitalization.admitSource
     required: false
     default: $case()
     input:
@@ -212,7 +199,6 @@ fields:
     type: code
     path: Encounter.hospitalization.dischargeDisposition
     cardinality: 0..1
-    fhirMapping: Encounter.hospitalization.dischargeDisposition
     required: false
     default: $case()
     input:
@@ -224,7 +210,6 @@ fields:
     type: code
     path: Encounter.serviceType
     cardinality: 0..1
-    fhirMapping: Encounter.serviceType
     required: false
     default: $case()
     input:
@@ -236,7 +221,6 @@ fields:
     type: string
     path: Encounter.location.location.reference
     cardinality: 0..1
-    fhirMapping: Encounter.location.location.reference
     required: false
   - id: serviceProviderId
     name: Service Provider Id
@@ -244,7 +228,6 @@ fields:
     type: reference
     path: Encounter.serviceProvider.reference
     cardinality: 0..1
-    fhirMapping: Encounter.serviceProvider.reference
     required: false
     reference:
       binding: serviceProvider

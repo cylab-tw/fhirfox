@@ -55,8 +55,6 @@ export interface FieldDefinition {
 	path: string;
 	/** Source authoring cardinality, such as `0..1`; used for generated docs. */
 	cardinality?: string;
-	/** FHIR mapping path shown in frontend field docs. */
-	fhirMapping?: string;
 	/** Whether the field should have a value after resolution. */
 	required: boolean;
 	/** Whether the field should appear in the emitted source record. Default is `true`. */

@@ -41,7 +41,6 @@ fields:
     type: string
     path: DiagnosticReport.identifier.value
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -49,7 +48,6 @@ fields:
     type: string
     path: DiagnosticReport.identifier.system
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/diagnosticreport
   - id: status
@@ -58,7 +56,6 @@ fields:
     type: code
     path: DiagnosticReport.status
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.status
     required: false
     default: final
   - id: categoryCode
@@ -67,7 +64,6 @@ fields:
     type: code
     path: DiagnosticReport.category
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.category
     required: false
     default: $case()
     input:
@@ -84,7 +80,6 @@ fields:
     type: code
     path: DiagnosticReport.code.coding.code
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.code.coding.code
     required: false
     default: $input()
   - id: patientId
@@ -93,7 +88,6 @@ fields:
     type: reference
     path: DiagnosticReport.subject.reference
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.subject.reference
     required: false
     reference:
       binding: patient
@@ -103,7 +97,6 @@ fields:
     type: reference
     path: DiagnosticReport.encounter.reference
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.encounter.reference
     required: false
     reference:
       binding: encounter
@@ -113,7 +106,6 @@ fields:
     type: reference
     path: DiagnosticReport.imagingStudy.reference
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.imagingStudy.reference
     required: false
     reference:
       binding: imagingstudy
@@ -123,7 +115,6 @@ fields:
     type: datetime
     path: DiagnosticReport.issued
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.issued
     required: false
     default: $addMinutes($value('effectiveDate'), 90)
   - id: performerId
@@ -132,7 +123,6 @@ fields:
     type: reference
     path: DiagnosticReport.performer.reference
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.performer.reference
     required: false
     reference:
       binding: performer
@@ -142,7 +132,6 @@ fields:
     type: reference
     path: DiagnosticReport.result.reference
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.result.reference
     required: false
     reference:
       binding: observation
@@ -152,7 +141,6 @@ fields:
     type: string
     path: DiagnosticReport.conclusion
     cardinality: 0..1
-    fhirMapping: DiagnosticReport.conclusion
     required: false
     default: $case()
     input:

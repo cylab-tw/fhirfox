@@ -1,6 +1,7 @@
 import {
 	convertResource,
 	createStaticConverterService,
+	determineFhirMappingFromGeneratorRules,
 	loadStaticConverterRows,
 	normalizeRuleSet,
 	orderFhirResourceFields,
@@ -505,6 +506,57 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 			)?.coding?.[0] ?? {}) as Record<string, unknown>,
 		),
 		['system', 'code'],
+	);
+});
+
+test('FHIR mapping metadata is determined from active generator rules for the selected IG', () => {
+	const rules: GeneratorRuleRow[] = [
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+			resourceType: 'patient',
+			sourceColumn: 'identityNumber',
+			fhirPath: 'Patient.identifier[0].value',
+			dataType: 'string',
+			isRequired: true,
+			transformKind: 'copy',
+			sortOrder: 20,
+			isActive: true,
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '0.9.0',
+			resourceType: 'patient',
+			sourceColumn: 'identityNumber',
+			fhirPath: 'Patient.identifier[1].value',
+			dataType: 'string',
+			isRequired: true,
+			transformKind: 'copy',
+			sortOrder: 10,
+			isActive: true,
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+			resourceType: 'patient',
+			sourceColumn: 'identityNumber',
+			fhirPath: 'Patient.identifier[2].value',
+			dataType: 'string',
+			isRequired: true,
+			transformKind: 'copy',
+			sortOrder: 10,
+			isActive: false,
+		},
+	];
+
+	assert.equal(
+		determineFhirMappingFromGeneratorRules(rules, {
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+			resourceType: 'patient',
+			sourceColumn: 'identityNumber',
+		}),
+		'Patient.identifier[0].value',
 	);
 });
 

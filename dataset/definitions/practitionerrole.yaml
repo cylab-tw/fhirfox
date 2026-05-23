@@ -21,7 +21,6 @@ fields:
     type: string
     path: PractitionerRole.identifier.value
     cardinality: 0..1
-    fhirMapping: PractitionerRole.identifier.value
     required: true
   - id: idSystem
     name: Id System
@@ -29,7 +28,6 @@ fields:
     type: string
     path: PractitionerRole.identifier.system
     cardinality: 0..1
-    fhirMapping: PractitionerRole.identifier.system
     required: false
     default: https://fhirfox.dev/identifier-system/practitionerrole
   - id: active
@@ -38,7 +36,6 @@ fields:
     type: boolean
     path: PractitionerRole.active
     cardinality: 0..1
-    fhirMapping: PractitionerRole.active
     required: false
     default: true
   - id: periodStart
@@ -47,7 +44,6 @@ fields:
     type: datetime
     path: PractitionerRole.period.start
     cardinality: 0..1
-    fhirMapping: PractitionerRole.period.start
     required: false
     default: 2024-01-01T08:00:00+08:00
   - id: practitionerId
@@ -56,7 +52,6 @@ fields:
     type: reference
     path: PractitionerRole.practitioner.reference
     cardinality: 0..1
-    fhirMapping: PractitionerRole.practitioner.reference
     required: false
     reference:
       binding: practitioner
@@ -66,7 +61,6 @@ fields:
     type: reference
     path: PractitionerRole.organization.reference
     cardinality: 0..1
-    fhirMapping: PractitionerRole.organization.reference
     required: false
     reference:
       binding: organization
@@ -76,7 +70,6 @@ fields:
     type: code
     path: PractitionerRole.code.coding.code
     cardinality: 0..1
-    fhirMapping: PractitionerRole.code.coding.code
     required: false
   - id: specialtyCode
     name: Specialty Code
@@ -84,7 +77,6 @@ fields:
     type: code
     path: PractitionerRole.specialty.coding.code
     cardinality: 0..1
-    fhirMapping: PractitionerRole.specialty.coding.code
     required: false
   - id: telecomSystem
     name: Telecom System
@@ -92,7 +84,6 @@ fields:
     type: code
     path: PractitionerRole.telecom.system
     cardinality: 0..1
-    fhirMapping: PractitionerRole.telecom.system
     required: false
     default: phone
   - id: telecomUse
@@ -101,7 +92,6 @@ fields:
     type: code
     path: PractitionerRole.telecom.use
     cardinality: 0..1
-    fhirMapping: PractitionerRole.telecom.use
     required: false
     default: work
   - id: telecomValue
@@ -110,6 +100,5 @@ fields:
     type: string
     path: PractitionerRole.telecom.value
     cardinality: 0..1
-    fhirMapping: PractitionerRole.telecom.value
     required: false
     default: "02-2312-3456"
