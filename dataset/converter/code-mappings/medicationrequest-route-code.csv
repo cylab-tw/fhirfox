@@ -1,10 +1,10 @@
 source_code,target_code,target_display,target_system,display_zh_tw,is_active
-Route-0001,PO,PO,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,口服,true
-Route-0002,IV,IV,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,靜脈注射,true
-Route-0003,IM,IM,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,肌肉注射,true
-Route-0004,SC,SC,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,皮下注射,true
-Route-0005,TO,TO,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,局部塗抹,true
-Route-0006,SL,SL,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,舌下含片,true
-Route-0007,XX,XX,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,吸入,true
-Route-0008,EY,EY,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,點眼,true
-Route-0009,ER,ER,https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/medication-path-nhi-tw,點耳,true
+Route-0001,26643006,Oral route,http://snomed.info/sct,口服,true
+Route-0002,47625008,Intravenous route,http://snomed.info/sct,靜脈注射,true
+Route-0003,78421000,Intramuscular route,http://snomed.info/sct,肌肉注射,true
+Route-0004,34206005,Subcutaneous route,http://snomed.info/sct,皮下注射,true
+Route-0005,6064005,Topical route,http://snomed.info/sct,局部塗抹,true
+Route-0006,37839007,Sublingual route,http://snomed.info/sct,舌下含片,true
+Route-0007,18679011000036101,Inhalation route,http://snomed.info/sct,吸入,true
+Route-0008,54485002,Ophthalmic route,http://snomed.info/sct,點眼,true
+Route-0009,10547007,Otic route,http://snomed.info/sct,點耳,true

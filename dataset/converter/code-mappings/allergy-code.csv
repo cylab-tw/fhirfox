@@ -12,7 +12,7 @@ Al-F0003,91932007,Allergy to fruit,http://snomed.info/sct,水果過敏,true
 Al-F0004,91934008,Nut allergy,http://snomed.info/sct,堅果過敏,true
 Al-F0005,91935009,Allergy to peanuts,http://snomed.info/sct,花生過敏,true
 Al-F0006,91940001,Allergy to walnut,http://snomed.info/sct,核桃過敏,true
-Al-F0007,91937001,Allergy to seafood,http://snomed.info/sct,海鮮過敏,true
+Al-F0007,44027008,Seafood,http://snomed.info/sct,海鮮,true
 Al-F0008,91938006,Allergy to strawberries,http://snomed.info/sct,草莓過敏,true
 Al-F0009,15911003,Cow's milk protein sensitivity,http://snomed.info/sct,牛奶蛋白敏感,true
 Al-F0010,700094005,Milk intolerance,http://snomed.info/sct,牛奶不耐症,true

@@ -99,6 +99,13 @@ test('randomGenerator selects deterministic values from explicit candidates', ()
 	assert.notEqual(value, randomGenerator([{ oneOf: ['planned', 'finished', 'cancelled'] }], context({ field: 'status2' })));
 });
 
+test('randomGenerator selects deterministic values from positional candidates', () => {
+	const value = randomGenerator(['KP00018', 'KP00021', 'KP00034'], context());
+
+	assert.ok(['KP00018', 'KP00021', 'KP00034'].includes(String(value)));
+	assert.equal(value, randomGenerator(['KP00018', 'KP00021', 'KP00034'], context()));
+});
+
 test('randomGenerator selects deterministic source codes from code mappings', () => {
 	const codeMappings = [
 		{

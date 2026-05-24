@@ -4,9 +4,11 @@ import type { CodeMappingDefinition } from '#/model/index.js';
 import type { GeneratorContext, GeneratorFunction } from '#/generators/types.js';
 
 /** Generates a deterministic random value or samples one from a code mapping. */
-export const randomGenerator: GeneratorFunction = ([input], context) => {
+export const randomGenerator: GeneratorFunction = (args, context) => {
+	const [input] = args;
 	const options = isRecord(input) ? input : {};
-	const candidates = readCandidates(options, context);
+	const positionalCandidates = isRecord(input) || input === undefined ? [] : args;
+	const candidates = positionalCandidates.length > 0 ? positionalCandidates : readCandidates(options, context);
 
 	if (candidates.length > 0) {
 		return pick(candidates, options, context);
