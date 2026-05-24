@@ -3,7 +3,9 @@ resourceType: medicationrequest
 summary: Ibuprofen 400 mg by mouth every 8 hours as needed for fever or pain.
 fields:
   dosageText: Ibuprofen 400 mg by mouth every 8 hours as needed for fever or pain.
-  doseUnit: mg
+  doseCode: mg
   doseValue: 400
   durationValue: 3
   frequency: 3
+  routeCode: Route-0001
+  timingCode: Tim-0009

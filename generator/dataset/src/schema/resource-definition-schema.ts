@@ -20,18 +20,29 @@ export function createResourceDefinitionJsonSchema(): Record<string, unknown> {
 				additionalProperties: false,
 			},
 			bindings: {
+				oneOf: [
+					{
+						type: 'array',
+						items: { type: 'string' },
+					},
+					{
+						type: 'object',
+						additionalProperties: relationshipBindingSchema(),
+					},
+				],
+			},
+			references: {
 				type: 'object',
 				additionalProperties: {
 					type: 'object',
-					required: ['name', 'resourceTypes'],
+					required: ['resourceTypes'],
 					properties: {
 						key: { type: 'string' },
-						name: { type: 'string' },
+						definition: { type: 'string' },
 						resourceTypes: {
 							type: 'array',
 							items: { type: 'string' },
 						},
-						summary: { type: 'string' },
 					},
 					additionalProperties: false,
 				},
@@ -40,32 +51,56 @@ export function createResourceDefinitionJsonSchema(): Record<string, unknown> {
 				type: 'array',
 				items: {
 					type: 'object',
-					required: ['id', 'name', 'valueType'],
+					required: ['id', 'type'],
 					properties: {
 						id: { type: 'string' },
 						name: { type: 'string' },
+						definition: { type: 'string' },
 						summary: { type: 'string' },
-						valueType: {
-							enum: ['string', 'number', 'boolean', 'date', 'datetime', 'code', 'reference'],
+						type: {
+							enum: ['string', 'number', 'boolean', 'date', 'datetime', 'dateTime', 'code', 'identifier', 'reference'],
 						},
 						path: { type: 'string' },
+						binding: { type: 'string' },
 						cardinality: { type: 'string' },
 						required: { type: 'boolean' },
 						emit: { type: 'boolean' },
-						default: { type: 'string' },
+						default: {},
 						input: { type: 'object' },
 						reference: {
-							type: 'object',
-							required: ['binding'],
-							properties: {
-								binding: { type: 'string' },
-							},
-							additionalProperties: false,
+							oneOf: [
+								{ type: 'string' },
+								{
+									type: 'object',
+									required: ['binding'],
+									properties: {
+										binding: { type: 'string' },
+									},
+									additionalProperties: false,
+								},
+							],
 						},
 					},
 					additionalProperties: false,
 				},
 			},
+		},
+		additionalProperties: false,
+	};
+}
+
+function relationshipBindingSchema(): Record<string, unknown> {
+	return {
+		type: 'object',
+		required: ['name', 'resourceTypes'],
+		properties: {
+			key: { type: 'string' },
+			name: { type: 'string' },
+			resourceTypes: {
+				type: 'array',
+				items: { type: 'string' },
+			},
+			summary: { type: 'string' },
 		},
 		additionalProperties: false,
 	};

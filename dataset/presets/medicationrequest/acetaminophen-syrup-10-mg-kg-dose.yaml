@@ -3,7 +3,9 @@ resourceType: medicationrequest
 summary: Acetaminophen syrup 10 mg/kg/dose by mouth every 6 hours as needed for fever.
 fields:
   dosageText: Acetaminophen syrup 10 mg/kg/dose by mouth every 6 hours as needed for fever.
-  doseUnit: mg
+  doseCode: mg
   doseValue: 224
   durationValue: 3
   frequency: 4
+  routeCode: Route-0001
+  timingCode: Tim-0008

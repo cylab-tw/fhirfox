@@ -141,3 +141,62 @@ test('encounter practitioner references prefer the matching practitionerrole whe
 	assert.equal(encounter?.resource.practitionerId, practitionerRole?.resource.id);
 	assert.equal(practitionerRole?.resource.practitionerId, practitioner?.resource.id);
 });
+
+test('scenario resolution derives deterministic generation from the scenario id', async () => {
+	const provider = createInMemoryDatasetProvider({
+		resourceTypeDefinitions: [
+			{
+				resourceType: 'sample',
+				name: 'Sample',
+				fields: [
+					{
+						id: 'id',
+						name: 'Id',
+						type: 'string',
+						path: 'Sample.id',
+						required: true,
+					},
+					{
+						id: 'value',
+						name: 'Value',
+						type: 'number',
+						path: 'Sample.value',
+						required: false,
+						default: '$random()',
+					},
+				],
+			},
+		],
+		presets,
+	});
+	const baseScenario: ScenarioDefinition = {
+		id: 'scenario-random-a',
+		name: 'Scenario random A',
+		resources: [
+			{
+				alias: 'sample.one',
+				resourceType: 'sample',
+			},
+		],
+	};
+	const matchingSeedOptions = {
+		seed: 'test-seed',
+		generatedAt: '2026-05-11T00:00:00.000Z',
+	};
+
+	const first = await resolveScenario(provider, baseScenario, matchingSeedOptions);
+	const repeat = await resolveScenario(provider, baseScenario, matchingSeedOptions);
+	const otherScenario = await resolveScenario(
+		provider,
+		{
+			...baseScenario,
+			id: 'scenario-random-b',
+			name: 'Scenario random B',
+		},
+		matchingSeedOptions,
+	);
+
+	assert.equal(first.resources[0]?.resource.value, repeat.resources[0]?.resource.value);
+	assert.notEqual(first.resources[0]?.resource.value, otherScenario.resources[0]?.resource.value);
+	assert.equal(first.metadata.seed, 'test-seed');
+});

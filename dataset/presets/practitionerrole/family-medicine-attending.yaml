@@ -2,5 +2,6 @@ id: practitionerrole.family-medicine-attending
 resourceType: practitionerrole
 fields:
   roleCode: PR-0003
+  roleText: 家庭醫學科醫師
   specialtyCode: Spec-0001
   telecomValue: "02-2312-3456"

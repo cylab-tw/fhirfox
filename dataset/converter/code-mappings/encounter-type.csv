@@ -1,0 +1,4 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+AMB,AMB,ambulatory,http://terminology.hl7.org/CodeSystem/v3-ActCode,門診,true
+EMER,EMER,emergency,http://terminology.hl7.org/CodeSystem/v3-ActCode,急診,true
+IMP,IMP,inpatient encounter,http://terminology.hl7.org/CodeSystem/v3-ActCode,住院,true

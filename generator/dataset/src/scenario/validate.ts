@@ -304,8 +304,10 @@ function indexBindings(definitions: ResourceTypeDefinition[]): Map<string, { res
 		for (const [bindingId, binding] of Object.entries(definition.bindings ?? {}) as Array<
 			[string, ResourceBindingDefinition]
 		>) {
-			bindings.set(binding.key ?? `${definition.resourceType}.${bindingId}`, {
-				resourceTypes: binding.resourceTypes,
+			const key = binding.key ?? `${definition.resourceType}.${bindingId}`;
+			const previous = bindings.get(key)?.resourceTypes ?? [];
+			bindings.set(key, {
+				resourceTypes: [...new Set([...previous, ...binding.resourceTypes])],
 			});
 		}
 	}

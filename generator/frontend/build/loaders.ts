@@ -1,11 +1,12 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { parse } from 'yaml';
 import path from 'node:path';
+import { compileResourceDefinitions } from '../../dataset/src/index.ts';
 import { determineFhirMappingFromGeneratorRules } from '../../converter/src/browser.ts';
 
 import type { Preset, ResourceTypeDefinition, ScenarioDefinition } from '../../dataset/src/index.ts';
 import type { ScenarioLevelDefinition, ScenarioRecord, SourceFieldDocRecord } from './types.js';
-import type { StaticConverterRows } from '../../converter/src/browser.ts';
+import type { GeneratorRuleRow, StaticConverterRows } from '../../converter/src/browser.ts';
 
 export interface BuildSourceFieldDocsOptions {
 	converterRows: StaticConverterRows;
@@ -29,7 +30,13 @@ export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], opti
 		order[definition.resourceType] = definition.fields.map((field) => field.id);
 
 		for (const field of definition.fields) {
-			docs[`${definition.resourceType}.${field.id}`] = {
+			const fieldRules = findFieldRules(options.converterRows.generatorRules, {
+				igName: options.igName,
+				igVersion: options.igVersion,
+				resourceType: definition.resourceType,
+				path: field.path,
+			});
+			const doc = {
 				description: field.summary,
 				cardinality: field.cardinality,
 				required: field.required,
@@ -37,10 +44,22 @@ export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], opti
 					igName: options.igName,
 					igVersion: options.igVersion,
 					resourceType: definition.resourceType,
-					sourceColumn: field.id,
+					path: field.path,
 				}),
 				reference: readDocReference(definition, field),
 			};
+			const sourceKeys = new Set([`${definition.resourceType}.${field.id}`, field.path]);
+
+			for (const key of sourceKeys) {
+				docs[key] = doc;
+			}
+
+			for (const rule of fieldRules) {
+				docs[normalizeFhirDocPath(rule.fhirPath)] = {
+					...doc,
+					reference: readRuleReference(rule) ?? doc.reference,
+				};
+			}
 		}
 	}
 
@@ -50,8 +69,43 @@ export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], opti
 	};
 }
 
+function findFieldRules(
+	rules: GeneratorRuleRow[],
+	options: {
+		igName: string;
+		igVersion: string;
+		resourceType: string;
+		path: string;
+	},
+): GeneratorRuleRow[] {
+	return rules
+		.filter(
+			(rule) =>
+				rule.isActive &&
+				rule.igName === options.igName &&
+				rule.igVersion === options.igVersion &&
+				rule.resourceType.toLowerCase() === options.resourceType.toLowerCase() &&
+				rule.path === options.path,
+		)
+		.sort((left, right) => left.sortOrder - right.sortOrder);
+}
+
+function readRuleReference(rule: GeneratorRuleRow): string | undefined {
+	return rule.transformKind === 'build_reference' && rule.referenceTarget
+		? rule.referenceTarget.toLowerCase()
+		: undefined;
+}
+
+function normalizeFhirDocPath(fhirPath: string): string {
+	const [resourceType, ...segments] = fhirPath.split('.');
+	const normalizedSegments = segments.map((segment) => segment.replace(/\[\d+\]/gu, '').replace(/:.+$/u, ''));
+	return [resourceType?.toLowerCase(), ...normalizedSegments].filter(Boolean).join('.');
+}
+
 export async function loadResourceDefinitions(directoryPath: string): Promise<ResourceTypeDefinition[]> {
-	return loadYamlDirectory<ResourceTypeDefinition>(directoryPath);
+	return compileResourceDefinitions({
+		definitions: await loadYamlDirectory<ResourceTypeDefinition>(directoryPath),
+	}).resourceTypeDefinitions;
 }
 
 export async function loadPresets(directoryPath: string): Promise<Preset[]> {
@@ -97,10 +151,10 @@ export async function loadConverterRows(converterDir: string, igName: string): P
 
 	return {
 		generatorRules: generatorRules.map((row) => ({
-			igName: requiredCell(row, 'ig_name'),
-			igVersion: requiredCell(row, 'ig_version'),
-			resourceType: requiredCell(row, 'resource_type'),
-			sourceColumn: requiredCell(row, 'source_column'),
+				igName: requiredCell(row, 'ig_name'),
+				igVersion: requiredCell(row, 'ig_version'),
+				resourceType: requiredCell(row, 'resource_type'),
+				path: requiredCell(row, 'path'),
 			fhirPath: requiredCell(row, 'fhir_path'),
 			dataType: requiredCell(row, 'data_type'),
 			isRequired: parseBoolean(requiredCell(row, 'is_required')),
@@ -291,8 +345,8 @@ function parseInteger(value: string): number {
 	return parsed;
 }
 
-function parseTransformKind(value: string): 'copy' | 'code_map' | 'build_reference' {
-	if (value === 'copy' || value === 'code_map' || value === 'build_reference') {
+function parseTransformKind(value: string): 'copy' | 'code_map' | 'build_reference' | 'constant' {
+	if (value === 'copy' || value === 'code_map' || value === 'build_reference' || value === 'constant') {
 		return value;
 	}
 

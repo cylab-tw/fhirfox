@@ -4,7 +4,7 @@ export interface DetermineFhirMappingOptions {
 	igName: string;
 	igVersion: string;
 	resourceType: string;
-	sourceColumn: string;
+	path: string;
 }
 
 export function determineFhirMappingFromGeneratorRules(
@@ -18,7 +18,7 @@ export function determineFhirMappingFromGeneratorRules(
 				rule.igName === options.igName &&
 				rule.igVersion === options.igVersion &&
 				rule.resourceType.toLowerCase() === options.resourceType.toLowerCase() &&
-				rule.sourceColumn === options.sourceColumn,
+				rule.path === options.path,
 		)
 		.sort((left, right) => left.sortOrder - right.sortOrder)
 		.map((rule) => rule.fhirPath);

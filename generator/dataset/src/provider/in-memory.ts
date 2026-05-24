@@ -1,4 +1,4 @@
-import type { ResourceTypeDefinition, SourceResource } from '#/model/index.js';
+import type { CodeMappingDefinition, ResourceTypeDefinition, SourceResource } from '#/model/index.js';
 import type { DatasetProvider } from './types.js';
 import type { Preset } from '#/preset/index.js';
 
@@ -7,6 +7,7 @@ export interface InMemoryDatasetProviderInput {
 	resourceTypeDefinitions: ResourceTypeDefinition[];
 	presets: Preset[];
 	resources?: Record<string, SourceResource[]>;
+	codeMappings?: CodeMappingDefinition[];
 }
 
 /** Creates a provider for tests, static builds, and small tools. */
@@ -21,6 +22,9 @@ export function createInMemoryDatasetProvider(input: InMemoryDatasetProviderInpu
 		async queryResources(resourceType, filter) {
 			const resources = input.resources?.[resourceType] ?? [];
 			return filter ? resources.filter((resource) => matches(resource, filter)) : resources;
+		},
+		async getCodeMappings() {
+			return input.codeMappings ?? [];
 		},
 	};
 }

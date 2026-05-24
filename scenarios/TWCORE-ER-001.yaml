@@ -14,7 +14,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject
@@ -40,7 +40,6 @@ resources:
   - alias: condition.acute-chest-pain
     resourceType: condition
     references:
-      encounterId: encounter.acute-chest-pain-visit
       recorderId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - condition.acute-chest-pain

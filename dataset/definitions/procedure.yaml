@@ -1,59 +1,72 @@
 resourceType: procedure
 name: Procedure
-summary: 記錄病人接受的處置或手術，包含處置項目、執行者、時間、原因與結果。
+summary: 記錄已執行或正在執行的處置或手術，包含狀態、分類、代碼、病人、就醫事件、執行時間、執行者、原因、身體部位、結果與併發症。
+
 bindings:
+  - event-status
+  - procedure-category
+  - procedure-code
+  - procedure-performer-function
+  - condition-code
+  - procedure-outcome
+
+references:
+  subject:
+    definition: 接受此處置或手術的病人。
+    resourceTypes:
+      - patient
   encounter:
-    key: encounter
-    name: Scenario encounter
+    definition: 與此處置或手術相關的就醫事件。
     resourceTypes:
       - encounter
-    summary: 此情境相關就醫事件。
-  patient:
-    key: subject
-    name: Scenario patient
-    resourceTypes:
-      - patient
-    summary: 此情境主要病人。
   performer:
-    key: procedure.performer
-    name: Scenario performer
+    definition: 執行此處置或手術的人或機構。
     resourceTypes:
-      - organization
-      - patient
       - practitioner
       - practitionerrole
-    summary: 此情境執行者。
+      - organization
+      - patient
+  location:
+    definition: 此處置或手術發生的地點。
+    resourceTypes:
+      - location
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 處置識別碼
-    type: string
-    path: Procedure.identifier.value
-    cardinality: 0..1
+    definition: 處置或手術識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 處置識別碼系統
-    type: string
-    path: Procedure.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/procedure
-  - id: procedureCode
-    name: Procedure Code
-    summary: 處置/手術代碼
+    path: procedure.id
+  - id: status
+    definition: 處置或手術的狀態。
     type: code
-    path: Procedure.code.coding.code
-    cardinality: 0..1
+    binding: event-status
+    required: true
+    path: procedure.status
+    default: completed
+  - id: statusReason
+    definition: 目前狀態的原因。
+    type: string
     required: false
+    path: procedure.statusReason
+  - id: category
+    definition: 處置或手術的分類。
+    type: code
+    binding: procedure-category
+    required: false
+    path: procedure.category
+  - id: procedureCode
+    definition: 處置或手術的識別代碼。
+    type: code
+    binding: procedure-code
+    required: true
+    path: procedure.procedureCode
     default: $input()
   - id: procedureText
-    name: Procedure Text
-    summary: 處置/手術名稱
+    definition: 處置或手術的文字描述。
     type: string
-    path: Procedure.code.text
-    cardinality: 0..1
     required: false
+    path: procedure.procedureText
     default: $case()
     input:
       source: procedureCode
@@ -70,107 +83,62 @@ fields:
           procedureText: 頭部傷口換藥
         Proc-0046:
           procedureText: 冠狀動脈支架置放術
-  - id: status
-    name: Status
-    summary: 狀態
-    type: code
-    path: Procedure.status
-    cardinality: 0..1
-    required: false
-    default: completed
-  - id: statusReason
-    name: Status Reason
-    summary: 狀態原因
-    type: string
-    path: Procedure.statusReason
-    cardinality: 0..1
-    required: false
-  - id: category
-    name: Category
-    summary: 分類
-    type: code
-    path: Procedure.category
-    cardinality: 0..1
-    required: false
   - id: patientId
-    name: Patient Id
-    summary: 病人
+    definition: 接受此處置或手術的病人 ID。
     type: reference
-    path: Procedure.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
+    reference: subject
+    required: true
+    path: procedure.patientId
   - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
+    definition: 與此處置或手術相關的就醫事件 ID。
     type: reference
-    path: Procedure.encounter.reference
-    cardinality: 0..1
+    reference: encounter
     required: false
-    reference:
-      binding: encounter
+    path: procedure.encounterId
   - id: performedDate
-    name: Performed Date
-    summary: 執行時間
-    type: datetime
-    path: Procedure.performedDateTime
-    cardinality: 0..1
+    definition: 處置或手術執行時間。
+    type: dateTime
     required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: performerId
-    name: Performer Id
-    summary: 執行人員
-    type: reference
-    path: Procedure.performer.actor.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: performer
-  - id: performerFunction
-    name: Performer Function
-    summary: 執行者角色
-    type: code
-    path: Procedure.performer.function
-    cardinality: 0..1
-    required: false
+    path: procedure.performedDate
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: locationId
-    name: Location Id
-    summary: 發生地點
-    type: string
-    path: Procedure.location.reference
-    cardinality: 0..1
+    definition: 此處置或手術發生的地點 ID。
+    type: reference
+    reference: location
     required: false
-  - id: reasonCode
-    name: Reason Code
-    summary: 執行原因
+    path: procedure.locationId
+  - id: performerId
+    definition: 執行此處置或手術的人或機構 ID。
+    type: reference
+    reference: performer
+    required: false
+    path: procedure.performerId
+  - id: performerFunction
+    definition: 執行者在此處置或手術中的角色。
     type: code
-    path: Procedure.reasonCode
-    cardinality: 0..1
+    binding: procedure-performer-function
     required: false
+    path: procedure.performerFunction
   - id: bodySite
-    name: Body Site
-    summary: 目標身體部位
+    definition: 處置或手術的目標身體部位。
     type: string
-    path: Procedure.bodySite
-    cardinality: 0..1
     required: false
-  - id: outcome
-    name: Outcome
-    summary: 處置結果
+    path: procedure.bodySite
+  - id: reasonCode
+    definition: 執行此處置或手術的原因。
     type: code
-    path: Procedure.outcome
-    cardinality: 0..1
+    binding: condition-code
     required: false
+    path: procedure.reasonCode
+  - id: outcome
+    definition: 處置或手術的結果。
+    type: code
+    binding: procedure-outcome
+    required: false
+    path: procedure.outcome
     default: "385669000"
   - id: complication
-    name: Complication
-    summary: 併發症
+    definition: 處置或手術產生的併發症。
     type: string
-    path: Procedure.complication
-    cardinality: 0..1
     required: false
+    path: procedure.complication

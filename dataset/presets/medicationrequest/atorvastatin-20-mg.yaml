@@ -3,8 +3,10 @@ resourceType: medicationrequest
 summary: Atorvastatin 20 mg by mouth once nightly.
 fields:
   dosageText: Atorvastatin 20 mg by mouth once nightly.
-  doseUnit: "{tbl}"
+  doseCode: "{tbl}"
   doseValue: 1
-  durationUnit: d
+  durationCode: d
   durationValue: 28
   frequency: 1
+  routeCode: Route-0001
+  timingCode: Tim-0010

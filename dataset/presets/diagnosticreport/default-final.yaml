@@ -1,0 +1,75 @@
+id: diagnosticreport.default-final
+resourceType: diagnosticreport
+summary: Default completed diagnostic report status.
+fields:
+  status: final
+  categoryCode:
+    generator: $case()
+    input:
+      source: reportCode
+      default: LAB
+      cases:
+        Rep-0007: RAD
+        Rep-0008: RAD
+        Rep-0009: RAD
+        Rep-0010: RAD
+        Rep-0011: RAD
+        Rep-0012: RAD
+        Rep-0013: RAD
+        Rep-0014: RAD
+        Rep-0015: LAB
+        Rep-0016: RAD
+        Rep-0017: LAB
+        Rep-0018: LAB
+  categoryText:
+    generator: $case()
+    input:
+      source: reportCode
+      default: 實驗室檢驗
+      cases:
+        Rep-0007: 放射影像檢查
+        Rep-0008: 放射影像檢查
+        Rep-0009: 放射影像檢查
+        Rep-0010: 放射影像檢查
+        Rep-0011: 放射影像檢查
+        Rep-0012: 放射影像檢查
+        Rep-0013: 放射影像檢查
+        Rep-0014: 放射影像檢查
+        Rep-0016: 放射影像檢查
+  conclusion:
+    generator: $case()
+    input:
+      source: reportCode
+      default: 檢查結果已完成，請結合臨床狀況評估。
+      cases:
+        Rep-0001: 血液常規檢查已完成，結果供臨床追蹤感染或貧血狀態。
+        Rep-0002: 血脂檢查已完成，建議配合心血管風險因子評估。
+        Rep-0004: 糖化血色素檢查已完成，結果供糖尿病控制追蹤。
+        Rep-0005: 血糖檢查已完成，建議配合症狀與用藥狀況判讀。
+        Rep-0006: 尿液常規檢查已完成，結果供泌尿道感染或脫水評估。
+        Rep-0007: 胸部 X 光檢查已完成，影像結論請結合臨床症狀評估。
+        Rep-0017: 上消化道內視鏡檢查已完成，建議依臨床症狀追蹤。
+  reportText:
+    generator: $case()
+    input:
+      source: reportCode
+      default: 血液常規檢查報告
+      cases:
+        Rep-0001: 血液常規檢查報告
+        Rep-0002: 血脂檢查報告
+        Rep-0003: 肝功能檢查報告
+        Rep-0004: 糖化血色素報告
+        Rep-0005: 空腹血糖報告
+        Rep-0006: 尿液常規檢查報告
+        Rep-0007: 胸部 X 光檢查報告
+        Rep-0008: 腹部 X 光檢查報告
+        Rep-0009: 腹部超音波檢查報告
+        Rep-0010: 頭部電腦斷層掃描報告
+        Rep-0011: 腹部電腦斷層掃描報告
+        Rep-0012: 腦部磁振造影報告
+        Rep-0013: 頸椎磁振造影報告
+        Rep-0014: 甲狀腺超音波檢查報告
+        Rep-0015: 12 導程心電圖報告
+        Rep-0016: 心臟超音波檢查報告
+        Rep-0017: 上消化道內視鏡報告
+        Rep-0018: 大腸鏡檢查報告

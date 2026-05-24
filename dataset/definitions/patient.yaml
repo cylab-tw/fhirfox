@@ -1,121 +1,118 @@
 resourceType: patient
 name: Patient
 summary: 描述情境中的主要病人，包含身分識別、姓名、性別、生日、聯絡方式與管理機構。
+
+defaults:
+  with:
+    - patient.tw-core-defaults
+
 bindings:
+  - administrative-gender
+  - patient-contact-relationship
+  - contact-point-system
+  - contact-point-use
+
+references:
   organization:
     key: provider
-    name: Scenario organization
+    definition: 此情境主要照護或資料提供機構。
     resourceTypes:
       - organization
-    summary: 此情境主要照護或資料提供機構。
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 病人識別碼。
-    type: string
-    path: Patient.identifier.value
-    cardinality: 0..1
+    definition: 病歷號。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 病人識別碼系統。
+    path: patient.id
+  - id: idNumber
+    definition: 身分證字號。
     type: string
-    path: Patient.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/patient
-  - id: identityNumber
-    name: Identity Number
-    summary: 證件號碼
-    type: string
-    path: Patient.identifier.value
-    cardinality: 0..1
-    required: false
+    required: true
+    path: patient.idNumber
     default: $taiwanNationalId()
-  - id: identityType
-    name: Identity Type
-    summary: 證件類型
-    type: code
-    path: Patient.identifier.type.coding.code
-    cardinality: 0..1
+  - id: active
+    definition: 此基本資料是否使用中。
+    type: boolean
     required: false
-    default: NNxxx
+    path: patient.active
+    default: true
   - id: name
-    name: Name
-    summary: 姓名
+    definition: 姓名。
     type: string
-    path: Patient.name.text
-    cardinality: 0..1
-    required: false
+    required: true
+    path: patient.name
     default: $humanName()
-  - id: gender
-    name: Gender
-    summary: 病人性別
-    type: code
-    path: Patient.gender
-    cardinality: 0..1
-    required: false
-    default: $pick()
-    input:
-      oneOf:
-        - male
-        - female
-  - id: birthday
-    name: Birthday
-    summary: 出生日期
-    type: date
-    path: Patient.birthDate
-    cardinality: 0..1
-    required: false
-    default: $birthDate()
-    input:
-      gte: 0
-      lte: 120
   - id: telecomSystem
-    name: Telecom System
-    summary: 聯絡方式類型
+    definition: 聯絡方式類型。
     type: code
-    path: Patient.telecom.system
-    cardinality: 0..1
+    binding: contact-point-system
     required: false
+    path: patient.telecomSystem
     default: phone
   - id: telecomUse
-    name: Telecom Use
-    summary: 聯絡方式用途
+    definition: 聯絡方式用途。
     type: code
-    path: Patient.telecom.use
-    cardinality: 0..1
+    binding: contact-point-use
     required: false
+    path: patient.telecomUse
     default: mobile
   - id: telecomValue
-    name: Telecom Value
-    summary: 聯絡號碼/信箱
+    definition: 聯絡方式號碼/信箱。
     type: string
-    path: Patient.telecom.value
-    cardinality: 0..1
     required: false
+    path: patient.telecomValue
     default: $taiwanMobilePhone()
+  - id: gender
+    definition: 性別。
+    type: code
+    binding: administrative-gender
+    required: true
+    path: patient.gender
+    default: $random()
+  - id: birthDate
+    definition: 出生日期。
+    type: date
+    required: true
+    path: patient.birthDate
+    default: $birthDate(0, 120)
   - id: address
-    name: Address
-    summary: 通訊地址
+    definition: 地址。
     type: string
-    path: Patient.address.text
-    cardinality: 0..1
     required: false
+    path: patient.address
     default: $taiwanAddress()
   - id: organization
-    name: Organization
-    summary: 管理機構
+    definition: 此紀錄的保管機構。
     type: reference
-    path: Patient.managingOrganization.reference
-    cardinality: 0..1
+    reference: organization
     required: false
-    reference:
-      binding: organization
-  - id: active
-    name: Active
-    summary: 紀錄狀態。
+    path: patient.organization
+  - id: contactRelationship
+    definition: 聯絡人的關係。
+    type: code
+    binding: patient-contact-relationship
+    required: false
+    path: patient.contactRelationship
+  - id: contactName
+    definition: 聯絡人姓名。
     type: string
-    path: Patient.active
-    cardinality: 0..1
     required: false
+    path: patient.contactName
+  - id: contactTelecomSystem
+    definition: 聯絡人聯絡方式類型。
+    type: code
+    binding: contact-point-system
+    required: false
+    path: patient.contactTelecomSystem
+  - id: contactTelecomUse
+    definition: 聯絡人聯絡方式用途。
+    type: code
+    binding: contact-point-use
+    required: false
+    path: patient.contactTelecomUse
+  - id: contactTelecomValue
+    definition: 聯絡人聯絡方式號碼/信箱。
+    type: string
+    required: false
+    path: patient.contactTelecomValue

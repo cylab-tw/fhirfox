@@ -3,8 +3,10 @@ resourceType: medicationrequest
 summary: Metoprolol 25 mg by mouth twice daily.
 fields:
   dosageText: Metoprolol 25 mg by mouth twice daily.
-  doseUnit: "{tbl}"
+  doseCode: "{tbl}"
   doseValue: 1
-  durationUnit: d
+  durationCode: d
   durationValue: 28
   frequency: 2
+  routeCode: Route-0001
+  timingCode: Tim-0002

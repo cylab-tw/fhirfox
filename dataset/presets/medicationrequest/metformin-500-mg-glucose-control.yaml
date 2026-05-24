@@ -3,7 +3,9 @@ resourceType: medicationrequest
 summary: Metformin 500 mg by mouth twice daily for glucose control.
 fields:
   dosageText: Metformin 500 mg by mouth twice daily for glucose control.
-  doseUnit: mg
+  doseCode: mg
   doseValue: 500
   durationValue: 28
   frequency: 2
+  routeCode: Route-0001
+  timingCode: Tim-0002

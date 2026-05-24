@@ -15,5 +15,4 @@ fields:
       gte: 128
       lte: 142
       decimals: 0
-  valueUnit: mm[Hg]
   categoryCode: vital-signs

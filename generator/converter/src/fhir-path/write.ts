@@ -22,14 +22,7 @@ export function writeFhirValue(
 				const coercedValue = coerceValue(value, dataType);
 
 				if (mapping && segment.name === 'code') {
-					if (shouldWriteCodeDisplayAsUnit(previousSegment)) {
-						// MedicationRequest dosage units can be emitted as plain unit text,
-						// but observations still need coded UCUM quantities to satisfy their profiles.
-						if (parsedPath.resourceType === 'MedicationRequest') {
-							current.unit = mapping.display ?? coercedValue;
-							return;
-						}
-
+					if (shouldWriteCodeDisplayAsUnit(parsedPath.resourceType, previousSegment)) {
 						current.unit = mapping.display ?? coercedValue;
 						current[segment.name] = coercedValue;
 						current.system = mapping.system;
@@ -66,7 +59,11 @@ export function writeFhirValue(
 	}
 }
 
-function shouldWriteCodeDisplayAsUnit(previousSegment: ParsedSegment | undefined): boolean {
+function shouldWriteCodeDisplayAsUnit(resourceType: string, previousSegment: ParsedSegment | undefined): boolean {
+	if (resourceType === 'MedicationRequest') {
+		return false;
+	}
+
 	return previousSegment?.name.endsWith('Quantity') === true || previousSegment?.name.endsWith('Duration') === true;
 }
 

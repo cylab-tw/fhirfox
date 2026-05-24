@@ -1,4 +1,4 @@
-import type { SourceResource } from '#/model/index.js';
+import type { CodeMappingDefinition, SourceResource } from '#/model/index.js';
 
 /** Runtime options for deterministic scenario resolution. */
 export interface ResolveScenarioOptions {
@@ -10,6 +10,8 @@ export interface ResolveScenarioOptions {
 	generatedAt?: string;
 	/** Include a resolver trace for authoring and debugging tools. */
 	includeExplanation?: boolean;
+	/** Code mappings available to generators such as `$random({ binding })`. */
+	codeMappings?: CodeMappingDefinition[];
 }
 
 /** Metadata copied from the scenario plus resolution run statistics. */

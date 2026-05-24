@@ -1,151 +1,112 @@
 resourceType: observation
 name: Observation
-summary: 保存生命徵象、檢驗值或其他量測結果，包含項目代碼、數值、單位與量測時間。
+summary: 記錄生命徵象、檢驗值或其他觀察結果，包含狀態、分類、項目代碼、對象、就醫事件、量測時間、執行者、數值、單位與參考範圍。
+
 bindings:
+  - observation-status
+  - observation-category
+  - observation-code
+  - unitsofmeasure
+
+references:
+  subject:
+    definition: 此觀察結果的對象。
+    resourceTypes:
+      - patient
   encounter:
-    key: encounter
-    name: Scenario encounter
+    definition: 與此觀察結果相關的就醫事件。
     resourceTypes:
       - encounter
-    summary: 此情境相關就醫事件。
-  patient:
-    key: subject
-    name: Scenario patient
-    resourceTypes:
-      - patient
-    summary: 此情境主要病人。
   performer:
-    key: observation.performer
-    name: Scenario performer
+    definition: 負責產生此觀察結果的人或機構。
     resourceTypes:
-      - organization
-      - patient
       - practitioner
       - practitionerrole
-    summary: 此情境量測或執行者。
+      - organization
+      - patient
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 觀察識別碼
-    type: string
-    path: Observation.identifier.value
-    cardinality: 0..1
+    definition: 觀察結果識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 觀察識別碼系統
-    type: string
-    path: Observation.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/observation
+    path: observation.id
   - id: status
-    name: Status
-    summary: 狀態
+    definition: 觀察結果的狀態。
     type: code
-    path: Observation.status
-    cardinality: 0..1
-    required: false
+    binding: observation-status
+    required: true
+    path: observation.status
     default: final
   - id: categoryCode
-    name: Category Code
-    summary: 分類代碼
+    definition: 觀察結果的分類。
     type: code
-    path: Observation.category
-    cardinality: 0..1
-    required: false
+    binding: observation-category
+    required: true
+    path: observation.categoryCode
   - id: observationCode
-    name: Observation Code
-    summary: 量測項目
+    definition: 觀察結果的項目或代碼。
     type: code
-    path: Observation.code.coding.code
-    cardinality: 0..1
-    required: false
+    binding: observation-code
+    required: true
+    path: observation.observationCode
   - id: patientId
-    name: Patient Id
-    summary: 病人
+    definition: 此觀察結果對象的病人 ID。
     type: reference
-    path: Observation.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
+    reference: subject
+    required: true
+    path: observation.patientId
   - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
+    definition: 與此觀察結果相關的就醫事件 ID。
     type: reference
-    path: Observation.encounter.reference
-    cardinality: 0..1
+    reference: encounter
     required: false
-    reference:
-      binding: encounter
+    path: observation.encounterId
   - id: effectiveDate
-    name: Effective Date
-    summary: 量測時間
-    type: datetime
-    path: Observation.effectiveDateTime
-    cardinality: 0..1
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
+    definition: 觀察結果臨床相關時間。
+    type: dateTime
+    required: true
+    path: observation.effectiveDate
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: performerId
-    name: Performer Id
-    summary: 量測人員
+    definition: 負責產生此觀察結果的人或機構 ID。
     type: reference
-    path: Observation.performer.reference
-    cardinality: 0..1
+    reference: performer
     required: false
-    reference:
-      binding: performer
+    path: observation.performerId
   - id: valueQuantity
-    name: Value Quantity
-    summary: 測量數值
+    definition: 觀察結果的測量數值。
     type: number
-    path: Observation.valueQuantity.value
-    cardinality: 0..1
     required: false
+    path: observation.valueQuantity
   - id: valueUnit
-    name: Value Unit
-    summary: 測量單位
+    definition: 觀察結果測量數值的單位。
     type: code
-    path: Observation.valueQuantity.unit
-    cardinality: 0..1
+    binding: unitsofmeasure
     required: false
+    path: observation.valueUnit
   - id: dataAbsentReason
-    name: Data Absent Reason
-    summary: 缺失原因
+    definition: 觀察結果資料缺失的原因。
     type: string
-    path: Observation.dataAbsentReason
-    cardinality: 0..1
     required: false
-  - id: rangeLow
-    name: Range Low
-    summary: 參考下限
-    type: number
-    path: Observation.referenceRange.low
-    cardinality: 0..1
-    required: false
-  - id: rangeHigh
-    name: Range High
-    summary: 參考上限
-    type: number
-    path: Observation.referenceRange.high
-    cardinality: 0..1
-    required: false
+    path: observation.dataAbsentReason
   - id: systolicValue
-    name: Systolic Value
-    summary: 收縮壓數值
+    definition: 血壓觀察結果中的收縮壓數值。
     type: number
-    path: Observation.component.valueQuantity.value
-    cardinality: 0..1
     required: false
+    path: observation.systolicValue
   - id: diastolicValue
-    name: Diastolic Value
-    summary: 舒張壓數值
+    definition: 血壓觀察結果中的舒張壓數值。
     type: number
-    path: Observation.component.valueQuantity.value
-    cardinality: 0..1
     required: false
+    path: observation.diastolicValue
+  - id: rangeLow
+    definition: 參考範圍下限。
+    type: number
+    required: false
+    path: observation.rangeLow
+  - id: rangeHigh
+    definition: 參考範圍上限。
+    type: number
+    required: false
+    path: observation.rangeHigh

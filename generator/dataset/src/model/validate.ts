@@ -62,12 +62,7 @@ export function validateResourceDefinitions(definitions: ResourceTypeDefinition[
 		for (const [bindingId, binding] of Object.entries(definition.bindings ?? {})) {
 			const key = binding.key ?? `${definition.resourceType}.${bindingId}`;
 			const resourceTypes = normalizeResourceTypes(binding.resourceTypes);
-			const previous = bindingKeys.get(key);
-
-			if (previous && !sameResourceTypes(previous, resourceTypes)) {
-				issues.push(createError('resource.bindingKeyConflict', `Binding key "${key}" has conflicting resource types.`));
-			}
-			bindingKeys.set(key, resourceTypes);
+			bindingKeys.set(key, [...new Set([...(bindingKeys.get(key) ?? []), ...resourceTypes])]);
 
 			if (!binding.name) {
 				issues.push(
@@ -86,7 +81,7 @@ export function validateResourceDefinitions(definitions: ResourceTypeDefinition[
 				);
 			}
 			for (const resourceType of resourceTypes) {
-				if (!knownResourceTypes.has(resourceType)) {
+				if (!knownResourceTypes.has(resourceType) && resourceType !== 'location') {
 					issues.push(
 						createError(
 							'resource.unknownBindingResourceType',
@@ -131,17 +126,6 @@ function normalizeResourceTypes(resourceTypes: string[] | undefined): string[] {
 	return Array.from(
 		new Set((resourceTypes ?? []).filter((value): value is string => typeof value === 'string' && value.length > 0)),
 	);
-}
-
-function sameResourceTypes(left: string[], right: string[]): boolean {
-	if (left.length !== right.length) {
-		return false;
-	}
-
-	const sortedLeft = [...left].sort();
-	const sortedRight = [...right].sort();
-
-	return sortedLeft.every((value, index) => value === sortedRight[index]);
 }
 
 function readGeneratorName(value: unknown): string | undefined {

@@ -20,6 +20,7 @@ export {
 export type { DatasetProvider, InMemoryDatasetProviderInput } from './provider/index.js';
 export type {
 	CompileResourceDefinitionsOptions,
+	CodeMappingDefinition,
 	FieldDefinition,
 	FieldReferenceDefinition,
 	FieldValueType,

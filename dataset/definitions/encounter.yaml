@@ -1,233 +1,150 @@
 resourceType: encounter
 name: Encounter
-summary: 表示一次門診、急診或住院就醫事件，串接病人、機構、參與人員與診斷脈絡。
+summary: 表示病人與健康照護服務提供者互動的一次就醫事件，包含狀態、分類、病人、期間、參與人員、診斷與服務機構。
+
+defaults:
+  with:
+    - encounter.tw-core-defaults
+
 bindings:
-  condition:
-    key: condition
-    name: Scenario condition
-    resourceTypes:
-      - condition
-    summary: 此情境診斷/處置。
-  patient:
-    key: subject
-    name: Scenario patient
+  - encounter-status
+  - encounter-type
+  - v3-ActCode
+  - service-type
+  - condition-code
+  - v3-ParticipationType
+  - diagnosis-role
+  - admit-source
+  - discharge-disposition
+
+references:
+  subject:
+    definition: 此就醫事件的病人。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
   practitioner:
-    key: practitioner
-    name: Scenario practitioner
+    definition: 參與此就醫事件的個人或角色。
     resourceTypes:
-      - practitionerrole
       - practitioner
-    summary: 此情境醫事人員。
+      - practitionerrole
+  condition:
+    definition: 與此就醫事件相關的診斷。
+    resourceTypes:
+      - condition
   serviceProvider:
     key: provider
-    name: Scenario service provider
+    definition: 負責此就醫事件的機構。
     resourceTypes:
       - organization
-    summary: 此情境主要照護或資料提供機構。
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 就醫識別碼
-    type: string
-    path: Encounter.identifier.value
-    cardinality: 0..1
+    definition: 就醫識別碼。
+    type: identifier
     required: true
+    path: encounter.id
     default: $id("encounter")
   - id: idSystem
-    name: Id System
-    summary: 就醫識別碼系統
+    definition: 就醫識別碼所屬系統。
     type: string
-    path: Encounter.identifier.system
-    cardinality: 0..1
     required: false
-    default: https://fhirfox.dev/identifier-system/encounter
+    path: encounter.idSystem
+    default: https://www.tph.mohw.gov.tw/fhir/encounter
   - id: status
-    name: Status
-    summary: 就醫狀態
+    definition: 就醫事件目前的狀態。
     type: code
-    path: Encounter.status
-    cardinality: 0..1
-    required: false
+    binding: encounter-status
+    required: true
+    path: encounter.status
     default: finished
   - id: class
-    name: Class
-    summary: 就醫分類
+    definition: 就醫事件的分類，例如門診、急診或住院。
     type: code
-    path: Encounter.class
-    cardinality: 0..1
-    required: false
-    default: $case()
-    input:
-      source: encounterProfile
-      default: AMB
-      cases:
-        family-medicine-outpatient:
-          serviceType: "01"
-        pediatrics-outpatient:
-          serviceType: "10"
-        endocrinology-outpatient:
-          serviceType: endo
-        cardiology-outpatient:
-          serviceType: cardiology
-        emergency-visit:
-          class: EMER
-          serviceType: emergency
-        emergency-visit-from-ed:
-          class: EMER
-          serviceType: emergency
-          admitSource: emd
-        inpatient-stay-from-ed-home:
-          class: IMP
-          serviceType: inpatient
-          admitSource: emd
-          dischargeDisposition: home
-        cardiology-inpatient-discharge-home:
-          class: IMP
-          serviceType: cardiology
-          dischargeDisposition: home
+    binding: v3-ActCode
+    required: true
+    path: encounter.class
   - id: type
-    name: Type
-    summary: 就醫種類。
-    type: string
-    path: Encounter.type
-    cardinality: 0..1
-    required: false
-  - id: patientId
-    name: Patient Id
-    summary: 就醫病人
-    type: reference
-    path: Encounter.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
-  - id: periodStart
-    name: Period Start
-    summary: 開始時間
-    type: datetime
-    path: Encounter.period.start
-    cardinality: 0..1
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: periodEnd
-    name: Period End
-    summary: 結束時間
-    type: datetime
-    path: Encounter.period.end
-    cardinality: 0..1
-    required: false
-    default: $addMinutes($value('periodStart'), 25)
-  - id: participantType
-    name: Participant Type
-    summary: 參與者角色
+    definition: 就醫事件的型態。
     type: code
-    path: Encounter.participant.type
-    cardinality: 0..1
+    binding: encounter-type
     required: false
+    path: encounter.type
+  - id: reasonCode
+    definition: 此次就醫的主要原因。
+    type: code
+    binding: condition-code
+    required: false
+    path: encounter.reasonCode
+  - id: serviceType
+    definition: 就醫事件提供的服務類型或科別。
+    type: code
+    binding: service-type
+    required: false
+    path: encounter.serviceType
+  - id: serviceTypeText
+    definition: 就醫事件服務類型或科別文字描述。
+    type: string
+    required: false
+    path: encounter.serviceTypeText
+  - id: patientId
+    definition: 此就醫事件的病人 ID。
+    type: reference
+    reference: subject
+    required: true
+    path: encounter.patientId
+  - id: periodStart
+    definition: 就醫事件開始時間。
+    type: dateTime
+    required: false
+    path: encounter.periodStart
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
+  - id: periodEnd
+    definition: 就醫事件結束時間。
+    type: dateTime
+    required: false
+    path: encounter.periodEnd
+    default: $addMinutes($value('periodStart'), 25)
+  - id: serviceProviderId
+    definition: 負責此就醫事件的機構 ID。
+    type: reference
+    reference: serviceProvider
+    required: false
+    path: encounter.serviceProviderId
+  - id: participantType
+    definition: 參與者在就醫事件中的角色。
+    type: code
+    binding: v3-ParticipationType
+    required: false
+    path: encounter.participantType
     default: ATND
   - id: practitionerId
-    name: Practitioner Id
-    summary: 醫事人員
+    definition: 參與此就醫事件的人員或角色 ID。
     type: reference
-    path: Encounter.participant.individual.reference
-    cardinality: 0..1
+    reference: practitioner
     required: false
-    reference:
-      binding: practitioner
+    path: encounter.practitionerId
   - id: conditionId
-    name: Condition Id
-    summary: 診斷/處置
+    definition: 與此就醫事件相關的診斷 ID。
     type: reference
-    path: Encounter.diagnosis.condition.reference
-    cardinality: 0..1
+    reference: condition
     required: false
-    reference:
-      binding: condition
+    path: encounter.conditionId
   - id: diagnosisUse
-    name: Diagnosis Use
-    summary: 診斷作用
+    definition: 此診斷在就醫事件中的用途。
     type: code
-    path: Encounter.diagnosis.use
-    cardinality: 0..1
+    binding: diagnosis-role
     required: false
+    path: encounter.diagnosisUse
     default: AD
   - id: admitSource
-    name: Admit Source
-    summary: 入院來源
+    definition: 病人入院來源。
     type: code
-    path: Encounter.hospitalization.admitSource
-    cardinality: 0..1
+    binding: admit-source
     required: false
-    default: $case()
-    input:
-      source: encounterProfile
-      cases: &a1
-        family-medicine-outpatient:
-          serviceType: "01"
-        pediatrics-outpatient:
-          serviceType: "10"
-        endocrinology-outpatient:
-          serviceType: endo
-        cardiology-outpatient:
-          serviceType: cardiology
-        emergency-visit:
-          class: EMER
-          serviceType: emergency
-        emergency-visit-from-ed:
-          class: EMER
-          serviceType: emergency
-          admitSource: emd
-        inpatient-stay-from-ed-home:
-          class: IMP
-          serviceType: inpatient
-          admitSource: emd
-          dischargeDisposition: home
-        cardiology-inpatient-discharge-home:
-          class: IMP
-          serviceType: cardiology
-          dischargeDisposition: home
+    path: encounter.admitSource
   - id: dischargeDisposition
-    name: Discharge Disposition
-    summary: 出院處置
+    definition: 病人離院或出院時的處置。
     type: code
-    path: Encounter.hospitalization.dischargeDisposition
-    cardinality: 0..1
+    binding: discharge-disposition
     required: false
-    default: $case()
-    input:
-      source: encounterProfile
-      cases: *a1
-  - id: serviceType
-    name: Service Type
-    summary: 就醫科別
-    type: code
-    path: Encounter.serviceType
-    cardinality: 0..1
-    required: false
-    default: $case()
-    input:
-      source: encounterProfile
-      cases: *a1
-  - id: locationId
-    name: Location Id
-    summary: 就醫地點
-    type: string
-    path: Encounter.location.location.reference
-    cardinality: 0..1
-    required: false
-  - id: serviceProviderId
-    name: Service Provider Id
-    summary: 主責機構
-    type: reference
-    path: Encounter.serviceProvider.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: serviceProvider
+    path: encounter.dischargeDisposition

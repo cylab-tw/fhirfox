@@ -36,6 +36,9 @@ export function materializeResource(input: MaterializeInput): MaterializedResour
 	const plans = createFieldPlans(input.definition.fields);
 	const provenanceEntries: ResourceFieldProvenance[] = [];
 	const values: Record<string, unknown> = {};
+	const codeMappingByField = Object.fromEntries(
+		input.definition.fields.flatMap((field) => (field.binding ? [[field.id, field.binding]] : [])),
+	);
 
 	for (const preset of input.presets) {
 		for (const [field, value] of Object.entries(preset.fields ?? {})) {
@@ -62,6 +65,8 @@ export function materializeResource(input: MaterializeInput): MaterializedResour
 		alias: input.resource.alias,
 		inputs: input.resource.inputs ?? {},
 		values,
+		codeMappings: input.context.options.codeMappings,
+		codeMappingByField,
 		nextId: (resourceType: string) => input.context.nextId(resourceType),
 		random: (key: string) => input.context.random(`${input.resource.alias}:${key}`),
 		ref: input.ref,

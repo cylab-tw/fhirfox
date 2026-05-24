@@ -1,145 +1,103 @@
 resourceType: condition
 name: Condition
-summary: 描述病人的診斷、主訴或臨床問題，並連結到對應就醫事件與紀錄時間。
+summary: 描述病人的病情、問題或診斷，並連結到紀錄時間。
+
 bindings:
-  encounter:
-    key: encounter
-    name: Scenario encounter
-    resourceTypes:
-      - encounter
-    summary: 此情境相關就醫事件。
-  patient:
-    key: subject
-    name: Scenario patient
+  - condition-clinical
+  - condition-ver-status
+  - condition-category
+  - condition-severity
+  - condition-code
+
+references:
+  subject:
+    definition: 有此病情、問題或診斷的病人。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
-  recorder:
-    key: recorder
-    name: Scenario recorder
+  asserter:
+    key: subject
+    definition: 聲稱有此病情、問題或診斷的人。
     resourceTypes:
       - patient
       - practitioner
       - practitionerrole
-    summary: 此情境紀錄者。
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 診斷識別碼
-    type: string
-    path: Condition.identifier.value
-    cardinality: 0..1
+    definition: 診斷識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 診斷識別碼系統
-    type: string
-    path: Condition.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/condition
+    path: condition.id
   - id: clinicalStatus
-    name: Clinical Status
-    summary: 臨床狀態
+    definition: 病情、問題或診斷的臨床狀態。
     type: code
-    path: Condition.clinicalStatus
-    cardinality: 0..1
-    required: false
+    binding: condition-clinical
+    required: true
+    path: condition.clinicalStatus
     default: active
   - id: verificationStatus
-    name: Verification Status
-    summary: 驗證狀態
+    definition: 病情、問題或診斷的臨床狀態的驗證狀態。
     type: code
-    path: Condition.verificationStatus
-    cardinality: 0..1
+    binding: condition-ver-status
     required: false
+    path: condition.verificationStatus
     default: confirmed
   - id: category
-    name: Category
-    summary: 分類
+    definition: 病情、問題或診斷的類別。
     type: code
-    path: Condition.category
-    cardinality: 0..1
-    required: false
+    binding: condition-category
+    required: true
+    path: condition.category
     default: encounter-diagnosis
   - id: severity
-    name: Severity
-    summary: 嚴重程度
+    definition: 病情、問題或診斷的主觀嚴重程度。
     type: code
-    path: Condition.severity
-    cardinality: 0..1
+    binding: condition-severity
     required: false
+    path: condition.severity
+    default: "255604002"
   - id: conditionCode
-    name: Condition Code
-    summary: 疾病/問題代碼
+    definition: 病情、問題或診斷的識別。
     type: code
-    path: Condition.code.coding.code
-    cardinality: 0..1
-    required: false
+    binding: condition-code
+    required: true
+    path: condition.conditionCode
   - id: conditionText
-    name: Condition Text
-    summary: 疾病/問題名稱
+    definition: 病情、問題或診斷的識別。
     type: string
-    path: Condition.code.text
-    cardinality: 0..1
-    required: false
+    required: true
+    path: condition.conditionText
   - id: patientId
-    name: Patient Id
-    summary: 病人
+    definition: 有此病情、問題或診斷的病人。
     type: reference
-    path: Condition.subject.reference
-    cardinality: 0..1
+    reference: subject
     required: false
-    reference:
-      binding: patient
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: Condition.encounter.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: encounter
+    path: condition.patientId
   - id: onsetDate
-    name: Onset Date
-    summary: 發病時間
-    type: datetime
-    path: Condition.onsetDateTime
-    cardinality: 0..1
+    definition: 估計的或實際的日期。
+    type: dateTime
     required: false
+    path: condition.onsetDate
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: abatementDate
-    name: Abatement Date
-    summary: 緩解/解決時間
-    type: datetime
-    path: Condition.abatementDateTime
-    cardinality: 0..1
+    definition: 何時解決/緩解。
+    type: dateTime
     required: false
-  - id: recordedDate
-    name: Recorded Date
-    summary: 記錄日期
-    type: datetime
-    path: Condition.recordedDate
-    cardinality: 0..1
-    required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
-  - id: recorderId
-    name: Recorder Id
-    summary: 記錄者
+    path: condition.abatementDate
+  - id: asserterId
+    definition: 聲稱有此病情、問題或診斷的人。
     type: reference
-    path: Condition.recorder.reference
-    cardinality: 0..1
+    reference: asserter
     required: false
-    reference:
-      binding: recorder
+    path: condition.asserterId
+  - id: recorderId
+    definition: 記錄此診斷的臨床人員或角色。
+    type: reference
+    reference: asserter
+    required: false
+    path: condition.recorderId
   - id: note
-    name: Note
-    summary: 備註
+    definition: 診斷補充說明。
     type: string
-    path: Condition.note.text
-    cardinality: 0..1
     required: false
+    path: condition.note
+    default: 依臨床評估持續追蹤。

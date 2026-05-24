@@ -14,7 +14,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject
@@ -113,7 +113,6 @@ resources:
   - alias: condition.emergency-head-injury
     resourceType: condition
     references:
-      encounterId: encounter.emergency-head-injury-visit
       recorderId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - condition.emergency-head-injury

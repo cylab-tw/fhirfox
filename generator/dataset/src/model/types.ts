@@ -24,8 +24,27 @@ export interface ResourceBindingDefinition {
 	summary?: string;
 }
 
+/** Relationship slot shape used by the new resource definition authoring format. */
+export interface ResourceReferenceDefinition {
+	/** Optional global binding key; defaults to the reference id. */
+	key?: string;
+	/** Human-readable relationship description. */
+	definition?: string;
+	/** Resource types expected to fill this relationship slot. */
+	resourceTypes: string[];
+}
+
 /** Value kinds that dataset authors can assign to generated source fields. */
-export type FieldValueType = 'string' | 'number' | 'boolean' | 'date' | 'datetime' | 'code' | 'reference';
+export type FieldValueType =
+	| 'string'
+	| 'number'
+	| 'boolean'
+	| 'date'
+	| 'datetime'
+	| 'dateTime'
+	| 'code'
+	| 'identifier'
+	| 'reference';
 
 /** Fallback value used when a field is not set by a preset or scenario. */
 export type FieldDefaultValue = string | number | boolean | null | Array<unknown> | Record<string, unknown>;
@@ -47,6 +66,8 @@ export interface FieldDefinition {
 	name: string;
 	/** Optional short description for UI display and dataset authors. */
 	summary?: string;
+	/** Author-facing field definition in the authored dataset format. */
+	definition?: string;
 	/** Optional free-form Markdown details for longer field guidance. */
 	details?: string;
 	/** Authoring-level value kind expected for this field. */
@@ -65,6 +86,8 @@ export interface FieldDefinition {
 	input?: GeneratorInput;
 	/** Reference metadata used when this field stores another record's id. */
 	reference?: FieldReferenceDefinition;
+	/** Code mapping key used by code fields in the authored dataset format. */
+	binding?: string;
 }
 
 /** Defines one kind of generated source record, such as patient or encounter. */
@@ -79,6 +102,8 @@ export interface ResourceTypeDefinition {
 	defaults?: ResourceTypeDefaults;
 	/** Relationship slots this resource type exposes to presets and scenarios. */
 	bindings?: Record<string, ResourceBindingDefinition>;
+	/** Relationship slots in the authored dataset format. */
+	references?: Record<string, ResourceReferenceDefinition>;
 	/** Fields available on generated records of this resource type. */
 	fields: FieldDefinition[];
 }
@@ -100,3 +125,14 @@ export type SourceResource = Record<string, unknown> & {
 	/** Stable id emitted for references and graph keys. */
 	id: string;
 };
+
+/** Code mapping row available to seeded generators for binding-backed values. */
+export interface CodeMappingDefinition {
+	mappingKey: string;
+	sourceCode: string;
+	targetCode?: string;
+	targetDisplay?: string;
+	targetSystem?: string;
+	displayZhTw?: string;
+	isActive?: boolean;
+}

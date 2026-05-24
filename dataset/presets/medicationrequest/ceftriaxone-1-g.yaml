@@ -3,7 +3,9 @@ resourceType: medicationrequest
 summary: Ceftriaxone 1 g IV every 24 hours for pneumonia.
 fields:
   dosageText: Ceftriaxone 1 g IV every 24 hours for pneumonia.
-  doseUnit: g
+  doseCode: g
   doseValue: 1
   durationValue: 5
   frequency: 1
+  routeCode: Route-0002
+  timingCode: Tim-0001

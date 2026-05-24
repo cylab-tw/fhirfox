@@ -6,6 +6,10 @@ import {
 	getSourcePreviewResourceItems,
 	isLowReadabilityIdentifier,
 } from '../src/lib/resource-preview.js';
+import {
+	createScenarioBrowserJsonViewerExtensionsForValue,
+	getSourceResourceLinkTarget,
+} from '../src/helpers/scenario-browser/json-viewer-adapter.js';
 import { formatSourceResourceType } from '../src/lib/source-resource-display.js';
 import { attachScenarioResourceMapping } from '../src/resource-mapping.js';
 
@@ -39,6 +43,94 @@ test('source preview items preserve explicit source mapping keys', () => {
 		items.map((item) => item.sourceKey),
 		['patient/3', 'encounter/5'],
 	);
+});
+
+test('FHIR reference docs resolve through normalized converter paths', () => {
+	const link = getSourceResourceLinkTarget(
+		'reference',
+		['root', 'subject', 'reference'],
+		'urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b',
+		{ reference: 'urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b' },
+		'encounter',
+		{
+			'encounter.subject.reference': {
+				description: 'Subject reference',
+				reference: 'patient',
+			},
+		},
+	);
+
+	assert.equal(link, 'patient/urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b');
+});
+
+test('field docs show one relevant FHIR path and required metadata', () => {
+	const extensions = createScenarioBrowserJsonViewerExtensionsForValue({
+		value: {
+			resourceType: 'Patient',
+			identifier: [{ value: 'MR123' }],
+		},
+		sourceFieldDocs: {
+			'patient.identifier.value': {
+				description: '病歷號。',
+				required: true,
+				fhirMapping:
+					'Patient.identifier[0].value, Patient.identifier[0].use, Patient.identifier[0].type.coding[0].system',
+			},
+		},
+		sourceCodeDisplayMap: {},
+		docsEnabled: true,
+		showCodeDisplayValues: false,
+	});
+
+	const doc = extensions.resolveFieldDoc?.({
+		keyName: 'value',
+		keys: ['root', 'identifier', 0, 'value'],
+		value: 'MR123',
+		parentValue: { value: 'MR123' },
+	} as never);
+
+	assert.deepEqual(doc, {
+		description: '病歷號。',
+		metadata: [
+			{ label: 'FHIR', value: 'Patient.identifier[0].value' },
+			{ label: '必填', value: '是' },
+		],
+	});
+});
+
+test('FHIR bundle reference annotations show target resource names for urn fullUrls', () => {
+	const extensions = createScenarioBrowserJsonViewerExtensionsForValue({
+		value: {
+			resourceType: 'Bundle',
+			type: 'collection',
+			entry: [
+				{
+					fullUrl: 'urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b',
+					resource: { resourceType: 'Patient' },
+				},
+			],
+		},
+		sourceFieldDocs: {},
+		sourceCodeDisplayMap: {},
+		docsEnabled: true,
+		showCodeDisplayValues: false,
+	});
+
+	const annotations = extensions.resolveAnnotations?.({
+		keyName: 'reference',
+		keys: ['root', 'entry', 1, 'resource', 'subject', 'reference'],
+		value: 'urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b',
+		parentValue: { reference: 'urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b' },
+	} as never);
+
+	assert.deepEqual(annotations, [
+		{
+			type: 'text',
+			text: 'Patient',
+			title: 'Patient',
+			key: 'fhir-reference:Patient:urn:uuid:9a9f5cf1-bf55-4f7b-a8c4-d04c9fbf7e7b',
+		},
+	]);
 });
 
 test('bundle preview items follow explicit source-key ordering', () => {
@@ -129,7 +221,7 @@ test('source preview subtitles cover medication and report resources', () => {
 						__resourceType: 'medicationrequest',
 						dosageText: 'Take one tablet daily',
 						doseValue: 1,
-						doseUnit: '{tbl}',
+						doseCode: '{tbl}',
 						status: 'active',
 					},
 				],
@@ -159,7 +251,7 @@ test('source preview subtitles cover medication and report resources', () => {
 					__resourceType: 'medicationrequest',
 					dosageText: 'Take one tablet daily',
 					doseValue: 1,
-					doseUnit: '{tbl}',
+					doseCode: '{tbl}',
 					status: 'active',
 				},
 				{
@@ -196,7 +288,7 @@ test('source preview subtitles cover medication and report resources', () => {
 
 	const items = getSourcePreviewResourceItems(result, {
 		'medication.code:Med-0001': 'Acetaminophen 500 mg',
-		'medicationrequest.doseUnit:{tbl}': 'tablet',
+		'medicationrequest.doseCode:{tbl}': 'tablet',
 		'medicationrequest.status:active': 'Active',
 		'diagnosticreport.reportCode:Rep-0007': 'Chest imaging report',
 		'diagnosticreport.categoryCode:RAD': 'Radiology',
@@ -255,7 +347,7 @@ test('bundle preview titles use primary identifier when resource id is omitted',
 				resource: {
 					resourceType: 'Patient',
 					identifier: [
-						{ value: '1', system: 'https://fhirfox.dev/identifier-system/patient' },
+						{ value: '1', system: 'https://www.tph.mohw.gov.tw' },
 						{ value: 'M139140596', system: 'http://www.moi.gov.tw' },
 					],
 				},
@@ -303,7 +395,7 @@ test('preview titles suppress UUID-like identifiers for readability', () => {
 				resource: {
 					resourceType: 'Patient',
 					id: uuid,
-					identifier: [{ value: 'P-001', system: 'https://fhirfox.dev/identifier-system/patient' }],
+					identifier: [{ value: 'P-001', system: 'https://www.tph.mohw.gov.tw' }],
 					name: [{ text: 'Pat' }],
 				},
 			},

@@ -9,6 +9,7 @@ import { caseNumberGenerator } from '#/generators/builtins/case-number.js';
 import { humanNameGenerator } from '#/generators/builtins/human-name.js';
 import { inputGenerator } from '#/generators/builtins/input.js';
 import { numberGenerator } from '#/generators/builtins/number.js';
+import { randomGenerator } from '#/generators/builtins/random.js';
 import { taiwanAddressGenerator } from '#/generators/builtins/taiwan-address.js';
 import { taiwanMobilePhoneGenerator } from '#/generators/builtins/taiwan-mobile-phone.js';
 import { taiwanNationalIdGenerator } from '#/generators/builtins/taiwan-national-id.js';
@@ -82,6 +83,102 @@ test('numberGenerator supports decimal bounds for clinical values', () => {
 	assert.equal(value, 0.04);
 });
 
+test('randomGenerator returns a seeded random number', () => {
+	const a = randomGenerator([], context({ seed: 'seed-a', random: createSeededRandom('seed-a') }));
+	const b = randomGenerator([], context({ seed: 'seed-b', random: createSeededRandom('seed-b') }));
+
+	assert.equal(a, randomGenerator([], context({ seed: 'seed-a', random: createSeededRandom('seed-a') })));
+	assert.notEqual(a, b);
+});
+
+test('randomGenerator selects deterministic values from explicit candidates', () => {
+	const value = randomGenerator([{ oneOf: ['planned', 'finished', 'cancelled'] }], context());
+
+	assert.ok(['planned', 'finished', 'cancelled'].includes(String(value)));
+	assert.equal(value, randomGenerator([{ oneOf: ['planned', 'finished', 'cancelled'] }], context()));
+	assert.notEqual(value, randomGenerator([{ oneOf: ['planned', 'finished', 'cancelled'] }], context({ field: 'status2' })));
+});
+
+test('randomGenerator selects deterministic source codes from code mappings', () => {
+	const codeMappings = [
+		{
+			mappingKey: 'encounter-status',
+			sourceCode: 'planned',
+			targetCode: 'planned',
+			targetSystem: 'http://hl7.org/fhir/encounter-status',
+			isActive: true,
+		},
+		{
+			mappingKey: 'encounter-status',
+			sourceCode: 'finished',
+			targetCode: 'finished',
+			targetSystem: 'http://hl7.org/fhir/encounter-status',
+			isActive: true,
+		},
+		{
+			mappingKey: 'encounter-status',
+			sourceCode: 'inactive',
+			targetCode: 'inactive',
+			targetSystem: 'http://hl7.org/fhir/encounter-status',
+			isActive: false,
+		},
+	];
+	const value = randomGenerator([{ binding: 'encounter-status' }], context({ codeMappings }));
+
+	assert.ok(['planned', 'finished'].includes(String(value)));
+	assert.equal(value, randomGenerator([{ binding: 'encounter-status' }], context({ codeMappings })));
+	assert.notEqual(value, 'inactive');
+});
+
+test('randomGenerator infers the current field code mapping', () => {
+	const codeMappings = [
+		{
+			mappingKey: 'administrative-gender',
+			sourceCode: 'male',
+			targetCode: 'male',
+			targetSystem: 'http://hl7.org/fhir/administrative-gender',
+			isActive: true,
+		},
+		{
+			mappingKey: 'administrative-gender',
+			sourceCode: 'female',
+			targetCode: 'female',
+			targetSystem: 'http://hl7.org/fhir/administrative-gender',
+			isActive: true,
+		},
+	];
+	const value = randomGenerator(
+		[],
+		context({
+			field: 'gender',
+			codeMappings,
+			codeMappingByField: { gender: 'administrative-gender' },
+		}),
+	);
+
+	assert.ok(['male', 'female'].includes(String(value)));
+});
+
+test('randomGenerator can select target fields from code mappings', () => {
+	const value = randomGenerator(
+		[{ codeMap: 'administrative-gender', value: 'targetDisplay' }],
+		context({
+			codeMappings: [
+				{
+					mappingKey: 'administrative-gender',
+					sourceCode: 'male',
+					targetCode: 'male',
+					targetDisplay: 'Male',
+					targetSystem: 'http://hl7.org/fhir/administrative-gender',
+					isActive: true,
+				},
+			],
+		}),
+	);
+
+	assert.equal(value, 'Male');
+});
+
 test('inputGenerator reads field-scoped scenario input', () => {
 	const value = inputGenerator([], context({ field: 'code', inputs: { code: 'Lab-0001' } }));
 
@@ -138,9 +235,11 @@ test('birthDateGenerator supports age bounds from scenario inputs', () => {
 	const now = new Date('2026-05-07T00:00:00.000Z');
 	const adult = birthDateGenerator([{ gt: 18, lte: 64 }], context({ now }));
 	const child = birthDateGenerator([{ gte: 0, lt: 12 }], context({ now, alias: 'patient-child' }));
+	const adultFromDefaultRange = birthDateGenerator([0, 120, { gt: 18 }], context({ now }));
 
 	assert.ok(ageOn(adult, now) > 18);
 	assert.ok(ageOn(adult, now) <= 64);
+	assert.ok(ageOn(adultFromDefaultRange, now) > 18);
 	assert.ok(ageOn(child, now) >= 0);
 	assert.ok(ageOn(child, now) < 12);
 });
@@ -197,7 +296,7 @@ test('literal field defaults stay literal during materialization', () => {
 	assert.equal(result.resource.sequence, '1');
 });
 
-test('encounter id system defaults with the generated id', () => {
+test('generated ids do not synthesize identifier systems', () => {
 	const result = materializeResource({
 		resource: {
 			alias: 'encounter-1',
@@ -216,14 +315,6 @@ test('encounter id system defaults with the generated id', () => {
 					required: true,
 					default: '$id("encounter")',
 				},
-				{
-					id: 'idSystem',
-					name: 'Identifier System',
-					type: 'string',
-					path: 'Encounter.identifier.system',
-					required: false,
-					default: 'https://fhirfox.dev/identifier-system/encounter',
-				},
 			],
 		},
 		presets: [],
@@ -233,6 +324,6 @@ test('encounter id system defaults with the generated id', () => {
 	});
 
 	assert.equal(result.resource.id, '1');
-	assert.equal(result.resource.idSystem, 'https://fhirfox.dev/identifier-system/encounter');
+	assert.equal(result.resource.idSystem, undefined);
 	assert.equal(result.resource.identifier, undefined);
 });

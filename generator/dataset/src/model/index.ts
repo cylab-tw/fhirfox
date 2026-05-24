@@ -5,6 +5,7 @@ export { validateResourceDefinitions } from './validate.js';
 
 export type {
 	CompileResourceDefinitionsOptions,
+	CodeMappingDefinition,
 	FieldDefaultValue,
 	FieldDefinition,
 	FieldReferenceDefinition,

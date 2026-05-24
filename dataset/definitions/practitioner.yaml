@@ -1,125 +1,106 @@
 resourceType: practitioner
 name: Practitioner
-summary: 描述參與照護的醫事人員，包含人員識別、姓名、資格與所屬機構。
+summary: 描述直接或間接參與照護的健康照護服務提供者，包含識別、姓名、聯絡方式、性別、生日與資格。
+
 bindings:
-  organization:
+  - administrative-gender
+  - contact-point-system
+  - contact-point-use
+  - practitioner-qualification-code
+
+references:
+  qualificationIssuer:
     key: provider
-    name: Scenario organization
+    definition: 核發此人員資格的機構。
     resourceTypes:
       - organization
-    summary: 此情境主要照護或資料提供機構。
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 醫事人員識別碼
-    type: string
-    path: Practitioner.identifier.value
-    cardinality: 0..1
+    definition: 健康照護服務提供者識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 醫事人員識別碼系統
+    path: practitioner.id
+  - id: medicalLicenseNumber
+    definition: 健康照護服務提供者的醫事人員證書號碼。
     type: string
-    path: Practitioner.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/practitioner
-  - id: identityNumber
-    name: Identity Number
-    summary: 證件號碼
+    required: true
+    path: practitioner.medicalLicenseNumber
+    default: $random()
+    input:
+      oneOf:
+        - 醫字第012345號
+        - 醫字第045678號
+        - 醫字第078901號
+        - 醫字第102345號
+        - 醫字第135790號
+  - id: medicalLicenseSystem
+    definition: 醫事人員證書號碼所屬系統。
     type: string
-    path: Practitioner.identifier.value
-    cardinality: 0..1
-    required: false
-    default: $taiwanNationalId()
-  - id: identityType
-    name: Identity Type
-    summary: 證件類型
-    type: code
-    path: Practitioner.identifier.type.coding.code
-    cardinality: 0..1
-    required: false
-    default: NNxxx
+    required: true
+    path: practitioner.medicalLicenseSystem
+    default: https://www.tph.mohw.gov.tw/fhir/practitioner-license
   - id: active
-    name: Active
-    summary: 紀錄狀態
+    definition: 此人員紀錄是否使用中。
     type: boolean
-    path: Practitioner.active
-    cardinality: 0..1
     required: false
+    path: practitioner.active
     default: true
   - id: name
-    name: Name
-    summary: 姓名
+    definition: 健康照護服務提供者姓名。
     type: string
-    path: Practitioner.name.text
-    cardinality: 0..1
-    required: false
+    required: true
+    path: practitioner.name
     default: $humanName()
   - id: telecomSystem
-    name: Telecom System
-    summary: 聯絡方式類型
+    definition: 聯絡方式類型。
     type: code
-    path: Practitioner.telecom.system
-    cardinality: 0..1
+    binding: contact-point-system
     required: false
+    path: practitioner.telecomSystem
     default: phone
   - id: telecomUse
-    name: Telecom Use
-    summary: 聯絡方式用途
+    definition: 聯絡方式用途。
     type: code
-    path: Practitioner.telecom.use
-    cardinality: 0..1
+    binding: contact-point-use
     required: false
+    path: practitioner.telecomUse
     default: work
   - id: telecomValue
-    name: Telecom Value
-    summary: 聯絡號碼/信箱
+    definition: 聯絡方式號碼/信箱。
     type: string
-    path: Practitioner.telecom.value
-    cardinality: 0..1
     required: false
+    path: practitioner.telecomValue
     default: $taiwanMobilePhone()
   - id: address
-    name: Address
-    summary: 通訊地址
+    definition: 聯絡地址。
     type: string
-    path: Practitioner.address.text
-    cardinality: 0..1
     required: false
+    path: practitioner.address
     default: $taiwanAddress()
   - id: gender
-    name: Gender
-    summary: 人員性別
+    definition: 性別。
     type: code
-    path: Practitioner.gender
-    cardinality: 0..1
+    binding: administrative-gender
     required: false
+    path: practitioner.gender
+    default: $random()
   - id: birthday
-    name: Birthday
-    summary: 出生日期
+    definition: 出生日期。
     type: date
-    path: Practitioner.birthDate
-    cardinality: 0..1
     required: false
-    default: $birthDate()
-    input:
-      gte: 25
-      lte: 75
+    path: practitioner.birthday
+    default: $birthDate(25, 75)
   - id: qualificationCode
-    name: Qualification Code
-    summary: 醫事人員類別
+    definition: 健康照護服務提供者的資格或證照。
     type: code
-    path: Practitioner.qualification.code.coding.code
-    cardinality: 0..1
+    binding: practitioner-qualification-code
     required: false
+    path: practitioner.qualificationCode
     default: Qual-0001
   - id: qualificationIssuer
-    name: Qualification Issuer
-    summary: 證書發行機構
+    definition: 核發資格或證照的機構 ID。
     type: reference
-    path: Practitioner.qualification.issuer.reference
-    cardinality: 0..1
+    reference: qualificationIssuer
     required: false
-    reference:
-      binding: organization
+    path: practitioner.qualificationIssuer

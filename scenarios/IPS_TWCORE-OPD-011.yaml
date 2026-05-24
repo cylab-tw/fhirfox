@@ -13,7 +13,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject

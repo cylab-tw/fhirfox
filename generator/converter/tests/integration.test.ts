@@ -22,8 +22,7 @@ const fixtureBaseDir = path.resolve(fileURLToPath(new URL('../../..', import.met
 const patient: SourceResource = {
 	id: '1',
 	resourceType: 'patient',
-	identityType: 'NNxxx',
-	identityNumber: 'A123456789',
+	idNumber: 'A123456789',
 	name: '王小明',
 	gender: 'male',
 	birthday: '1985-04-12',
@@ -37,11 +36,14 @@ const patient: SourceResource = {
 const encounter: SourceResource = {
 	id: '1',
 	__resourceType: 'encounter',
-	type: 'encounter',
+	resourceType: 'encounter',
 	idSystem: 'https://example.org/encounters',
 	status: 'finished',
 	class: 'AMB',
+	type: 'AMB',
+	reasonCode: 'Cond-0054',
 	serviceType: 'emergency',
+	serviceTypeText: '急診',
 	patientId: '1',
 	periodStart: '2026-03-30T09:00:00+08:00',
 	periodEnd: '2026-03-30T09:20:00+08:00',
@@ -56,10 +58,10 @@ const organization: SourceResource = {
 	id: '1',
 	resourceType: 'organization',
 	active: true,
+	identifierValue: '0132010014',
 	idSystem: 'https://www.tph.mohw.gov.tw',
 	type: 'prov',
 	name: '台北範例醫院',
-	alias: '範例醫院',
 	telecomSystem: 'phone',
 	telecomUse: 'work',
 	telecomValue: '02-2312-3456',
@@ -70,8 +72,8 @@ const practitioner: SourceResource = {
 	id: '1',
 	resourceType: 'practitioner',
 	active: true,
-	identityType: 'MR',
-	identityNumber: 'DOC0001',
+	medicalLicenseNumber: 'DOC0001',
+	medicalLicenseSystem: 'https://www.tph.mohw.gov.tw/fhir/practitioner-license',
 	name: '陳醫師',
 };
 
@@ -89,9 +91,11 @@ const allergyIntolerance: SourceResource = {
 	onsetDate: '2024-11-03T08:00:00+08:00',
 	recordedDate: '2026-03-30T09:10:00+08:00',
 	recorderId: '1',
+	asserterId: '1',
 	note: 'Patient reports rash after penicillin.',
-	reactionSubstance: '70618',
+	reactionSubstance: '44027008',
 	manifestation: '247472004',
+	reactionDescription: 'Rash after penicillin exposure.',
 	severity: 'severe',
 	exposureRoute: '26643006',
 };
@@ -106,7 +110,6 @@ const condition: SourceResource = {
 	conditionCode: 'Cond-0011',
 	conditionText: '感冒/上呼吸道不適',
 	patientId: '1',
-	encounterId: '1',
 	recordedDate: '2026-03-30T09:05:00+08:00',
 	recorderId: '1',
 	note: '主訴感冒、流鼻水與喉嚨痛。',
@@ -176,10 +179,15 @@ test('toFhirResource converts Patient with copy and code_map rules', async () =>
 	assert.equal(result.resourceType, 'Patient');
 	assert.equal(result.id, undefined);
 	assertValidTwCorePatient(result);
-	assert.deepEqual(result.name, [{ use: 'usual', text: '王小明' }]);
+	assert.deepEqual(result.name, [{ use: 'official', text: '王小明' }]);
 	assert.equal(result.gender, 'male');
 	assert.equal((result.identifier as Array<{ value?: string }>)?.[0]?.value, '1');
-	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://fhirfox.dev/identifier-system/patient');
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://www.tph.mohw.gov.tw');
+	assert.equal((result.identifier as Array<{ use?: string }>)?.[0]?.use, 'official');
+	assert.equal(
+		(result.identifier as Array<{ type?: { coding?: Array<{ code?: string }> } }>)?.[0]?.type?.coding?.[0]?.code,
+		'MR',
+	);
 	assert.equal((result.identifier as Array<{ value?: string }>)?.[1]?.value, 'A123456789');
 	assert.equal((result.identifier as Array<{ system?: string }>)?.[1]?.system, 'http://www.moi.gov.tw');
 	assert.equal((result.managingOrganization as { reference?: string } | undefined)?.reference, 'Organization/1');
@@ -203,12 +211,12 @@ test('toFhirResource converts Encounter with copy, code_map, and build_reference
 		code: 'AMB',
 		system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
 	});
-	assert.equal(
-		(result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system,
-		'https://example.org/encounters',
-	);
-	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1');
-	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.length, 1);
+	assert.deepEqual(result.identifier, [
+		{
+			system: 'https://example.org/encounters',
+			value: '1',
+		},
+	]);
 	assert.equal((result.subject as { reference?: string } | undefined)?.reference, 'Patient/1');
 	assert.equal((result.serviceProvider as { reference?: string } | undefined)?.reference, 'Organization/1');
 	assert.equal(
@@ -387,22 +395,25 @@ test('canonical source ordering places all encounters together before shared enc
 			verificationStatus: 'confirmed',
 			category: 'encounter-diagnosis',
 			severity: '6736007',
-			conditionCode: 'Cond-065',
-			conditionText: '胸悶/胸部不適',
-			patientId: '1',
-			encounterId: '2',
-			recordedDate: '2026-04-12T15:12:00+08:00',
-			recorderId: '1',
+				conditionCode: 'Cond-065',
+				conditionText: '胸悶/胸部不適',
+				patientId: '1',
+				recordedDate: '2026-04-12T15:12:00+08:00',
+				recorderId: '1',
 		},
 		{
 			id: '1',
 			resourceType: 'practitionerrole',
 			active: true,
+			identifierValue: 'KP00018',
+			idSystem: 'https://www.tph.mohw.gov.tw',
 			practitionerId: '1',
 			organizationId: '1',
 			roleCode: 'PR-0003',
+			roleText: '家庭醫學科醫師',
 			specialtyCode: 'Spec-0001',
 			periodStart: '2024-01-01T08:00:00+08:00',
+			periodEnd: '2026-12-31T17:00:00+08:00',
 		},
 		organization,
 		encounter,
@@ -410,8 +421,8 @@ test('canonical source ordering places all encounters together before shared enc
 			id: '1',
 			resourceType: 'practitioner',
 			active: true,
-			identityType: 'MR',
-			identityNumber: 'DOC0001',
+			medicalLicenseNumber: 'DOC0001',
+			medicalLicenseSystem: 'https://www.tph.mohw.gov.tw/fhir/practitioner-license',
 			name: '陳醫師',
 		},
 		patient,
@@ -424,36 +435,35 @@ test('canonical source ordering places all encounters together before shared enc
 			'patient/1',
 			'encounter/1',
 			'encounter/2',
-			'organization/1',
-			'practitionerrole/1',
-			'practitioner/1',
-			'condition/1',
-			'condition/3',
-			'allergyintolerance/1',
-		],
-	);
+				'organization/1',
+				'practitionerrole/1',
+				'practitioner/1',
+				'allergyintolerance/1',
+				'condition/1',
+				'condition/3',
+			],
+		);
 	assert.deepEqual(Object.keys(ordered.groupedResources), [
 		'patient',
 		'encounter',
 		'organization',
 		'practitionerrole',
 		'practitioner',
-		'condition',
 		'allergyintolerance',
+		'condition',
 	]);
 });
 
 test('canonical field ordering aligns source and FHIR fields to local metadata', async () => {
 	const rows = await loadStaticConverterRows(fixtureBaseDir, 'tw.gov.mohw.twcore');
 	const ruleSet = normalizeRuleSet(rows, 'tw.gov.mohw.twcore', '1.0.0');
-	ruleSet.sourceFieldOrder = {
-		patient: [
-			'resourceType',
-			'id',
-			'identityType',
-			'identityNumber',
-			'active',
-			'name',
+		ruleSet.sourceFieldOrder = {
+			patient: [
+				'resourceType',
+				'id',
+				'idNumber',
+				'active',
+				'name',
 			'telecomSystem',
 			'telecomValue',
 			'telecomUse',
@@ -466,15 +476,14 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 	const orderedSource = orderSourceResourceFields(
 		{
 			id: '1',
-			resourceType: 'patient',
-			name: '王小明',
-			organization: '1',
-			identityNumber: 'A123456789',
-			gender: 'male',
-			identityType: 'NNxxx',
-		},
-		ruleSet,
-	);
+				resourceType: 'patient',
+				name: '王小明',
+				organization: '1',
+				idNumber: 'A123456789',
+				gender: 'male',
+			},
+			ruleSet,
+		);
 	const orderedFhir = orderFhirResourceFields(
 		convertResource(patient, ruleSet, {
 			igName: 'tw.gov.mohw.twcore',
@@ -484,18 +493,19 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 		ruleSet,
 	);
 
-	assert.deepEqual(Object.keys(orderedSource).slice(0, 6), [
+	assert.deepEqual(Object.keys(orderedSource).slice(0, 5), [
 		'resourceType',
 		'id',
-		'identityType',
-		'identityNumber',
+		'idNumber',
 		'name',
 		'gender',
 	]);
 	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), ['resourceType', 'meta', 'text', 'identifier', 'name', 'telecom']);
 	assert.deepEqual(Object.keys((orderedFhir.identifier as Array<Record<string, unknown>>)[0] ?? {}), [
-		'value',
+		'use',
+		'type',
 		'system',
+		'value',
 	]);
 	assert.deepEqual(
 		Object.keys(
@@ -515,7 +525,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-			sourceColumn: 'identityNumber',
+				path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[0].value',
 			dataType: 'string',
 			isRequired: true,
@@ -527,7 +537,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '0.9.0',
 			resourceType: 'patient',
-			sourceColumn: 'identityNumber',
+				path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[1].value',
 			dataType: 'string',
 			isRequired: true,
@@ -539,7 +549,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-			sourceColumn: 'identityNumber',
+				path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[2].value',
 			dataType: 'string',
 			isRequired: true,
@@ -554,7 +564,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-			sourceColumn: 'identityNumber',
+				path: 'patient.idNumber',
 		}),
 		'Patient.identifier[0].value',
 	);
@@ -638,20 +648,19 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 		'admitSource',
 		'serviceProviderId',
 	]);
-	assert.deepEqual(Object.keys(orderedFhir).slice(0, 13), [
+	assert.deepEqual(Object.keys(orderedFhir).slice(0, 12), [
 		'resourceType',
 		'meta',
 		'text',
 		'identifier',
 		'status',
 		'class',
+		'type',
 		'serviceType',
 		'subject',
 		'participant',
 		'period',
-		'diagnosis',
-		'hospitalization',
-		'serviceProvider',
+		'reasonCode',
 	]);
 });
 
@@ -667,11 +676,96 @@ test('toFhirResource converts Organization with mapped codings and primitive arr
 
 	assert.equal(result.resourceType, 'Organization');
 	assertValidTwCoreOrganization(result);
-	assert.deepEqual(result.alias, ['範例醫院']);
-	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.[0]?.value, '1');
-	assert.equal((result.identifier as Array<{ value?: string }> | undefined)?.length, 1);
-	assert.equal((result.identifier as Array<{ system?: string }> | undefined)?.[0]?.system, 'https://www.tph.mohw.gov.tw');
+	assert.equal(result.alias, undefined);
+	assert.equal((result.identifier as Array<{ value?: string }>)?.[0]?.value, '0132010014');
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://www.tph.mohw.gov.tw');
 	assert.equal((result.type as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, 'prov');
+});
+
+test('toFhirResource converts PractitionerRole with a medical license identifier', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			id: '1',
+			resourceType: 'practitionerrole',
+			active: true,
+			identifierValue: 'KP00018',
+			idSystem: 'https://www.tph.mohw.gov.tw',
+			practitionerId: '1',
+			organizationId: '1',
+			roleCode: 'PR-0003',
+			roleText: '家庭醫學科醫師',
+			specialtyCode: 'Spec-0001',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.deepEqual(result.identifier, [
+		{
+			use: 'official',
+			type: {
+				coding: [
+					{
+						system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+						code: 'MD',
+					},
+				],
+			},
+			system: 'https://www.tph.mohw.gov.tw',
+			value: 'KP00018',
+		},
+	]);
+	assert.equal((result.code as Array<{ text?: string }> | undefined)?.[0]?.text, '家庭醫學科醫師');
+});
+
+test('toFhirResource converts MedicationRequest quantities with code and system but no unit', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			id: '1',
+			resourceType: 'medicationrequest',
+			idSystem: 'https://www.tph.mohw.gov.tw/fhir/medicationrequest',
+			status: 'active',
+			intent: 'order',
+			medicationId: '1',
+			patientId: '1',
+			dosageText: 'Acetaminophen 500 mg by mouth every 6 hours as needed for fever.',
+			doseValue: 500,
+			doseCode: 'mg',
+			durationValue: 3,
+			durationCode: 'd',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	const doseQuantity = (
+		result.dosageInstruction as Array<{ doseAndRate?: Array<{ doseQuantity?: Record<string, unknown> }> }> | undefined
+	)?.[0]?.doseAndRate?.[0]?.doseQuantity;
+	const expectedSupplyDuration = (result.dispenseRequest as { expectedSupplyDuration?: Record<string, unknown> } | undefined)
+		?.expectedSupplyDuration;
+
+	assert.deepEqual(doseQuantity, {
+		value: 500,
+		code: 'mg',
+		system: 'http://unitsofmeasure.org',
+	});
+	assert.deepEqual(expectedSupplyDuration, {
+		value: 3,
+		code: 'd',
+		system: 'http://unitsofmeasure.org',
+	});
 });
 
 test('toFhirResource converts AllergyIntolerance with mapped coding and reaction content', async () => {
@@ -768,7 +862,7 @@ test('conversion fails explicitly when a required source value is missing', asyn
 				igVersion: '1.0.0',
 			},
 		),
-		/Missing required source value "gender"/,
+		/Missing required source value "patient.gender"/,
 	);
 });
 
@@ -823,7 +917,7 @@ test('convertResource fails explicitly on unsupported FHIR path shape', async ()
 		igName: 'tw.gov.mohw.twcore',
 		igVersion: '1.0.0',
 		resourceType: 'patient',
-		sourceColumn: 'name',
+		path: 'patient.name',
 		fhirPath: "Patient.name.where(use='usual').text",
 		dataType: 'string',
 		isRequired: true,
@@ -933,7 +1027,6 @@ function assertValidTwCoreAllergyIntolerance(resource: FhirResource): void {
 		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/AllergyIntolerance-twcore',
 	);
 	assert.equal(resource.id, undefined);
-	assert.ok(Array.isArray(resource.identifier));
 	assert.equal(
 		typeof (resource.clinicalStatus as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code,
 		'string',
@@ -974,7 +1067,7 @@ function assertValidTwCoreOrganization(resource: FhirResource): void {
 	assert.ok(Array.isArray(resource.identifier));
 	assert.ok(Array.isArray(resource.type));
 	assert.equal(typeof resource.name, 'string');
-	assert.ok(Array.isArray(resource.alias));
+	assert.equal(resource.alias, undefined);
 }
 
 function assertValidTwCoreProfile(resource: FhirResource, profileUrl: string): void {
@@ -996,9 +1089,9 @@ async function writeFixtureFiles(baseDir: string): Promise<void> {
 	await writeFile(
 		path.join(baseDir, 'generator-rules', 'tw.gov.mohw.twcore.csv'),
 		[
-			'ig_name,ig_version,resource_type,source_column,fhir_path,data_type,is_required,transform_kind,mapping_key,reference_target,sort_order,is_active',
-			'tw.gov.mohw.twcore,1.0.0,patient,name,Patient.name[0]:usual.text,string,true,copy,,,10,true',
-			'tw.gov.mohw.twcore,1.0.0,patient,gender,Patient.gender,string,true,code_map,administrative-gender,,20,true',
+			'ig_name,ig_version,resource_type,path,fhir_path,data_type,is_required,transform_kind,mapping_key,reference_target,sort_order,is_active',
+			'tw.gov.mohw.twcore,1.0.0,patient,patient.name,Patient.name[0]:usual.text,string,true,copy,,,10,true',
+			'tw.gov.mohw.twcore,1.0.0,patient,patient.gender,Patient.gender,string,true,code_map,administrative-gender,,20,true',
 		].join('\n'),
 		'utf8',
 	);

@@ -1,0 +1,170 @@
+id: encounter.tw-core-defaults
+resourceType: encounter
+summary: TW Core encounter defaults derived from the scenario encounter profile.
+fields:
+  class:
+    generator: $case()
+    input:
+      source: encounterProfile
+      default: AMB
+      cases:
+        family-medicine-outpatient:
+          class: AMB
+          serviceType: "01"
+          serviceTypeText: 家醫科門診
+          type: AMB
+          reasonCode: Cond-0012
+        pediatrics-outpatient:
+          class: AMB
+          serviceType: "10"
+          serviceTypeText: 小兒科門診
+          type: AMB
+          reasonCode: Cond-0054
+        endocrinology-outpatient:
+          class: AMB
+          serviceType: endo
+          serviceTypeText: 新陳代謝科門診
+          type: AMB
+          reasonCode: Cond-0050
+        cardiology-outpatient:
+          class: AMB
+          serviceType: cardiology
+          serviceTypeText: 心臟內科門診
+          type: AMB
+          reasonCode: Cond-0018
+        emergency-visit:
+          class: EMER
+          serviceType: emergency
+          serviceTypeText: 急診
+          type: EMER
+          reasonCode: Cond-0054
+          admitSource: emd
+        emergency-visit-from-ed:
+          class: EMER
+          serviceType: emergency
+          serviceTypeText: 急診
+          type: EMER
+          reasonCode: Cond-0019
+          admitSource: emd
+        inpatient-stay-from-ed-home:
+          class: IMP
+          serviceType: inpatient
+          serviceTypeText: 住院照護
+          type: IMP
+          reasonCode: Cond-0011
+          admitSource: emd
+          dischargeDisposition: home
+        cardiology-inpatient-discharge-home:
+          class: IMP
+          serviceType: cardiology
+          serviceTypeText: 心臟內科住院
+          type: IMP
+          reasonCode: Cond-0019
+          admitSource: emd
+          dischargeDisposition: home
+  type:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        family-medicine-outpatient:
+          type: AMB
+        pediatrics-outpatient:
+          type: AMB
+        endocrinology-outpatient:
+          type: AMB
+        cardiology-outpatient:
+          type: AMB
+        emergency-visit:
+          type: EMER
+        emergency-visit-from-ed:
+          type: EMER
+        inpatient-stay-from-ed-home:
+          type: IMP
+        cardiology-inpatient-discharge-home:
+          type: IMP
+  reasonCode:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        family-medicine-outpatient:
+          reasonCode: Cond-0012
+        pediatrics-outpatient:
+          reasonCode: Cond-0054
+        endocrinology-outpatient:
+          reasonCode: Cond-0050
+        cardiology-outpatient:
+          reasonCode: Cond-0018
+        emergency-visit:
+          reasonCode: Cond-0054
+        emergency-visit-from-ed:
+          reasonCode: Cond-0019
+        inpatient-stay-from-ed-home:
+          reasonCode: Cond-0011
+        cardiology-inpatient-discharge-home:
+          reasonCode: Cond-0019
+  serviceType:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        family-medicine-outpatient:
+          serviceType: "01"
+        pediatrics-outpatient:
+          serviceType: "10"
+        endocrinology-outpatient:
+          serviceType: endo
+        cardiology-outpatient:
+          serviceType: cardiology
+        emergency-visit:
+          serviceType: emergency
+        emergency-visit-from-ed:
+          serviceType: emergency
+        inpatient-stay-from-ed-home:
+          serviceType: inpatient
+        cardiology-inpatient-discharge-home:
+          serviceType: cardiology
+  serviceTypeText:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        family-medicine-outpatient:
+          serviceTypeText: 家醫科門診
+        pediatrics-outpatient:
+          serviceTypeText: 小兒科門診
+        endocrinology-outpatient:
+          serviceTypeText: 新陳代謝科門診
+        cardiology-outpatient:
+          serviceTypeText: 心臟內科門診
+        emergency-visit:
+          serviceTypeText: 急診
+        emergency-visit-from-ed:
+          serviceTypeText: 急診
+        inpatient-stay-from-ed-home:
+          serviceTypeText: 住院照護
+        cardiology-inpatient-discharge-home:
+          serviceTypeText: 心臟內科住院
+  admitSource:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        emergency-visit:
+          admitSource: emd
+        emergency-visit-from-ed:
+          admitSource: emd
+        inpatient-stay-from-ed-home:
+          admitSource: emd
+        cardiology-inpatient-discharge-home:
+          admitSource: emd
+  dischargeDisposition:
+    generator: $case()
+    input:
+      source: encounterProfile
+      cases:
+        inpatient-stay-from-ed-home:
+          dischargeDisposition: home
+        cardiology-inpatient-discharge-home:
+          dischargeDisposition: home

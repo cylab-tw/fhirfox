@@ -69,7 +69,8 @@ function resolveAgeRange(input: unknown): { min: number; max: number } {
 }
 
 /** Generates a birth date that makes the person the requested age on `context.now`. */
-export const birthDateGenerator: GeneratorFunction = ([input], context) => {
+export const birthDateGenerator: GeneratorFunction = (args, context) => {
+	const input = normalizeArgs(args);
 	const { min, max } = resolveAgeRange(input);
 	const ageRandom = randomFor(context, `birthDate:age:${min}:${max}`);
 	const age = min + Math.floor((max - min + 1) * ageRandom);
@@ -83,3 +84,14 @@ export const birthDateGenerator: GeneratorFunction = ([input], context) => {
 
 	return new Date(start + Math.floor((end - start) * random)).toISOString().slice(0, 10);
 };
+
+function normalizeArgs(args: unknown[]): unknown {
+	const [first, second, third] = args;
+
+	if (typeof first === 'number' && typeof second === 'number') {
+		const range = { min: first, max: second };
+		return isRecord(third) ? { ...range, ...third } : range;
+	}
+
+	return first;
+}

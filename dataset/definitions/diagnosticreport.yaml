@@ -1,169 +1,142 @@
 resourceType: diagnosticreport
 name: DiagnosticReport
 summary: 彙整檢驗、影像或病理報告，包含報告分類、結果參照、執行者與文字結論。
+
+defaults:
+  with:
+    - diagnosticreport.default-final
+
 bindings:
-  encounter:
-    key: encounter
-    name: Scenario encounter
-    resourceTypes:
-      - encounter
-    summary: 此情境相關就醫事件。
-  imagingstudy:
-    key: imagingStudy
-    name: Scenario imaging study
-    resourceTypes:
-      - imagingstudy
-    summary: 此情境影像檢查。
-  patient:
-    key: subject
-    name: Scenario patient
+  - diagnostic-report-status
+  - diagnostic-service-sections
+  - report-codes
+
+references:
+  subject:
+    definition: 診斷對象。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
-  observation:
-    key: result
-    name: Scenario observation result
-    resourceTypes:
-      - observation
-    summary: 此情境檢驗/檢查結果。
-  performer:
-    key: diagnosticreport.performer
-    name: Scenario performer
-    resourceTypes:
-      - organization
       - practitioner
       - practitionerrole
-    summary: 此情境報告執行者。
+  encounter:
+    definition: 就醫紀錄。
+    resourceTypes:
+      - encounter
+  performer:
+    key: provider
+    definition: 負責此診斷報告人員/機構。
+    resourceTypes:
+      - organization
+  result:
+    definition: 診斷報告結果。
+    resourceTypes:
+      - observation
+  study:
+    definition: 影像檢查。
+    resourceTypes:
+      - imagingstudy
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 報告識別碼
-    type: string
-    path: DiagnosticReport.identifier.value
-    cardinality: 0..1
+    definition: 診斷報告識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 報告識別碼系統
-    type: string
-    path: DiagnosticReport.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/diagnosticreport
+    path: diagnosticreport.id
   - id: status
-    name: Status
-    summary: 報告狀態
+    definition: 診斷報告的狀態。
     type: code
-    path: DiagnosticReport.status
-    cardinality: 0..1
-    required: false
-    default: final
+    binding: diagnostic-report-status
+    required: true
+    path: diagnosticreport.status
   - id: categoryCode
-    name: Category Code
-    summary: 服務類別
+    definition: 診斷報告的類別。
     type: code
-    path: DiagnosticReport.category
-    cardinality: 0..1
+    binding: diagnostic-service-sections
     required: false
-    default: $case()
-    input:
-      source: reportCode
-      default: LAB
-      cases:
-        Rep-0007:
-          categoryCode: RAD
-        Rep-0017:
-          categoryCode: SP
-  - id: reportCode
-    name: Report Code
-    summary: 報告項目代碼
-    type: code
-    path: DiagnosticReport.code.coding.code
-    cardinality: 0..1
-    required: false
-    default: $input()
-  - id: patientId
-    name: Patient Id
-    summary: 病人
-    type: reference
-    path: DiagnosticReport.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
-  - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
-    type: reference
-    path: DiagnosticReport.encounter.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: encounter
-  - id: imagingStudyId
-    name: Imaging Study Id
-    summary: 影像檢查參照
-    type: reference
-    path: DiagnosticReport.imagingStudy.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: imagingstudy
-  - id: issued
-    name: Issued
-    summary: 報告產出時間
-    type: datetime
-    path: DiagnosticReport.issued
-    cardinality: 0..1
-    required: false
-    default: $addMinutes($value('effectiveDate'), 90)
-  - id: performerId
-    name: Performer Id
-    summary: 報告負責人員
-    type: reference
-    path: DiagnosticReport.performer.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: performer
-  - id: resultId
-    name: Result Id
-    summary: 檢驗數值參照
-    type: reference
-    path: DiagnosticReport.result.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: observation
-  - id: conclusion
-    name: Conclusion
-    summary: 文字結論(解釋)
+    path: diagnosticreport.categoryCode
+  - id: categoryText
+    definition: 診斷報告的類別文字描述。
     type: string
-    path: DiagnosticReport.conclusion
-    cardinality: 0..1
     required: false
+    path: diagnosticreport.categoryText
+  - id: reportCode
+    definition: 診斷報告。
+    type: code
+    binding: report-codes
+    required: true
+    path: diagnosticreport.reportCode
     default: $case()
     input:
       source: reportCode
+      default: Rep-0001
       cases:
-        Rep-0001:
-          reportCode: Rep-0001
-          conclusion: CBC/coagulation report generated for this scenario.
-        Rep-0002:
-          reportCode: Rep-0002
-          conclusion: Lipid report generated for this scenario.
-        Rep-0004:
-          reportCode: Rep-0004
-          conclusion: HbA1c report generated for this scenario.
-        Rep-0005:
-          reportCode: Rep-0005
-          conclusion: Cardiac enzyme or glucose report generated for this scenario.
-        Rep-0006:
-          reportCode: Rep-0006
-          conclusion: Urinalysis report generated for this scenario.
-        Rep-0007:
-          reportCode: Rep-0007
-          conclusion: Chest imaging report generated for this scenario.
-        Rep-0017:
-          reportCode: Rep-0017
-          conclusion: Pathology report generated for this scenario.
+        Rep-0001: Rep-0001
+        Rep-0002: Rep-0002
+        Rep-0003: Rep-0003
+        Rep-0004: Rep-0004
+        Rep-0005: Rep-0005
+        Rep-0006: Rep-0006
+        Rep-0007: Rep-0007
+        Rep-0008: Rep-0008
+        Rep-0009: Rep-0009
+        Rep-0010: Rep-0010
+        Rep-0011: Rep-0011
+        Rep-0012: Rep-0012
+        Rep-0013: Rep-0013
+        Rep-0014: Rep-0014
+        Rep-0015: Rep-0015
+        Rep-0016: Rep-0016
+        Rep-0017: Rep-0017
+        Rep-0018: Rep-0018
+  - id: reportText
+    definition: 診斷報告項目文字描述。
+    type: string
+    required: false
+    path: diagnosticreport.reportText
+  - id: subjectId
+    definition: 診斷對象 ID。
+    type: reference
+    reference: subject
+    required: false
+    path: diagnosticreport.subjectId
+  - id: encounterId
+    definition: 就醫紀錄 ID。
+    type: reference
+    reference: encounter
+    required: false
+    path: diagnosticreport.encounterId
+  - id: effectiveDateTime
+    definition: 臨床相關報告時間。
+    type: dateTime
+    required: false
+    path: diagnosticreport.effectiveDateTime
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
+  - id: issued
+    definition: 診斷報告時間。
+    type: dateTime
+    required: false
+    path: diagnosticreport.issued
+    default: $addMinutes($value('effectiveDateTime'), 90)
+  - id: performerId
+    definition: 負責此診斷報告人員/機構 ID。
+    type: reference
+    reference: performer
+    required: false
+    path: diagnosticreport.performerId
+  - id: resultId
+    definition: 診斷報告結果 ID。
+    type: reference
+    reference: result
+    required: false
+    path: diagnosticreport.resultId
+  - id: imagingStudyId
+    definition: 影像檢查 ID。
+    type: reference
+    reference: study
+    required: false
+    path: diagnosticreport.imagingStudyId
+  - id: conclusion
+    definition: 診斷報告結論。
+    type: string
+    required: false
+    path: diagnosticreport.conclusion

@@ -12,7 +12,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject
@@ -52,21 +52,18 @@ resources:
   - alias: condition.common-cold
     resourceType: condition
     references:
-      encounterId: encounter.common-cold-visit
       recorderId: practitionerrole.family-medicine-attending
     with:
       - condition.common-cold
   - alias: condition.chest-discomfort
     resourceType: condition
     references:
-      encounterId: encounter.chest-discomfort-visit
       recorderId: practitionerrole.family-medicine-attending
     with:
       - condition.chest-discomfort
   - alias: condition.low-back-pain
     resourceType: condition
     references:
-      encounterId: encounter.low-back-pain-visit
       recorderId: practitionerrole.family-medicine-attending
     with:
       - condition.low-back-pain

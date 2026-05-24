@@ -1,0 +1,10 @@
+id: organization.default-hospital
+resourceType: organization
+summary: Default care provider organization for generated scenarios.
+fields:
+  identifierValue: "0132010014"
+  idSystem: https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/organization-identifier-tw
+  type: prov
+  name: 臺北市立聯合醫院
+  telecomUse: work
+  telecomValue: "02-2555-3000"

@@ -4,7 +4,7 @@ export interface ConvertOptions {
 	fullUrlBase?: string;
 }
 
-export type TransformKind = 'copy' | 'code_map' | 'build_reference';
+export type TransformKind = 'copy' | 'code_map' | 'build_reference' | 'constant';
 
 export interface SourceResource {
 	id: string;
@@ -18,7 +18,7 @@ export interface GeneratorRuleRow {
 	igName: string;
 	igVersion: string;
 	resourceType: string;
-	sourceColumn: string;
+	path: string;
 	fhirPath: string;
 	dataType: string;
 	isRequired: boolean;

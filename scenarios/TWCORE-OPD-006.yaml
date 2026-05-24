@@ -14,7 +14,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject
@@ -54,7 +54,6 @@ resources:
   - alias: condition.hypertension-followup
     resourceType: condition
     references:
-      encounterId: encounter.family-medicine-visit-initial
       recorderId: practitionerrole.family-medicine-attending
     with:
       - condition.hypertension-followup

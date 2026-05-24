@@ -1,37 +1,28 @@
 resourceType: medication
 name: Medication
-summary: 定義可被處方參照的藥品項目，包含藥品代碼、顯示名稱與識別碼。
+summary: 定義可用於處方、配藥或給藥的藥品，包含藥品代碼與顯示名稱。
+
+bindings:
+  - medication-code
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 藥品識別碼
-    type: string
-    path: Medication.identifier.value
-    cardinality: 0..1
+    definition: 藥品識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 藥品識別碼系統
-    type: string
-    path: Medication.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/medication
+    path: medication.id
   - id: code
-    name: Code
-    summary: 藥品代碼
+    definition: 藥品的識別代碼。
     type: code
-    path: Medication.code.coding.code
-    cardinality: 0..1
-    required: false
+    binding: medication-code
+    required: true
+    path: medication.code
     default: $input()
   - id: display
-    name: Display
-    summary: 藥品名稱
+    definition: 藥品名稱或文字描述。
     type: string
-    path: Medication.code.text
-    cardinality: 0..1
     required: false
+    path: medication.display
     default: $case()
     input:
       source: code

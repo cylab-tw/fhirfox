@@ -3,7 +3,9 @@ resourceType: medicationrequest
 summary: Aspirin 100 mg chewable tablet immediately in emergency department.
 fields:
   dosageText: Aspirin 100 mg chewable tablet immediately in emergency department.
-  doseUnit: mg
+  doseCode: mg
   doseValue: 100
   durationValue: 1
   frequency: 1
+  routeCode: Route-0001
+  timingCode: Tim-0001

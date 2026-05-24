@@ -149,7 +149,7 @@ function getSourceResourceSubtitle(
 		case 'medicationrequest':
 			return joinParts([
 				readString(resource.dosageText),
-				readMedicationDose(resource.doseValue, resource.doseUnit, resourceType, sourceCodeDisplayMap),
+				readMedicationDose(resource.doseValue, resource.doseCode, resourceType, sourceCodeDisplayMap),
 				readSourceDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
 			]);
 		case 'observation':
@@ -275,12 +275,12 @@ function readMappedDisplay(
 
 function readMedicationDose(
 	doseValue: unknown,
-	doseUnit: unknown,
+	doseCode: unknown,
 	resourceType: string,
 	sourceCodeDisplayMap: SourceCodeDisplayMap,
 ): string | undefined {
 	const value = readString(doseValue) ?? (typeof doseValue === 'number' ? String(doseValue) : undefined);
-	const unit = readSourceDisplay(resourceType, 'doseUnit', doseUnit, sourceCodeDisplayMap);
+	const unit = readSourceDisplay(resourceType, 'doseCode', doseCode, sourceCodeDisplayMap);
 	if (value && unit) {
 		return `${value} ${unit}`;
 	}

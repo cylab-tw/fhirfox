@@ -1,101 +1,73 @@
 resourceType: imagingstudy
 name: ImagingStudy
-summary: 描述影像檢查的狀態、modality、檢查時間、影像數量與檢查說明。
+summary: 描述一次 DICOM 影像檢查，包含狀態、modality、檢查對象、就醫事件、開始時間、影像數量與檢查說明。
+
 bindings:
-  encounter:
-    key: encounter
-    name: Scenario encounter
-    resourceTypes:
-      - encounter
-    summary: 此情境相關就醫事件。
-  patient:
-    key: subject
-    name: Scenario patient
+  - imagingstudy-status
+  - imaging-modality
+
+references:
+  subject:
+    definition: 影像檢查的對象。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
+  encounter:
+    definition: 與此影像檢查相關的就醫事件。
+    resourceTypes:
+      - encounter
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 影像檢查識別碼。
-    type: string
-    path: ImagingStudy.identifier.value
-    cardinality: 0..1
+    definition: 影像檢查識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 影像檢查識別碼系統。
-    type: string
-    path: ImagingStudy.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/imagingstudy
+    path: imagingstudy.id
   - id: status
-    name: Status
-    summary: 影像檢查狀態。
+    definition: 影像檢查目前的狀態。
     type: code
-    path: ImagingStudy.status
-    cardinality: 0..1
-    required: false
+    binding: imagingstudy-status
+    required: true
+    path: imagingstudy.status
     default: available
   - id: modalityCode
-    name: Modality Code
-    summary: 影像 modality 代碼。
+    definition: 實際取得影像資料的儀器類型。
     type: code
-    path: ImagingStudy.modality
-    cardinality: 0..1
+    binding: imaging-modality
     required: false
+    path: imagingstudy.modalityCode
     default: DX
   - id: patientId
-    name: Patient Id
-    summary: 病人 ID。
+    definition: 影像檢查對象的病人 ID。
     type: reference
-    path: ImagingStudy.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
+    reference: subject
+    required: true
+    path: imagingstudy.patientId
   - id: encounterId
-    name: Encounter Id
-    summary: 就醫事件 ID。
+    definition: 與此影像檢查相關的就醫事件 ID。
     type: reference
-    path: ImagingStudy.encounter.reference
-    cardinality: 0..1
+    reference: encounter
     required: false
-    reference:
-      binding: encounter
+    path: imagingstudy.encounterId
   - id: started
-    name: Started
-    summary: 影像檢查開始時間。
-    type: datetime
-    path: ImagingStudy.started
-    cardinality: 0..1
+    definition: 影像檢查開始時間。
+    type: dateTime
     required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
+    path: imagingstudy.started
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: numberOfSeries
-    name: Number Of Series
-    summary: 影像序列數。
+    definition: 此影像檢查相關的影像序列數。
     type: number
-    path: ImagingStudy.numberOfSeries
-    cardinality: 0..1
     required: false
+    path: imagingstudy.numberOfSeries
     default: 1
   - id: numberOfInstances
-    name: Number Of Instances
-    summary: 影像實例數。
+    definition: 此影像檢查相關的影像實例數。
     type: number
-    path: ImagingStudy.numberOfInstances
-    cardinality: 0..1
     required: false
+    path: imagingstudy.numberOfInstances
     default: 1
   - id: studyDescription
-    name: Study Description
-    summary: 影像檢查描述。
+    definition: 機構產生的影像檢查描述。
     type: string
-    path: ImagingStudy.description
-    cardinality: 0..1
     required: false
+    path: imagingstudy.studyDescription

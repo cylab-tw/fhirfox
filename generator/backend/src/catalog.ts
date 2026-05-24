@@ -12,7 +12,7 @@ import {
 	orderSourceResourceFields,
 	readSourceResourceType,
 } from '@fhirfox/converter/browser';
-import { createInMemoryDatasetProvider, resolveScenario } from '@fhirfox-generator/dataset';
+import { compileResourceDefinitions, createInMemoryDatasetProvider, resolveScenario } from '@fhirfox-generator/dataset';
 
 import type {
 	BackendManifest,
@@ -24,7 +24,7 @@ import type {
 	SourceCodeDisplayMap,
 	SourceFieldDocRecord,
 } from './types.js';
-import type { ConverterRuleSet, SourceResource, StaticConverterRows } from '@fhirfox/converter/browser';
+import type { ConverterRuleSet, GeneratorRuleRow, SourceResource, StaticConverterRows } from '@fhirfox/converter/browser';
 import type { DatasetProvider, Preset, ResourceTypeDefinition, ScenarioDefinition } from '@fhirfox-generator/dataset';
 
 const IG_NAME = 'tw.gov.mohw.twcore';
@@ -60,6 +60,7 @@ export async function loadBackendCatalog(repoRoot: string): Promise<BackendCatal
 	const provider = createInMemoryDatasetProvider({
 		resourceTypeDefinitions,
 		presets,
+		codeMappings: converterRows.codeMappings,
 	});
 	const ruleSet = normalizeRuleSet(converterRows, IG_NAME, IG_VERSION);
 	ruleSet.sourceFieldOrder = sourceFieldOrder;
@@ -186,7 +187,13 @@ function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: Bu
 		order[definition.resourceType] = definition.fields.map((field) => field.id);
 
 		for (const field of definition.fields) {
-			docs[`${definition.resourceType}.${field.id}`] = {
+			const fieldRules = findFieldRules(options.converterRows.generatorRules, {
+				igName: options.igName,
+				igVersion: options.igVersion,
+				resourceType: definition.resourceType,
+				path: field.path,
+			});
+			const doc = {
 				description: field.summary,
 				cardinality: field.cardinality,
 				required: field.required,
@@ -194,23 +201,68 @@ function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: Bu
 					igName: options.igName,
 					igVersion: options.igVersion,
 					resourceType: definition.resourceType,
-					sourceColumn: field.id,
+					path: field.path,
 				}),
 				reference: readDocReference(definition, field),
 			};
+			const sourceKeys = new Set([`${definition.resourceType}.${field.id}`, field.path]);
+
+			for (const key of sourceKeys) {
+				docs[key] = doc;
+			}
+
+			for (const rule of fieldRules) {
+				docs[normalizeFhirDocPath(rule.fhirPath)] = {
+					...doc,
+					reference: readRuleReference(rule) ?? doc.reference,
+				};
+			}
 		}
 	}
 
 	return { docs, order };
 }
 
+function findFieldRules(
+	rules: GeneratorRuleRow[],
+	options: {
+		igName: string;
+		igVersion: string;
+		resourceType: string;
+		path: string;
+	},
+): GeneratorRuleRow[] {
+	return rules
+		.filter(
+			(rule) =>
+				rule.isActive &&
+				rule.igName === options.igName &&
+				rule.igVersion === options.igVersion &&
+				rule.resourceType.toLowerCase() === options.resourceType.toLowerCase() &&
+				rule.path === options.path,
+		)
+		.sort((left, right) => left.sortOrder - right.sortOrder);
+}
+
+function readRuleReference(rule: GeneratorRuleRow): string | undefined {
+	return rule.transformKind === 'build_reference' && rule.referenceTarget
+		? rule.referenceTarget.toLowerCase()
+		: undefined;
+}
+
+function normalizeFhirDocPath(fhirPath: string): string {
+	const [resourceType, ...segments] = fhirPath.split('.');
+	const normalizedSegments = segments.map((segment) => segment.replace(/\[\d+\]/gu, '').replace(/:.+$/u, ''));
+	return [resourceType?.toLowerCase(), ...normalizedSegments].filter(Boolean).join('.');
+}
+
 function buildSourceCodeDisplayMap(rows: Awaited<ReturnType<typeof loadConverterRows>>): SourceCodeDisplayMap {
 	const mappingKeyByField = new Map(
-		rows.generatorRules.flatMap((row) =>
-			row.transformKind === 'code_map' && row.mappingKey
-				? [[`${row.resourceType.toLowerCase()}.${row.sourceColumn}`, row.mappingKey] as const]
-				: [],
-		),
+			rows.generatorRules.flatMap((row) =>
+				row.transformKind === 'code_map' && row.mappingKey
+					? [[row.path.toLowerCase(), row.mappingKey] as const]
+					: [],
+			),
 	);
 	const displayMap: SourceCodeDisplayMap = {};
 
@@ -292,7 +344,9 @@ function toScenarioRecord(scenario: ScenarioDefinition): ScenarioRecord {
 }
 
 async function loadResourceDefinitions(directoryPath: string): Promise<ResourceTypeDefinition[]> {
-	return loadYamlDirectory<ResourceTypeDefinition>(directoryPath);
+	return compileResourceDefinitions({
+		definitions: await loadYamlDirectory<ResourceTypeDefinition>(directoryPath),
+	}).resourceTypeDefinitions;
 }
 
 async function loadPresets(directoryPath: string): Promise<Preset[]> {
@@ -326,10 +380,10 @@ async function loadConverterRows(converterDir: string, igName: string): Promise<
 
 	return {
 		generatorRules: generatorRules.map((row) => ({
-			igName: requiredCell(row, 'ig_name'),
-			igVersion: requiredCell(row, 'ig_version'),
-			resourceType: requiredCell(row, 'resource_type'),
-			sourceColumn: requiredCell(row, 'source_column'),
+				igName: requiredCell(row, 'ig_name'),
+				igVersion: requiredCell(row, 'ig_version'),
+				resourceType: requiredCell(row, 'resource_type'),
+				path: requiredCell(row, 'path'),
 			fhirPath: requiredCell(row, 'fhir_path'),
 			dataType: requiredCell(row, 'data_type'),
 			isRequired: parseBoolean(requiredCell(row, 'is_required')),
@@ -502,8 +556,8 @@ function parseInteger(value: string): number {
 	return parsed;
 }
 
-function parseTransformKind(value: string): 'copy' | 'code_map' | 'build_reference' {
-	if (value === 'copy' || value === 'code_map' || value === 'build_reference') {
+function parseTransformKind(value: string): 'copy' | 'code_map' | 'build_reference' | 'constant' {
+	if (value === 'copy' || value === 'code_map' || value === 'build_reference' || value === 'constant') {
 		return value;
 	}
 

@@ -1,182 +1,156 @@
 resourceType: medicationrequest
 name: MedicationRequest
-summary: 記錄處方或給藥請求，包含藥品、病人、開立者、開立原因與劑量用法。
+summary: 記錄藥品請求或處方，包含狀態、意圖、藥品、病人、就醫事件、開立者、開立原因、用法與供藥期間。
+
 bindings:
-  condition:
-    key: condition
-    name: Scenario condition
-    resourceTypes:
-      - condition
-    summary: 此情境開立原因。
-  encounter:
-    key: encounter
-    name: Scenario encounter
-    resourceTypes:
-      - encounter
-    summary: 此情境相關就醫事件。
+  - medicationrequest-status
+  - medicationrequest-intent
+  - medicationrequest-route-code
+  - medicationrequest-timing-code
+  - unitsofmeasure
+
+references:
   medication:
-    key: medication
-    name: Scenario medication
+    definition: 此藥品請求所指定的藥品。
     resourceTypes:
       - medication
-    summary: 此情境藥品。
-  patient:
-    key: subject
-    name: Scenario patient
+  subject:
+    definition: 開立此藥品請求的對象。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
+  encounter:
+    definition: 與此藥品請求密切相關的就醫事件。
+    resourceTypes:
+      - encounter
   requester:
-    key: requester
-    name: Scenario requester
+    definition: 提出此藥品請求的人或機構。
     resourceTypes:
       - practitioner
       - practitionerrole
-    summary: 此情境開立者。
+      - organization
+      - patient
+  reasonReference:
+    definition: 開立此藥品請求的原因。
+    resourceTypes:
+      - condition
+      - observation
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 用藥請求識別碼
-    type: string
-    path: MedicationRequest.identifier.value
-    cardinality: 0..1
+    definition: 藥品請求的外部識別碼。
+    type: identifier
     required: true
+    path: medicationrequest.id
   - id: idSystem
-    name: Id System
-    summary: 來源 HIS 用藥請求識別碼系統
+    definition: 藥品請求外部識別碼所屬系統。
     type: string
-    path: MedicationRequest.identifier.system
-    cardinality: 0..1
     required: false
-    default: https://fhirfox.dev/identifier-system/medicationrequest
+    path: medicationrequest.idSystem
+    default: https://www.tph.mohw.gov.tw/fhir/medicationrequest
   - id: status
-    name: Status
-    summary: 狀態
+    definition: 藥品請求的狀態。
     type: code
-    path: MedicationRequest.status
-    cardinality: 0..1
-    required: false
+    binding: medicationrequest-status
+    required: true
+    path: medicationrequest.status
     default: active
   - id: intent
-    name: Intent
-    summary: 意圖
+    definition: 藥品請求的意圖。
     type: code
-    path: MedicationRequest.intent
-    cardinality: 0..1
-    required: false
+    binding: medicationrequest-intent
+    required: true
+    path: medicationrequest.intent
     default: order
   - id: medicationId
-    name: Medication Id
-    summary: 藥品參照
+    definition: 藥品定義 ID。
     type: reference
-    path: MedicationRequest.medicationReference.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: medication
+    reference: medication
+    required: true
+    path: medicationrequest.medicationId
   - id: patientId
-    name: Patient Id
-    summary: 病人
+    definition: 開立此藥品請求的病人 ID。
     type: reference
-    path: MedicationRequest.subject.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
+    reference: subject
+    required: true
+    path: medicationrequest.patientId
   - id: encounterId
-    name: Encounter Id
-    summary: 就醫紀錄
+    definition: 與此藥品請求密切相關的就醫事件 ID。
     type: reference
-    path: MedicationRequest.encounter.reference
-    cardinality: 0..1
+    reference: encounter
     required: false
-    reference:
-      binding: encounter
+    path: medicationrequest.encounterId
   - id: authoredOn
-    name: Authored On
-    summary: 開立時間
-    type: datetime
-    path: MedicationRequest.authoredOn
-    cardinality: 0..1
+    definition: 藥品請求最初請求時間。
+    type: dateTime
     required: false
-    default: $dateTime()
-    input:
-      between:
-        - 2026-03-01T08:00:00+08:00
-        - 2026-07-31T18:00:00+08:00
+    path: medicationrequest.authoredOn
+    default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: requesterId
-    name: Requester Id
-    summary: 開立者
+    definition: 提出此藥品請求的人或機構 ID。
     type: reference
-    path: MedicationRequest.requester.reference
-    cardinality: 0..1
+    reference: requester
     required: false
-    reference:
-      binding: requester
+    path: medicationrequest.requesterId
   - id: reasonReferenceId
-    name: Reason Reference Id
-    summary: 開立原因參照
+    definition: 開立處方原因的參照 ID。
     type: reference
-    path: MedicationRequest.reasonReference.reference
-    cardinality: 0..1
+    reference: reasonReference
     required: false
-    reference:
-      binding: condition
-  - id: period
-    name: Period
-    summary: 用藥頻率週期。
+    path: medicationrequest.reasonReferenceId
+  - id: dosageText
+    definition: 應該如何用藥的文字說明。
+    type: string
+    required: false
+    path: medicationrequest.dosageText
+  - id: frequency
+    definition: 指定期間內的用藥次數。
     type: number
-    path: MedicationRequest.dosageInstruction.timing.repeat.period
-    cardinality: 0..1
     required: false
+    path: medicationrequest.frequency
+  - id: period
+    definition: 用藥頻率週期。
+    type: number
+    required: false
+    path: medicationrequest.period
     default: 1
   - id: periodUnit
-    name: Period Unit
-    summary: 用藥頻率週期單位。
+    definition: 用藥頻率週期單位。
     type: string
-    path: MedicationRequest.dosageInstruction.timing.repeat.periodUnit
-    cardinality: 0..1
     required: false
+    path: medicationrequest.periodUnit
     default: d
-  - id: dosageText
-    name: Dosage Text
-    summary: 用法說明
-    type: string
-    path: MedicationRequest.dosageInstruction.text
-    cardinality: 0..1
+  - id: timingCode
+    definition: 用藥頻率代碼。
+    type: code
+    binding: medicationrequest-timing-code
     required: false
-  - id: frequency
-    name: Frequency
-    summary: 用藥頻率。
-    type: number
-    path: MedicationRequest.dosageInstruction.timing.repeat.frequency
-    cardinality: 0..1
+    path: medicationrequest.timingCode
+  - id: routeCode
+    definition: 給藥途徑代碼。
+    type: code
+    binding: medicationrequest-route-code
     required: false
+    path: medicationrequest.routeCode
   - id: doseValue
-    name: Dose Value
-    summary: 每次劑量
+    definition: 每次給藥的劑量數值。
     type: number
-    path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.value
-    cardinality: 0..1
     required: false
-  - id: doseUnit
-    name: Dose Unit
-    summary: 劑量單位
+    path: medicationrequest.doseValue
+  - id: doseCode
+    definition: 每次給藥劑量的 UCUM 代碼。
     type: code
-    path: MedicationRequest.dosageInstruction.doseAndRate.doseQuantity.code
-    cardinality: 0..1
+    binding: unitsofmeasure
     required: false
+    path: medicationrequest.doseCode
   - id: durationValue
-    name: Duration Value
-    summary: 處方天數
+    definition: 每次配藥可持續的期間數值。
     type: number
-    path: MedicationRequest.dispenseRequest.expectedSupplyDuration.value
-    cardinality: 0..1
     required: false
-  - id: durationUnit
-    name: Duration Unit
-    summary: 預期供藥天數或期間單位。
+    path: medicationrequest.durationValue
+  - id: durationCode
+    definition: 每次配藥可持續期間的 UCUM 代碼。
     type: code
-    path: MedicationRequest.dispenseRequest.expectedSupplyDuration.code
-    cardinality: 0..1
+    binding: unitsofmeasure
     required: false
+    path: medicationrequest.durationCode
+    default: d

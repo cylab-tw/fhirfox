@@ -1,83 +1,74 @@
 resourceType: organization
 name: Organization
 summary: 描述照護或資料提供機構，包含機構識別、類型、名稱、聯絡方式與地址。
+
+defaults:
+  with:
+    - organization.default-hospital
+
+bindings:
+  - organization-type
+  - contact-point-system
+  - contact-point-use
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 機構識別碼
+    definition: 來源資料內部機構識別碼，用於資源關聯。
     type: string
-    path: Organization.identifier.value
-    cardinality: 0..1
     required: true
+    path: organization.id
+  - id: identifierValue
+    definition: 機構對外業務識別碼。
+    type: identifier
+    required: false
+    path: organization.identifierValue
   - id: idSystem
-    name: Id System
-    summary: 機構識別碼系統
+    definition: 機構識別碼所屬系統。
     type: string
-    path: Organization.identifier.system
-    cardinality: 0..1
     required: false
-    default: https://www.tph.mohw.gov.tw
+    path: organization.idSystem
+    default: https://twcore.mohw.gov.tw/ig/twcore/CodeSystem/organization-identifier-tw
   - id: active
-    name: Active
-    summary: 紀錄狀態
+    definition: 此基本資料是否使用中。
     type: boolean
-    path: Organization.active
-    cardinality: 0..1
     required: false
+    path: organization.active
     default: true
-  - id: alias
-    name: Alias
-    summary: 其他名稱(別名)
-    type: string
-    path: Organization.alias
-    cardinality: 0..1
-    required: false
-    default: 範例醫院
-  - id: name
-    name: Name
-    summary: 機構名稱
-    type: string
-    path: Organization.name
-    cardinality: 0..1
-    required: false
-    default: 台北範例醫院
   - id: type
-    name: Type
-    summary: 機構類型
+    definition: 機構類型。
     type: code
-    path: Organization.type.coding.code
-    cardinality: 0..1
+    binding: organization-type
     required: false
+    path: organization.type
     default: prov
+  - id: name
+    definition: 機構名稱。
+    type: string
+    required: true
+    path: organization.name
   - id: telecomSystem
-    name: Telecom System
-    summary: 聯絡方式類型
+    definition: 聯絡方式類型。
     type: code
-    path: Organization.telecom.system
-    cardinality: 0..1
+    binding: contact-point-system
     required: false
+    path: organization.telecomSystem
     default: phone
   - id: telecomUse
-    name: Telecom Use
-    summary: 聯絡方式用途
+    definition: 聯絡方式用途。
     type: code
-    path: Organization.telecom.use
-    cardinality: 0..1
+    binding: contact-point-use
     required: false
-    default: work
+    path: organization.telecomUse
+    default: mobile
   - id: telecomValue
-    name: Telecom Value
-    summary: 聯絡號碼/信箱
+    definition: 聯絡方式號碼/信箱。
     type: string
-    path: Organization.telecom.value
-    cardinality: 0..1
     required: false
-    default: 02-2312-3456
+    path: organization.telecomValue
+    default: $taiwanMobilePhone()
   - id: address
-    name: Address
-    summary: 機構地址
+    definition: 機構地址。
     type: string
-    path: Organization.address.text
-    cardinality: 0..1
     required: false
-    default: 台北市中正區常德街1號
+    path: organization.address
+    default: $taiwanAddress()

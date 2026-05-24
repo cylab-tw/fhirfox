@@ -1,0 +1,5 @@
+id: patient.tw-core-defaults
+resourceType: patient
+summary: TW Core patient defaults for generated scenarios.
+fields:
+  organization: $bindingRef("organization")

@@ -41,7 +41,7 @@ export function convertResource(
 		};
 	}
 
-	applyResourceDefaults(resource, input, sourceResourceType);
+	applyResourceDefaults(resource);
 	delete resource.id;
 
 	return resource;
@@ -81,11 +81,31 @@ function applyRule(
 	rule: GeneratorRuleRow,
 	ruleSet: ConverterRuleSet,
 ): void {
-	const rawValue = input[rule.sourceColumn];
+	const sourceField = getSourceFieldName(rule);
+	const rawValue = readSourceValue(input, sourceField);
+
+	if (rule.transformKind === 'constant') {
+		if (!rule.mappingKey) {
+			throw new Error(`Constant rule "${rule.fhirPath}" is missing a value.`);
+		}
+		if (isMissing(rawValue)) {
+			if (rule.isRequired) {
+				throw new Error(`Missing required source value "${rule.path}" for resource "${rule.resourceType}".`);
+			}
+
+			return;
+		}
+		writeFhirValue(resource, rule.fhirPath, rule.mappingKey, rule.dataType);
+		return;
+	}
+
+	if (rule.resourceType === 'encounter' && sourceField === 'diagnosisUse' && isMissing(readSourceValue(input, 'conditionId'))) {
+		return;
+	}
 
 	if (isMissing(rawValue)) {
 		if (rule.isRequired) {
-			throw new Error(`Missing required source value "${rule.sourceColumn}" for resource "${rule.resourceType}".`);
+			throw new Error(`Missing required source value "${rule.path}" for resource "${rule.resourceType}".`);
 		}
 
 		return;
@@ -99,7 +119,7 @@ function applyRule(
 			writeFhirValue(
 				resource,
 				rule.fhirPath,
-				buildReference(input, rule.sourceColumn, rawValue, rule.referenceTarget),
+				buildReference(input, sourceField, rawValue, rule.referenceTarget),
 				'string',
 			);
 			return;
@@ -118,6 +138,15 @@ function applyRule(
 	}
 }
 
+function readSourceValue(input: SourceResource, sourceField: string): unknown {
+	if (input[sourceField] !== undefined) {
+		return input[sourceField];
+	}
+
+	const legacyField = legacySourceFieldAliases[sourceField];
+	return legacyField ? input[legacyField] : undefined;
+}
+
 function getFhirResourceType(fhirPath: string | undefined): string {
 	if (!fhirPath) {
 		throw new Error('Cannot determine FHIR resource type without a rule path.');
@@ -133,7 +162,7 @@ function getFhirResourceType(fhirPath: string | undefined): string {
 }
 
 function resolveMappingKey(rule: GeneratorRuleRow, input: SourceResource): string | undefined {
-	if (rule.resourceType !== 'observation' || rule.sourceColumn !== 'observationCode') {
+	if (rule.resourceType !== 'observation' || getSourceFieldName(rule) !== 'observationCode') {
 		return rule.mappingKey;
 	}
 
@@ -146,6 +175,29 @@ function resolveMappingKey(rule: GeneratorRuleRow, input: SourceResource): strin
 
 	return rule.mappingKey;
 }
+
+function getSourceFieldName(rule: GeneratorRuleRow): string {
+	const [, fieldName] = rule.path.split('.', 2);
+
+	if (!fieldName) {
+		throw new Error(`Invalid resource definition path "${rule.path}".`);
+	}
+
+	return fieldName;
+}
+
+const legacySourceFieldAliases: Record<string, string> = {
+	idNumber: 'identityNumber',
+	birthDate: 'birthday',
+	subjectId: 'patientId',
+	onsetDateTime: 'onsetDate',
+	effectiveDateTime: 'effectiveDate',
+	code: 'allergyCode',
+	reactionManifestation: 'manifestation',
+	reactionSeverity: 'severity',
+	reactionExposureRoute: 'exposureRoute',
+	reactionNote: 'note',
+};
 
 function isMissing(value: unknown): boolean {
 	return value === undefined || value === null || value === '';

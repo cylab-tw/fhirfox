@@ -13,8 +13,10 @@ scenarioType: outpatient
 resources:
   - alias: patient.current
     resourceType: patient
+    with:
+      - patient.family-contact
     inputs:
-      birthday:
+      birthDate:
         gte: 0
         lt: 12
     as:
@@ -41,13 +43,13 @@ resources:
   - alias: condition.fever-and-cough
     resourceType: condition
     references:
-      encounterId: encounter.fever-and-cough-visit
       recorderId: practitionerrole.pediatrics-pediatrician
     with:
       - condition.fever-and-cough
   - alias: allergyintolerance.shrimp-allergy
     resourceType: allergyintolerance
     references:
+      asserterId: patient.current
       encounterId: encounter.fever-and-cough-visit
       recorderId: practitionerrole.pediatrics-pediatrician
   - alias: observation.vital-body-temperature

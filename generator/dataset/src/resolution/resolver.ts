@@ -1,5 +1,5 @@
 /* eslint-disable sort-imports */
-import { createResolutionContext } from './context.js';
+import { createResolutionContext, deriveScenarioSeed } from './context.js';
 import { createGraph, orderGraphKeys } from './graph.js';
 import { materializeResource, orderResourceFields } from './materialize.js';
 import { getResourceDefinition, indexFields, indexResourceDefinitions } from '#/model/index.js';
@@ -58,8 +58,13 @@ export async function resolveScenario(
 	scenarioInput: ScenarioDefinition,
 	options: ResolveScenarioOptions,
 ): Promise<ResolvedScenario> {
-	const context = createResolutionContext(options);
+	const codeMappings = options.codeMappings ?? (await provider.getCodeMappings?.()) ?? [];
 	const scenario = normalizeScenario(scenarioInput);
+	const context = createResolutionContext({
+		...options,
+		seed: deriveScenarioSeed(options.seed, scenario.id),
+		codeMappings,
+	});
 	const definitions = indexResourceDefinitions(await provider.getResourceTypeDefinitions());
 	const presetIndex = indexPresets(await provider.getPresets());
 	const bindingAliases = collectScenarioBindingAliases(scenario.resources);
@@ -208,7 +213,7 @@ export async function resolveScenario(
 					return target ? { key: target.key, id: target.resource.id, resourceType: target.resourceType } : undefined;
 				},
 				query: provider.queryResources.bind(provider),
-				seed: options.seed,
+				seed: context.options.seed,
 			});
 
 			const value = referenceValue(reference);

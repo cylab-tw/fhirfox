@@ -13,8 +13,10 @@ scenarioType: outpatient
 resources:
   - alias: patient.current
     resourceType: patient
+    with:
+      - patient.family-contact
     inputs:
-      birthday:
+      birthDate:
         gte: 0
         lt: 12
     as:
@@ -41,7 +43,6 @@ resources:
   - alias: condition.fever-and-cough
     resourceType: condition
     references:
-      encounterId: encounter.pediatrics-visit
       recorderId: practitionerrole.pediatrics-pediatrician
     with:
       - condition.fever-and-cough

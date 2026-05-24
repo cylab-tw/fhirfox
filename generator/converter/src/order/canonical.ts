@@ -14,7 +14,359 @@ const clinicalTypeOrder = [
 	'medicationrequest',
 ] as const;
 const fallbackTypeOrder = ['patient', 'encounter', ...encounterContextTypeOrder, ...clinicalTypeOrder] as const;
-const fhirTopLevelPrefix = ['resourceType', 'meta', 'implicitRules', 'language', 'text', 'contained', 'identifier'];
+const fhirResourcePrefix = [
+	'resourceType',
+	'id',
+	'meta',
+	'implicitRules',
+	'language',
+	'text',
+	'contained',
+	'extension',
+	'modifierExtension',
+];
+const commonNestedFhirOrderByType = new Map<string, string[]>([
+	['Meta', ['versionId', 'lastUpdated', 'source', 'profile', 'security', 'tag']],
+	['Identifier', ['use', 'type', 'system', 'value', 'period', 'assigner']],
+	['CodeableConcept', ['coding', 'text']],
+	['Coding', ['system', 'version', 'code', 'display', 'userSelected']],
+	['HumanName', ['use', 'text', 'family', 'given', 'prefix', 'suffix', 'period']],
+	['ContactPoint', ['system', 'value', 'use', 'rank', 'period']],
+	['Address', ['use', 'type', 'text', 'line', 'city', 'district', 'state', 'postalCode', 'country', 'period']],
+	['Reference', ['reference', 'type', 'identifier', 'display']],
+	['Period', ['start', 'end']],
+	['Quantity', ['value', 'comparator', 'unit', 'system', 'code']],
+	['Annotation', ['authorReference', 'authorString', 'time', 'text']],
+	['Range', ['low', 'high']],
+]);
+const fhirTopLevelOrderByResource = new Map<string, string[]>([
+	[
+		'Patient',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'active',
+			'name',
+			'telecom',
+			'gender',
+			'birthDate',
+			'deceasedBoolean',
+			'deceasedDateTime',
+			'address',
+			'maritalStatus',
+			'multipleBirthBoolean',
+			'multipleBirthInteger',
+			'photo',
+			'contact',
+			'communication',
+			'generalPractitioner',
+			'managingOrganization',
+			'link',
+		],
+	],
+	[
+		'AllergyIntolerance',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'clinicalStatus',
+			'verificationStatus',
+			'type',
+			'category',
+			'criticality',
+			'code',
+			'patient',
+			'encounter',
+			'onsetDateTime',
+			'onsetAge',
+			'onsetPeriod',
+			'onsetRange',
+			'onsetString',
+			'recordedDate',
+			'recorder',
+			'asserter',
+			'lastOccurrence',
+			'note',
+			'reaction',
+		],
+	],
+	[
+		'Practitioner',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'active',
+			'name',
+			'telecom',
+			'address',
+			'gender',
+			'birthDate',
+			'photo',
+			'qualification',
+			'communication',
+		],
+	],
+	[
+		'Organization',
+		[...fhirResourcePrefix, 'identifier', 'active', 'type', 'name', 'alias', 'telecom', 'address', 'partOf', 'contact', 'endpoint'],
+	],
+	[
+		'PractitionerRole',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'active',
+			'period',
+			'practitioner',
+			'organization',
+			'code',
+			'specialty',
+			'location',
+			'healthcareService',
+			'telecom',
+			'availableTime',
+			'notAvailable',
+			'availabilityExceptions',
+			'endpoint',
+		],
+	],
+	[
+		'Encounter',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'status',
+			'statusHistory',
+			'class',
+			'classHistory',
+			'type',
+			'serviceType',
+			'priority',
+			'subject',
+			'episodeOfCare',
+			'basedOn',
+			'participant',
+			'appointment',
+			'period',
+			'length',
+			'reasonCode',
+			'reasonReference',
+			'diagnosis',
+			'account',
+			'hospitalization',
+			'location',
+			'serviceProvider',
+			'partOf',
+		],
+	],
+	[
+		'Condition',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'clinicalStatus',
+			'verificationStatus',
+			'category',
+			'severity',
+			'code',
+			'bodySite',
+			'subject',
+			'encounter',
+			'onsetDateTime',
+			'onsetAge',
+			'onsetPeriod',
+			'onsetRange',
+			'onsetString',
+			'abatementDateTime',
+			'abatementAge',
+			'abatementPeriod',
+			'abatementRange',
+			'abatementString',
+			'recordedDate',
+			'recorder',
+			'asserter',
+			'stage',
+			'evidence',
+			'note',
+		],
+	],
+	[
+		'Observation',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'basedOn',
+			'partOf',
+			'status',
+			'category',
+			'code',
+			'subject',
+			'focus',
+			'encounter',
+			'effectiveDateTime',
+			'effectivePeriod',
+			'effectiveTiming',
+			'effectiveInstant',
+			'issued',
+			'performer',
+			'valueQuantity',
+			'valueCodeableConcept',
+			'valueString',
+			'valueBoolean',
+			'valueInteger',
+			'valueRange',
+			'valueRatio',
+			'valueSampledData',
+			'valueTime',
+			'valueDateTime',
+			'valuePeriod',
+			'dataAbsentReason',
+			'interpretation',
+			'note',
+			'bodySite',
+			'method',
+			'specimen',
+			'device',
+			'referenceRange',
+			'hasMember',
+			'derivedFrom',
+			'component',
+		],
+	],
+	[
+		'Procedure',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'instantiatesCanonical',
+			'instantiatesUri',
+			'basedOn',
+			'partOf',
+			'status',
+			'statusReason',
+			'category',
+			'code',
+			'subject',
+			'encounter',
+			'performedDateTime',
+			'performedPeriod',
+			'performedString',
+			'performedAge',
+			'performedRange',
+			'recorder',
+			'asserter',
+			'performer',
+			'location',
+			'reasonCode',
+			'reasonReference',
+			'bodySite',
+			'outcome',
+			'report',
+			'complication',
+			'complicationDetail',
+			'followUp',
+			'note',
+			'focalDevice',
+			'usedReference',
+			'usedCode',
+		],
+	],
+	[
+		'Medication',
+		[...fhirResourcePrefix, 'identifier', 'code', 'status', 'manufacturer', 'form', 'amount', 'ingredient', 'batch'],
+	],
+	[
+		'MedicationRequest',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'status',
+			'statusReason',
+			'intent',
+			'category',
+			'priority',
+			'doNotPerform',
+			'reportedBoolean',
+			'reportedReference',
+			'medicationCodeableConcept',
+			'medicationReference',
+			'subject',
+			'encounter',
+			'supportingInformation',
+			'authoredOn',
+			'requester',
+			'performer',
+			'performerType',
+			'recorder',
+			'reasonCode',
+			'reasonReference',
+			'instantiatesCanonical',
+			'instantiatesUri',
+			'basedOn',
+			'groupIdentifier',
+			'courseOfTherapyType',
+			'insurance',
+			'note',
+			'dosageInstruction',
+			'dispenseRequest',
+			'substitution',
+			'priorPrescription',
+			'detectedIssue',
+			'eventHistory',
+		],
+	],
+	[
+		'DiagnosticReport',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'basedOn',
+			'status',
+			'category',
+			'code',
+			'subject',
+			'encounter',
+			'effectiveDateTime',
+			'effectivePeriod',
+			'issued',
+			'performer',
+			'resultsInterpreter',
+			'specimen',
+			'result',
+			'imagingStudy',
+			'media',
+			'conclusion',
+			'conclusionCode',
+			'presentedForm',
+		],
+	],
+	[
+		'ImagingStudy',
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'status',
+			'modality',
+			'subject',
+			'encounter',
+			'started',
+			'basedOn',
+			'referrer',
+			'interpreter',
+			'endpoint',
+			'numberOfSeries',
+			'numberOfInstances',
+			'procedureReference',
+			'procedureCode',
+			'location',
+			'reasonCode',
+			'reasonReference',
+			'note',
+			'description',
+			'series',
+		],
+	],
+]);
 
 interface ParsedSegment {
 	name: string;
@@ -22,6 +374,7 @@ interface ParsedSegment {
 }
 
 interface ResourceFieldMetadata {
+	fhirResourceType: string;
 	sourceOrder: string[];
 	topLevelFhirOrder: string[];
 	nestedOrderByPath: Map<string, string[]>;
@@ -122,7 +475,8 @@ function getResourceFieldMetadata(ruleSet: ConverterRuleSet): Map<string, Resour
 	for (const [resourceType, rules] of ruleSet.generatorRulesByResourceType.entries()) {
 		const normalizedResourceType = resourceType.toLowerCase();
 		const sourceOrder = [...(sourceFieldOrder[normalizedResourceType] ?? [])];
-		const topLevelFhirOrder: string[] = [...fhirTopLevelPrefix];
+		const fhirResourceType = getFhirResourceTypeFromRules(rules);
+		const topLevelFhirOrder: string[] = [...(fhirTopLevelOrderByResource.get(fhirResourceType) ?? fhirResourcePrefix)];
 		const nestedOrderByPath = new Map<string, string[]>();
 		const orderedRules = [...rules].sort((left, right) => compareRuleBySourceFieldOrder(left, right, sourceOrder));
 
@@ -143,10 +497,11 @@ function getResourceFieldMetadata(ruleSet: ConverterRuleSet): Map<string, Resour
 				appendOrderEntry(nestedOrderByPath, leafParentPath, 'display');
 			}
 
-			appendOrderEntry(sourceOrder, rule.sourceColumn);
+			appendOrderEntry(sourceOrder, getSourceFieldName(rule));
 		}
 
 		built.set(resourceType.toLowerCase(), {
+			fhirResourceType,
 			sourceOrder,
 			topLevelFhirOrder,
 			nestedOrderByPath,
@@ -157,6 +512,16 @@ function getResourceFieldMetadata(ruleSet: ConverterRuleSet): Map<string, Resour
 		ruleSet as ConverterRuleSet & { canonicalFieldMetadata?: Map<string, ResourceFieldMetadata> }
 	).canonicalFieldMetadata = built;
 	return built;
+}
+
+function getFhirResourceTypeFromRules(rules: GeneratorRuleRow[]): string {
+	const firstRule = rules[0];
+
+	if (!firstRule) {
+		return '';
+	}
+
+	return parseFhirRulePath(firstRule).resourceType;
 }
 
 function parseFhirRulePath(rule: GeneratorRuleRow): { resourceType: string; segments: ParsedSegment[] } {
@@ -289,18 +654,251 @@ function resolveNestedFieldOrder(
 	record: Record<string, unknown>,
 	metadata: ResourceFieldMetadata | undefined,
 ): string[] | undefined {
-	void record;
 	const normalizedPath = path.startsWith('[].') ? path.slice(3) : path;
-	return metadata?.nestedOrderByPath.get(normalizedPath);
+	const structuralOrder = resolveStructuralNestedFieldOrder(normalizedPath, record, metadata?.fhirResourceType);
+	const ruleOrder = metadata?.nestedOrderByPath.get(normalizedPath);
+
+	if (structuralOrder && ruleOrder) {
+		return mergeFieldOrder(structuralOrder, ruleOrder);
+	}
+
+	return structuralOrder ?? ruleOrder;
+}
+
+function resolveStructuralNestedFieldOrder(
+	path: string,
+	record: Record<string, unknown>,
+	fhirResourceType: string | undefined,
+): string[] | undefined {
+	const elementName = getPathElementName(path);
+
+	if (path === 'meta') {
+		return commonNestedFhirOrderByType.get('Meta');
+	}
+
+	if (path === 'text') {
+		return ['status', 'div'];
+	}
+
+	if (elementName === 'identifier') {
+		return commonNestedFhirOrderByType.get('Identifier');
+	}
+
+	if (elementName === 'coding') {
+		return commonNestedFhirOrderByType.get('Coding');
+	}
+
+	if (elementName === 'name') {
+		return commonNestedFhirOrderByType.get('HumanName');
+	}
+
+	if (elementName === 'telecom') {
+		return commonNestedFhirOrderByType.get('ContactPoint');
+	}
+
+	if (elementName === 'address') {
+		return commonNestedFhirOrderByType.get('Address');
+	}
+
+	if (elementName === 'period' || elementName.endsWith('Period')) {
+		return commonNestedFhirOrderByType.get('Period');
+	}
+
+	if (elementName === 'note') {
+		return commonNestedFhirOrderByType.get('Annotation');
+	}
+
+	if (elementName === 'referenceRange') {
+		return ['low', 'high', 'type', 'appliesTo', 'age', 'text'];
+	}
+
+	if (elementName === 'component' && fhirResourceType === 'Observation') {
+		return [
+			'code',
+			'valueQuantity',
+			'valueCodeableConcept',
+			'valueString',
+			'valueBoolean',
+			'valueInteger',
+			'valueRange',
+			'valueRatio',
+			'valueSampledData',
+			'valueTime',
+			'valueDateTime',
+			'valuePeriod',
+			'dataAbsentReason',
+			'interpretation',
+			'referenceRange',
+		];
+	}
+
+	if (elementName === 'reaction' && fhirResourceType === 'AllergyIntolerance') {
+		return ['substance', 'manifestation', 'description', 'onset', 'severity', 'exposureRoute', 'note'];
+	}
+
+	if (elementName === 'participant' && fhirResourceType === 'Encounter') {
+		return ['type', 'period', 'individual'];
+	}
+
+	if (elementName === 'diagnosis' && fhirResourceType === 'Encounter') {
+		return ['condition', 'use', 'rank'];
+	}
+
+	if (elementName === 'hospitalization' && fhirResourceType === 'Encounter') {
+		return [
+			'preAdmissionIdentifier',
+			'origin',
+			'admitSource',
+			'reAdmission',
+			'dietPreference',
+			'specialCourtesy',
+			'specialArrangement',
+			'destination',
+			'dischargeDisposition',
+		];
+	}
+
+	if (elementName === 'qualification' && fhirResourceType === 'Practitioner') {
+		return ['identifier', 'code', 'period', 'issuer'];
+	}
+
+	if (elementName === 'performer' && fhirResourceType === 'Procedure') {
+		return ['function', 'actor', 'onBehalfOf'];
+	}
+
+	if (elementName === 'dosageInstruction' && fhirResourceType === 'MedicationRequest') {
+		return [
+			'sequence',
+			'text',
+			'additionalInstruction',
+			'patientInstruction',
+			'timing',
+			'asNeededBoolean',
+			'asNeededCodeableConcept',
+			'site',
+			'route',
+			'method',
+			'doseAndRate',
+			'maxDosePerPeriod',
+			'maxDosePerAdministration',
+			'maxDosePerLifetime',
+		];
+	}
+
+	if (elementName === 'timing') {
+		return ['event', 'repeat', 'code'];
+	}
+
+	if (elementName === 'repeat') {
+		return [
+			'boundsDuration',
+			'boundsRange',
+			'boundsPeriod',
+			'count',
+			'countMax',
+			'duration',
+			'durationMax',
+			'durationCode',
+			'frequency',
+			'frequencyMax',
+			'period',
+			'periodMax',
+			'periodUnit',
+			'dayOfWeek',
+			'timeOfDay',
+			'when',
+			'offset',
+		];
+	}
+
+	if (elementName === 'doseAndRate') {
+		return ['type', 'doseRange', 'doseQuantity', 'rateRatio', 'rateRange', 'rateQuantity'];
+	}
+
+	if (elementName === 'dispenseRequest' && fhirResourceType === 'MedicationRequest') {
+		return [
+			'initialFill',
+			'dispenseInterval',
+			'validityPeriod',
+			'numberOfRepeatsAllowed',
+			'quantity',
+			'expectedSupplyDuration',
+			'performer',
+		];
+	}
+
+	if (looksLikeReference(record)) {
+		return commonNestedFhirOrderByType.get('Reference');
+	}
+
+	if (looksLikeCodeableConcept(record)) {
+		return commonNestedFhirOrderByType.get('CodeableConcept');
+	}
+
+	if (looksLikeQuantity(record)) {
+		return commonNestedFhirOrderByType.get('Quantity');
+	}
+
+	if (looksLikeRange(record)) {
+		return commonNestedFhirOrderByType.get('Range');
+	}
+
+	return undefined;
+}
+
+function getPathElementName(path: string): string {
+	const segments = path.split('.');
+	const lastSegment = segments[segments.length - 1] ?? path;
+	return lastSegment.endsWith('[]') ? lastSegment.slice(0, -2) : lastSegment;
+}
+
+function mergeFieldOrder(primary: string[], secondary: string[]): string[] {
+	const merged = [...primary];
+
+	for (const field of secondary) {
+		appendOrderEntry(merged, field);
+	}
+
+	return merged;
+}
+
+function looksLikeCodeableConcept(record: Record<string, unknown>): boolean {
+	return Array.isArray(record.coding) || typeof record.text === 'string';
+}
+
+function looksLikeReference(record: Record<string, unknown>): boolean {
+	return typeof record.reference === 'string' || typeof record.display === 'string' || isRecord(record.identifier);
+}
+
+function looksLikeQuantity(record: Record<string, unknown>): boolean {
+	return (
+		typeof record.value === 'number' ||
+		typeof record.comparator === 'string' ||
+		typeof record.unit === 'string' ||
+		(typeof record.system === 'string' && typeof record.code === 'string')
+	);
+}
+
+function looksLikeRange(record: Record<string, unknown>): boolean {
+	return isRecord(record.low) || isRecord(record.high);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function compareRuleBySourceFieldOrder(left: GeneratorRuleRow, right: GeneratorRuleRow, sourceOrder: string[]): number {
-	const leftIndex = sourceOrder.indexOf(left.sourceColumn);
-	const rightIndex = sourceOrder.indexOf(right.sourceColumn);
+	const leftIndex = sourceOrder.indexOf(getSourceFieldName(left));
+	const rightIndex = sourceOrder.indexOf(getSourceFieldName(right));
 	const normalizedLeft = leftIndex === -1 ? Number.MAX_SAFE_INTEGER : leftIndex;
 	const normalizedRight = rightIndex === -1 ? Number.MAX_SAFE_INTEGER : rightIndex;
 
 	return normalizedLeft - normalizedRight || left.sortOrder - right.sortOrder;
+}
+
+function getSourceFieldName(rule: GeneratorRuleRow): string {
+	const [, fieldName] = rule.path.split('.', 2);
+	return fieldName ?? rule.path;
 }
 
 function pushEncounterGroupOrganizations<TResource extends SourceResource>(

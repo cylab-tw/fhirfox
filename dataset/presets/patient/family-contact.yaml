@@ -1,0 +1,9 @@
+id: patient.family-contact
+resourceType: patient
+summary: Shared family contact person for pediatric TW Core scenarios.
+fields:
+  contactName: 王美玲
+  contactRelationship: N
+  contactTelecomSystem: phone
+  contactTelecomUse: mobile
+  contactTelecomValue: "0912345678"

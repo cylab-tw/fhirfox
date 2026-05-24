@@ -66,6 +66,7 @@ export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'
 		const provider = createInMemoryDatasetProvider({
 			resourceTypeDefinitions,
 			presets,
+			codeMappings: converterRows.codeMappings,
 		});
 		const ruleSet = normalizeRuleSet(converterRows, igName, igVersion);
 		ruleSet.sourceFieldOrder = sourceFieldOrder;
@@ -99,7 +100,7 @@ function buildSourceCodeDisplayMap(ruleSetRows: Awaited<ReturnType<typeof loadCo
 	const mappingKeyByField = new Map(
 		ruleSetRows.generatorRules.flatMap((row) =>
 			row.transformKind === 'code_map' && row.mappingKey
-				? [[`${row.resourceType.toLowerCase()}.${row.sourceColumn}`, row.mappingKey] as const]
+				? [[row.path.toLowerCase(), row.mappingKey] as const]
 				: [],
 		),
 	);

@@ -31,7 +31,7 @@ function parseGeneratorRuleRow(row: CsvRow): GeneratorRuleRow {
 		igName: requiredCell(row, 'ig_name'),
 		igVersion: requiredCell(row, 'ig_version'),
 		resourceType: requiredCell(row, 'resource_type'),
-		sourceColumn: requiredCell(row, 'source_column'),
+		path: requiredCell(row, 'path'),
 		fhirPath: requiredCell(row, 'fhir_path'),
 		dataType: requiredCell(row, 'data_type'),
 		isRequired: parseBoolean(requiredCell(row, 'is_required')),
@@ -184,7 +184,7 @@ function parseInteger(value: string): number {
 }
 
 function parseTransformKind(value: string): TransformKind {
-	if (value === 'copy' || value === 'code_map' || value === 'build_reference') {
+	if (value === 'copy' || value === 'code_map' || value === 'build_reference' || value === 'constant') {
 		return value;
 	}
 

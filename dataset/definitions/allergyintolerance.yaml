@@ -1,168 +1,162 @@
 resourceType: allergyintolerance
 name: AllergyIntolerance
 summary: 記錄病人的過敏或不良反應風險，包含過敏原、嚴重度、反應表現與紀錄者。
+
+defaults:
+  with:
+    - allergyintolerance.shrimp-allergy
+
 bindings:
-  encounter:
-    key: encounter
-    name: Scenario encounter
-    resourceTypes:
-      - encounter
-    summary: 此情境相關就醫事件。
-  patient:
-    key: subject
-    name: Scenario patient
+  - allergyintolerance-clinical
+  - allergyintolerance-verification
+  - allergy-intolerance-type
+  - allergy-intolerance-category
+  - allergy-intolerance-criticality
+  - allergyintolerance-code
+  - substance-code
+  - allergy-manifestation
+  - reaction-event-severity
+  - route-codes
+
+references:
+  subject:
+    definition: 此過敏或不耐受的病人。
     resourceTypes:
       - patient
-    summary: 此情境主要病人。
+  encounter:
+    definition: 與此過敏或不耐受紀錄相關的就醫事件。
+    resourceTypes:
+      - encounter
   recorder:
-    key: recorder
-    name: Scenario recorder
+    definition: 此過敏或不耐受資訊的記錄者。
+    resourceTypes:
+      - practitioner
+      - practitionerrole
+      - patient
+  asserter:
+    definition: 聲明或確認此過敏或不耐受資訊的人。
     resourceTypes:
       - patient
       - practitioner
       - practitionerrole
-    summary: 此情境紀錄者。
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 過敏紀錄識別碼
-    type: string
-    path: AllergyIntolerance.identifier.value
-    cardinality: 0..1
+    definition: 過敏紀錄識別碼。
+    type: identifier
     required: true
-  - id: idSystem
-    name: Id System
-    summary: 來源 HIS 過敏紀錄識別碼系統
-    type: string
-    path: AllergyIntolerance.identifier.system
-    cardinality: 0..1
-    required: false
-    default: https://fhirfox.dev/identifier-system/allergyintolerance
+    path: allergyintolerance.id
   - id: clinicalStatus
-    name: Clinical Status
-    summary: 臨床狀態
+    definition: 過敏或不耐受的臨床狀態。
     type: code
-    path: AllergyIntolerance.clinicalStatus
-    cardinality: 0..1
+    binding: allergyintolerance-clinical
     required: false
+    path: allergyintolerance.clinicalStatus
     default: active
   - id: verificationStatus
-    name: Verification Status
-    summary: 確認狀態
+    definition: 關於對特定物質反應的傾向或潜在風險的確定性聲明。
     type: code
-    path: AllergyIntolerance.verificationStatus
-    cardinality: 0..1
+    binding: allergyintolerance-verification
     required: false
+    path: allergyintolerance.verificationStatus
     default: confirmed
   - id: type
-    name: Type
-    summary: 過敏類型
+    definition: 過敏類型。
     type: code
-    path: AllergyIntolerance.type
-    cardinality: 0..1
+    binding: allergy-intolerance-type
     required: false
+    path: allergyintolerance.type
     default: allergy
   - id: category
-    name: Category
-    summary: 過敏原類別
+    definition: 過敏原類別。
     type: code
-    path: AllergyIntolerance.category
-    cardinality: 0..1
+    binding: allergy-intolerance-category
     required: false
+    path: allergyintolerance.category
     default: food
   - id: criticality
-    name: Criticality
-    summary: 嚴重性評估
+    definition: 過敏嚴重性。
     type: code
-    path: AllergyIntolerance.criticality
-    cardinality: 0..1
+    binding: allergy-intolerance-criticality
     required: false
+    path: allergyintolerance.criticality
     default: low
   - id: allergyCode
-    name: Allergy Code
-    summary: 過敏原代碼
+    definition: 指明此過敏或不耐受的代碼。
     type: code
-    path: AllergyIntolerance.code.coding.code
-    cardinality: 0..1
-    required: false
-    default: Al-N0001
+    binding: allergyintolerance-code
+    required: true
+    path: allergyintolerance.allergyCode
   - id: patientId
-    name: Patient Id
-    summary: 過敏病人
+    definition: 此過敏或不耐受的病人 ID。
     type: reference
-    path: AllergyIntolerance.patient.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: patient
+    reference: subject
+    required: true
+    path: allergyintolerance.patientId
   - id: encounterId
-    name: Encounter Id
-    summary: 就醫事件
+    definition: 此情境相關就醫事件 ID。
     type: reference
-    path: AllergyIntolerance.encounter.reference
-    cardinality: 0..1
-    required: false
-    reference:
-      binding: encounter
+    reference: encounter
+    required: true
+    path: allergyintolerance.encounterId
   - id: onsetDate
-    name: Onset Date
-    summary: 發作時間
-    type: datetime
-    path: AllergyIntolerance.onsetDateTime
-    cardinality: 0..1
+    definition: 發作時間。
+    type: dateTime
     required: false
+    path: allergyintolerance.onsetDate
   - id: recordedDate
-    name: Recorded Date
-    summary: 紀錄日期
-    type: datetime
-    path: AllergyIntolerance.recordedDate
-    cardinality: 0..1
+    definition: 紀錄日期。
+    type: dateTime
     required: false
-    default: 2026-03-30T10:10:00+08:00
+    path: allergyintolerance.recordedDate
   - id: recorderId
-    name: Recorder Id
-    summary: 紀錄者
+    definition: 紀錄者 ID。
     type: reference
-    path: AllergyIntolerance.recorder.reference
-    cardinality: 0..1
+    reference: recorder
     required: false
-    reference:
-      binding: recorder
+    path: allergyintolerance.recorderId
+  - id: asserterId
+    definition: 發作者 ID。
+    type: reference
+    reference: asserter
+    required: false
+    path: allergyintolerance.asserterId
+  - id: lastOccurrence
+    definition: 最後一次發生時間。
+    type: dateTime
+    required: false
+    path: allergyintolerance.lastOccurrence
   - id: reactionSubstance
-    name: Reaction Substance
-    summary: 不良反應物質
-    type: string
-    path: AllergyIntolerance.reaction.substance
-    cardinality: 0..1
+    definition: 不良反應物質。
+    type: code
+    binding: substance-code
     required: false
+    path: allergyintolerance.reactionSubstance
   - id: manifestation
-    name: Manifestation
-    summary: 臨床症狀
+    definition: 不良反應症狀。
     type: code
-    path: AllergyIntolerance.reaction.manifestation
-    cardinality: 0..1
+    binding: allergy-manifestation
+    required: true
+    path: allergyintolerance.manifestation
+  - id: reactionDescription
+    definition: 不良反應描述。
+    type: string
     required: false
-    default: "271807003"
+    path: allergyintolerance.reactionDescription
   - id: severity
-    name: Severity
-    summary: 反應嚴重度
+    definition: 不良反應嚴重程度。
     type: code
-    path: AllergyIntolerance.reaction.severity
-    cardinality: 0..1
+    binding: reaction-event-severity
     required: false
-    default: moderate
+    path: allergyintolerance.severity
   - id: exposureRoute
-    name: Exposure Route
-    summary: 接觸途徑
-    type: string
-    path: AllergyIntolerance.reaction.exposureRoute
-    cardinality: 0..1
+    definition: 不良反應接觸途徑。
+    type: code
+    binding: route-codes
     required: false
+    path: allergyintolerance.exposureRoute
   - id: note
-    name: Note
-    summary: 備註
+    definition: 不良反應備註。
     type: string
-    path: AllergyIntolerance.note.text
-    cardinality: 0..1
     required: false
-    default: 對蝦子過敏，曾出現皮膚紅疹。
+    path: allergyintolerance.note

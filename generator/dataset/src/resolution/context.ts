@@ -4,7 +4,7 @@ import type { ResolveScenarioOptions } from './types.js';
 
 /** Resolve options after defaults have been applied. */
 export type NormalizedResolveScenarioOptions = Required<Pick<ResolveScenarioOptions, 'seed' | 'now' | 'generatedAt'>> &
-	Pick<ResolveScenarioOptions, 'includeExplanation'>;
+	Pick<ResolveScenarioOptions, 'includeExplanation' | 'codeMappings'>;
 
 /** Holds deterministic state shared by one scenario resolution run. */
 export class ResolutionContext {
@@ -25,6 +25,11 @@ export class ResolutionContext {
 	}
 }
 
+/** Scopes deterministic generation to a scenario without changing the caller-facing seed. */
+export function deriveScenarioSeed(seed: string, scenarioId: string): string {
+	return `${seed}:scenario:${scenarioId}`;
+}
+
 /** Creates a resolution context with normalized time defaults. */
 export function createResolutionContext(options: ResolveScenarioOptions): ResolutionContext {
 	const now = options.now ?? new Date();
@@ -33,5 +38,6 @@ export function createResolutionContext(options: ResolveScenarioOptions): Resolu
 		now,
 		generatedAt: options.generatedAt ?? now.toISOString(),
 		includeExplanation: options.includeExplanation,
+		codeMappings: options.codeMappings,
 	});
 }

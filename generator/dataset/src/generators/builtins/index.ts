@@ -11,6 +11,7 @@ import { idGenerator } from './id.js';
 import { inputGenerator } from './input.js';
 import { numberGenerator } from './number.js';
 import { pickGenerator } from './pick.js';
+import { randomGenerator } from './random.js';
 import { refGenerator } from './ref.js';
 import { taiwanAddressGenerator } from './taiwan-address.js';
 import { taiwanMobilePhoneGenerator } from './taiwan-mobile-phone.js';
@@ -27,6 +28,7 @@ export function createBuiltinGeneratorEntries(): Array<[string, GeneratorFunctio
 		['case', caseGenerator],
 		['caseNumber', caseNumberGenerator],
 		['number', numberGenerator],
+		['random', randomGenerator],
 		['pick', pickGenerator],
 		['humanName', humanNameGenerator],
 		['taiwanNationalId', taiwanNationalIdGenerator],

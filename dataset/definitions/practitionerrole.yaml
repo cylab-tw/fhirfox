@@ -1,104 +1,106 @@
 resourceType: practitionerrole
 name: PractitionerRole
-summary: 定義醫事人員在特定機構中的角色、專科與聯絡資訊，用於就醫與開立者參照。
+summary: 描述健康照護服務提供者在特定機構中的角色、專科、服務期間與聯絡方式。
+
 bindings:
-  organization:
-    key: provider
-    name: Scenario organization
-    resourceTypes:
-      - organization
-    summary: 此情境主要照護或資料提供機構。
+  - practitionerrole-role-code
+  - practitionerrole-specialty-code
+  - contact-point-system
+  - contact-point-use
+
+references:
   practitioner:
-    key: practitioner
-    name: Scenario practitioner
+    definition: 擔任此角色的健康照護服務提供者。
     resourceTypes:
       - practitioner
-    summary: 此情境醫事人員。
+  organization:
+    key: provider
+    definition: 此角色所屬或代表的機構。
+    resourceTypes:
+      - organization
+
 fields:
   - id: id
-    name: Id
-    summary: 來源 HIS 醫事人員角色識別碼
+    definition: 來源資料內部角色識別碼，用於資源關聯。
     type: string
-    path: PractitionerRole.identifier.value
-    cardinality: 0..1
     required: true
+    path: practitionerrole.id
+  - id: identifierValue
+    definition: 健康照護服務提供者角色對外識別碼。
+    type: identifier
+    required: false
+    path: practitionerrole.identifierValue
+    default: $random("KP00018", "KP00021", "KP00034", "KP00047", "KP00052")
   - id: idSystem
-    name: Id System
-    summary: 來源 HIS 醫事人員角色識別碼系統
+    definition: 健康照護服務提供者角色識別碼所屬系統。
     type: string
-    path: PractitionerRole.identifier.system
-    cardinality: 0..1
     required: false
-    default: https://fhirfox.dev/identifier-system/practitionerrole
+    path: practitionerrole.idSystem
+    default: https://www.tph.mohw.gov.tw
   - id: active
-    name: Active
-    summary: 紀錄狀態
+    definition: 此角色紀錄是否使用中。
     type: boolean
-    path: PractitionerRole.active
-    cardinality: 0..1
     required: false
+    path: practitionerrole.active
     default: true
-  - id: periodStart
-    name: Period Start
-    summary: 授權起始日
-    type: datetime
-    path: PractitionerRole.period.start
-    cardinality: 0..1
-    required: false
-    default: 2024-01-01T08:00:00+08:00
   - id: practitionerId
-    name: Practitioner Id
-    summary: 醫事人員
+    definition: 擔任此角色的健康照護服務提供者 ID。
     type: reference
-    path: PractitionerRole.practitioner.reference
-    cardinality: 0..1
+    reference: practitioner
     required: false
-    reference:
-      binding: practitioner
+    path: practitionerrole.practitionerId
   - id: organizationId
-    name: Organization Id
-    summary: 醫療機構
+    definition: 此角色所屬或代表的機構 ID。
     type: reference
-    path: PractitionerRole.organization.reference
-    cardinality: 0..1
+    reference: organization
     required: false
-    reference:
-      binding: organization
+    path: practitionerrole.organizationId
   - id: roleCode
-    name: Role Code
-    summary: 角色代碼
+    definition: 此人員在機構中的角色。
     type: code
-    path: PractitionerRole.code.coding.code
-    cardinality: 0..1
+    binding: practitionerrole-role-code
     required: false
+    path: practitionerrole.roleCode
+  - id: roleText
+    definition: 此人員在機構中的角色文字。
+    type: string
+    required: false
+    path: practitionerrole.roleText
   - id: specialtyCode
-    name: Specialty Code
-    summary: 專科/科別
+    definition: 此角色提供服務的專科或科別。
     type: code
-    path: PractitionerRole.specialty.coding.code
-    cardinality: 0..1
+    binding: practitionerrole-specialty-code
     required: false
+    path: practitionerrole.specialtyCode
+  - id: periodStart
+    definition: 此角色可提供服務的起始時間。
+    type: dateTime
+    required: false
+    path: practitionerrole.periodStart
+    default: 2024-01-01T08:00:00+08:00
+  - id: periodEnd
+    definition: 此角色可提供服務的結束時間。
+    type: dateTime
+    required: false
+    path: practitionerrole.periodEnd
+    default: 2026-12-31T17:00:00+08:00
   - id: telecomSystem
-    name: Telecom System
-    summary: 聯絡方式類型
+    definition: 聯絡方式類型。
     type: code
-    path: PractitionerRole.telecom.system
-    cardinality: 0..1
+    binding: contact-point-system
     required: false
+    path: practitionerrole.telecomSystem
     default: phone
   - id: telecomUse
-    name: Telecom Use
-    summary: 聯絡方式用途
+    definition: 聯絡方式用途。
     type: code
-    path: PractitionerRole.telecom.use
-    cardinality: 0..1
+    binding: contact-point-use
     required: false
+    path: practitionerrole.telecomUse
     default: work
   - id: telecomValue
-    name: Telecom Value
-    summary: 聯絡號碼/信箱
+    definition: 聯絡方式號碼/信箱。
     type: string
-    path: PractitionerRole.telecom.value
-    cardinality: 0..1
     required: false
+    path: practitionerrole.telecomValue
     default: "02-2312-3456"

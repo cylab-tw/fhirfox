@@ -14,7 +14,7 @@ resources:
   - alias: patient.current
     resourceType: patient
     inputs:
-      birthday:
+      birthDate:
         gt: 18
     as:
       - subject
@@ -76,7 +76,6 @@ resources:
   - alias: condition.emergency-fever
     resourceType: condition
     references:
-      encounterId: encounter.emergency-fever-visit
       recorderId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - condition.emergency-fever

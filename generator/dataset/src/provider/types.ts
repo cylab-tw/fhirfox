@@ -1,4 +1,4 @@
-import type { ResourceTypeDefinition, SourceResource } from '#/model/index.js';
+import type { CodeMappingDefinition, ResourceTypeDefinition, SourceResource } from '#/model/index.js';
 import type { Preset } from '#/preset/index.js';
 
 /** Source of resource definitions, presets, and existing records for resolution. */
@@ -9,4 +9,6 @@ export interface DatasetProvider {
 	getPresets(): Promise<Preset[]>;
 	/** Find existing source records that can satisfy a reference selection. */
 	queryResources(resourceType: string, filter?: Record<string, unknown>): Promise<SourceResource[]>;
+	/** Load code mappings that can back generated code fields. */
+	getCodeMappings?(): Promise<CodeMappingDefinition[]>;
 }

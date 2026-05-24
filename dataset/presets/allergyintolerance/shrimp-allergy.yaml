@@ -1,0 +1,16 @@
+id: allergyintolerance.shrimp-allergy
+resourceType: allergyintolerance
+summary: Clinically reasonable allergy default for generated allergy records.
+fields:
+  allergyCode: Al-F0007
+  category: food
+  criticality: low
+  exposureRoute: "26643006"
+  lastOccurrence: 2026-03-01T10:00:00+08:00
+  manifestation: "271807003"
+  note: 食用海鮮後曾出現皮疹，建議避免蝦蟹類食物。
+  onsetDate: 2026-03-01T09:30:00+08:00
+  reactionDescription: 食用蝦類後出現皮疹與搔癢，未出現呼吸困難。
+  recordedDate: 2026-03-01T10:10:00+08:00
+  reactionSubstance: "44027008"
+  severity: mild

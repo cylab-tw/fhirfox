@@ -2,5 +2,6 @@ id: practitionerrole.cardiology-specialist
 resourceType: practitionerrole
 fields:
   roleCode: PR-0004
+  roleText: 內科醫師
   specialtyCode: Spec-0010
   telecomValue: "02-2312-3456"

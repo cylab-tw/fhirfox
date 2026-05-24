@@ -1,3 +1,5 @@
+import type { CodeMappingDefinition } from '#/model/index.js';
+
 /** Function behind a `$name(...)` expression. */
 export type GeneratorFunction = (args: unknown[], context: GeneratorContext) => unknown;
 
@@ -17,6 +19,10 @@ export interface GeneratorContext {
 	inputs: Record<string, unknown>;
 	/** Field values already produced for the current record. */
 	values: Record<string, unknown>;
+	/** Code mappings available for binding-backed random value generation. */
+	codeMappings?: CodeMappingDefinition[];
+	/** Code mapping key by field id for the current resource definition. */
+	codeMappingByField?: Record<string, string>;
 	/** Allocate the next id for a resource type. */
 	nextId(resourceType: string): string;
 	/** Deterministic random number for the supplied key. Generator code adds record/field scope. */
