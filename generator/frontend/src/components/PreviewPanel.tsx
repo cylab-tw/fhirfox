@@ -13,9 +13,9 @@ const previewModes: Array<{ value: PreviewMode; label: string }> = [
 ];
 
 const segmentedGroupClassName =
-	'inline-flex rounded-2xl border border-slate-300 bg-slate-100 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]';
+	'inline-flex min-w-0 rounded-2xl border border-slate-300 bg-slate-100 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]';
 const primarySegmentButtonClassName =
-	'rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100';
+	'min-w-0 rounded-xl px-3 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100 sm:px-4';
 const inactiveSegmentClassName = 'text-slate-600 hover:text-slate-900';
 
 export function PreviewPanel({
@@ -39,19 +39,21 @@ export function PreviewPanel({
 	compactMeta: string[];
 }>) {
 	return (
-		<section className="flex min-h-0 flex-col overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
-			<div className="shrink-0 border-b border-slate-200/80 px-6 py-5">
+		<section className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
+			<div className="shrink-0 border-b border-slate-200/80 px-4 py-4 sm:px-6 sm:py-5">
 				<div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-x-4 sm:gap-y-3.5">
 					<div className="min-w-0 flex-1">
 						<div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-							<h2 className="text-[22px] font-semibold tracking-tight text-slate-950">{scenarioName ?? '資料檢視'}</h2>
+							<h2 className="text-[19px] leading-tight font-semibold tracking-tight text-slate-950 sm:text-[22px]">
+								{scenarioName ?? '資料檢視'}
+							</h2>
 							{scenarioId ? (
 								<span className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
 									{scenarioId}
 								</span>
 							) : null}
 						</div>
-						<div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[15px] text-slate-500">
+						<div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[13px] text-slate-500 sm:text-[15px]">
 							{compactMeta.map((item, index) => (
 								<span key={item} className="inline-flex items-center gap-2">
 									{index > 0 ? <span className="text-slate-300">·</span> : null}
@@ -59,7 +61,7 @@ export function PreviewPanel({
 								</span>
 							))}
 						</div>
-						{helperText ? <p className="mt-2.5 text-[15px] leading-6 text-slate-500">{helperText}</p> : null}
+						{helperText ? <p className="mt-2.5 text-[14px] leading-6 text-slate-500 sm:text-[15px]">{helperText}</p> : null}
 					</div>
 					<div className="flex w-full shrink-0 flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
 						<div className={`${segmentedGroupClassName} w-full sm:w-auto`}>
