@@ -85,11 +85,6 @@ fields:
     binding: unitsofmeasure
     required: false
     path: observation.valueUnit
-  - id: dataAbsentReason
-    definition: 觀察結果資料缺失的原因。
-    type: string
-    required: false
-    path: observation.dataAbsentReason
   - id: systolicValue
     definition: 血壓觀察結果中的收縮壓數值。
     type: number

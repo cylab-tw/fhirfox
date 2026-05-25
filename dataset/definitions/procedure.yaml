@@ -9,6 +9,7 @@ bindings:
   - procedure-performer-function
   - condition-code
   - procedure-outcome
+  - body-site
 
 references:
   subject:
@@ -44,11 +45,6 @@ fields:
     required: true
     path: procedure.status
     default: completed
-  - id: statusReason
-    definition: 目前狀態的原因。
-    type: string
-    required: false
-    path: procedure.statusReason
   - id: category
     definition: 處置或手術的分類。
     type: code
@@ -101,12 +97,6 @@ fields:
     required: false
     path: procedure.performedDate
     default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
-  - id: locationId
-    definition: 此處置或手術發生的地點 ID。
-    type: reference
-    reference: location
-    required: false
-    path: procedure.locationId
   - id: performerId
     definition: 執行此處置或手術的人或機構 ID。
     type: reference
@@ -121,7 +111,8 @@ fields:
     path: procedure.performerFunction
   - id: bodySite
     definition: 處置或手術的目標身體部位。
-    type: string
+    type: code
+    binding: body-site
     required: false
     path: procedure.bodySite
   - id: reasonCode
@@ -137,8 +128,3 @@ fields:
     required: false
     path: procedure.outcome
     default: "385669000"
-  - id: complication
-    definition: 處置或手術產生的併發症。
-    type: string
-    required: false
-    path: procedure.complication

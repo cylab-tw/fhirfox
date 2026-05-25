@@ -4,5 +4,6 @@ summary: "Proc-0030: 頭部傷口換藥"
 fields:
   procedureCode: Proc-0030
   procedureText: 頭部傷口換藥
+  bodySite: head
   category: "387713003"
   performerFunction: Perf-0007

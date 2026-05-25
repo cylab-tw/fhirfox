@@ -24,7 +24,12 @@ import type {
 	SourceCodeDisplayMap,
 	SourceFieldDocRecord,
 } from './types.js';
-import type { ConverterRuleSet, GeneratorRuleRow, SourceResource, StaticConverterRows } from '@fhirfox/converter/browser';
+import type {
+	ConverterRuleSet,
+	GeneratorRuleRow,
+	SourceResource,
+	StaticConverterRows,
+} from '@fhirfox/converter/browser';
 import type { DatasetProvider, Preset, ResourceTypeDefinition, ScenarioDefinition } from '@fhirfox-generator/dataset';
 
 const IG_NAME = 'tw.gov.mohw.twcore';
@@ -171,7 +176,10 @@ interface BuildSourceFieldDocsOptions {
 	igVersion: string;
 }
 
-function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: BuildSourceFieldDocsOptions): {
+function buildSourceFieldDocs(
+	definitions: ResourceTypeDefinition[],
+	options: BuildSourceFieldDocsOptions,
+): {
 	docs: Record<string, SourceFieldDocRecord>;
 	order: Record<string, string[]>;
 } {
@@ -258,11 +266,9 @@ function normalizeFhirDocPath(fhirPath: string): string {
 
 function buildSourceCodeDisplayMap(rows: Awaited<ReturnType<typeof loadConverterRows>>): SourceCodeDisplayMap {
 	const mappingKeyByField = new Map(
-			rows.generatorRules.flatMap((row) =>
-				row.transformKind === 'code_map' && row.mappingKey
-					? [[row.path.toLowerCase(), row.mappingKey] as const]
-					: [],
-			),
+		rows.generatorRules.flatMap((row) =>
+			row.transformKind === 'code_map' && row.mappingKey ? [[row.path.toLowerCase(), row.mappingKey] as const] : [],
+		),
 	);
 	const displayMap: SourceCodeDisplayMap = {};
 
@@ -280,6 +286,16 @@ function buildSourceCodeDisplayMap(rows: Awaited<ReturnType<typeof loadConverter
 
 			displayMap[`${fieldPath}:${row.sourceCode}`] = displayValue;
 		}
+	}
+
+	for (const row of rows.codeMappings) {
+		const displayValue = row.displayZhTw ?? row.targetDisplay;
+
+		if (row.mappingKey !== 'laboratoryresult-lab-code' || !displayValue) {
+			continue;
+		}
+
+		displayMap[`observation.observationcode:${row.sourceCode}`] = displayValue;
 	}
 
 	return displayMap;
@@ -380,10 +396,10 @@ async function loadConverterRows(converterDir: string, igName: string): Promise<
 
 	return {
 		generatorRules: generatorRules.map((row) => ({
-				igName: requiredCell(row, 'ig_name'),
-				igVersion: requiredCell(row, 'ig_version'),
-				resourceType: requiredCell(row, 'resource_type'),
-				path: requiredCell(row, 'path'),
+			igName: requiredCell(row, 'ig_name'),
+			igVersion: requiredCell(row, 'ig_version'),
+			resourceType: requiredCell(row, 'resource_type'),
+			path: requiredCell(row, 'path'),
 			fhirPath: requiredCell(row, 'fhir_path'),
 			dataType: requiredCell(row, 'data_type'),
 			isRequired: parseBoolean(requiredCell(row, 'is_required')),

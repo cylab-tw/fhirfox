@@ -4,6 +4,7 @@ summary: "Proc-0025: 冠狀動脈支架置放術"
 fields:
   procedureCode: Proc-0025
   procedureText: 冠狀動脈支架置放術
+  bodySite: coronary-artery
   category: "387713003"
   performerFunction: Perf-0014
   reasonCode: Cond-0019

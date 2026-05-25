@@ -261,7 +261,10 @@ test('toFhirResource converts laboratory Observation with lab code mapping', asy
 	});
 
 	assert.equal(result.resourceType, 'Observation');
-	assert.equal((result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code, '777-3');
+	assert.equal(
+		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code,
+		'777-3',
+	);
 	assert.equal(
 		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.system,
 		'http://loinc.org',
@@ -395,11 +398,11 @@ test('canonical source ordering places all encounters together before shared enc
 			verificationStatus: 'confirmed',
 			category: 'encounter-diagnosis',
 			severity: '6736007',
-				conditionCode: 'Cond-065',
-				conditionText: '胸悶/胸部不適',
-				patientId: '1',
-				recordedDate: '2026-04-12T15:12:00+08:00',
-				recorderId: '1',
+			conditionCode: 'Cond-065',
+			conditionText: '胸悶/胸部不適',
+			patientId: '1',
+			recordedDate: '2026-04-12T15:12:00+08:00',
+			recorderId: '1',
 		},
 		{
 			id: '1',
@@ -435,14 +438,14 @@ test('canonical source ordering places all encounters together before shared enc
 			'patient/1',
 			'encounter/1',
 			'encounter/2',
-				'organization/1',
-				'practitionerrole/1',
-				'practitioner/1',
-				'allergyintolerance/1',
-				'condition/1',
-				'condition/3',
-			],
-		);
+			'organization/1',
+			'practitionerrole/1',
+			'practitioner/1',
+			'allergyintolerance/1',
+			'condition/1',
+			'condition/3',
+		],
+	);
 	assert.deepEqual(Object.keys(ordered.groupedResources), [
 		'patient',
 		'encounter',
@@ -457,13 +460,13 @@ test('canonical source ordering places all encounters together before shared enc
 test('canonical field ordering aligns source and FHIR fields to local metadata', async () => {
 	const rows = await loadStaticConverterRows(fixtureBaseDir, 'tw.gov.mohw.twcore');
 	const ruleSet = normalizeRuleSet(rows, 'tw.gov.mohw.twcore', '1.0.0');
-		ruleSet.sourceFieldOrder = {
-			patient: [
-				'resourceType',
-				'id',
-				'idNumber',
-				'active',
-				'name',
+	ruleSet.sourceFieldOrder = {
+		patient: [
+			'resourceType',
+			'id',
+			'idNumber',
+			'active',
+			'name',
 			'telecomSystem',
 			'telecomValue',
 			'telecomUse',
@@ -476,14 +479,14 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 	const orderedSource = orderSourceResourceFields(
 		{
 			id: '1',
-				resourceType: 'patient',
-				name: '王小明',
-				organization: '1',
-				idNumber: 'A123456789',
-				gender: 'male',
-			},
-			ruleSet,
-		);
+			resourceType: 'patient',
+			name: '王小明',
+			organization: '1',
+			idNumber: 'A123456789',
+			gender: 'male',
+		},
+		ruleSet,
+	);
 	const orderedFhir = orderFhirResourceFields(
 		convertResource(patient, ruleSet, {
 			igName: 'tw.gov.mohw.twcore',
@@ -493,14 +496,15 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 		ruleSet,
 	);
 
-	assert.deepEqual(Object.keys(orderedSource).slice(0, 5), [
+	assert.deepEqual(Object.keys(orderedSource).slice(0, 5), ['resourceType', 'id', 'idNumber', 'name', 'gender']);
+	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), [
 		'resourceType',
-		'id',
-		'idNumber',
+		'meta',
+		'text',
+		'identifier',
 		'name',
-		'gender',
+		'telecom',
 	]);
-	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), ['resourceType', 'meta', 'text', 'identifier', 'name', 'telecom']);
 	assert.deepEqual(Object.keys((orderedFhir.identifier as Array<Record<string, unknown>>)[0] ?? {}), [
 		'use',
 		'type',
@@ -525,7 +529,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[0].value',
 			dataType: 'string',
 			isRequired: true,
@@ -537,7 +541,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '0.9.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[1].value',
 			dataType: 'string',
 			isRequired: true,
@@ -549,7 +553,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[2].value',
 			dataType: 'string',
 			isRequired: true,
@@ -564,7 +568,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 		}),
 		'Patient.identifier[0].value',
 	);
@@ -591,7 +595,6 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 			'diagnosisUse',
 			'admitSource',
 			'dischargeDisposition',
-			'locationId',
 			'serviceProviderId',
 		],
 	};
@@ -753,8 +756,9 @@ test('toFhirResource converts MedicationRequest quantities with code and system 
 	const doseQuantity = (
 		result.dosageInstruction as Array<{ doseAndRate?: Array<{ doseQuantity?: Record<string, unknown> }> }> | undefined
 	)?.[0]?.doseAndRate?.[0]?.doseQuantity;
-	const expectedSupplyDuration = (result.dispenseRequest as { expectedSupplyDuration?: Record<string, unknown> } | undefined)
-		?.expectedSupplyDuration;
+	const expectedSupplyDuration = (
+		result.dispenseRequest as { expectedSupplyDuration?: Record<string, unknown> } | undefined
+	)?.expectedSupplyDuration;
 
 	assert.deepEqual(doseQuantity, {
 		value: 500,
@@ -822,7 +826,33 @@ test('toFhirResource converts Procedure with mapped code, performer function, an
 		(result.performer as Array<{ function?: { coding?: Array<{ code?: string }> } }>)?.[0]?.function?.coding?.[0]?.code,
 		'22731001',
 	);
-	assert.equal((result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, '386661006');
+	assert.equal(
+		(result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code,
+		'386661006',
+	);
+});
+
+test('toFhirResource maps Procedure bodySite coding', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...procedure,
+			bodySite: 'head',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal((result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]?.code, '69536005');
+	assert.equal(
+		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]?.system,
+		'http://snomed.info/sct',
+	);
 });
 
 test('conversion fails explicitly when no rules exist for the source resource type', async () => {
