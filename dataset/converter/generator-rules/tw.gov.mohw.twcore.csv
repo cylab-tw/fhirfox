@@ -3,7 +3,7 @@ tw.gov.mohw.twcore,1.0.0,patient,patient.id,Patient.identifier[0].value,string,t
 tw.gov.mohw.twcore,1.0.0,patient,patient.id,Patient.identifier[0].use,string,false,constant,official,,11,true
 tw.gov.mohw.twcore,1.0.0,patient,patient.id,Patient.identifier[0].type.coding[0].system,string,false,constant,http://terminology.hl7.org/CodeSystem/v2-0203,,12,true
 tw.gov.mohw.twcore,1.0.0,patient,patient.id,Patient.identifier[0].type.coding[0].code,string,false,constant,MR,,13,true
-tw.gov.mohw.twcore,1.0.0,patient,patient.id,Patient.identifier[0].system,string,false,constant,https://www.tph.mohw.gov.tw,,14,true
+tw.gov.mohw.twcore,1.0.0,patient,patient.idSystem,Patient.identifier[0].system,string,false,copy,,,14,true
 tw.gov.mohw.twcore,1.0.0,patient,patient.idNumber,Patient.identifier[1].value,string,true,copy,,,20,true
 tw.gov.mohw.twcore,1.0.0,patient,patient.idNumber,Patient.identifier[1].use,string,false,constant,official,,21,true
 tw.gov.mohw.twcore,1.0.0,patient,patient.idNumber,Patient.identifier[1].type.coding[0].system,string,false,constant,http://terminology.hl7.org/CodeSystem/v2-0203,,22,true
