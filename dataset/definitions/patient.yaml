@@ -25,6 +25,12 @@ fields:
     type: identifier
     required: true
     path: patient.id
+  - id: idSystem
+    definition: 病歷號所屬系統。
+    type: string
+    required: false
+    path: patient.idSystem
+    default: https://www.tph.mohw.gov.tw
   - id: idNumber
     definition: 身分證字號。
     type: string

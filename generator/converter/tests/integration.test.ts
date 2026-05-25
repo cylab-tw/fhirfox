@@ -22,6 +22,7 @@ const fixtureBaseDir = path.resolve(fileURLToPath(new URL('../../..', import.met
 const patient: SourceResource = {
 	id: '1',
 	resourceType: 'patient',
+	idSystem: 'https://www.tph.mohw.gov.tw',
 	idNumber: 'A123456789',
 	name: '王小明',
 	gender: 'male',
@@ -191,6 +192,25 @@ test('toFhirResource converts Patient with copy and code_map rules', async () =>
 	assert.equal((result.identifier as Array<{ value?: string }>)?.[1]?.value, 'A123456789');
 	assert.equal((result.identifier as Array<{ system?: string }>)?.[1]?.system, 'http://www.moi.gov.tw');
 	assert.equal((result.managingOrganization as { reference?: string } | undefined)?.reference, 'Organization/1');
+});
+
+test('toFhirResource converts Patient with a custom MR identifier system', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...patient,
+			idSystem: 'https://example.org/fhir/patient-mr',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://example.org/fhir/patient-mr');
 });
 
 test('toFhirResource converts Encounter with copy, code_map, and build_reference rules', async () => {
