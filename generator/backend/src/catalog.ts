@@ -288,16 +288,6 @@ function buildSourceCodeDisplayMap(rows: Awaited<ReturnType<typeof loadConverter
 		}
 	}
 
-	for (const row of rows.codeMappings) {
-		const displayValue = row.displayZhTw ?? row.targetDisplay;
-
-		if (row.mappingKey !== 'laboratoryresult-lab-code' || !displayValue) {
-			continue;
-		}
-
-		displayMap[`observation.observationcode:${row.sourceCode}`] = displayValue;
-	}
-
 	return displayMap;
 }
 

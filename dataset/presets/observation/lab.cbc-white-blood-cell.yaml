@@ -1,5 +1,5 @@
 id: observation.lab.cbc-white-blood-cell
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0001 observation profile.
 fields:
   observationCode: Lab-0001

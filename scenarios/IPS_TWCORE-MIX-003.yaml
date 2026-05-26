@@ -67,21 +67,21 @@ resources:
   - alias: practitioner.cardiology-clinician
     resourceType: practitioner
   - alias: observation.lab-troponin
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.coronary-artery-disease-stent-visit-initial
       performerId: organization.hospital
     with:
       - observation.lab.troponin
   - alias: observation.lab-followup-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.coronary-artery-disease-stent-visit-subsequent
       performerId: organization.hospital
     with:
       - observation.lab.followup-glucose
   - alias: observation.lab-pathology-marker
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.coronary-artery-disease-stent-visit-maintenance
       performerId: organization.hospital

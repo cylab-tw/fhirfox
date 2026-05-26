@@ -1,5 +1,5 @@
 id: observation.vital.blood-pressure
-resourceType: observation
+resourceType: observation-vital-signs
 summary: VS-0008 observation profile.
 fields:
   diastolicValue:

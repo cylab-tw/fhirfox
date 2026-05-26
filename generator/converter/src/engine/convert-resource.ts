@@ -32,7 +32,7 @@ export function convertResource(
 	attachSourceId(resource, input.id);
 
 	const profile = ruleSet.resourceProfilesByResourceType.get(sourceResourceType);
-	const profileUrl = resolveResourceProfile(sourceResourceType, input, profile?.profileUrl);
+	const profileUrl = profile?.profileUrl;
 
 	if (profileUrl) {
 		resource.meta = {
@@ -54,25 +54,6 @@ function attachSourceId(resource: FhirResource, sourceId: string): void {
 		configurable: true,
 		writable: true,
 	});
-}
-
-function resolveResourceProfile(
-	sourceResourceType: string,
-	input: SourceResource,
-	defaultProfileUrl: string | undefined,
-): string | undefined {
-	if (sourceResourceType !== 'observation') {
-		return defaultProfileUrl;
-	}
-
-	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
-	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
-
-	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
-		return 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore';
-	}
-
-	return defaultProfileUrl;
 }
 
 function applyRule(
@@ -162,17 +143,7 @@ function getFhirResourceType(fhirPath: string | undefined): string {
 }
 
 function resolveMappingKey(rule: GeneratorRuleRow, input: SourceResource): string | undefined {
-	if (rule.resourceType !== 'observation' || getSourceFieldName(rule) !== 'observationCode') {
-		return rule.mappingKey;
-	}
-
-	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
-	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
-
-	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
-		return 'laboratoryresult-lab-code';
-	}
-
+	void input;
 	return rule.mappingKey;
 }
 
@@ -262,6 +233,8 @@ function toFhirReferenceTarget(resourceType: string): string {
 		case 'medicationrequest':
 			return 'MedicationRequest';
 		case 'observation':
+		case 'observation-laboratory-result':
+		case 'observation-vital-signs':
 			return 'Observation';
 		case 'organization':
 			return 'Organization';

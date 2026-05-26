@@ -124,16 +124,6 @@ function buildSourceCodeDisplayMap(ruleSetRows: Awaited<ReturnType<typeof loadCo
 		}
 	}
 
-	for (const row of ruleSetRows.codeMappings) {
-		const displayValue = row.displayZhTw ?? row.targetDisplay;
-
-		if (row.mappingKey !== 'laboratoryresult-lab-code' || !displayValue) {
-			continue;
-		}
-
-		displayMap[`observation.observationcode:${row.sourceCode}`] = displayValue;
-	}
-
 	return displayMap;
 }
 

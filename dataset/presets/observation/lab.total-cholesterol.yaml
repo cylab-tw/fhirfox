@@ -1,5 +1,5 @@
 id: observation.lab.total-cholesterol
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0009 observation profile.
 fields:
   observationCode: Lab-0009

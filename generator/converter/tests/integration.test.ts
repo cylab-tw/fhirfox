@@ -134,7 +134,7 @@ const procedure: SourceResource = {
 
 const observation: SourceResource = {
 	id: '3',
-	resourceType: 'observation',
+	resourceType: 'observation-vital-signs',
 	status: 'final',
 	categoryCode: 'vital-signs',
 	observationCode: 'VS-0013',
@@ -148,6 +148,8 @@ const observation: SourceResource = {
 
 const labObservation: SourceResource = {
 	...observation,
+	id: '4',
+	resourceType: 'observation-laboratory-result',
 	categoryCode: 'laboratory',
 	observationCode: 'Lab-0005',
 	valueQuantity: '12',
@@ -163,7 +165,11 @@ test('loadStaticConverterRows and normalizeRuleSet index TW Core rows', async ()
 	assert.ok(rows.resourceProfiles.length > 0);
 	assert.ok(ruleSet.generatorRulesByResourceType.has('patient'));
 	assert.ok(ruleSet.generatorRulesByResourceType.has('encounter'));
+	assert.ok(ruleSet.generatorRulesByResourceType.has('observation-vital-signs'));
+	assert.ok(ruleSet.generatorRulesByResourceType.has('observation-laboratory-result'));
 	assert.ok(ruleSet.codeMappingsByKey.has('administrative-gender'));
+	assert.ok(ruleSet.codeMappingsByKey.has('observation-vital-signs-code'));
+	assert.ok(ruleSet.codeMappingsByKey.has('observation-laboratory-result-code'));
 	assert.ok(ruleSet.resourceProfilesByResourceType.has('patient'));
 });
 
@@ -294,6 +300,26 @@ test('toFhirResource converts laboratory Observation with lab code mapping', asy
 	]);
 });
 
+test('toFhirResource converts vital signs Observation with vital signs profile', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(observation, {
+		igName: 'tw.gov.mohw.twcore',
+		igVersion: '1.0.0',
+	});
+
+	assert.equal(result.resourceType, 'Observation');
+	assert.equal(
+		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code,
+		'8287-5',
+	);
+	assert.deepEqual(result.meta?.profile, [
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+	]);
+});
+
 test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
@@ -345,6 +371,22 @@ test('toFhirBundle builds stable urn:uuid fullUrl values when no base is configu
 		result.entry[0]?.fullUrl,
 	);
 	assertBundleReferencesResolveToFullUrls(result);
+});
+
+test('toFhirBundle keeps split Observation fullUrls distinct', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirBundle([observation, labObservation], {
+		igName: 'tw.gov.mohw.twcore',
+		igVersion: '1.0.0',
+	});
+
+	assert.equal(result.entry.length, 2);
+	assert.equal(result.entry[0]?.resource.resourceType, 'Observation');
+	assert.equal(result.entry[1]?.resource.resourceType, 'Observation');
+	assert.notEqual(result.entry[0]?.fullUrl, result.entry[1]?.fullUrl);
 });
 
 test('toFhirResource maps observation quantity display into unit instead of invalid display', async () => {

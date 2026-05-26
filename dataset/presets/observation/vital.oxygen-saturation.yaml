@@ -1,5 +1,5 @@
 id: observation.vital.oxygen-saturation
-resourceType: observation
+resourceType: observation-vital-signs
 summary: VS-0013 observation profile.
 fields:
   observationCode: VS-0012

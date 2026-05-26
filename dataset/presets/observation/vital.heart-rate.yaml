@@ -1,5 +1,5 @@
 id: observation.vital.heart-rate
-resourceType: observation
+resourceType: observation-vital-signs
 summary: VS-0006 observation profile.
 fields:
   observationCode: VS-0006

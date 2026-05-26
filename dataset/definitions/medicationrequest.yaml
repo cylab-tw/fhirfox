@@ -33,7 +33,8 @@ references:
     definition: 開立此藥品請求的原因。
     resourceTypes:
       - condition
-      - observation
+      - observation-laboratory-result
+      - observation-vital-signs
 
 fields:
   - id: id

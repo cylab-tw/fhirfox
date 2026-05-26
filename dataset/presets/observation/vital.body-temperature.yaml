@@ -1,5 +1,5 @@
 id: observation.vital.body-temperature
-resourceType: observation
+resourceType: observation-vital-signs
 summary: VS-0005 observation profile.
 fields:
   observationCode: VS-0005

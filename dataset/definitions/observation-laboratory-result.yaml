@@ -1,11 +1,11 @@
-resourceType: observation
+resourceType: observation-laboratory-result
 name: Observation
-summary: 記錄生命徵象、檢驗值或其他觀察結果，包含狀態、分類、項目代碼、對象、就醫事件、量測時間、執行者、數值、單位與參考範圍。
+summary: 記錄實驗室檢驗觀察結果，包含狀態、分類、項目代碼、對象、就醫事件、檢驗時間、執行者、數值、單位與參考範圍。
 
 bindings:
   - observation-status
   - observation-category
-  - observation-code
+  - observation-laboratory-result-code
   - unitsofmeasure
 
 references:
@@ -30,78 +30,80 @@ fields:
     definition: 觀察結果識別碼。
     type: identifier
     required: true
-    path: observation.id
+    path: observation-laboratory-result.id
+    default: $id("observation")
   - id: status
     definition: 觀察結果的狀態。
     type: code
     binding: observation-status
     required: true
-    path: observation.status
+    path: observation-laboratory-result.status
     default: final
   - id: categoryCode
     definition: 觀察結果的分類。
     type: code
     binding: observation-category
     required: true
-    path: observation.categoryCode
+    path: observation-laboratory-result.categoryCode
+    default: laboratory
   - id: observationCode
-    definition: 觀察結果的項目或代碼。
+    definition: 實驗室檢驗觀察結果的項目或代碼。
     type: code
-    binding: observation-code
+    binding: observation-laboratory-result-code
     required: true
-    path: observation.observationCode
+    path: observation-laboratory-result.observationCode
   - id: patientId
     definition: 此觀察結果對象的病人 ID。
     type: reference
     reference: subject
     required: true
-    path: observation.patientId
+    path: observation-laboratory-result.patientId
   - id: encounterId
     definition: 與此觀察結果相關的就醫事件 ID。
     type: reference
     reference: encounter
     required: false
-    path: observation.encounterId
+    path: observation-laboratory-result.encounterId
   - id: effectiveDate
     definition: 觀察結果臨床相關時間。
     type: dateTime
     required: true
-    path: observation.effectiveDate
+    path: observation-laboratory-result.effectiveDate
     default: $dateTime("2026-03-01T08:00:00+08:00", "2026-07-31T18:00:00+08:00")
   - id: performerId
     definition: 負責產生此觀察結果的人或機構 ID。
     type: reference
     reference: performer
     required: false
-    path: observation.performerId
+    path: observation-laboratory-result.performerId
   - id: valueQuantity
     definition: 觀察結果的測量數值。
     type: number
     required: false
-    path: observation.valueQuantity
+    path: observation-laboratory-result.valueQuantity
   - id: valueUnit
     definition: 觀察結果測量數值的單位。
     type: code
     binding: unitsofmeasure
     required: false
-    path: observation.valueUnit
+    path: observation-laboratory-result.valueUnit
   - id: systolicValue
     definition: 血壓觀察結果中的收縮壓數值。
     type: number
     required: false
-    path: observation.systolicValue
+    path: observation-laboratory-result.systolicValue
   - id: diastolicValue
     definition: 血壓觀察結果中的舒張壓數值。
     type: number
     required: false
-    path: observation.diastolicValue
+    path: observation-laboratory-result.diastolicValue
   - id: rangeLow
     definition: 參考範圍下限。
     type: number
     required: false
-    path: observation.rangeLow
+    path: observation-laboratory-result.rangeLow
   - id: rangeHigh
     definition: 參考範圍上限。
     type: number
     required: false
-    path: observation.rangeHigh
+    path: observation-laboratory-result.rangeHigh

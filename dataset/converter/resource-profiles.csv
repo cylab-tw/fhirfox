@@ -6,7 +6,8 @@ tw.gov.mohw.twcore,1.0.0,organization,https://twcore.mohw.gov.tw/ig/twcore/Struc
 tw.gov.mohw.twcore,1.0.0,practitionerrole,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/PractitionerRole-twcore,true
 tw.gov.mohw.twcore,1.0.0,encounter,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Encounter-twcore,true
 tw.gov.mohw.twcore,1.0.0,condition,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Condition-twcore,true
-tw.gov.mohw.twcore,1.0.0,observation,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore,true
+tw.gov.mohw.twcore,1.0.0,observation-vital-signs,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore,true
+tw.gov.mohw.twcore,1.0.0,observation-laboratory-result,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore,true
 tw.gov.mohw.twcore,1.0.0,diagnosticreport,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/DiagnosticReport-twcore,true
 tw.gov.mohw.twcore,1.0.0,imagingstudy,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/ImagingStudy-twcore,true
 tw.gov.mohw.twcore,1.0.0,medication,https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Medication-twcore,true

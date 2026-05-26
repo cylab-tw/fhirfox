@@ -117,14 +117,14 @@ resources:
     with:
       - condition.emergency-head-injury
   - alias: observation.lab-hba1c
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-subsequent
       performerId: organization.hospital
     with:
       - observation.lab.hba1c
   - alias: observation.lab-troponin
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.atrial-fibrillation-followup-visit-initial
       performerId: organization.hospital

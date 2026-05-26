@@ -1,5 +1,5 @@
 id: observation.lab.pathology-marker
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0027 observation profile.
 fields:
   observationCode: Lab-0027

@@ -44,21 +44,21 @@ resources:
     with:
       - condition.hypertension-followup
   - alias: observation.vital-blood-pressure
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.family-medicine-visit
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.blood-pressure
   - alias: observation.vital-heart-rate
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.family-medicine-visit
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.heart-rate
   - alias: observation.lab-blood-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.family-medicine-visit
       performerId: practitionerrole.family-medicine-attending

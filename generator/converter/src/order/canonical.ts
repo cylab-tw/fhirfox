@@ -6,7 +6,8 @@ const encounterContextTypeOrder = ['organization', 'practitionerrole', 'practiti
 const clinicalTypeOrder = [
 	'condition',
 	'allergyintolerance',
-	'observation',
+	'observation-vital-signs',
+	'observation-laboratory-result',
 	'procedure',
 	'diagnosticreport',
 	'imagingstudy',
@@ -1153,6 +1154,8 @@ function getChronologicalKey(resource: SourceResource): string | undefined {
 		case 'allergyintolerance':
 			return readString(resource.onsetDate) ?? readString(resource.recordedDate);
 		case 'observation':
+		case 'observation-laboratory-result':
+		case 'observation-vital-signs':
 			return readString(resource.effectiveDate);
 		case 'procedure':
 			return readString(resource.performedDate);
