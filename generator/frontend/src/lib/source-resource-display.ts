@@ -7,6 +7,8 @@ const sourceResourceTypeDisplayNames: Record<string, string> = {
 	medication: 'Medication',
 	medicationrequest: 'MedicationRequest',
 	observation: 'Observation',
+	'observation-laboratory-result': 'Observation',
+	'observation-vital-signs': 'Observation',
 	organization: 'Organization',
 	patient: 'Patient',
 	practitioner: 'Practitioner',
@@ -23,6 +25,8 @@ const sourceResourceTypePluralNames: Record<string, string> = {
 	medication: 'medications',
 	medicationrequest: 'medicationrequests',
 	observation: 'observations',
+	'observation-laboratory-result': 'observationLaboratoryResults',
+	'observation-vital-signs': 'observationVitalSigns',
 	organization: 'organizations',
 	patient: 'patients',
 	practitioner: 'practitioners',
@@ -35,8 +39,18 @@ const pluralToSingularResourceType = Object.fromEntries(
 );
 
 export function formatSourceResourceType(resourceType: string): string {
-	const normalizedType = resourceType.toLowerCase();
+	const normalizedType = normalizeSourceResourceTypeForUi(resourceType);
 	return sourceResourceTypeDisplayNames[normalizedType] ?? capitalizeWord(resourceType);
+}
+
+export function normalizeSourceResourceTypeForUi(resourceType: string): string {
+	const normalizedType = resourceType.toLowerCase();
+
+	if (normalizedType === 'observation-laboratory-result' || normalizedType === 'observation-vital-signs') {
+		return 'observation';
+	}
+
+	return normalizedType;
 }
 
 export function pluralizeSourceResourceType(resourceType: string): string {

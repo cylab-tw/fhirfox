@@ -4,7 +4,7 @@ import chevronLeft from '@iconify-icons/mdi/chevron-left';
 
 import { JsonViewer } from './json-viewer/JsonViewer.js';
 import { createScenarioBrowserJsonViewerExtensionsForValue } from '../helpers/scenario-browser/json-viewer-adapter.js';
-import { formatSourceResourceType } from '../lib/source-resource-display.js';
+import { formatSourceResourceType, normalizeSourceResourceTypeForUi } from '../lib/source-resource-display.js';
 
 import type {
 	PreviewResourceItem,
@@ -70,7 +70,9 @@ export function ResourcePreview({
 		}
 
 		const matchingResources = resources.filter(
-			(resource) => resource.resourceType.toLowerCase() === scrollToResourceType.resourceType.toLowerCase(),
+			(resource) =>
+				normalizeSourceResourceTypeForUi(resource.resourceType) ===
+				normalizeSourceResourceTypeForUi(scrollToResourceType.resourceType),
 		);
 
 		if (matchingResources.length === 0) {

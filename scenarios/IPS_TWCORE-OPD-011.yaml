@@ -95,35 +95,35 @@ resources:
   - alias: practitioner.cardiology-clinician
     resourceType: practitioner
   - alias: observation.lab-blood-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-initial
       performerId: organization.hospital
     with:
       - observation.lab.blood-glucose
   - alias: observation.lab-hba1c
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-followup
       performerId: organization.hospital
     with:
       - observation.lab.hba1c
   - alias: observation.lab-total-cholesterol
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-subsequent
       performerId: organization.hospital
     with:
       - observation.lab.total-cholesterol
   - alias: observation.lab-troponin
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.atrial-fibrillation-followup-visit-initial
       performerId: organization.hospital
     with:
       - observation.lab.troponin
   - alias: observation.lab-followup-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.atrial-fibrillation-followup-visit-followup
       performerId: organization.hospital

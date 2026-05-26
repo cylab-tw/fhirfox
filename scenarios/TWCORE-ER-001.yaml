@@ -44,14 +44,14 @@ resources:
     with:
       - condition.acute-chest-pain
   - alias: observation.vital-heart-rate
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.acute-chest-pain-visit
       performerId: practitionerrole.emergency-medicine-emergency-clinician
     with:
       - observation.vital.heart-rate
   - alias: observation.vital-oxygen-saturation
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.acute-chest-pain-visit
       performerId: practitionerrole.emergency-medicine-emergency-clinician

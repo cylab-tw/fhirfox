@@ -44,14 +44,14 @@ resources:
     with:
       - condition.common-cold
   - alias: observation.vital-body-temperature
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.common-cold-visit
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.body-temperature
   - alias: observation.lab-cbc-white-blood-cell
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.common-cold-visit
       performerId: practitionerrole.family-medicine-attending

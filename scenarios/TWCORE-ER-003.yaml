@@ -44,7 +44,7 @@ resources:
     with:
       - condition.acute-chest-pain
   - alias: observation.lab-troponin
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.emergency-visit
       performerId: practitionerrole.emergency-medicine-emergency-clinician

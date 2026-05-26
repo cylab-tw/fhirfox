@@ -4,7 +4,7 @@ import chevronDown from '@iconify-icons/mdi/chevron-down';
 import closeIcon from '@iconify-icons/mdi/close';
 import helpCircleOutline from '@iconify-icons/mdi/help-circle-outline';
 
-import { formatSourceResourceType } from '../lib/source-resource-display.js';
+import { formatSourceResourceType, normalizeSourceResourceTypeForUi } from '../lib/source-resource-display.js';
 import { readSourceResourceType } from '@fhirfox/converter/browser';
 
 import type { ScenarioLevelDefinition, ScenarioRecord, ScenarioResultRecord, SourceFieldDocRecord } from '../types.js';
@@ -600,7 +600,11 @@ function ResourceCoverageTreeNode({
 					resourceType={node.resourceType}
 					count={node.count}
 					clickable={clickable}
-					active={activeResourceType?.toLowerCase() === node.resourceType.toLowerCase()}
+					active={
+						activeResourceType
+							? normalizeSourceResourceTypeForUi(activeResourceType) === normalizeSourceResourceTypeForUi(node.resourceType)
+							: false
+					}
 					onClick={() => onResourceTypeSelect(node.resourceType)}
 				/>
 			</div>
@@ -697,7 +701,7 @@ function buildCoverageTreeFromInstanceTree(tree: ResourceGraphTree[]): CoverageT
 
 	function traverse(nodes: ResourceGraphTree[], parentType: string | null) {
 		for (const node of nodes) {
-			const type = node.resourceType;
+			const type = normalizeCoverageResourceType(node.resourceType);
 			resourceCounts.set(type, (resourceCounts.get(type) ?? 0) + 1);
 
 			if (!firstSeenOrder.has(type)) {
@@ -731,7 +735,8 @@ function buildCoverageTreeFromScenarioResult(
 	const idToResourceType = new Map<string, string>();
 
 	for (const [index, resource] of selectedScenarioResult.orderedResources.entries()) {
-		const resourceType = readSourceResourceType(resource);
+		const rawResourceType = readSourceResourceType(resource);
+		const resourceType = normalizeCoverageResourceType(rawResourceType);
 		resourceCounts.set(resourceType, (resourceCounts.get(resourceType) ?? 0) + 1);
 		if (!firstSeenOrder.has(resourceType)) {
 			firstSeenOrder.set(resourceType, index);
@@ -741,13 +746,15 @@ function buildCoverageTreeFromScenarioResult(
 		if (id) {
 			idToResourceType.set(id, resourceType);
 			idToResourceType.set(`${resourceType}/${id}`, resourceType);
+			idToResourceType.set(`${rawResourceType}/${id}`, resourceType);
 		}
 	}
 
 	for (const resource of selectedScenarioResult.orderedResources) {
-		const sourceType = readSourceResourceType(resource);
+		const rawSourceType = readSourceResourceType(resource);
+		const sourceType = normalizeCoverageResourceType(rawSourceType);
 		for (const [field, value] of Object.entries(resource)) {
-			const doc = sourceFieldDocs[`${sourceType}.${field}`];
+			const doc = sourceFieldDocs[`${rawSourceType}.${field}`];
 			const targetTypes = readReferenceTypes(doc?.reference);
 
 			if (targetTypes.length === 0) {
@@ -757,7 +764,10 @@ function buildCoverageTreeFromScenarioResult(
 			for (const targetId of readReferenceValues(value)) {
 				const targetType = idToResourceType.get(targetId) ?? idToResourceType.get(targetId.split('/').pop() ?? '');
 
-				if (!targetType || !targetTypes.some((candidate) => candidate.toLowerCase() === targetType.toLowerCase())) {
+				if (
+					!targetType ||
+					!targetTypes.some((candidate) => normalizeCoverageResourceType(candidate) === targetType)
+				) {
 					continue;
 				}
 
@@ -770,6 +780,10 @@ function buildCoverageTreeFromScenarioResult(
 	}
 
 	return buildCoverageTreeFromCountsAndAdjacency(resourceCounts, childrenByType, incomingTypes, firstSeenOrder);
+}
+
+function normalizeCoverageResourceType(resourceType: string): string {
+	return normalizeSourceResourceTypeForUi(resourceType);
 }
 
 function buildCoverageTreeFromCountsAndAdjacency(

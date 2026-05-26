@@ -64,35 +64,35 @@ resources:
     with:
       - condition.type-2-diabetes-followup
   - alias: observation.vital-blood-pressure-initial
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.family-medicine-visit-initial
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.blood-pressure
   - alias: observation.lab-blood-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.family-medicine-visit-initial
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.lab.blood-glucose
   - alias: observation.vital-blood-pressure-followup
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.family-medicine-visit-followup
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.blood-pressure
   - alias: observation.vital-blood-pressure-subsequent
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.family-medicine-visit-subsequent
       performerId: practitionerrole.family-medicine-attending
     with:
       - observation.vital.blood-pressure
   - alias: observation.lab-hba1c
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.family-medicine-visit-subsequent
       performerId: practitionerrole.family-medicine-attending

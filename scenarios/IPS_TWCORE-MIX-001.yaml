@@ -80,14 +80,14 @@ resources:
     with:
       - condition.emergency-fever
   - alias: observation.lab-troponin
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.atrial-fibrillation-followup-visit-initial
       performerId: organization.hospital
     with:
       - observation.lab.troponin
   - alias: observation.lab-followup-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.atrial-fibrillation-followup-visit-subsequent
       performerId: organization.hospital

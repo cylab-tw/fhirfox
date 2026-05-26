@@ -44,35 +44,35 @@ resources:
     with:
       - condition.pneumonia-dyspnea
   - alias: observation.vital-body-temperature
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.inpatient-stay
       performerId: practitionerrole.inpatient-care-specialist
     with:
       - observation.vital.body-temperature
   - alias: observation.vital-respiratory-rate
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.inpatient-stay
       performerId: practitionerrole.inpatient-care-specialist
     with:
       - observation.vital.respiratory-rate
   - alias: observation.vital-oxygen-saturation
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.inpatient-stay
       performerId: practitionerrole.inpatient-care-specialist
     with:
       - observation.vital.oxygen-saturation
   - alias: observation.lab-cbc-white-blood-cell
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.inpatient-stay
       performerId: practitionerrole.inpatient-care-specialist
     with:
       - observation.lab.cbc-white-blood-cell
   - alias: observation.lab-blood-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.inpatient-stay
       performerId: practitionerrole.inpatient-care-specialist

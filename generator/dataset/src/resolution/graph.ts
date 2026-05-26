@@ -135,7 +135,17 @@ function buildInstanceTree(nodes: ResourceGraphNode[], edges: ResourceGraphEdge[
 }
 
 function sameType(left: string, right: string): boolean {
-	return left.toLowerCase() === right.toLowerCase();
+	return normalizeComparableType(left) === normalizeComparableType(right);
+}
+
+function normalizeComparableType(resourceType: string): string {
+	const normalized = resourceType.toLowerCase();
+
+	if (normalized === 'observation-laboratory-result' || normalized === 'observation-vital-signs') {
+		return 'observation';
+	}
+
+	return normalized;
 }
 
 function fieldMatches(actual: string | undefined, expected: string | undefined): boolean {

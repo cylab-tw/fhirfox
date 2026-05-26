@@ -47,28 +47,28 @@ resources:
     with:
       - condition.fever-and-cough
   - alias: observation.vital-body-temperature
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.pediatrics-visit
       performerId: practitionerrole.pediatrics-pediatrician
     with:
       - observation.vital.body-temperature
   - alias: observation.vital-body-weight
-    resourceType: observation
+    resourceType: observation-vital-signs
     references:
       encounterId: encounter.pediatrics-visit
       performerId: practitionerrole.pediatrics-pediatrician
     with:
       - observation.vital.body-weight
   - alias: observation.lab-cbc-white-blood-cell
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.pediatrics-visit
       performerId: practitionerrole.pediatrics-pediatrician
     with:
       - observation.lab.cbc-white-blood-cell
   - alias: observation.lab-urine-specific-gravity
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.pediatrics-visit
       performerId: practitionerrole.pediatrics-pediatrician
