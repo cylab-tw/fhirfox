@@ -8,6 +8,7 @@ fields:
       gte: 78
       lte: 88
       decimals: 0
+  diastolicUnit: mm[Hg]
   observationCode: VS-0008
   systolicValue:
     generator: $number()
@@ -15,4 +16,5 @@ fields:
       gte: 128
       lte: 142
       decimals: 0
+  systolicUnit: mm[Hg]
   categoryCode: vital-signs

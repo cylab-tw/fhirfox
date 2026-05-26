@@ -789,6 +789,49 @@ test('toFhirResource converts PractitionerRole with a medical license identifier
 	assert.equal((result.code as Array<{ text?: string }> | undefined)?.[0]?.text, '家庭醫學科醫師');
 });
 
+test('toFhirResource maps blood pressure component units from source fields', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...observation,
+			observationCode: 'VS-0008',
+			systolicValue: 128,
+			systolicUnit: 'mm[Hg]',
+			diastolicValue: 82,
+			diastolicUnit: 'mm[Hg]',
+			valueQuantity: undefined,
+			valueUnit: undefined,
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	const components = result.component as Array<{
+		valueQuantity?: Record<string, unknown>;
+		code?: { coding?: Array<{ code?: string }> };
+	}>;
+
+	assert.deepEqual(components[0]?.valueQuantity, {
+		value: 128,
+		code: 'mm[Hg]',
+		unit: 'millimeter of mercury',
+		system: 'http://unitsofmeasure.org',
+	});
+	assert.deepEqual(components[1]?.valueQuantity, {
+		value: 82,
+		code: 'mm[Hg]',
+		unit: 'millimeter of mercury',
+		system: 'http://unitsofmeasure.org',
+	});
+	assert.equal(components[0]?.code?.coding?.[0]?.code, '8480-6');
+	assert.equal(components[1]?.code?.coding?.[0]?.code, '8462-4');
+});
+
 test('toFhirResource converts MedicationRequest quantities with code and system but no unit', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
