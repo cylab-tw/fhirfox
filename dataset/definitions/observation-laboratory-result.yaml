@@ -92,11 +92,23 @@ fields:
     type: number
     required: false
     path: observation-laboratory-result.systolicValue
+  - id: systolicUnit
+    definition: 血壓觀察結果中的收縮壓單位。
+    type: code
+    binding: unitsofmeasure
+    required: false
+    path: observation-laboratory-result.systolicUnit
   - id: diastolicValue
     definition: 血壓觀察結果中的舒張壓數值。
     type: number
     required: false
     path: observation-laboratory-result.diastolicValue
+  - id: diastolicUnit
+    definition: 血壓觀察結果中的舒張壓單位。
+    type: code
+    binding: unitsofmeasure
+    required: false
+    path: observation-laboratory-result.diastolicUnit
   - id: rangeLow
     definition: 參考範圍下限。
     type: number
