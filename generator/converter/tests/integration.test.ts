@@ -137,7 +137,7 @@ const observation: SourceResource = {
 	resourceType: 'observation-vital-signs',
 	status: 'final',
 	categoryCode: 'vital-signs',
-	observationCode: 'VS-0013',
+	observationCode: 'VS-0012',
 	patientId: '3',
 	encounterId: '6',
 	effectiveDate: '2026-04-18T18:50:00+08:00',
@@ -300,7 +300,7 @@ test('toFhirResource converts laboratory Observation with lab code mapping', asy
 	]);
 });
 
-test('toFhirResource converts vital signs Observation with vital signs profile', async () => {
+test('toFhirResource converts vital signs Observation with code-specific profile', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
 	});
@@ -311,13 +311,64 @@ test('toFhirResource converts vital signs Observation with vital signs profile',
 	});
 
 	assert.equal(result.resourceType, 'Observation');
-	assert.equal(
-		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code,
-		'8287-5',
-	);
+	const codings = (result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding;
+	assert.equal(codings?.[0]?.code, '59408-5');
+	assert.equal(codings?.[1]?.code, '2708-6');
 	assert.deepEqual(result.meta?.profile, [
-		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-pulse-oximetry-twcore',
 	]);
+});
+
+test('toFhirResource maps vital signs profiles from converted LOINC codes', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const cases = [
+		['VS-0003', 'Observation-body-weight-twcore'],
+		['VS-0005', 'Observation-body-temperature-twcore'],
+		['VS-0006', 'Observation-heart-rate-twcore'],
+		['VS-0007', 'Observation-respiratory-rate-twcore'],
+		['VS-0008', 'Observation-bloodPressure-twcore'],
+	] as const;
+
+	for (const [observationCode, profileSlug] of cases) {
+		const result = await service.toFhirResource(
+			{
+				...observation,
+				observationCode,
+			},
+			{
+				igName: 'tw.gov.mohw.twcore',
+				igVersion: '1.0.0',
+			},
+		);
+
+		assertValidTwCoreProfile(result, `https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/${profileSlug}`);
+	}
+});
+
+test('toFhirResource keeps generic vital signs profile when no specific TW profile matches', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...observation,
+			observationCode: 'VS-0013',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '8287-5');
+	assertValidTwCoreProfile(
+		result,
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+	);
 });
 
 test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', async () => {
@@ -408,7 +459,7 @@ test('toFhirResource maps observation quantity display into unit instead of inva
 	assert.equal((result.valueQuantity as { display?: string } | undefined)?.display, undefined);
 	assertValidTwCoreProfile(
 		result,
-		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-pulse-oximetry-twcore',
 	);
 });
 
@@ -953,9 +1004,14 @@ test('toFhirResource maps Procedure bodySite coding', async () => {
 		},
 	);
 
-	assert.equal((result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]?.code, '69536005');
 	assert.equal(
-		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]?.system,
+		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]
+			?.code,
+		'69536005',
+	);
+	assert.equal(
+		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]
+			?.system,
 		'http://snomed.info/sct',
 	);
 });

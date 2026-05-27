@@ -49,6 +49,8 @@ function parseResourceProfileRow(row: CsvRow): ResourceProfileRow {
 		igVersion: requiredCell(row, 'ig_version'),
 		resourceType: requiredCell(row, 'resource_type'),
 		profileUrl: requiredCell(row, 'profile_url'),
+		matchFhirPath: optionalCell(row, 'match_fhir_path'),
+		matchValue: optionalCell(row, 'match_value'),
 		isActive: parseBoolean(requiredCell(row, 'is_active')),
 	};
 }
