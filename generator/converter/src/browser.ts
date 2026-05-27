@@ -26,4 +26,4 @@ export {
 	readNormalizedSourceResourceType,
 	readSourceResourceType,
 } from './source-resource.js';
-export { resolveCodeMapping } from './terminology/lookup.js';
+export { resolveCodeMapping, resolveCodeMappings } from './terminology/lookup.js';

@@ -34,6 +34,8 @@ export interface ResourceProfileRow {
 	igVersion: string;
 	resourceType: string;
 	profileUrl: string;
+	matchFhirPath?: string;
+	matchValue?: string;
 	isActive: boolean;
 }
 
@@ -62,7 +64,7 @@ export interface StaticConverterRows {
 
 export interface ConverterRuleSet {
 	generatorRulesByResourceType: Map<string, GeneratorRuleRow[]>;
-	resourceProfilesByResourceType: Map<string, ResourceProfileRow>;
+	resourceProfilesByResourceType: Map<string, ResourceProfileRow[]>;
 	codeMappingsByKey: Map<string, Map<string, CodeMappingRow[]>>;
 	sourceFieldOrder?: Record<string, string[]>;
 }

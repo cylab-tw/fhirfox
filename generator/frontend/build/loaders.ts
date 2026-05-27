@@ -14,7 +14,10 @@ export interface BuildSourceFieldDocsOptions {
 	igVersion: string;
 }
 
-export function buildSourceFieldDocs(definitions: ResourceTypeDefinition[], options: BuildSourceFieldDocsOptions): {
+export function buildSourceFieldDocs(
+	definitions: ResourceTypeDefinition[],
+	options: BuildSourceFieldDocsOptions,
+): {
 	docs: Record<string, SourceFieldDocRecord>;
 	order: Record<string, string[]>;
 } {
@@ -151,10 +154,10 @@ export async function loadConverterRows(converterDir: string, igName: string): P
 
 	return {
 		generatorRules: generatorRules.map((row) => ({
-				igName: requiredCell(row, 'ig_name'),
-				igVersion: requiredCell(row, 'ig_version'),
-				resourceType: requiredCell(row, 'resource_type'),
-				path: requiredCell(row, 'path'),
+			igName: requiredCell(row, 'ig_name'),
+			igVersion: requiredCell(row, 'ig_version'),
+			resourceType: requiredCell(row, 'resource_type'),
+			path: requiredCell(row, 'path'),
 			fhirPath: requiredCell(row, 'fhir_path'),
 			dataType: requiredCell(row, 'data_type'),
 			isRequired: parseBoolean(requiredCell(row, 'is_required')),
@@ -169,6 +172,8 @@ export async function loadConverterRows(converterDir: string, igName: string): P
 			igVersion: requiredCell(row, 'ig_version'),
 			resourceType: requiredCell(row, 'resource_type'),
 			profileUrl: requiredCell(row, 'profile_url'),
+			matchFhirPath: optionalCell(row, 'match_fhir_path'),
+			matchValue: optionalCell(row, 'match_value'),
 			isActive: parseBoolean(requiredCell(row, 'is_active')),
 		})),
 		codeMappings: codeMappings.flat().map((row) => ({

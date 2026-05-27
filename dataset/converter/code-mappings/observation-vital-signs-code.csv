@@ -10,7 +10,8 @@ VS-0008,85354-9,Blood pressure panel with all children optional,http://loinc.org
 VS-0009,8480-6,Systolic blood pressure,http://loinc.org,收縮壓 (高壓),true
 VS-0010,8462-4,Diastolic blood pressure,http://loinc.org,舒張壓 (低壓),true
 VS-0011,8478-0,Mean blood pressure,http://loinc.org,平均動脈壓,true
-VS-0012,2708-6,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,脈搏血氧飽和度 (血氧機),true
+VS-0012,59408-5,Oxygen saturation in Arterial blood by Pulse oximetry,http://loinc.org,脈搏血氧飽和度 (血氧機),true
+VS-0012,2708-6,Oxygen saturation in Arterial blood,http://loinc.org,血氧飽和度,true
 VS-0013,8287-5,Head Occipital-frontal circumference by Tape measure,http://loinc.org,頭圍,true
 VS-0014,8289-1,Head Occipital-frontal circumference Percentile,http://loinc.org,頭圍百分位數,true
 VS-0015,59576-9,Body mass index (BMI) [Percentile] Per age and sex,http://loinc.org,BMI百分位數 (依年齡性別),true

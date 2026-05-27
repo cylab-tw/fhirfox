@@ -8,6 +8,14 @@ export function resolveCodeMapping(
 	mappingKey: string,
 	sourceCode: string,
 ): FhirCodingMapping {
+	return resolveCodeMappings(ruleSet, mappingKey, sourceCode)[0] as FhirCodingMapping;
+}
+
+export function resolveCodeMappings(
+	ruleSet: ConverterRuleSet,
+	mappingKey: string,
+	sourceCode: string,
+): FhirCodingMapping[] {
 	const mappingsBySourceCode = ruleSet.codeMappingsByKey.get(mappingKey);
 
 	if (!mappingsBySourceCode) {
@@ -20,12 +28,10 @@ export function resolveCodeMapping(
 		throw new Error(`Missing code mapping for "${mappingKey}" source code "${sourceCode}".`);
 	}
 
-	const match = matches[0];
-
-	return {
+	return matches.map((match) => ({
 		code: match.targetCode,
 		display: match.targetDisplay,
 		system: match.targetSystem,
 		displayZhTw: match.displayZhTw,
-	};
+	}));
 }
