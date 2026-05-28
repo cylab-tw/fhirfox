@@ -192,3 +192,66 @@ test('coverage tree falls back to encounter for practitioner when no practitione
 		},
 	]);
 });
+
+test('coverage tree merges split Observation source types for display', () => {
+	const tree = buildCoverageTree(
+		{
+			graph: {
+				tree: [
+					{
+						resourceType: 'patient',
+						id: '1',
+						children: [
+							{
+								resourceType: 'encounter',
+								id: '1',
+								children: [
+									{
+										resourceType: 'observation-vital-signs',
+										id: '1',
+										children: [],
+									},
+									{
+										resourceType: 'observation-laboratory-result',
+										id: '2',
+										children: [],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			resources: {},
+			orderedResources: [],
+			warnings: [],
+			meta: {
+				directMatchCount: 0,
+				expandedMatchCount: 0,
+				totalResources: 0,
+			},
+			scenarioId: 'test',
+		} as never,
+		{},
+	);
+
+	assert.deepEqual(tree, [
+		{
+			resourceType: 'patient',
+			count: 1,
+			children: [
+				{
+					resourceType: 'encounter',
+					count: 1,
+					children: [
+						{
+							resourceType: 'observation',
+							count: 2,
+							children: [],
+						},
+					],
+				},
+			],
+		},
+	]);
+});

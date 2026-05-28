@@ -33,7 +33,11 @@ import type { ConverterRuleSet } from '../../converter/src/browser.ts';
 
 const DATA_BASE_URL = '/data';
 
-export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/', seed = '1234'): Promise<GeneratedAssetSet> {
+export async function buildGeneratedAssets(
+	datasetRoot: string,
+	appBaseUrl = '/',
+	seed = '1234',
+): Promise<GeneratedAssetSet> {
 	const igName = 'tw.gov.mohw.twcore';
 	const igVersion = '1.0.0';
 	const generatedAt = new Date().toISOString();
@@ -99,9 +103,7 @@ export async function buildGeneratedAssets(datasetRoot: string, appBaseUrl = '/'
 function buildSourceCodeDisplayMap(ruleSetRows: Awaited<ReturnType<typeof loadConverterRows>>): Record<string, string> {
 	const mappingKeyByField = new Map(
 		ruleSetRows.generatorRules.flatMap((row) =>
-			row.transformKind === 'code_map' && row.mappingKey
-				? [[row.path.toLowerCase(), row.mappingKey] as const]
-				: [],
+			row.transformKind === 'code_map' && row.mappingKey ? [[row.path.toLowerCase(), row.mappingKey] as const] : [],
 		),
 	);
 	const displayMap: Record<string, string> = {};

@@ -106,7 +106,7 @@ export function ScenarioPreviewContent({
 	}
 
 	return previewOutput ? (
-		<div className="h-full px-6 py-5">
+		<div className="h-[72dvh] min-h-[420px] px-4 py-4 sm:px-6 sm:py-5 xl:h-full xl:min-h-0">
 			<JsonViewer
 				value={isJsonObject(previewOutput) ? previewOutput : undefined}
 				extensions={previewOutputExtensions}
@@ -124,7 +124,7 @@ function isJsonObject(value: unknown): value is Record<string, unknown> {
 
 function renderStatusCard(title: string, message: string, tone?: 'default' | 'error') {
 	return (
-		<div className="px-6 py-5">
+		<div className="px-4 py-4 sm:px-6 sm:py-5">
 			<StatusCard title={title} message={message} tone={tone} />
 		</div>
 	);

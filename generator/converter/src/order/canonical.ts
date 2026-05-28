@@ -6,7 +6,8 @@ const encounterContextTypeOrder = ['organization', 'practitionerrole', 'practiti
 const clinicalTypeOrder = [
 	'condition',
 	'allergyintolerance',
-	'observation',
+	'observation-vital-signs',
+	'observation-laboratory-result',
 	'procedure',
 	'diagnosticreport',
 	'imagingstudy',
@@ -108,7 +109,19 @@ const fhirTopLevelOrderByResource = new Map<string, string[]>([
 	],
 	[
 		'Organization',
-		[...fhirResourcePrefix, 'identifier', 'active', 'type', 'name', 'alias', 'telecom', 'address', 'partOf', 'contact', 'endpoint'],
+		[
+			...fhirResourcePrefix,
+			'identifier',
+			'active',
+			'type',
+			'name',
+			'alias',
+			'telecom',
+			'address',
+			'partOf',
+			'contact',
+			'endpoint',
+		],
 	],
 	[
 		'PractitionerRole',
@@ -220,7 +233,6 @@ const fhirTopLevelOrderByResource = new Map<string, string[]>([
 			'valueTime',
 			'valueDateTime',
 			'valuePeriod',
-			'dataAbsentReason',
 			'interpretation',
 			'note',
 			'bodySite',
@@ -243,7 +255,6 @@ const fhirTopLevelOrderByResource = new Map<string, string[]>([
 			'basedOn',
 			'partOf',
 			'status',
-			'statusReason',
 			'category',
 			'code',
 			'subject',
@@ -262,8 +273,6 @@ const fhirTopLevelOrderByResource = new Map<string, string[]>([
 			'bodySite',
 			'outcome',
 			'report',
-			'complication',
-			'complicationDetail',
 			'followUp',
 			'note',
 			'focalDevice',
@@ -281,7 +290,6 @@ const fhirTopLevelOrderByResource = new Map<string, string[]>([
 			...fhirResourcePrefix,
 			'identifier',
 			'status',
-			'statusReason',
 			'intent',
 			'category',
 			'priority',
@@ -726,7 +734,6 @@ function resolveStructuralNestedFieldOrder(
 			'valueTime',
 			'valueDateTime',
 			'valuePeriod',
-			'dataAbsentReason',
 			'interpretation',
 			'referenceRange',
 		];
@@ -1147,6 +1154,8 @@ function getChronologicalKey(resource: SourceResource): string | undefined {
 		case 'allergyintolerance':
 			return readString(resource.onsetDate) ?? readString(resource.recordedDate);
 		case 'observation':
+		case 'observation-laboratory-result':
+		case 'observation-vital-signs':
 			return readString(resource.effectiveDate);
 		case 'procedure':
 			return readString(resource.performedDate);

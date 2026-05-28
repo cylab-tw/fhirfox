@@ -11,7 +11,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 2,
 		"practitioner": 2,
 		"condition": 2,
-		"observation": 2,
+		"observation-laboratory-result": 2,
 		"diagnosticreport": 2,
 		"medicationrequest": 12,
 		"medication": 4
@@ -23,7 +23,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 4,
 		"practitioner": 4,
 		"condition": 3,
-		"observation": 2,
+		"observation-laboratory-result": 2,
 		"procedure": 1,
 		"diagnosticreport": 2,
 		"medicationrequest": 21,
@@ -36,7 +36,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 3,
+		"observation-laboratory-result": 3,
 		"procedure": 1,
 		"diagnosticreport": 3,
 		"medicationrequest": 12,
@@ -49,7 +49,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 2,
-		"observation": 3,
+		"observation-laboratory-result": 3,
 		"diagnosticreport": 3,
 		"medicationrequest": 15,
 		"medication": 6
@@ -61,7 +61,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 3,
 		"practitioner": 3,
 		"condition": 3,
-		"observation": 5,
+		"observation-laboratory-result": 5,
 		"diagnosticreport": 5,
 		"medicationrequest": 21,
 		"medication": 9
@@ -73,7 +73,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 2
+		"observation-vital-signs": 2
 	},
 	"TWCORE-ER-002": {
 		"patient": 1,
@@ -82,7 +82,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 3,
+		"observation-vital-signs": 2,
+		"observation-laboratory-result": 1,
 		"procedure": 1
 	},
 	"TWCORE-ER-003": {
@@ -92,7 +93,7 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 1,
+		"observation-laboratory-result": 1,
 		"procedure": 1,
 		"diagnosticreport": 1,
 		"imagingstudy": 1,
@@ -115,7 +116,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 5
+		"observation-vital-signs": 3,
+		"observation-laboratory-result": 2
 	},
 	"TWCORE-IPD-003": {
 		"patient": 1,
@@ -124,7 +126,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 6,
+		"observation-vital-signs": 3,
+		"observation-laboratory-result": 3,
 		"procedure": 2,
 		"diagnosticreport": 2,
 		"imagingstudy": 1,
@@ -163,7 +166,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 3
+		"observation-vital-signs": 2,
+		"observation-laboratory-result": 1
 	},
 	"TWCORE-OPD-005": {
 		"patient": 1,
@@ -172,7 +176,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 4
+		"observation-vital-signs": 2,
+		"observation-laboratory-result": 2
 	},
 	"TWCORE-OPD-006": {
 		"patient": 1,
@@ -181,7 +186,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 4
+		"observation-vital-signs": 3,
+		"observation-laboratory-result": 1
 	},
 	"TWCORE-OPD-007": {
 		"patient": 1,
@@ -190,7 +196,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 1,
-		"observation": 2,
+		"observation-vital-signs": 1,
+		"observation-laboratory-result": 1,
 		"diagnosticreport": 1,
 		"medicationrequest": 1,
 		"medication": 1
@@ -203,7 +210,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitioner": 1,
 		"condition": 1,
 		"allergyintolerance": 1,
-		"observation": 3,
+		"observation-vital-signs": 1,
+		"observation-laboratory-result": 2,
 		"diagnosticreport": 1,
 		"medicationrequest": 1,
 		"medication": 1
@@ -215,7 +223,8 @@ const EXPECTED_SCENARIO_COUNTS: Record<string, Record<string, number>> = {
 		"practitionerrole": 1,
 		"practitioner": 1,
 		"condition": 2,
-		"observation": 5,
+		"observation-vital-signs": 3,
+		"observation-laboratory-result": 2,
 		"diagnosticreport": 1,
 		"medicationrequest": 2,
 		"medication": 2

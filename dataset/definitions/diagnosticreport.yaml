@@ -30,7 +30,7 @@ references:
   result:
     definition: 診斷報告結果。
     resourceTypes:
-      - observation
+      - observation-laboratory-result
   study:
     definition: 影像檢查。
     resourceTypes:

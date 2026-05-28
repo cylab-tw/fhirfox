@@ -48,15 +48,17 @@ function groupResourceProfiles(
 	rows: ResourceProfileRow[],
 	igName: string,
 	igVersion: string,
-): Map<string, ResourceProfileRow> {
-	const grouped = new Map<string, ResourceProfileRow>();
+): Map<string, ResourceProfileRow[]> {
+	const grouped = new Map<string, ResourceProfileRow[]>();
 
 	for (const row of rows) {
 		if (!row.isActive || row.igName !== igName || row.igVersion !== igVersion) {
 			continue;
 		}
 
-		grouped.set(row.resourceType, row);
+		const entries = grouped.get(row.resourceType) ?? [];
+		entries.push(row);
+		grouped.set(row.resourceType, entries);
 	}
 
 	return grouped;

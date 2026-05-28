@@ -1,5 +1,5 @@
 id: observation.lab.blood-glucose
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0007 observation profile.
 fields:
   observationCode: Lab-0007

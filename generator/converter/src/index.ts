@@ -23,4 +23,4 @@ export { determineFhirMappingFromGeneratorRules } from './rules/fhir-mapping.js'
 export { loadStaticConverterRows } from './rules/load.js';
 export { normalizeRuleSet } from './rules/normalize.js';
 export { createStaticConverterService } from './sources/static/service.js';
-export { resolveCodeMapping } from './terminology/lookup.js';
+export { resolveCodeMapping, resolveCodeMappings } from './terminology/lookup.js';

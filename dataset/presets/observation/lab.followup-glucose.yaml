@@ -1,5 +1,5 @@
 id: observation.lab.followup-glucose
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0012 observation profile.
 fields:
   observationCode: Lab-0012

@@ -28,7 +28,7 @@ export function JsonViewer({ className, extensions, value }: JsonViewerProps) {
 			)}
 		>
 			{/* Toolbar */}
-			<div className="pointer-events-none absolute top-3 right-6 z-10 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
+			<div className="pointer-events-none absolute top-2 right-3 z-10 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur sm:top-3 sm:right-6">
 				<JsonViewerCopyButton copied={copied} onCopy={copyContent} />
 			</div>
 

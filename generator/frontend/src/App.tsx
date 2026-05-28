@@ -8,7 +8,7 @@ export function App() {
 	const [activeTab, setActiveTab] = useState<TopLevelTab>('pre-connectathon');
 
 	return (
-		<div className="flex h-screen min-h-0 flex-col bg-[#f5f7fb] text-slate-800 antialiased">
+		<div className="flex min-h-dvh flex-col bg-[#f5f7fb] text-slate-800 antialiased xl:h-screen xl:min-h-0">
 			<header className="shrink-0 border-b border-slate-200 bg-white/90 backdrop-blur">
 				<div className="mx-auto flex max-w-[1680px] items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
 					<div className="flex items-center gap-2">

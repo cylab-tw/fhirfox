@@ -1,9 +1,16 @@
 import { applyResourceDefaults } from '../defaults.js';
 import { readNormalizedSourceResourceType } from '../source-resource.js';
-import { resolveCodeMapping } from '../terminology/lookup.js';
+import { resolveCodeMappings } from '../terminology/lookup.js';
 import { writeFhirValue } from '../fhir-path/write.js';
 
-import type { ConvertOptions, ConverterRuleSet, FhirResource, GeneratorRuleRow, SourceResource } from '../types.js';
+import type {
+	ConvertOptions,
+	ConverterRuleSet,
+	FhirCodingMapping,
+	FhirResource,
+	GeneratorRuleRow,
+	SourceResource,
+} from '../types.js';
 
 /**
  * Converts one source resource into one FHIR resource using indexed rules.
@@ -31,8 +38,7 @@ export function convertResource(
 
 	attachSourceId(resource, input.id);
 
-	const profile = ruleSet.resourceProfilesByResourceType.get(sourceResourceType);
-	const profileUrl = resolveResourceProfile(sourceResourceType, input, profile?.profileUrl);
+	const profileUrl = resolveResourceProfileUrl(sourceResourceType, resource, ruleSet);
 
 	if (profileUrl) {
 		resource.meta = {
@@ -47,6 +53,59 @@ export function convertResource(
 	return resource;
 }
 
+function resolveResourceProfileUrl(
+	sourceResourceType: string,
+	resource: FhirResource,
+	ruleSet: ConverterRuleSet,
+): string | undefined {
+	const profiles = ruleSet.resourceProfilesByResourceType.get(sourceResourceType) ?? [];
+	const matchedProfile = profiles.find((profile) => profileMatchesResource(profile, resource));
+
+	return matchedProfile?.profileUrl ?? profiles.find((profile) => !profile.matchFhirPath)?.profileUrl;
+}
+
+function profileMatchesResource(
+	profile: { matchFhirPath?: string; matchValue?: string },
+	resource: FhirResource,
+): boolean {
+	if (!profile.matchFhirPath || profile.matchValue === undefined) {
+		return false;
+	}
+
+	return readFhirPathValue(resource, profile.matchFhirPath) === profile.matchValue;
+}
+
+function readFhirPathValue(resource: FhirResource, fhirPath: string): unknown {
+	const segments = fhirPath.split('.');
+	const [resourceType, ...pathSegments] = segments;
+
+	if (resourceType !== resource.resourceType) {
+		return undefined;
+	}
+
+	return pathSegments.reduce<unknown>((current, segment) => {
+		if (current === undefined || current === null) {
+			return undefined;
+		}
+
+		const parsedSegment = /^(?<name>[A-Za-z][A-Za-z0-9]*)(?:\[(?<index>\d+)\])?$/u.exec(segment)?.groups;
+		if (!parsedSegment || typeof current !== 'object') {
+			return undefined;
+		}
+
+		const value = (current as Record<string, unknown>)[parsedSegment.name];
+		if (parsedSegment.index === undefined) {
+			return value;
+		}
+
+		if (!Array.isArray(value)) {
+			return undefined;
+		}
+
+		return value[Number.parseInt(parsedSegment.index, 10)];
+	}, resource);
+}
+
 function attachSourceId(resource: FhirResource, sourceId: string): void {
 	Object.defineProperty(resource, '__sourceId', {
 		value: sourceId,
@@ -54,25 +113,6 @@ function attachSourceId(resource: FhirResource, sourceId: string): void {
 		configurable: true,
 		writable: true,
 	});
-}
-
-function resolveResourceProfile(
-	sourceResourceType: string,
-	input: SourceResource,
-	defaultProfileUrl: string | undefined,
-): string | undefined {
-	if (sourceResourceType !== 'observation') {
-		return defaultProfileUrl;
-	}
-
-	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
-	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
-
-	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
-		return 'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore';
-	}
-
-	return defaultProfileUrl;
 }
 
 function applyRule(
@@ -99,7 +139,11 @@ function applyRule(
 		return;
 	}
 
-	if (rule.resourceType === 'encounter' && sourceField === 'diagnosisUse' && isMissing(readSourceValue(input, 'conditionId'))) {
+	if (
+		rule.resourceType === 'encounter' &&
+		sourceField === 'diagnosisUse' &&
+		isMissing(readSourceValue(input, 'conditionId'))
+	) {
 		return;
 	}
 
@@ -129,13 +173,29 @@ function applyRule(
 				throw new Error(`Missing mapping key for rule "${rule.fhirPath}".`);
 			}
 
-			const mapping = resolveCodeMapping(ruleSet, mappingKey, String(rawValue));
-			writeFhirValue(resource, rule.fhirPath, mapping.code, rule.dataType, mapping);
+			const mappings = resolveCodeMappings(ruleSet, mappingKey, String(rawValue));
+			writeCodeMappedValues(resource, rule, mappings);
 			return;
 		}
 		default:
 			throw new Error(`Unsupported transform kind "${String(rule.transformKind)}".`);
 	}
+}
+
+function writeCodeMappedValues(resource: FhirResource, rule: GeneratorRuleRow, mappings: FhirCodingMapping[]): void {
+	for (const [index, mapping] of mappings.entries()) {
+		writeFhirValue(resource, getIndexedCodingPath(rule.fhirPath, index), mapping.code, rule.dataType, mapping);
+	}
+}
+
+function getIndexedCodingPath(fhirPath: string, index: number): string {
+	const indexedPath = fhirPath.replace(/\.coding\[\d+\]\.code$/u, `.coding[${index}].code`);
+
+	if (index > 0 && indexedPath === fhirPath) {
+		throw new Error(`Multiple code mappings require a coding array path, got "${fhirPath}".`);
+	}
+
+	return indexedPath;
 }
 
 function readSourceValue(input: SourceResource, sourceField: string): unknown {
@@ -162,17 +222,7 @@ function getFhirResourceType(fhirPath: string | undefined): string {
 }
 
 function resolveMappingKey(rule: GeneratorRuleRow, input: SourceResource): string | undefined {
-	if (rule.resourceType !== 'observation' || getSourceFieldName(rule) !== 'observationCode') {
-		return rule.mappingKey;
-	}
-
-	const categoryCode = typeof input.categoryCode === 'string' ? input.categoryCode : '';
-	const observationCode = typeof input.observationCode === 'string' ? input.observationCode : '';
-
-	if (categoryCode === 'laboratory' || observationCode.startsWith('Lab-')) {
-		return 'laboratoryresult-lab-code';
-	}
-
+	void input;
 	return rule.mappingKey;
 }
 
@@ -262,6 +312,8 @@ function toFhirReferenceTarget(resourceType: string): string {
 		case 'medicationrequest':
 			return 'MedicationRequest';
 		case 'observation':
+		case 'observation-laboratory-result':
+		case 'observation-vital-signs':
 			return 'Observation';
 		case 'organization':
 			return 'Organization';

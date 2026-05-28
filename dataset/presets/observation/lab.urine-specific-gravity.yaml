@@ -1,5 +1,5 @@
 id: observation.lab.urine-specific-gravity
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0021 observation profile.
 fields:
   observationCode: Lab-0021

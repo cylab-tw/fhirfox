@@ -128,7 +128,7 @@ export function JsonViewerViewPane({
 				className="grid min-h-full grid-cols-2"
 				style={{ gridTemplateColumns: `${JSON_GUTTER_WIDTH_REM}rem minmax(0, 1fr)` }}
 			>
-				<div className="flex flex-col border-r border-slate-200/70 px-2.5 pt-3 pb-5">
+				<div className="flex flex-col border-r border-slate-200/70 px-1.5 pt-3 pb-5 sm:px-2.5">
 					{lineNumbers.map((lineNumber) => (
 						<div
 							key={lineNumber}
@@ -140,7 +140,7 @@ export function JsonViewerViewPane({
 					))}
 				</div>
 
-				<div className="min-h-full px-4 pt-3 pb-5" onCopyCapture={onCopyCapture}>
+				<div className="min-h-full min-w-max px-3 pt-3 pb-5 sm:px-4" onCopyCapture={onCopyCapture}>
 					<JsonView
 						ref={jsonViewRef}
 						value={value}

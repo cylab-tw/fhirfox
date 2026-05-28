@@ -153,6 +153,8 @@ function getSourceResourceSubtitle(
 				readSourceDisplay(resourceType, 'status', resource.status, sourceCodeDisplayMap),
 			]);
 		case 'observation':
+		case 'observation-laboratory-result':
+		case 'observation-vital-signs':
 			return joinParts([
 				readSourceDisplay(resourceType, 'observationCode', resource.observationCode, sourceCodeDisplayMap),
 				readString(resource.valueQuantity),

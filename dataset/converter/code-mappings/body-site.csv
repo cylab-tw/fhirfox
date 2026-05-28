@@ -1,0 +1,12 @@
+source_code,target_code,target_display,target_system,display_zh_tw,is_active
+head,69536005,Head,http://snomed.info/sct,頭部,true
+neck,45048000,Neck,http://snomed.info/sct,頸部,true
+head-neck,774007,Head and neck structure,http://snomed.info/sct,頭頸部,true
+chest,43799004,Thoracic cavity,http://snomed.info/sct,胸部,true
+chest-abdomen,416550000,Chest and/or abdomen structure,http://snomed.info/sct,胸腹部,true
+upper-abdomen,80581009,Upper abdomen,http://snomed.info/sct,上腹部,true
+abdominopelvic-cavity,818987002,Abdominopelvic cavity,http://snomed.info/sct,腹盆腔,true
+extremity,66019005,Extremity,http://snomed.info/sct,四肢,true
+cardiovascular-system,113257007,Cardiovascular system,http://snomed.info/sct,心血管系統,true
+coronary-artery,41801008,Coronary artery structure,http://snomed.info/sct,冠狀動脈,true
+lung,39607008,Lung structure,http://snomed.info/sct,肺部,true

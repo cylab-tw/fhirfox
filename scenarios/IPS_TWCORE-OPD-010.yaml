@@ -66,21 +66,21 @@ resources:
   - alias: practitioner.endocrinology-clinician
     resourceType: practitioner
   - alias: observation.lab-blood-glucose
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-initial
       performerId: organization.hospital
     with:
       - observation.lab.blood-glucose
   - alias: observation.lab-hba1c
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.type-2-diabetes-followup-visit-subsequent
       performerId: organization.hospital
     with:
       - observation.lab.hba1c
   - alias: observation.lab-total-cholesterol
-    resourceType: observation
+    resourceType: observation-laboratory-result
     references:
       encounterId: encounter.hypertension-followup-visit-followup
       performerId: organization.hospital

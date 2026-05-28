@@ -12,6 +12,7 @@
 	"scripts": {
 		"postinstall": "patch-package",
 		"build": "npm run build --workspace dataset && npm run build --workspace converter && npm run build --workspace backend && npm run build --workspace frontend",
+		"test": "npm run test --workspaces --if-present",
 		"dataset:check": "npm run check --workspace dataset",
 		"dataset:doctor": "npm run doctor --workspace dataset",
 		"typecheck": "npm run typecheck --workspaces --if-present",

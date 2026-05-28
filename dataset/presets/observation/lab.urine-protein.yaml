@@ -1,5 +1,5 @@
 id: observation.lab.urine-protein
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0006 observation profile.
 fields:
   observationCode: Lab-0006

@@ -1,5 +1,5 @@
 id: observation.lab.hba1c
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0008 observation profile.
 fields:
   observationCode: Lab-0008

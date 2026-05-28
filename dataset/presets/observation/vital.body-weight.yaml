@@ -1,5 +1,5 @@
 id: observation.vital.body-weight
-resourceType: observation
+resourceType: observation-vital-signs
 summary: VS-0003 observation profile.
 fields:
   observationCode: VS-0003

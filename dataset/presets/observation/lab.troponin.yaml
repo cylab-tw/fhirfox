@@ -1,5 +1,5 @@
 id: observation.lab.troponin
-resourceType: observation
+resourceType: observation-laboratory-result
 summary: Lab-0005 observation profile.
 fields:
   observationCode: Lab-0005

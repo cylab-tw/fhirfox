@@ -22,6 +22,7 @@ const fixtureBaseDir = path.resolve(fileURLToPath(new URL('../../..', import.met
 const patient: SourceResource = {
 	id: '1',
 	resourceType: 'patient',
+	idSystem: 'https://www.tph.mohw.gov.tw',
 	idNumber: 'A123456789',
 	name: '王小明',
 	gender: 'male',
@@ -133,10 +134,10 @@ const procedure: SourceResource = {
 
 const observation: SourceResource = {
 	id: '3',
-	resourceType: 'observation',
+	resourceType: 'observation-vital-signs',
 	status: 'final',
 	categoryCode: 'vital-signs',
-	observationCode: 'VS-0013',
+	observationCode: 'VS-0012',
 	patientId: '3',
 	encounterId: '6',
 	effectiveDate: '2026-04-18T18:50:00+08:00',
@@ -147,6 +148,8 @@ const observation: SourceResource = {
 
 const labObservation: SourceResource = {
 	...observation,
+	id: '4',
+	resourceType: 'observation-laboratory-result',
 	categoryCode: 'laboratory',
 	observationCode: 'Lab-0005',
 	valueQuantity: '12',
@@ -162,7 +165,11 @@ test('loadStaticConverterRows and normalizeRuleSet index TW Core rows', async ()
 	assert.ok(rows.resourceProfiles.length > 0);
 	assert.ok(ruleSet.generatorRulesByResourceType.has('patient'));
 	assert.ok(ruleSet.generatorRulesByResourceType.has('encounter'));
+	assert.ok(ruleSet.generatorRulesByResourceType.has('observation-vital-signs'));
+	assert.ok(ruleSet.generatorRulesByResourceType.has('observation-laboratory-result'));
 	assert.ok(ruleSet.codeMappingsByKey.has('administrative-gender'));
+	assert.ok(ruleSet.codeMappingsByKey.has('observation-vital-signs-code'));
+	assert.ok(ruleSet.codeMappingsByKey.has('observation-laboratory-result-code'));
 	assert.ok(ruleSet.resourceProfilesByResourceType.has('patient'));
 });
 
@@ -191,6 +198,25 @@ test('toFhirResource converts Patient with copy and code_map rules', async () =>
 	assert.equal((result.identifier as Array<{ value?: string }>)?.[1]?.value, 'A123456789');
 	assert.equal((result.identifier as Array<{ system?: string }>)?.[1]?.system, 'http://www.moi.gov.tw');
 	assert.equal((result.managingOrganization as { reference?: string } | undefined)?.reference, 'Organization/1');
+});
+
+test('toFhirResource converts Patient with a custom MR identifier system', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...patient,
+			idSystem: 'https://example.org/fhir/patient-mr',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal((result.identifier as Array<{ system?: string }>)?.[0]?.system, 'https://example.org/fhir/patient-mr');
 });
 
 test('toFhirResource converts Encounter with copy, code_map, and build_reference rules', async () => {
@@ -261,7 +287,10 @@ test('toFhirResource converts laboratory Observation with lab code mapping', asy
 	});
 
 	assert.equal(result.resourceType, 'Observation');
-	assert.equal((result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code, '777-3');
+	assert.equal(
+		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.code,
+		'777-3',
+	);
 	assert.equal(
 		(result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding?.[0]?.system,
 		'http://loinc.org',
@@ -269,6 +298,77 @@ test('toFhirResource converts laboratory Observation with lab code mapping', asy
 	assert.deepEqual(result.meta?.profile, [
 		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-laboratoryResult-twcore',
 	]);
+});
+
+test('toFhirResource converts vital signs Observation with code-specific profile', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(observation, {
+		igName: 'tw.gov.mohw.twcore',
+		igVersion: '1.0.0',
+	});
+
+	assert.equal(result.resourceType, 'Observation');
+	const codings = (result.code as { coding?: Array<{ code?: string; system?: string }> } | undefined)?.coding;
+	assert.equal(codings?.[0]?.code, '59408-5');
+	assert.equal(codings?.[1]?.code, '2708-6');
+	assert.deepEqual(result.meta?.profile, [
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-pulse-oximetry-twcore',
+	]);
+});
+
+test('toFhirResource maps vital signs profiles from converted LOINC codes', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const cases = [
+		['VS-0003', 'Observation-body-weight-twcore'],
+		['VS-0005', 'Observation-body-temperature-twcore'],
+		['VS-0006', 'Observation-heart-rate-twcore'],
+		['VS-0007', 'Observation-respiratory-rate-twcore'],
+		['VS-0008', 'Observation-bloodPressure-twcore'],
+	] as const;
+
+	for (const [observationCode, profileSlug] of cases) {
+		const result = await service.toFhirResource(
+			{
+				...observation,
+				observationCode,
+			},
+			{
+				igName: 'tw.gov.mohw.twcore',
+				igVersion: '1.0.0',
+			},
+		);
+
+		assertValidTwCoreProfile(result, `https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/${profileSlug}`);
+	}
+});
+
+test('toFhirResource keeps generic vital signs profile when no specific TW profile matches', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...observation,
+			observationCode: 'VS-0013',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal((result.code as { coding?: Array<{ code?: string }> } | undefined)?.coding?.[0]?.code, '8287-5');
+	assertValidTwCoreProfile(
+		result,
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+	);
 });
 
 test('toFhirBundle preserves input order and builds urn:uuid fullUrl values', async () => {
@@ -324,6 +424,22 @@ test('toFhirBundle builds stable urn:uuid fullUrl values when no base is configu
 	assertBundleReferencesResolveToFullUrls(result);
 });
 
+test('toFhirBundle keeps split Observation fullUrls distinct', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirBundle([observation, labObservation], {
+		igName: 'tw.gov.mohw.twcore',
+		igVersion: '1.0.0',
+	});
+
+	assert.equal(result.entry.length, 2);
+	assert.equal(result.entry[0]?.resource.resourceType, 'Observation');
+	assert.equal(result.entry[1]?.resource.resourceType, 'Observation');
+	assert.notEqual(result.entry[0]?.fullUrl, result.entry[1]?.fullUrl);
+});
+
 test('toFhirResource maps observation quantity display into unit instead of invalid display', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
@@ -343,7 +459,7 @@ test('toFhirResource maps observation quantity display into unit instead of inva
 	assert.equal((result.valueQuantity as { display?: string } | undefined)?.display, undefined);
 	assertValidTwCoreProfile(
 		result,
-		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-vitalSigns-twcore',
+		'https://twcore.mohw.gov.tw/ig/twcore/StructureDefinition/Observation-pulse-oximetry-twcore',
 	);
 });
 
@@ -395,11 +511,11 @@ test('canonical source ordering places all encounters together before shared enc
 			verificationStatus: 'confirmed',
 			category: 'encounter-diagnosis',
 			severity: '6736007',
-				conditionCode: 'Cond-065',
-				conditionText: '胸悶/胸部不適',
-				patientId: '1',
-				recordedDate: '2026-04-12T15:12:00+08:00',
-				recorderId: '1',
+			conditionCode: 'Cond-065',
+			conditionText: '胸悶/胸部不適',
+			patientId: '1',
+			recordedDate: '2026-04-12T15:12:00+08:00',
+			recorderId: '1',
 		},
 		{
 			id: '1',
@@ -435,14 +551,14 @@ test('canonical source ordering places all encounters together before shared enc
 			'patient/1',
 			'encounter/1',
 			'encounter/2',
-				'organization/1',
-				'practitionerrole/1',
-				'practitioner/1',
-				'allergyintolerance/1',
-				'condition/1',
-				'condition/3',
-			],
-		);
+			'organization/1',
+			'practitionerrole/1',
+			'practitioner/1',
+			'allergyintolerance/1',
+			'condition/1',
+			'condition/3',
+		],
+	);
 	assert.deepEqual(Object.keys(ordered.groupedResources), [
 		'patient',
 		'encounter',
@@ -457,13 +573,13 @@ test('canonical source ordering places all encounters together before shared enc
 test('canonical field ordering aligns source and FHIR fields to local metadata', async () => {
 	const rows = await loadStaticConverterRows(fixtureBaseDir, 'tw.gov.mohw.twcore');
 	const ruleSet = normalizeRuleSet(rows, 'tw.gov.mohw.twcore', '1.0.0');
-		ruleSet.sourceFieldOrder = {
-			patient: [
-				'resourceType',
-				'id',
-				'idNumber',
-				'active',
-				'name',
+	ruleSet.sourceFieldOrder = {
+		patient: [
+			'resourceType',
+			'id',
+			'idNumber',
+			'active',
+			'name',
 			'telecomSystem',
 			'telecomValue',
 			'telecomUse',
@@ -476,14 +592,14 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 	const orderedSource = orderSourceResourceFields(
 		{
 			id: '1',
-				resourceType: 'patient',
-				name: '王小明',
-				organization: '1',
-				idNumber: 'A123456789',
-				gender: 'male',
-			},
-			ruleSet,
-		);
+			resourceType: 'patient',
+			name: '王小明',
+			organization: '1',
+			idNumber: 'A123456789',
+			gender: 'male',
+		},
+		ruleSet,
+	);
 	const orderedFhir = orderFhirResourceFields(
 		convertResource(patient, ruleSet, {
 			igName: 'tw.gov.mohw.twcore',
@@ -493,14 +609,15 @@ test('canonical field ordering aligns source and FHIR fields to local metadata',
 		ruleSet,
 	);
 
-	assert.deepEqual(Object.keys(orderedSource).slice(0, 5), [
+	assert.deepEqual(Object.keys(orderedSource).slice(0, 5), ['resourceType', 'id', 'idNumber', 'name', 'gender']);
+	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), [
 		'resourceType',
-		'id',
-		'idNumber',
+		'meta',
+		'text',
+		'identifier',
 		'name',
-		'gender',
+		'telecom',
 	]);
-	assert.deepEqual(Object.keys(orderedFhir).slice(0, 6), ['resourceType', 'meta', 'text', 'identifier', 'name', 'telecom']);
 	assert.deepEqual(Object.keys((orderedFhir.identifier as Array<Record<string, unknown>>)[0] ?? {}), [
 		'use',
 		'type',
@@ -525,7 +642,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[0].value',
 			dataType: 'string',
 			isRequired: true,
@@ -537,7 +654,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '0.9.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[1].value',
 			dataType: 'string',
 			isRequired: true,
@@ -549,7 +666,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 			fhirPath: 'Patient.identifier[2].value',
 			dataType: 'string',
 			isRequired: true,
@@ -564,7 +681,7 @@ test('FHIR mapping metadata is determined from active generator rules for the se
 			igName: 'tw.gov.mohw.twcore',
 			igVersion: '1.0.0',
 			resourceType: 'patient',
-				path: 'patient.idNumber',
+			path: 'patient.idNumber',
 		}),
 		'Patient.identifier[0].value',
 	);
@@ -591,7 +708,6 @@ test('encounter field ordering follows explicit TW Core example-driven order', a
 			'diagnosisUse',
 			'admitSource',
 			'dischargeDisposition',
-			'locationId',
 			'serviceProviderId',
 		],
 	};
@@ -724,6 +840,49 @@ test('toFhirResource converts PractitionerRole with a medical license identifier
 	assert.equal((result.code as Array<{ text?: string }> | undefined)?.[0]?.text, '家庭醫學科醫師');
 });
 
+test('toFhirResource maps blood pressure component units from source fields', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...observation,
+			observationCode: 'VS-0008',
+			systolicValue: 128,
+			systolicUnit: 'mm[Hg]',
+			diastolicValue: 82,
+			diastolicUnit: 'mm[Hg]',
+			valueQuantity: undefined,
+			valueUnit: undefined,
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	const components = result.component as Array<{
+		valueQuantity?: Record<string, unknown>;
+		code?: { coding?: Array<{ code?: string }> };
+	}>;
+
+	assert.deepEqual(components[0]?.valueQuantity, {
+		value: 128,
+		code: 'mm[Hg]',
+		unit: 'millimeter of mercury',
+		system: 'http://unitsofmeasure.org',
+	});
+	assert.deepEqual(components[1]?.valueQuantity, {
+		value: 82,
+		code: 'mm[Hg]',
+		unit: 'millimeter of mercury',
+		system: 'http://unitsofmeasure.org',
+	});
+	assert.equal(components[0]?.code?.coding?.[0]?.code, '8480-6');
+	assert.equal(components[1]?.code?.coding?.[0]?.code, '8462-4');
+});
+
 test('toFhirResource converts MedicationRequest quantities with code and system but no unit', async () => {
 	const service = createStaticConverterService({
 		baseDir: fixtureBaseDir,
@@ -753,8 +912,9 @@ test('toFhirResource converts MedicationRequest quantities with code and system 
 	const doseQuantity = (
 		result.dosageInstruction as Array<{ doseAndRate?: Array<{ doseQuantity?: Record<string, unknown> }> }> | undefined
 	)?.[0]?.doseAndRate?.[0]?.doseQuantity;
-	const expectedSupplyDuration = (result.dispenseRequest as { expectedSupplyDuration?: Record<string, unknown> } | undefined)
-		?.expectedSupplyDuration;
+	const expectedSupplyDuration = (
+		result.dispenseRequest as { expectedSupplyDuration?: Record<string, unknown> } | undefined
+	)?.expectedSupplyDuration;
 
 	assert.deepEqual(doseQuantity, {
 		value: 500,
@@ -822,7 +982,38 @@ test('toFhirResource converts Procedure with mapped code, performer function, an
 		(result.performer as Array<{ function?: { coding?: Array<{ code?: string }> } }>)?.[0]?.function?.coding?.[0]?.code,
 		'22731001',
 	);
-	assert.equal((result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code, '386661006');
+	assert.equal(
+		(result.reasonCode as Array<{ coding?: Array<{ code?: string }> }>)?.[0]?.coding?.[0]?.code,
+		'386661006',
+	);
+});
+
+test('toFhirResource maps Procedure bodySite coding', async () => {
+	const service = createStaticConverterService({
+		baseDir: fixtureBaseDir,
+	});
+
+	const result = await service.toFhirResource(
+		{
+			...procedure,
+			bodySite: 'head',
+		},
+		{
+			igName: 'tw.gov.mohw.twcore',
+			igVersion: '1.0.0',
+		},
+	);
+
+	assert.equal(
+		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]
+			?.code,
+		'69536005',
+	);
+	assert.equal(
+		(result.bodySite as Array<{ coding?: Array<{ code?: string; system?: string }> }> | undefined)?.[0]?.coding?.[0]
+			?.system,
+		'http://snomed.info/sct',
+	);
 });
 
 test('conversion fails explicitly when no rules exist for the source resource type', async () => {

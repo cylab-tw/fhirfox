@@ -320,8 +320,8 @@ export default function ScenarioBrowserApp() {
 	}
 
 	return (
-		<div className="h-full overflow-hidden bg-[#f5f7fb] text-slate-800 antialiased">
-			<main className="mx-auto flex h-full max-w-[1680px] flex-col gap-4 px-4 py-5 sm:px-6 lg:px-8">
+		<div className="min-h-full bg-[#f5f7fb] text-slate-800 antialiased xl:h-full xl:overflow-hidden">
+			<main className="mx-auto flex min-h-full max-w-[1680px] flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-5 lg:px-8 xl:h-full xl:min-h-0">
 				{scenarioSource === 'missing' ? (
 					<StatusCard
 						title="No authored scenarios found"
@@ -329,7 +329,7 @@ export default function ScenarioBrowserApp() {
 					/>
 				) : null}
 
-				<section className="flex min-h-0 flex-1 flex-col gap-4 xl:hidden">
+				<section className="flex flex-1 flex-col gap-3 sm:gap-4 xl:hidden">
 					<ScenarioMobileHeader {...scenarioPanelProps} />
 					{renderPreviewPanel()}
 					<ScenarioMobileDetails {...scenarioPanelProps} />

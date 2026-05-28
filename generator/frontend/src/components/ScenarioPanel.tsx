@@ -4,7 +4,7 @@ import chevronDown from '@iconify-icons/mdi/chevron-down';
 import closeIcon from '@iconify-icons/mdi/close';
 import helpCircleOutline from '@iconify-icons/mdi/help-circle-outline';
 
-import { formatSourceResourceType } from '../lib/source-resource-display.js';
+import { formatSourceResourceType, normalizeSourceResourceTypeForUi } from '../lib/source-resource-display.js';
 import { readSourceResourceType } from '@fhirfox/converter/browser';
 
 import type { ScenarioLevelDefinition, ScenarioRecord, ScenarioResultRecord, SourceFieldDocRecord } from '../types.js';
@@ -69,11 +69,11 @@ export function ScenarioPanel(props: ScenarioPanelProps) {
 
 export function ScenarioMobileHeader(props: ScenarioPanelProps) {
 	return (
-		<section className="rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
-			<div className="border-b border-slate-200/80 px-6 py-5">
-				<h1 className="text-2xl font-semibold tracking-tight text-slate-950">FHIRfox</h1>
+		<section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
+			<div className="border-b border-slate-200/80 px-4 py-4 sm:px-6 sm:py-5">
+				<h1 className="text-[22px] font-semibold tracking-tight text-slate-950 sm:text-2xl">FHIRfox</h1>
 			</div>
-			<div className="px-6 py-5">
+			<div className="px-4 py-4 sm:px-6 sm:py-5">
 				<ScenarioSelectControl
 					levelDefinitions={props.levelDefinitions}
 					scenarios={props.scenarios}
@@ -94,7 +94,7 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 
 	if (!props.selectedScenario) {
 		return (
-			<section className="rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
+			<section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
 				<div className="px-6 py-6 text-[15px] leading-7 text-slate-500">
 					目前沒有可載入的情境定義。請將情境檔放到 `dataset/scenarios/`，前端就會在 dev/build 時自動讀取。
 				</div>
@@ -104,8 +104,8 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 
 	return (
 		<>
-			<section className="rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)]">
-				<div className="border-b border-slate-200/80 px-6 py-4">
+			<section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
+				<div className="border-b border-slate-200/80 px-4 py-4 sm:px-6">
 					<h2 className="text-lg font-semibold tracking-tight text-slate-950">案例資訊</h2>
 				</div>
 				<div className="divide-y divide-slate-200/80">
@@ -178,7 +178,7 @@ function ScenarioSelectControl({
 					value={selectedScenarioId}
 					onChange={(event) => onScenarioChange(event.target.value)}
 					title={`${selectedScenarioId} - ${selectedScenarioLabel}`}
-					className="w-full appearance-none truncate rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 pr-11 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
+					className="w-full appearance-none truncate rounded-xl border border-slate-300 bg-slate-50 px-3 py-3 pr-10 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100 sm:rounded-2xl sm:px-4 sm:pr-11"
 				>
 					{scenarios.length === 0 ? <option value="">No scenarios available</option> : null}
 					{scenariosByLevel.map(({ definition, scenarios: groupedScenarios }) => (
@@ -223,7 +223,7 @@ function SeedControl({
 				value={scenarioSeed}
 				onChange={(event) => onScenarioSeedChange(event.target.value)}
 				placeholder="1234"
-				className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100"
+				className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-3 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100 sm:rounded-2xl sm:px-4"
 			/>
 			<p className="text-xs leading-5 text-slate-500">變更 seed 會重新解析目前情境。</p>
 		</label>
@@ -384,7 +384,7 @@ function MobileAccordion({
 	defaultOpen?: boolean;
 }) {
 	return (
-		<details className="group px-6 py-4" open={defaultOpen}>
+		<details className="group px-4 py-4 sm:px-6" open={defaultOpen}>
 			<summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-slate-900 marker:content-none">
 				<span>{title}</span>
 				<span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-semibold text-slate-500 transition group-open:-rotate-180">
@@ -449,17 +449,17 @@ function LevelDefinitionsModal({
 	const selectedDefinition = getScenarioLevelDefinition(levelDefinitions, selectedLevel);
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/28 px-4 py-6" onClick={onClose}>
+		<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/28 px-3 py-4 sm:px-4 sm:py-6" onClick={onClose}>
 			<div
 				role="dialog"
 				aria-modal="true"
 				aria-labelledby="scenario-levels-title"
-				className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.24)]"
+				className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] sm:rounded-[28px]"
 				onClick={(event) => event.stopPropagation()}
 			>
-				<div className="flex items-start justify-between gap-4 border-b border-slate-200/80 px-6 py-5">
+				<div className="flex items-start justify-between gap-4 border-b border-slate-200/80 px-4 py-4 sm:px-6 sm:py-5">
 					<div className="min-w-0">
-						<h2 id="scenario-levels-title" className="text-[28px] font-semibold tracking-tight text-slate-950">
+						<h2 id="scenario-levels-title" className="text-[22px] leading-tight font-semibold tracking-tight text-slate-950 sm:text-[28px]">
 							測試情境分級說明
 						</h2>
 					</div>
@@ -472,7 +472,7 @@ function LevelDefinitionsModal({
 						<Icon icon={closeIcon} className="h-4 w-4" />
 					</button>
 				</div>
-				<div className="max-h-[72vh] overflow-auto px-6 py-5">
+				<div className="max-h-[72dvh] overflow-auto px-4 py-4 sm:px-6 sm:py-5">
 					<div className="divide-y divide-slate-200/80">
 						{levelDefinitions.map((definition) => (
 							<LevelDefinitionRow
@@ -553,7 +553,7 @@ function ResourceCoverageTree({
 	const tree = buildCoverageTree(selectedScenarioResult, sourceFieldDocs);
 
 	return (
-		<div className="rounded-[24px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(250,251,253,0.96),rgba(246,248,251,0.92))] px-4 py-4">
+		<div className="overflow-x-auto rounded-2xl border border-slate-200/70 bg-[linear-gradient(180deg,rgba(250,251,253,0.96),rgba(246,248,251,0.92))] px-3 py-3 sm:rounded-[24px] sm:px-4 sm:py-4">
 			<div className="grid gap-2">
 				{tree.map((node) => (
 					<ResourceCoverageTreeNode
@@ -600,7 +600,11 @@ function ResourceCoverageTreeNode({
 					resourceType={node.resourceType}
 					count={node.count}
 					clickable={clickable}
-					active={activeResourceType?.toLowerCase() === node.resourceType.toLowerCase()}
+					active={
+						activeResourceType
+							? normalizeSourceResourceTypeForUi(activeResourceType) === normalizeSourceResourceTypeForUi(node.resourceType)
+							: false
+					}
 					onClick={() => onResourceTypeSelect(node.resourceType)}
 				/>
 			</div>
@@ -697,7 +701,7 @@ function buildCoverageTreeFromInstanceTree(tree: ResourceGraphTree[]): CoverageT
 
 	function traverse(nodes: ResourceGraphTree[], parentType: string | null) {
 		for (const node of nodes) {
-			const type = node.resourceType;
+			const type = normalizeCoverageResourceType(node.resourceType);
 			resourceCounts.set(type, (resourceCounts.get(type) ?? 0) + 1);
 
 			if (!firstSeenOrder.has(type)) {
@@ -731,7 +735,8 @@ function buildCoverageTreeFromScenarioResult(
 	const idToResourceType = new Map<string, string>();
 
 	for (const [index, resource] of selectedScenarioResult.orderedResources.entries()) {
-		const resourceType = readSourceResourceType(resource);
+		const rawResourceType = readSourceResourceType(resource);
+		const resourceType = normalizeCoverageResourceType(rawResourceType);
 		resourceCounts.set(resourceType, (resourceCounts.get(resourceType) ?? 0) + 1);
 		if (!firstSeenOrder.has(resourceType)) {
 			firstSeenOrder.set(resourceType, index);
@@ -741,13 +746,15 @@ function buildCoverageTreeFromScenarioResult(
 		if (id) {
 			idToResourceType.set(id, resourceType);
 			idToResourceType.set(`${resourceType}/${id}`, resourceType);
+			idToResourceType.set(`${rawResourceType}/${id}`, resourceType);
 		}
 	}
 
 	for (const resource of selectedScenarioResult.orderedResources) {
-		const sourceType = readSourceResourceType(resource);
+		const rawSourceType = readSourceResourceType(resource);
+		const sourceType = normalizeCoverageResourceType(rawSourceType);
 		for (const [field, value] of Object.entries(resource)) {
-			const doc = sourceFieldDocs[`${sourceType}.${field}`];
+			const doc = sourceFieldDocs[`${rawSourceType}.${field}`];
 			const targetTypes = readReferenceTypes(doc?.reference);
 
 			if (targetTypes.length === 0) {
@@ -757,7 +764,10 @@ function buildCoverageTreeFromScenarioResult(
 			for (const targetId of readReferenceValues(value)) {
 				const targetType = idToResourceType.get(targetId) ?? idToResourceType.get(targetId.split('/').pop() ?? '');
 
-				if (!targetType || !targetTypes.some((candidate) => candidate.toLowerCase() === targetType.toLowerCase())) {
+				if (
+					!targetType ||
+					!targetTypes.some((candidate) => normalizeCoverageResourceType(candidate) === targetType)
+				) {
 					continue;
 				}
 
@@ -770,6 +780,10 @@ function buildCoverageTreeFromScenarioResult(
 	}
 
 	return buildCoverageTreeFromCountsAndAdjacency(resourceCounts, childrenByType, incomingTypes, firstSeenOrder);
+}
+
+function normalizeCoverageResourceType(resourceType: string): string {
+	return normalizeSourceResourceTypeForUi(resourceType);
 }
 
 function buildCoverageTreeFromCountsAndAdjacency(

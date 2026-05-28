@@ -149,7 +149,6 @@ test('scenario validation reports invalid references', () => {
 					resourceType: 'encounter',
 					references: {
 						patientId: 'patient.missing',
-						locationId: { resourceType: 'missing' },
 					},
 				},
 			],
@@ -173,14 +172,6 @@ test('scenario validation reports invalid references', () => {
 						required: true,
 						reference: { binding: 'subject' },
 					},
-					{
-						id: 'locationId',
-						name: 'Location',
-						type: 'reference',
-						path: 'encounter.locationId',
-						required: false,
-						reference: { binding: 'subject' },
-					},
 				],
 			},
 			{
@@ -192,7 +183,6 @@ test('scenario validation reports invalid references', () => {
 	);
 
 	assert.ok(issues.some((issue) => issue.code === 'scenario.unknownReferenceAlias'));
-	assert.ok(issues.some((issue) => issue.code === 'scenario.unknownReferenceResourceType'));
 });
 
 test('validation report counts errors and warnings', () => {

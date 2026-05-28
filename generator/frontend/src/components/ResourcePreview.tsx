@@ -4,7 +4,7 @@ import chevronLeft from '@iconify-icons/mdi/chevron-left';
 
 import { JsonViewer } from './json-viewer/JsonViewer.js';
 import { createScenarioBrowserJsonViewerExtensionsForValue } from '../helpers/scenario-browser/json-viewer-adapter.js';
-import { formatSourceResourceType } from '../lib/source-resource-display.js';
+import { formatSourceResourceType, normalizeSourceResourceTypeForUi } from '../lib/source-resource-display.js';
 
 import type {
 	PreviewResourceItem,
@@ -70,7 +70,9 @@ export function ResourcePreview({
 		}
 
 		const matchingResources = resources.filter(
-			(resource) => resource.resourceType.toLowerCase() === scrollToResourceType.resourceType.toLowerCase(),
+			(resource) =>
+				normalizeSourceResourceTypeForUi(resource.resourceType) ===
+				normalizeSourceResourceTypeForUi(scrollToResourceType.resourceType),
 		);
 
 		if (matchingResources.length === 0) {
@@ -135,9 +137,9 @@ export function ResourcePreview({
 	}, [expandedResourceId, onExpandedResourceTypeChange, resources]);
 
 	return (
-		<div className="flex h-full min-h-0 flex-col">
+		<div className="flex h-[72dvh] min-h-[420px] flex-col xl:h-full xl:min-h-0">
 			<div ref={scrollContainerRef} className="min-h-0 flex-1 overflow-auto">
-				<div className="grid gap-3 px-6 py-5">
+				<div className="grid gap-3 px-3 py-4 sm:px-6 sm:py-5">
 					{resources.map((resource) => {
 						const isExpanded = resource.id === expandedResourceId;
 
@@ -147,7 +149,7 @@ export function ResourcePreview({
 								ref={(node) => {
 									resourceRefs.current[resource.id] = node;
 								}}
-								className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.04)]"
+								className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.04)] sm:rounded-2xl"
 							>
 								<button
 									type="button"
@@ -155,10 +157,10 @@ export function ResourcePreview({
 										pendingScrollResourceIdRef.current = null;
 										setExpandedResourceId((current) => (current === resource.id ? '' : resource.id));
 									}}
-									className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 text-left transition hover:bg-slate-50"
+									className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-3 text-left transition hover:bg-slate-50 sm:px-4 sm:py-4"
 									aria-expanded={isExpanded}
 								>
-									<span className="min-w-0 truncate text-[15px] text-slate-600">
+									<span className="min-w-0 text-[14px] leading-5 break-words text-slate-600 sm:truncate sm:text-[15px]">
 										<span className="font-semibold text-slate-950">
 											{formatPreviewResourceTitle(resource.resourceType, resource.title)}
 										</span>
