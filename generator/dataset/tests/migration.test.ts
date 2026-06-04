@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { resolve } from 'node:path';
 
+import { readYamlDirectory } from '#/cli/files.js';
 import { compileResourceDefinitions } from '#/model/index.js';
 import { createInMemoryDatasetProvider } from '#/provider/index.js';
 import { resolveScenario } from '#/resolution/index.js';
+import type { Preset } from '#/preset/index.js';
+import type { ResourceTypeDefinition } from '#/model/index.js';
 
 test('compileResourceDefinitions preserves authored optional values', () => {
 	const compiled = compileResourceDefinitions({
@@ -177,4 +181,32 @@ test('preset requirements can create implicit supporting resources', async () =>
 		resolved.resources.map((resource) => resource.alias),
 		['patient.current', 'organization.hospital'],
 	);
+});
+
+test('bundled default hospital preset uses the TW Core organization code for its name', async () => {
+	const provider = createInMemoryDatasetProvider({
+		resourceTypeDefinitions: readYamlDirectory<ResourceTypeDefinition>(resolve('../../dataset/definitions')),
+		presets: readYamlDirectory<Preset>(resolve('../../dataset/presets')),
+	});
+
+	const resolved = await resolveScenario(
+		provider,
+		{
+			id: 'default-hospital-identifier',
+			name: 'Default hospital identifier',
+			resources: [
+				{
+					alias: 'organization.default',
+					resourceType: 'organization',
+					with: ['organization.default-hospital'],
+				},
+			],
+		},
+		{ seed: 'demo' },
+	);
+
+	const organization = resolved.resources.find((resource) => resource.alias === 'organization.default');
+
+	assert.equal(organization?.resource.name, '臺北市立聯合醫院');
+	assert.equal(organization?.resource.identifierValue, '0101090517');
 });
