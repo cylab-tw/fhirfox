@@ -187,7 +187,8 @@ tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.periodUnit,Medicati
 tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.timingCode,MedicationRequest.dosageInstruction[0].timing.code.coding[0].code,string,false,code_map,medicationrequest-timing-code,,121,true
 tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.routeCode,MedicationRequest.dosageInstruction[0].route.coding[0].code,string,false,code_map,medicationrequest-route-code,,122,true
 tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.doseValue,MedicationRequest.dosageInstruction[0].doseAndRate[0].doseQuantity.value,decimal,false,copy,,,130,true
-tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.doseCode,MedicationRequest.dosageInstruction[0].doseAndRate[0].doseQuantity.code,string,false,code_map,unitsofmeasure,,140,true
+tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.doseCode,MedicationRequest.dosageInstruction[0].doseAndRate[0].doseQuantity.code,string,false,copy,,,140,true
+tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.doseCode,MedicationRequest.dosageInstruction[0].doseAndRate[0].doseQuantity.system,string,false,constant,http://unitsofmeasure.org,,141,true
 tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.durationValue,MedicationRequest.dispenseRequest.expectedSupplyDuration.value,decimal,false,copy,,,150,true
 tw.gov.mohw.twcore,1.0.0,medicationrequest,medicationrequest.durationCode,MedicationRequest.dispenseRequest.expectedSupplyDuration.code,string,false,code_map,unitsofmeasure,,160,true
 tw.gov.mohw.twcore,1.0.0,diagnosticreport,diagnosticreport.status,DiagnosticReport.status,string,true,code_map,diagnosticreport-status,,10,true
