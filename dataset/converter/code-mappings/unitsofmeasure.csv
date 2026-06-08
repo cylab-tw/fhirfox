@@ -11,7 +11,7 @@ mm[Hg],mm[Hg],millimeter of mercury,http://unitsofmeasure.org,毫米汞柱 (血�
 /min,/min,per minute,http://unitsofmeasure.org,每分鐘 (心跳/呼吸),true
 kg/m2,kg/m2,kilogram / (meter ^ 2),http://unitsofmeasure.org,BMI單位,true
 m2,m2,square meter,http://unitsofmeasure.org,,true
-{tbl},1,tablet,http://unitsofmeasure.org,顆 (錠),true
+{tbl},{tbl},tablet,http://unitsofmeasure.org,顆 (錠),true
 {cap},{cap},capsule,http://unitsofmeasure.org,粒 (膠囊),true
 mL,mL,milliliter,http://unitsofmeasure.org,毫升,true
 mg,mg,milligram,http://unitsofmeasure.org,毫克,true
