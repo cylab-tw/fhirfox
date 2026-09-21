@@ -21,6 +21,7 @@ interface ScenarioPanelProps {
 	sourceFieldDocs: Record<string, SourceFieldDocRecord>;
 	scenarioSeed: string;
 	seedEditable: boolean;
+	groupScenariosByLevel: boolean;
 	onScenarioChange: (scenarioId: string) => void;
 	onScenarioSeedChange: (seed: string) => void;
 	onResourceTypeSelect: (resourceType: string) => void;
@@ -44,6 +45,7 @@ export function ScenarioPanel(props: ScenarioPanelProps) {
 						scenarios={props.scenarios}
 						selectedScenarioId={props.selectedScenarioId}
 						selectedScenario={props.selectedScenario}
+						groupScenariosByLevel={props.groupScenariosByLevel}
 						onScenarioChange={props.onScenarioChange}
 					/>
 					{props.seedEditable ? (
@@ -79,6 +81,7 @@ export function ScenarioMobileHeader(props: ScenarioPanelProps) {
 					scenarios={props.scenarios}
 					selectedScenarioId={props.selectedScenarioId}
 					selectedScenario={props.selectedScenario}
+					groupScenariosByLevel={props.groupScenariosByLevel}
 					onScenarioChange={props.onScenarioChange}
 				/>
 				{props.seedEditable ? (
@@ -151,10 +154,16 @@ function ScenarioSelectControl({
 	scenarios,
 	selectedScenarioId,
 	selectedScenario,
+	groupScenariosByLevel,
 	onScenarioChange,
 }: Pick<
 	ScenarioPanelProps,
-	'levelDefinitions' | 'scenarios' | 'selectedScenarioId' | 'selectedScenario' | 'onScenarioChange'
+	| 'levelDefinitions'
+	| 'scenarios'
+	| 'selectedScenarioId'
+	| 'selectedScenario'
+	| 'groupScenariosByLevel'
+	| 'onScenarioChange'
 >) {
 	const selectedScenarioLabel =
 		scenarios.find((scenario) => scenario.id === selectedScenarioId)?.displayName ??
@@ -181,16 +190,25 @@ function ScenarioSelectControl({
 					className="w-full appearance-none truncate rounded-xl border border-slate-300 bg-slate-50 px-3 py-3 pr-10 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100 sm:rounded-2xl sm:px-4 sm:pr-11"
 				>
 					{scenarios.length === 0 ? <option value="">No scenarios available</option> : null}
-					{scenariosByLevel.map(({ definition, scenarios: groupedScenarios }) => (
-						<optgroup key={definition.level} label={`${definition.label} · ${definition.title}`}>
-							{groupedScenarios.map((scenario) => (
+					{!groupScenariosByLevel
+						? scenarios.map((scenario) => (
 								<option key={scenario.id} value={scenario.id}>
 									{scenario.id} - {scenario.displayName}
 								</option>
-							))}
-						</optgroup>
-					))}
-					{scenariosWithoutDefinition.length > 0 ? (
+							))
+						: null}
+					{groupScenariosByLevel
+						? scenariosByLevel.map(({ definition, scenarios: groupedScenarios }) => (
+								<optgroup key={definition.level} label={`${definition.label} · ${definition.title}`}>
+									{groupedScenarios.map((scenario) => (
+										<option key={scenario.id} value={scenario.id}>
+											{scenario.id} - {scenario.displayName}
+										</option>
+									))}
+								</optgroup>
+							))
+						: null}
+					{groupScenariosByLevel && scenariosWithoutDefinition.length > 0 ? (
 						<optgroup label="其他 Level">
 							{scenariosWithoutDefinition.map((scenario) => (
 								<option key={scenario.id} value={scenario.id}>

@@ -31,7 +31,15 @@ import type {
 const manifest = appManifest as AppManifest;
 const defaultBackendSeed = manifest.dataSource.kind === 'backend' ? (manifest.dataSource.defaultSeed ?? '1234') : null;
 
-export default function ScenarioBrowserApp() {
+export default function ScenarioBrowserApp({
+	showFhirOutput = true,
+	allowedScenarioIds,
+	groupScenariosByLevel = true,
+}: {
+	showFhirOutput?: boolean;
+	allowedScenarioIds?: readonly string[];
+	groupScenariosByLevel?: boolean;
+}) {
 	const dataSource = useMemo(() => createScenarioBrowserDataSource(manifest), []);
 	const [routeState, setRouteState] = useState(() =>
 		getScenarioRouteState(
@@ -66,7 +74,13 @@ export default function ScenarioBrowserApp() {
 		scenarioError,
 		bundleError,
 		setSelectedScenarioId,
-	} = useScenarioBrowser(dataSource, routeState.scenarioId, scenarioSeed, activeTab === 'fhir');
+	} = useScenarioBrowser(
+		dataSource,
+		routeState.scenarioId,
+		scenarioSeed,
+		showFhirOutput && activeTab === 'fhir',
+		allowedScenarioIds,
+	);
 	const sourcePreviewResources = useMemo(
 		() => getSourcePreviewResourceItems(selectedScenarioResult, sourceCodeDisplayMap),
 		[selectedScenarioResult, sourceCodeDisplayMap],
@@ -103,11 +117,11 @@ export default function ScenarioBrowserApp() {
 		() =>
 			[
 				selectedScenarioResult ? `${selectedScenarioResult.meta.totalResources} source resources` : null,
-				selectedBundle ? `${selectedBundle.entry.length} FHIR entries` : null,
+				showFhirOutput && selectedBundle ? `${selectedBundle.entry.length} FHIR entries` : null,
 				scenarioSeed ? `seed ${scenarioSeed}` : null,
 				selectedScenarioResult?.warnings?.length ? `${selectedScenarioResult.warnings.length} warnings` : null,
 			].filter((item): item is string => item !== null),
-		[selectedBundle, selectedScenarioResult, scenarioSeed],
+		[selectedBundle, selectedScenarioResult, scenarioSeed, showFhirOutput],
 	);
 	const scenarioPanelProps = {
 		levelDefinitions,
@@ -118,6 +132,7 @@ export default function ScenarioBrowserApp() {
 		sourceFieldDocs,
 		scenarioSeed,
 		seedEditable: manifest.dataSource.kind === 'backend',
+		groupScenariosByLevel,
 		onScenarioChange: handleScenarioChange,
 		onScenarioSeedChange: handleScenarioSeedChange,
 		onResourceTypeSelect: handleSourceResourceJump,
@@ -129,6 +144,7 @@ export default function ScenarioBrowserApp() {
 		scenarioName: selectedScenario?.displayName,
 		activeTab,
 		onTabChange: handleTabChange,
+		showFhirOutput,
 		previewMode,
 		onPreviewModeChange: handlePreviewModeChange,
 		helperText: previewHelperText,

@@ -36,7 +36,9 @@ export function useScenarioBrowser(
 	preferredScenarioId?: string | null,
 	preferredScenarioSeed?: string | null,
 	loadBundle?: boolean,
+	allowedScenarioIds?: readonly string[],
 ): ScenarioBrowserState {
+	const allowedScenarioIdsKey = allowedScenarioIds?.join('\u0000');
 	const [scenarios, setScenarios] = useState<ScenarioRecord[]>([]);
 	const [scenarioSource, setScenarioSource] = useState<'authored' | 'backend' | 'missing'>('missing');
 	const [levelDefinitions, setLevelDefinitions] = useState<ScenarioLevelDefinition[]>([]);
@@ -72,10 +74,14 @@ export function useScenarioBrowser(
 					return;
 				}
 
-				setScenarios(index.scenarios);
+				const availableScenarios = allowedScenarioIdsKey
+					? index.scenarios.filter((scenario) => allowedScenarioIdsKey.split('\u0000').includes(scenario.id))
+					: index.scenarios;
+
+				setScenarios(availableScenarios);
 				setScenarioSource(index.scenarioSource);
 				setLevelDefinitions(index.levelDefinitions);
-				setSelectedScenarioId(resolveScenarioId(index.scenarios, preferredScenarioId));
+				setSelectedScenarioId(resolveScenarioId(availableScenarios, preferredScenarioId));
 				setScenariosLoading(false);
 			} catch (loadError) {
 				if (!cancelled) {
@@ -90,7 +96,7 @@ export function useScenarioBrowser(
 		return () => {
 			cancelled = true;
 		};
-	}, [dataSource]);
+	}, [allowedScenarioIdsKey, dataSource]);
 
 	useEffect(() => {
 		let cancelled = false;

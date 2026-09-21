@@ -23,6 +23,7 @@ export function PreviewPanel({
 	scenarioName,
 	activeTab,
 	onTabChange,
+	showFhirOutput,
 	previewMode,
 	onPreviewModeChange,
 	helperText,
@@ -33,6 +34,7 @@ export function PreviewPanel({
 	scenarioName?: string;
 	activeTab: OutputTab;
 	onTabChange: (tab: OutputTab) => void;
+	showFhirOutput: boolean;
 	previewMode: PreviewMode;
 	onPreviewModeChange: (mode: PreviewMode) => void;
 	helperText?: string;
@@ -64,25 +66,27 @@ export function PreviewPanel({
 						{helperText ? <p className="mt-2.5 text-[14px] leading-6 text-slate-500 sm:text-[15px]">{helperText}</p> : null}
 					</div>
 					<div className="flex w-full shrink-0 flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-						<div className={`${segmentedGroupClassName} w-full sm:w-auto`}>
-							{tabs.map((tab) => (
-								<button
-									key={tab.value}
-									type="button"
-									role="tab"
-									aria-selected={activeTab === tab.value}
-									className={[
-										`${primarySegmentButtonClassName} flex-1 sm:flex-none`,
-										activeTab === tab.value
-											? 'border border-slate-300 bg-white text-slate-950 shadow-sm'
-											: inactiveSegmentClassName,
-									].join(' ')}
-									onClick={() => onTabChange(tab.value)}
-								>
-									{tab.label}
-								</button>
-							))}
-						</div>
+						{showFhirOutput ? (
+							<div className={`${segmentedGroupClassName} w-full sm:w-auto`}>
+								{tabs.map((tab) => (
+									<button
+										key={tab.value}
+										type="button"
+										role="tab"
+										aria-selected={activeTab === tab.value}
+										className={[
+											`${primarySegmentButtonClassName} flex-1 sm:flex-none`,
+											activeTab === tab.value
+												? 'border border-slate-300 bg-white text-slate-950 shadow-sm'
+												: inactiveSegmentClassName,
+										].join(' ')}
+										onClick={() => onTabChange(tab.value)}
+									>
+										{tab.label}
+									</button>
+								))}
+							</div>
+						) : null}
 						<div className={`${segmentedGroupClassName} w-full sm:w-auto`}>
 							{previewModes.map((mode) => (
 								<button

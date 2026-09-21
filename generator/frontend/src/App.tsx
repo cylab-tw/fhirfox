@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import PlugathonApp from './PlugathonApp.js';
 import ScenarioBrowserApp from './ScenarioBrowserApp.js';
 
-type TopLevelTab = 'pre-connectathon' | 'connectathon';
+type TopLevelTab = 'pre-connectathon' | 'connectathon' | 'plugathon';
 
 export function App() {
 	const [activeTab, setActiveTab] = useState<TopLevelTab>('pre-connectathon');
@@ -38,17 +39,30 @@ export function App() {
 						>
 							Connectathon
 						</button>
+						<button
+							type="button"
+							aria-pressed={activeTab === 'plugathon'}
+							className={[
+								'rounded-lg border px-3 py-1.5 text-xs font-semibold tracking-[0.01em] transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100',
+								activeTab === 'plugathon'
+									? 'border-slate-200 bg-slate-200 text-slate-950'
+									: 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+							].join(' ')}
+							onClick={() => setActiveTab('plugathon')}
+						>
+							Plugathon
+						</button>
 					</div>
 				</div>
 			</header>
 			<main className="min-h-0 flex-1">
-				{activeTab === 'pre-connectathon' ? (
-					<ScenarioBrowserApp />
-				) : (
+				{activeTab === 'pre-connectathon' && <ScenarioBrowserApp />}
+				{activeTab === 'connectathon' && (
 					<div className="flex h-full items-center justify-center px-6">
 						<p className="text-[18px] font-medium tracking-tight text-slate-500">尚未開放</p>
 					</div>
 				)}
+				{activeTab === 'plugathon' && <PlugathonApp />}
 			</main>
 		</div>
 	);
