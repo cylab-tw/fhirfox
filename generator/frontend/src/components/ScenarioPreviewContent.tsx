@@ -4,6 +4,7 @@ import { JsonViewer } from './json-viewer/JsonViewer.js';
 import { ResourcePreview } from './ResourcePreview.js';
 import { StatusCard } from './StatusCard.js';
 import { createScenarioBrowserJsonViewerExtensionsForValue } from '../helpers/scenario-browser/json-viewer-adapter.js';
+import { useI18n } from '../i18n.js';
 
 import type {
 	PreviewResourceItem,
@@ -54,6 +55,7 @@ export function ScenarioPreviewContent({
 	onExpandedResourceTypeChange,
 	emptyPreviewMessage,
 }: ScenarioPreviewContentProps) {
+	const { locale, t } = useI18n();
 	const activePreviewError = scenariosError ?? (isSourceTab ? scenarioError : bundleError) ?? null;
 	const previewOutputExtensions = useMemo(
 		() =>
@@ -63,28 +65,29 @@ export function ScenarioPreviewContent({
 				sourceCodeDisplayMap,
 				docsEnabled: previewDocsEnabled,
 				showCodeDisplayValues: isSourceTab,
+				locale,
 			}),
-		[isSourceTab, previewDocsEnabled, previewOutput, sourceCodeDisplayMap, sourceFieldDocs],
+		[isSourceTab, locale, previewDocsEnabled, previewOutput, sourceCodeDisplayMap, sourceFieldDocs],
 	);
 
 	if (scenariosLoading) {
-		return renderStatusCard('Loading', 'Loading available scenarios.');
+		return renderStatusCard(t('loading'), t('loadingScenarios'));
 	}
 
 	if (scenariosError) {
-		return renderStatusCard('Error', scenariosError, 'error');
+		return renderStatusCard(t('error'), scenariosError, 'error');
 	}
 
 	if (isSourceTab && scenarioLoading) {
-		return renderStatusCard('Loading', 'Loading source resources for this scenario.');
+		return renderStatusCard(t('loading'), t('loadingSource'));
 	}
 
 	if (!isSourceTab && bundleLoading) {
-		return renderStatusCard('Loading', 'Loading the FHIR bundle for this scenario.');
+		return renderStatusCard(t('loading'), t('loadingFhir'));
 	}
 
 	if (activePreviewError) {
-		return renderStatusCard('Error', activePreviewError, 'error');
+		return renderStatusCard(t('error'), activePreviewError, 'error');
 	}
 
 	if (isResourceMode) {
@@ -101,7 +104,7 @@ export function ScenarioPreviewContent({
 				onExpandedResourceTypeChange={onExpandedResourceTypeChange}
 			/>
 		) : (
-			renderStatusCard('No resources', emptyPreviewMessage)
+			renderStatusCard(t('noResources'), emptyPreviewMessage)
 		);
 	}
 
@@ -114,7 +117,7 @@ export function ScenarioPreviewContent({
 			/>
 		</div>
 	) : (
-		renderStatusCard('No output', emptyPreviewMessage)
+		renderStatusCard(t('noOutput'), emptyPreviewMessage)
 	);
 }
 

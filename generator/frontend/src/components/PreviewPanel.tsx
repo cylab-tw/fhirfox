@@ -1,16 +1,7 @@
 import type { PropsWithChildren } from 'react';
+import { useI18n } from '../i18n.js';
 
 import type { OutputTab, PreviewMode } from '../types.js';
-
-const tabs: Array<{ value: OutputTab; label: string }> = [
-	{ value: 'simplified', label: '來源資料' },
-	{ value: 'fhir', label: 'FHIR 輸出' },
-];
-
-const previewModes: Array<{ value: PreviewMode; label: string }> = [
-	{ value: 'resource', label: '資源檢視' },
-	{ value: 'document', label: '完整 JSON' },
-];
 
 const segmentedGroupClassName =
 	'inline-flex min-w-0 rounded-2xl border border-slate-300 bg-slate-100 p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)]';
@@ -40,6 +31,16 @@ export function PreviewPanel({
 	helperText?: string;
 	compactMeta: string[];
 }>) {
+	const { t } = useI18n();
+	const tabs: Array<{ value: OutputTab; label: string }> = [
+		{ value: 'simplified', label: t('sourceData') },
+		{ value: 'fhir', label: t('fhirOutput') },
+	];
+	const previewModes: Array<{ value: PreviewMode; label: string }> = [
+		{ value: 'resource', label: t('resourceView') },
+		{ value: 'document', label: t('fullJson') },
+	];
+
 	return (
 		<section className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
 			<div className="shrink-0 border-b border-slate-200/80 px-4 py-4 sm:px-6 sm:py-5">
@@ -47,7 +48,7 @@ export function PreviewPanel({
 					<div className="min-w-0 flex-1">
 						<div className="flex flex-wrap items-center gap-x-3 gap-y-2">
 							<h2 className="text-[19px] leading-tight font-semibold tracking-tight text-slate-950 sm:text-[22px]">
-								{scenarioName ?? '資料檢視'}
+								{scenarioName ?? t('dataView')}
 							</h2>
 							{scenarioId ? (
 								<span className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
@@ -63,7 +64,9 @@ export function PreviewPanel({
 								</span>
 							))}
 						</div>
-						{helperText ? <p className="mt-2.5 text-[14px] leading-6 text-slate-500 sm:text-[15px]">{helperText}</p> : null}
+						{helperText ? (
+							<p className="mt-2.5 text-[14px] leading-6 text-slate-500 sm:text-[15px]">{helperText}</p>
+						) : null}
 					</div>
 					<div className="flex w-full shrink-0 flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
 						{showFhirOutput ? (

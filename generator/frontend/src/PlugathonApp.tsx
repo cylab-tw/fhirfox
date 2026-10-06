@@ -8,12 +8,22 @@ const plugathonScenarioIds = [
 	'IPS_TWCORE-OPD-011',
 ] as const;
 
+const excludedPlugathonResourceTypes = ['encounter', 'practitionerrole'] as const;
+const excludedPlugathonReferenceFields = {
+	'*': ['encounterId'],
+	medicationrequest: ['requesterId'],
+	condition: ['recorderId'],
+	procedure: ['performerId'],
+} as const;
+
 export default function PlugathonApp() {
 	return (
 		<ScenarioBrowserApp
 			showFhirOutput={false}
 			allowedScenarioIds={plugathonScenarioIds}
 			groupScenariosByLevel={false}
+			excludedSourceResourceTypes={excludedPlugathonResourceTypes}
+			excludedSourceReferenceFields={excludedPlugathonReferenceFields}
 		/>
 	);
 }

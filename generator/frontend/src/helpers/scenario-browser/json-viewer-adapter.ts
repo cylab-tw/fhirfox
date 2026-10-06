@@ -8,6 +8,7 @@ import type {
 	JsonViewerNodeContext,
 } from '../../components/json-viewer/types.js';
 import type { SourceCodeDisplayMap, SourceFieldDocRecord } from '../../types.js';
+import type { Locale } from '../../i18n.js';
 
 interface ScenarioBrowserJsonViewerAdapterOptions {
 	sourceFieldDocs: Record<string, SourceFieldDocRecord>;
@@ -17,6 +18,7 @@ interface ScenarioBrowserJsonViewerAdapterOptions {
 	onSourceResourceSelect?: (sourceKey: string) => void;
 	pathPrefix?: string;
 	fullUrlResourceTypes?: Map<string, string>;
+	locale?: Locale;
 }
 
 export function createScenarioBrowserJsonViewerExtensions(
@@ -55,7 +57,7 @@ export function createScenarioBrowserJsonViewerExtensionsForValue(
 
 function getFieldDoc(
 	ctx: JsonViewerNodeContext,
-	options: Pick<ScenarioBrowserJsonViewerAdapterOptions, 'sourceFieldDocs' | 'docsEnabled' | 'pathPrefix'>,
+	options: Pick<ScenarioBrowserJsonViewerAdapterOptions, 'sourceFieldDocs' | 'docsEnabled' | 'pathPrefix' | 'locale'>,
 ) {
 	if (!options.docsEnabled || typeof ctx.keyName !== 'string') {
 		return null;
@@ -71,7 +73,12 @@ function getFieldDoc(
 	const fhirMapping = readMostRelevantFhirMapping(doc.fhirMapping, path);
 	const metadata = [
 		fhirMapping ? { label: 'FHIR', value: fhirMapping } : null,
-		typeof doc.required === 'boolean' ? { label: '必填', value: doc.required ? '是' : '否' } : null,
+		typeof doc.required === 'boolean'
+			? {
+					label: options.locale === 'en' ? 'Required' : '必填',
+					value: doc.required ? (options.locale === 'en' ? 'Yes' : '是') : options.locale === 'en' ? 'No' : '否',
+				}
+			: null,
 	].filter((entry): entry is { label: string; value: string } => entry !== null);
 
 	return {
@@ -159,7 +166,7 @@ function getAnnotations(
 		annotations.push({
 			type: 'button',
 			label: formatSourceResourceKeyAnnotation(sourceResourceKey),
-			title: `查看 ${sourceResourceKey}`,
+			title: options.locale === 'en' ? `View ${sourceResourceKey}` : `查看 ${sourceResourceKey}`,
 			key: `source-link:${sourceResourceKey}`,
 		});
 

@@ -7,6 +7,9 @@ import { formatSourceDocumentResources } from './lib/source-resource-display.js'
 
 import { getBundlePreviewResourceItemsWithDisplays, getSourcePreviewResourceItems } from './lib/resource-preview.js';
 import { getEmptyPreviewMessage, getPreviewHelperText } from './lib/preview-panel.js';
+import { filterScenarioResult } from './lib/scenario-result-filter.js';
+import { localizeScenario } from './lib/scenario-translations.js';
+import { useI18n } from './i18n.js';
 
 import { PreviewPanel } from './components/PreviewPanel.js';
 
@@ -35,11 +38,16 @@ export default function ScenarioBrowserApp({
 	showFhirOutput = true,
 	allowedScenarioIds,
 	groupScenariosByLevel = true,
+	excludedSourceResourceTypes,
+	excludedSourceReferenceFields,
 }: {
 	showFhirOutput?: boolean;
 	allowedScenarioIds?: readonly string[];
 	groupScenariosByLevel?: boolean;
+	excludedSourceResourceTypes?: readonly string[];
+	excludedSourceReferenceFields?: Readonly<Record<string, readonly string[]>>;
 }) {
+	const { locale, t } = useI18n();
 	const dataSource = useMemo(() => createScenarioBrowserDataSource(manifest), []);
 	const [routeState, setRouteState] = useState(() =>
 		getScenarioRouteState(
@@ -81,9 +89,21 @@ export default function ScenarioBrowserApp({
 		showFhirOutput && activeTab === 'fhir',
 		allowedScenarioIds,
 	);
+	const localizedScenarios = useMemo(
+		() => scenarios.map((scenario) => localizeScenario(scenario, locale)),
+		[locale, scenarios],
+	);
+	const localizedSelectedScenario = useMemo(
+		() => (selectedScenario ? localizeScenario(selectedScenario, locale) : null),
+		[locale, selectedScenario],
+	);
+	const visibleScenarioResult = useMemo(
+		() => filterScenarioResult(selectedScenarioResult, excludedSourceResourceTypes, excludedSourceReferenceFields),
+		[selectedScenarioResult, excludedSourceResourceTypes, excludedSourceReferenceFields],
+	);
 	const sourcePreviewResources = useMemo(
-		() => getSourcePreviewResourceItems(selectedScenarioResult, sourceCodeDisplayMap),
-		[selectedScenarioResult, sourceCodeDisplayMap],
+		() => getSourcePreviewResourceItems(visibleScenarioResult, sourceCodeDisplayMap),
+		[visibleScenarioResult, sourceCodeDisplayMap],
 	);
 	const bundlePreviewResources = useMemo(
 		() => getBundlePreviewResourceItemsWithDisplays(selectedBundle, sourceCodeDisplayMap),
@@ -99,13 +119,13 @@ export default function ScenarioBrowserApp({
 
 	const previewResources = isSourceTab ? sourcePreviewResources : bundlePreviewResources;
 	const previewOutput = isSourceTab
-		? selectedScenarioResult?.resources
-			? formatSourceDocumentResources(selectedScenarioResult.resources)
+		? visibleScenarioResult?.resources
+			? formatSourceDocumentResources(visibleScenarioResult.resources)
 			: undefined
 		: selectedBundle;
 	const previewDocsEnabled = isSourceTab;
-	const previewHelperText = getPreviewHelperText(activeTab, previewMode);
-	const emptyPreviewMessage = getEmptyPreviewMessage(activeTab, previewMode);
+	const previewHelperText = getPreviewHelperText(activeTab, previewMode, locale);
+	const emptyPreviewMessage = getEmptyPreviewMessage(activeTab, previewMode, locale);
 	const canJumpToResource = isResourceMode;
 	const resourceJumpScrollBehavior: ResourceJumpScrollBehavior =
 		resourceJumpContextRef.current?.activeTab === activeTab &&
@@ -116,19 +136,21 @@ export default function ScenarioBrowserApp({
 	const compactMeta = useMemo(
 		() =>
 			[
-				selectedScenarioResult ? `${selectedScenarioResult.meta.totalResources} source resources` : null,
-				showFhirOutput && selectedBundle ? `${selectedBundle.entry.length} FHIR entries` : null,
-				scenarioSeed ? `seed ${scenarioSeed}` : null,
-				selectedScenarioResult?.warnings?.length ? `${selectedScenarioResult.warnings.length} warnings` : null,
+				visibleScenarioResult ? t('sourceResources', { count: visibleScenarioResult.meta.totalResources }) : null,
+				showFhirOutput && selectedBundle ? t('fhirEntries', { count: selectedBundle.entry.length }) : null,
+				scenarioSeed ? t('seedMeta', { seed: scenarioSeed }) : null,
+				visibleScenarioResult?.warnings?.length
+					? t('warningCount', { count: visibleScenarioResult.warnings.length })
+					: null,
 			].filter((item): item is string => item !== null),
-		[selectedBundle, selectedScenarioResult, scenarioSeed, showFhirOutput],
+		[selectedBundle, scenarioSeed, showFhirOutput, t, visibleScenarioResult],
 	);
 	const scenarioPanelProps = {
 		levelDefinitions,
-		scenarios,
+		scenarios: localizedScenarios,
 		selectedScenarioId,
-		selectedScenario,
-		selectedScenarioResult,
+		selectedScenario: localizedSelectedScenario,
+		selectedScenarioResult: visibleScenarioResult,
 		sourceFieldDocs,
 		scenarioSeed,
 		seedEditable: manifest.dataSource.kind === 'backend',
@@ -140,8 +162,8 @@ export default function ScenarioBrowserApp({
 		activeResourceType: isResourceMode ? activeResourceType : null,
 	};
 	const previewPanelProps = {
-		scenarioId: selectedScenario?.id,
-		scenarioName: selectedScenario?.displayName,
+		scenarioId: localizedSelectedScenario?.id,
+		scenarioName: localizedSelectedScenario?.displayName,
 		activeTab,
 		onTabChange: handleTabChange,
 		showFhirOutput,
@@ -339,10 +361,7 @@ export default function ScenarioBrowserApp({
 		<div className="min-h-full bg-[#f5f7fb] text-slate-800 antialiased xl:h-full xl:overflow-hidden">
 			<main className="mx-auto flex min-h-full max-w-[1680px] flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-5 lg:px-8 xl:h-full xl:min-h-0">
 				{scenarioSource === 'missing' ? (
-					<StatusCard
-						title="No authored scenarios found"
-						message="No authored scenarios are currently available from the configured data source."
-					/>
+					<StatusCard title={t('noAuthoredScenarios')} message={t('noAuthoredScenariosMessage')} />
 				) : null}
 
 				<section className="flex flex-1 flex-col gap-3 sm:gap-4 xl:hidden">

@@ -11,6 +11,7 @@ import type { ScenarioLevelDefinition, ScenarioRecord, ScenarioResultRecord, Sou
 import type { ResourceRelationGraph, ResourceGraphTree } from '@fhirfox-generator/dataset';
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useI18n } from '../i18n.js';
 
 interface ScenarioPanelProps {
 	levelDefinitions: ScenarioLevelDefinition[];
@@ -94,13 +95,12 @@ export function ScenarioMobileHeader(props: ScenarioPanelProps) {
 
 export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 	const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
+	const { t } = useI18n();
 
 	if (!props.selectedScenario) {
 		return (
 			<section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
-				<div className="px-6 py-6 text-[15px] leading-7 text-slate-500">
-					目前沒有可載入的情境定義。請將情境檔放到 `dataset/scenarios/`，前端就會在 dev/build 時自動讀取。
-				</div>
+				<div className="px-6 py-6 text-[15px] leading-7 text-slate-500">{t('noScenario')}</div>
 			</section>
 		);
 	}
@@ -109,16 +109,16 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 		<>
 			<section className="rounded-2xl border border-slate-200/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:rounded-[28px]">
 				<div className="border-b border-slate-200/80 px-4 py-4 sm:px-6">
-					<h2 className="text-lg font-semibold tracking-tight text-slate-950">案例資訊</h2>
+					<h2 className="text-lg font-semibold tracking-tight text-slate-950">{t('caseInfo')}</h2>
 				</div>
 				<div className="divide-y divide-slate-200/80">
-					<MobileAccordion title="案例摘要" defaultOpen>
+					<MobileAccordion title={t('caseSummary')} defaultOpen>
 						<ScenarioSummary
 							selectedScenario={props.selectedScenario}
 							onLevelInfoOpen={() => setIsLevelModalOpen(true)}
 						/>
 					</MobileAccordion>
-					<MobileAccordion title="涵蓋資料">
+					<MobileAccordion title={t('coveredData')}>
 						<ScenarioCoverage
 							selectedScenarioResult={props.selectedScenarioResult}
 							sourceFieldDocs={props.sourceFieldDocs}
@@ -128,12 +128,12 @@ export function ScenarioMobileDetails(props: ScenarioPanelProps) {
 						/>
 					</MobileAccordion>
 					{props.selectedScenarioResult?.warnings?.length ? (
-						<MobileAccordion title="注意事項">
+						<MobileAccordion title={t('warnings')}>
 							<ScenarioWarnings selectedScenarioResult={props.selectedScenarioResult} />
 						</MobileAccordion>
 					) : null}
 					{props.selectedScenario.details ? (
-						<MobileAccordion title="情境說明">
+						<MobileAccordion title={t('scenarioDetails')}>
 							<ScenarioDetails selectedScenario={props.selectedScenario} />
 						</MobileAccordion>
 					) : null}
@@ -165,10 +165,11 @@ function ScenarioSelectControl({
 	| 'groupScenariosByLevel'
 	| 'onScenarioChange'
 >) {
+	const { t } = useI18n();
 	const selectedScenarioLabel =
 		scenarios.find((scenario) => scenario.id === selectedScenarioId)?.displayName ??
 		selectedScenario?.displayName ??
-		'選擇情境';
+		t('selectScenario');
 	const scenariosByLevel: Array<{ definition: ScenarioLevelDefinition; scenarios: ScenarioRecord[] }> = levelDefinitions
 		.map((definition) => ({
 			definition,
@@ -181,7 +182,7 @@ function ScenarioSelectControl({
 
 	return (
 		<label className="grid gap-2.5">
-			<span className="text-sm font-semibold text-slate-900">選擇情境</span>
+			<span className="text-sm font-semibold text-slate-900">{t('selectScenario')}</span>
 			<div className="relative">
 				<select
 					value={selectedScenarioId}
@@ -209,7 +210,7 @@ function ScenarioSelectControl({
 							))
 						: null}
 					{groupScenariosByLevel && scenariosWithoutDefinition.length > 0 ? (
-						<optgroup label="其他 Level">
+						<optgroup label={t('otherLevel')}>
 							{scenariosWithoutDefinition.map((scenario) => (
 								<option key={scenario.id} value={scenario.id}>
 									{scenario.id} - {scenario.displayName}
@@ -233,6 +234,8 @@ function SeedControl({
 	scenarioSeed: string;
 	onScenarioSeedChange: (seed: string) => void;
 }) {
+	const { t } = useI18n();
+
 	return (
 		<label className="mt-4 grid gap-2.5">
 			<span className="text-sm font-semibold text-slate-900">Seed</span>
@@ -243,27 +246,25 @@ function SeedControl({
 				placeholder="1234"
 				className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-3 text-[15px] font-medium text-slate-800 transition outline-none focus:border-sky-500 focus:bg-white focus:ring-4 focus:ring-sky-100 sm:rounded-2xl sm:px-4"
 			/>
-			<p className="text-xs leading-5 text-slate-500">變更 seed 會重新解析目前情境。</p>
+			<p className="text-xs leading-5 text-slate-500">{t('seedHint')}</p>
 		</label>
 	);
 }
 
 function ScenarioContextSections(props: ScenarioPanelProps & { mobile: boolean; onLevelInfoOpen?: () => void }) {
+	const { t } = useI18n();
+
 	if (!props.selectedScenario) {
-		return (
-			<p className="text-[15px] leading-7 text-slate-500">
-				目前沒有可載入的情境定義。請將情境檔放到 `dataset/scenarios/`，前端就會在 dev/build 時自動讀取。
-			</p>
-		);
+		return <p className="text-[15px] leading-7 text-slate-500">{t('noScenario')}</p>;
 	}
 
 	return (
 		<div className="grid gap-6">
-			<Section title="案例摘要" mobile={props.mobile}>
+			<Section title={t('caseSummary')} mobile={props.mobile}>
 				<ScenarioSummary selectedScenario={props.selectedScenario} onLevelInfoOpen={props.onLevelInfoOpen} />
 			</Section>
 
-			<Section title="涵蓋資料" mobile={props.mobile}>
+			<Section title={t('coveredData')} mobile={props.mobile}>
 				<ScenarioCoverage
 					selectedScenarioResult={props.selectedScenarioResult}
 					sourceFieldDocs={props.sourceFieldDocs}
@@ -274,13 +275,13 @@ function ScenarioContextSections(props: ScenarioPanelProps & { mobile: boolean; 
 			</Section>
 
 			{props.selectedScenarioResult?.warnings?.length ? (
-				<Section title="注意事項" mobile={props.mobile}>
+				<Section title={t('warnings')} mobile={props.mobile}>
 					<ScenarioWarnings selectedScenarioResult={props.selectedScenarioResult} />
 				</Section>
 			) : null}
 
 			{props.selectedScenario.details ? (
-				<Section title="情境說明" mobile={props.mobile}>
+				<Section title={t('scenarioDetails')} mobile={props.mobile}>
 					<ScenarioDetails selectedScenario={props.selectedScenario} />
 				</Section>
 			) : null}
@@ -295,6 +296,7 @@ function ScenarioSummary({
 	selectedScenario: ScenarioRecord;
 	onLevelInfoOpen?: () => void;
 }) {
+	const { t } = useI18n();
 	const levelLabel = selectedScenario.level !== undefined ? `Level ${selectedScenario.level}` : null;
 
 	return (
@@ -307,12 +309,14 @@ function ScenarioSummary({
 				{levelLabel ? <LevelInfoTrigger levelLabel={levelLabel} onClick={onLevelInfoOpen} /> : null}
 				<Pill tone="accent">{selectedScenario.type}</Pill>
 			</div>
-			<p className="text-[15px] leading-7 text-slate-600">{selectedScenario.summary ?? '目前沒有額外的情境摘要。'}</p>
+			<p className="text-[15px] leading-7 text-slate-600">{selectedScenario.summary ?? t('noSummary')}</p>
 		</div>
 	);
 }
 
 function LevelInfoTrigger({ levelLabel, onClick }: { levelLabel: string; onClick?: () => void }) {
+	const { t } = useI18n();
+
 	if (!onClick) {
 		return <Pill>{levelLabel}</Pill>;
 	}
@@ -321,8 +325,8 @@ function LevelInfoTrigger({ levelLabel, onClick }: { levelLabel: string; onClick
 		<button
 			type="button"
 			onClick={onClick}
-			aria-label="查看測試情境分級說明"
-			title="查看測試情境分級說明"
+			aria-label={t('levelInfo')}
+			title={t('levelInfo')}
 			className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-900 focus-visible:ring-4 focus-visible:ring-sky-100 focus-visible:outline-none"
 		>
 			<span>{levelLabel}</span>
@@ -341,16 +345,24 @@ function ScenarioCoverage({
 	activeResourceType,
 }: Pick<
 	ScenarioPanelProps,
-	'selectedScenarioResult' | 'sourceFieldDocs' | 'onResourceTypeSelect' | 'resourceSelectionEnabled' | 'activeResourceType'
+	| 'selectedScenarioResult'
+	| 'sourceFieldDocs'
+	| 'onResourceTypeSelect'
+	| 'resourceSelectionEnabled'
+	| 'activeResourceType'
 >) {
+	const { t } = useI18n();
 	const resourceEntries = Object.entries(selectedScenarioResult?.resources ?? {});
 
 	return (
 		<div className="grid gap-3.5">
 			<p className="text-[15px] leading-6 text-slate-600">
 				{resourceEntries.length > 0
-					? `共 ${resourceEntries.length} 類資源，合計 ${selectedScenarioResult?.meta.totalResources ?? 0} 筆。`
-					: '情境尚未完成解析。'}
+					? t('resourceCount', {
+							types: resourceEntries.length,
+							total: selectedScenarioResult?.meta.totalResources ?? 0,
+						})
+					: t('scenarioNotResolved')}
 			</p>
 			{resourceEntries.length > 0 ? (
 				<ResourceCoverageTree
@@ -438,6 +450,8 @@ function LevelDefinitionsModal({
 	selectedLevel?: number;
 	onClose: () => void;
 }) {
+	const { t } = useI18n();
+
 	useEffect(() => {
 		if (!open || typeof document === 'undefined') {
 			return;
@@ -467,7 +481,10 @@ function LevelDefinitionsModal({
 	const selectedDefinition = getScenarioLevelDefinition(levelDefinitions, selectedLevel);
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/28 px-3 py-4 sm:px-4 sm:py-6" onClick={onClose}>
+		<div
+			className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/28 px-3 py-4 sm:px-4 sm:py-6"
+			onClick={onClose}
+		>
 			<div
 				role="dialog"
 				aria-modal="true"
@@ -477,15 +494,18 @@ function LevelDefinitionsModal({
 			>
 				<div className="flex items-start justify-between gap-4 border-b border-slate-200/80 px-4 py-4 sm:px-6 sm:py-5">
 					<div className="min-w-0">
-						<h2 id="scenario-levels-title" className="text-[22px] leading-tight font-semibold tracking-tight text-slate-950 sm:text-[28px]">
-							測試情境分級說明
+						<h2
+							id="scenario-levels-title"
+							className="text-[22px] leading-tight font-semibold tracking-tight text-slate-950 sm:text-[28px]"
+						>
+							{t('levelDefinitions')}
 						</h2>
 					</div>
 					<button
 						type="button"
 						onClick={onClose}
 						className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:text-slate-800 focus-visible:ring-4 focus-visible:ring-sky-100 focus-visible:outline-none"
-						aria-label="Close level definitions"
+						aria-label={t('close')}
 					>
 						<Icon icon={closeIcon} className="h-4 w-4" />
 					</button>
@@ -620,7 +640,8 @@ function ResourceCoverageTreeNode({
 					clickable={clickable}
 					active={
 						activeResourceType
-							? normalizeSourceResourceTypeForUi(activeResourceType) === normalizeSourceResourceTypeForUi(node.resourceType)
+							? normalizeSourceResourceTypeForUi(activeResourceType) ===
+								normalizeSourceResourceTypeForUi(node.resourceType)
 							: false
 					}
 					onClick={() => onResourceTypeSelect(node.resourceType)}
@@ -782,10 +803,7 @@ function buildCoverageTreeFromScenarioResult(
 			for (const targetId of readReferenceValues(value)) {
 				const targetType = idToResourceType.get(targetId) ?? idToResourceType.get(targetId.split('/').pop() ?? '');
 
-				if (
-					!targetType ||
-					!targetTypes.some((candidate) => normalizeCoverageResourceType(candidate) === targetType)
-				) {
+				if (!targetType || !targetTypes.some((candidate) => normalizeCoverageResourceType(candidate) === targetType)) {
 					continue;
 				}
 
@@ -827,7 +845,10 @@ function buildCoverageTreeFromCountsAndAdjacency(
 		visiting.add(resourceType);
 		assigned.add(resourceType);
 		const children = [...(childrenByType.get(resourceType) ?? [])]
-			.sort((left, right) => (firstSeenOrder.get(left) ?? 0) - (firstSeenOrder.get(right) ?? 0) || left.localeCompare(right))
+			.sort(
+				(left, right) =>
+					(firstSeenOrder.get(left) ?? 0) - (firstSeenOrder.get(right) ?? 0) || left.localeCompare(right),
+			)
 			.map((childType) => buildNode(childType))
 			.filter((child): child is CoverageTreeNode => child !== null);
 		visiting.delete(resourceType);
@@ -839,7 +860,9 @@ function buildCoverageTreeFromCountsAndAdjacency(
 		};
 	}
 
-	const tree = roots.map((resourceType) => buildNode(resourceType)).filter((node): node is CoverageTreeNode => node !== null);
+	const tree = roots
+		.map((resourceType) => buildNode(resourceType))
+		.filter((node): node is CoverageTreeNode => node !== null);
 
 	for (const resourceType of sortedTypes) {
 		if (assigned.has(resourceType)) {
